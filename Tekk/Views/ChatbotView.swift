@@ -48,12 +48,12 @@ struct ChatbotView: View {
                                 .font(.system(size: 26))
                                 .foregroundColor(Color.green)
                         }
-}
+                    }
                     .padding()
                     
                     // Chat messages
                     ScrollView {
-                        ForEach(chatMessages) { message in
+                        ForEach(Array(chatMessages.enumerated()), id: \.element.id) { index, message in
                             MessageView(message: message)
                         }
                         .rotationEffect(.degrees(180))
@@ -123,29 +123,29 @@ struct MessageView: View {
     let message: Message_Struct
     
     var body: some View {
-        // User message
-        if message.content.contains("[USER]") {
-            let newMessage = message.content.replacingOccurrences(of: "[USER]", with: "")
-            HStack {
-                Spacer()
-                Text(newMessage)
-                    .padding()
-                    .foregroundColor(.white)
-                    .background(.green.opacity(0.8))
-                    .cornerRadius(10)
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 10)
-            }
-        // System message
-        } else {
-            HStack {
-                Text(message.content)
-                    .padding()
-                    .background(.gray.opacity(0.15))
-                    .cornerRadius(10)
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 10)
-                Spacer()
+        Group {
+            if message.content.contains("[USER]") {
+                let newMessage = message.content.replacingOccurrences(of: "[USER]", with: "")
+                HStack {
+                    Spacer()
+                    Text(newMessage)
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(.green.opacity(0.8))
+                        .cornerRadius(10)
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 10)
+                }
+            } else {
+                HStack {
+                    Text(message.content)
+                        .padding()
+                        .background(.gray.opacity(0.15))
+                        .cornerRadius(10)
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 10)
+                    Spacer()
+                }
             }
         }
     }
