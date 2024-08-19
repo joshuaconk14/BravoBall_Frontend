@@ -42,7 +42,7 @@ struct ContentView: View {
         }
 
 
-        // connecting to FastAPI locally
+        // connecting to FastAPI on local server
         let playerDetails = ["name": "Joe Lolley", "age": 18, "position": "LW"] as [String : Any]
         
         // sending HTTP POST request to FastAPI app running locally
