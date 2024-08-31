@@ -17,7 +17,6 @@
 		174936462C3E10D0001163B9 /* ChatbotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936452C3E10D0001163B9 /* ChatbotView.swift */; };
 		174936482C3E1123001163B9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936472C3E1123001163B9 /* SettingsView.swift */; };
 		1749364A2C3E1139001163B9 /* ViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936492C3E1139001163B9 /* ViewC.swift */; };
-		1749364C2C3E11A4001163B9 /* BotResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749364B2C3E11A4001163B9 /* BotResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +51,6 @@
 		174936452C3E10D0001163B9 /* ChatbotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatbotView.swift; sourceTree = "<group>"; };
 		174936472C3E1123001163B9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		174936492C3E1139001163B9 /* ViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewC.swift; sourceTree = "<group>"; };
-		1749364B2C3E11A4001163B9 /* BotResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BotResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,7 +107,6 @@
 				1749361D2C3E1031001163B9 /* Assets.xcassets */,
 				1749361F2C3E1031001163B9 /* Tekk.entitlements */,
 				174936202C3E1031001163B9 /* Preview Content */,
-				1749364B2C3E11A4001163B9 /* BotResponse.swift */,
 			);
 			path = Tekk;
 			sourceTree = "<group>";
@@ -281,7 +278,6 @@
 			files = (
 				174936462C3E10D0001163B9 /* ChatbotView.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
-				1749364C2C3E11A4001163B9 /* BotResponse.swift in Sources */,
 				1749364A2C3E1139001163B9 /* ViewC.swift in Sources */,
 				1749361A2C3E102B001163B9 /* TekkApp.swift in Sources */,
 				174936482C3E1123001163B9 /* SettingsView.swift in Sources */,
