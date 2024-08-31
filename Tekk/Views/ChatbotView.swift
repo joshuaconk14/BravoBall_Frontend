@@ -19,9 +19,7 @@ struct ChatbotView: View {
     @State private var selectedSessionID = ""
     @State private var messageText = ""
     @Binding var chatMessages: [Message_Struct]
-    @Binding var userID: Int
     @State private var viewModel = ViewModel()
-
     
     var body: some View {
         GeometryReader { geometry in
@@ -127,8 +125,8 @@ struct ChatbotView: View {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-//        let selectedSessionID = "189917d0-7f9c-412d-847d-99a26ec0dd59"
-//        let userID = 18
+        let selectedSessionID = "189917d0-7f9c-412d-847d-99a26ec0dd59"
+        let userID = 18
         
         // ChatbotRequest model defined in backend
         let parameters: [String: Any] = [
@@ -212,8 +210,6 @@ struct MessageView: View {
 struct ChatHistoryView: View {
     @Binding var isShowingHistory: Bool
     @Binding var selectedSessionID: String
-    @Binding var userID: Int
-    @State private var sessionIDs: [String] = []
     
     @State private var sessionIDs: [String] = [
         "TEKK",
