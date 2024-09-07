@@ -7,6 +7,12 @@
 
 import Foundation
 
+// configuration for the backend API
+struct Config {
+//    static let baseURL = "http://127.0.0.1:8000"
+    static let baseURL = "http://10.0.0.129:8000"
+}
+
 // expected response structure from backend after GET request to conversations/<id> endpoint
 struct ConversationResponse: Codable {
     let id: String

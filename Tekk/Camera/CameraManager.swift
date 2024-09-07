@@ -9,7 +9,6 @@ import Foundation
 import AVFoundation
 
 class CameraManager: NSObject {
-    // Performs real-time capture
     private let captureSession = AVCaptureSession() // Performs real-time capture
     private var deviceInput: AVCaptureDeviceInput? // Describes the media input from a capture device to a capture session
     private var videoOutput: AVCaptureVideoDataOutput? // Used to have access to video frames for processing
@@ -36,13 +35,14 @@ class CameraManager: NSObject {
     
     // Allows us to manage the continuous stream of data provided
     private var addToPreviewStream: ((CGImage) -> Void)?
-        lazy var previewStream: AsyncStream<CGImage> = {
-            AsyncStream { continuation in
-                addToPreviewStream = { cgImage in
-                    continuation.yield(cgImage)
-                }
+    
+    lazy var previewStream: AsyncStream<CGImage> = {
+        AsyncStream { continuation in
+            addToPreviewStream = { cgImage in
+                continuation.yield(cgImage)
             }
-        }()
+        }
+    }()
     
     // configure and start the AVCaptureSession at the same time
     override init() {
@@ -56,6 +56,8 @@ class CameraManager: NSObject {
     
     // initializes all our properties and defines the buffer delegate
     private func configureSession() async {
+        print("Configuring camera session...")
+    
         // Check user authorization, if the selected camera is available, and it can take the input through the AVCaptureDeviceInput object
         guard await isAuthorized,
               let systemPreferredCamera,
@@ -79,20 +81,26 @@ class CameraManager: NSObject {
             print("Unable to add device input to capture session.")
             return
         }
+
+        print("Can add input: \(captureSession.canAddInput(deviceInput))")
         
         // Checking if the output can be added to the session
         guard captureSession.canAddOutput(videoOutput) else {
             print("Unable to add video output to capture session.")
             return
         }
+
+        print("Can add output: \(captureSession.canAddOutput(videoOutput))")
         
         // Adds the input and the output to the AVCaptureSession
         captureSession.addInput(deviceInput)
         captureSession.addOutput(videoOutput)
         
+        print("Starting camera session...")
+
         // Set video orientation to portrait using the new API
         if let connection = videoOutput.connection(with: .video),
-           connection.isVideoRotationAngleSupported(90) { // Check if 90 degrees is supported (portrait mode)
+            connection.isVideoRotationAngleSupported(90) { // Check if 90 degrees is supported (portrait mode)
             connection.videoRotationAngle = 90 // Set 90 degrees for portrait mode
         }
 
@@ -105,6 +113,8 @@ class CameraManager: NSObject {
         
         // Start the capture session flow of data
         captureSession.startRunning()
+
+        print("Is authorized: \(await isAuthorized)")
     }
 }
 

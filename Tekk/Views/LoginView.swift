@@ -73,7 +73,7 @@ struct LoginView: View {
         ]
 
         // sending HTTP POST request to FastAPI app running locally
-        let url = URL(string: "http://127.0.0.1:8000/login/")!
+        let url = URL(string: "\(Config.baseURL)/login/")!
         var request = URLRequest(url: url)
 
         print("current token: \(authToken)")

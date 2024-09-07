@@ -83,7 +83,7 @@ struct PlayerDetailsFormView: View {
         ] as [String : Any]
 
         // sending HTTP POST request to FastAPI app running locally
-        let url = URL(string: "http://127.0.0.1:8000/register/")!
+        let url = URL(string: "\(Config.baseURL)/register/")!
         var request = URLRequest(url: url)
 
         // HTTP POST request to store player details

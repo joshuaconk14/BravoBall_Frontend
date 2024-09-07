@@ -124,7 +124,7 @@ struct ChatbotView: View {
             self.messageText = ""
         }
         
-        let url = URL(string: "http://127.0.0.1:8000/generate_tutorial/")!
+        let url = URL(string: "\(Config.baseURL)/generate_tutorial/")!
         var request = URLRequest(url: url)
         
         let storedToken = UserDefaults.standard.string(forKey: "authToken") ?? ""
@@ -185,7 +185,7 @@ struct ChatbotView: View {
 
     // API call to load a conversation in some conversation session
     func loadConversation(_ id: String) {
-        let url = URL(string: "http://127.0.0.1:8000/conversations/\(id)")!
+        let url = URL(string: "\(Config.baseURL)/conversations/\(id)")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         let storedToken = UserDefaults.standard.string(forKey: "authToken") ?? ""
@@ -220,7 +220,7 @@ struct ChatbotView: View {
 
     // API call to start a new conversation (creates new conversation session ID and empty chat history)
     func startNewConversation() {
-        let url = URL(string: "http://127.0.0.1:8000/conversations/new")!
+        let url = URL(string: "\(Config.baseURL)/conversations/new")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -261,7 +261,7 @@ struct ChatbotView: View {
 
     // API call to fetch previous conversations when user opens Chat History
     func fetchConversations() {
-        let url = URL(string: "http://127.0.0.1:8000/get_previous_conversations/")!
+        let url = URL(string: "\(Config.baseURL)/get_previous_conversations/")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         let storedToken = UserDefaults.standard.string(forKey: "authToken") ?? ""
@@ -314,7 +314,7 @@ struct ChatbotView: View {
 
     // API call to delete a conversation
     func deleteConversation(_ id: String) {
-        let url = URL(string: "http://127.0.0.1:8000/conversations/\(id)")!
+        let url = URL(string: "\(Config.baseURL)/conversations/\(id)")!
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
         let storedToken = UserDefaults.standard.string(forKey: "authToken") ?? ""
@@ -455,33 +455,6 @@ struct ChatHistoryView: View {
             )
         }
     }
-
-    // private func deleteConversation(_ conversation: Conversation) {
-    //     // API call to delete conversation
-    //     let url = URL(string: "http://127.0.0.1:8000/conversations/\(conversation.id)")!
-    //     var request = URLRequest(url: url)
-    //     request.httpMethod = "DELETE"
-    //     let storedToken = UserDefaults.standard.string(forKey: "authToken") ?? ""
-    //     request.setValue("Bearer \(storedToken)", forHTTPHeaderField: "Authorization")
-
-    //     URLSession.shared.dataTask(with: request) { data, response, error in
-    //         if let error = error {
-    //             print("Error deleting conversation: \(error.localizedDescription)")
-    //             return
-    //         }
-            
-    //         if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-    //             DispatchQueue.main.async {
-    //                 if let index = self.conversations.firstIndex(where: { $0.id == conversation.id }) {
-    //                     self.conversations.remove(at: index)
-    //                 }
-    //             }
-    //         } else {
-    //             print("Failed to delete conversation")
-    //         }
-    //     }.resume()
-    // }
-
 }
 
 //#Preview {

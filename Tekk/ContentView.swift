@@ -22,7 +22,8 @@ struct ContentView: View {
         if isLoggedIn {
             TabView {
                 // Main views of app
-                ChatbotView(chatMessages: $chatMessages, authToken: $authToken, conversations: $conversations)                    .tabItem {
+                ChatbotView(chatMessages: $chatMessages, authToken: $authToken, conversations: $conversations)
+                    .tabItem {
                         Image(systemName: "message.fill")
                     }
                 CameraView(image: $viewModel.currentFrame)
