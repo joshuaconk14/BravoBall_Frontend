@@ -49,12 +49,14 @@ struct OnboardingView: View {
                     .padding(.top, 150)
                     .padding(.bottom, 10)
                 Text("BravoTekk")
-                    .font(.largeTitle)
                     .foregroundColor(.white)
                     .padding(.bottom, 5)
+                    .font(.custom("???", size: 26))
+                
                 Text("Start Small. Dream Big")
                     .foregroundColor(.white)
                     .padding(.bottom, 100)
+                    .bold()
                 
                 // transition to WelcomeView
                 Button(action: {
@@ -68,6 +70,7 @@ struct OnboardingView: View {
                         .background(Color(hex: "947F63"))
                         .foregroundColor(.white)
                         .cornerRadius(20)
+                        .font(.custom("Poppins-Bold", size: 16))
                 }
                 .padding(.horizontal)
                 
@@ -83,6 +86,7 @@ struct OnboardingView: View {
                         .background(.gray.opacity(0.1))
                         .foregroundColor(.white)
                         .cornerRadius(20)
+                        .font(.custom("Poppins-Bold", size: 16))
                 }
                 .padding(.horizontal)
                 
@@ -90,12 +94,12 @@ struct OnboardingView: View {
                 
             }
 //          Intro animation, in front in ZStack
-            if showIntroAnimation {
-                RiveViewModel(fileName: "tekk_intro").view()
-                    .frame(width: 600, height: 1200)
-                    .edgesIgnoringSafeArea(.all)
-                    .allowsHitTesting(false) // no user interaction during this animation
-            }
+//            if showIntroAnimation {
+//                RiveViewModel(fileName: "tekk_intro").view()
+//                    .frame(width: 600, height: 1200)
+//                    .edgesIgnoringSafeArea(.all)
+//                    .allowsHitTesting(false) // no user interaction during this animation
+//            }
 
         }
         .padding()

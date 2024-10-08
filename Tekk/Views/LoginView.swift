@@ -56,10 +56,12 @@ struct LoginView: View {
                 .autocapitalization(.none)
                 .padding()
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .font(.custom("Poppins-Bold", size: 16))
             
             SecureField("Password", text: $password)
                 .padding()
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .font(.custom("Poppins-Bold", size: 16))
             
             if !errorMessage.isEmpty {
                 Text(errorMessage)
@@ -73,6 +75,7 @@ struct LoginView: View {
                     .background(Color(hex: "947F63"))
                     .foregroundColor(.white)
                     .cornerRadius(20)
+                    .font(.custom("Poppins-Bold", size: 16))
             }
             .padding(.horizontal)
             
@@ -85,6 +88,7 @@ struct LoginView: View {
                     .background(Color.gray.opacity(0.1))
                     .foregroundColor(.white)
                     .cornerRadius(20)
+                    .font(.custom("Poppins-Bold", size: 16))
             }
             .padding(.horizontal)
             

@@ -31,6 +31,7 @@
 		43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E422CB4EE6000BE2AB6 /* SettingsView.swift */; };
 		43985E472CB4EFA200BE2AB6 /* tekk_intro.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E462CB4EFA200BE2AB6 /* tekk_intro.riv */; };
 		43985E492CB4EFC200BE2AB6 /* test_panting.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E482CB4EFC200BE2AB6 /* test_panting.riv */; };
+		43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		43985E422CB4EE6000BE2AB6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		43985E462CB4EFA200BE2AB6 /* tekk_intro.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = tekk_intro.riv; sourceTree = "<group>"; };
 		43985E482CB4EFC200BE2AB6 /* test_panting.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = test_panting.riv; sourceTree = "<group>"; };
+		43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 				170217BA2C89030400DD020C /* Models.swift */,
 				1749361B2C3E102B001163B9 /* ContentView.swift */,
 				1749361D2C3E1031001163B9 /* Assets.xcassets */,
+				43985E502CB51DEC00BE2AB6 /* Font */,
 				439A72632C9FA55700B4C5AD /* RiveAssets */,
 				1749361F2C3E1031001163B9 /* Tekk.entitlements */,
 				174936202C3E1031001163B9 /* Preview Content */,
@@ -194,6 +197,14 @@
 				17E693212C745811006B58A3 /* ViewModel.swift */,
 			);
 			path = Camera;
+			sourceTree = "<group>";
+		};
+		43985E502CB51DEC00BE2AB6 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */,
+			);
+			path = Font;
 			sourceTree = "<group>";
 		};
 		439A72632C9FA55700B4C5AD /* RiveAssets */ = {
@@ -314,6 +325,7 @@
 			files = (
 				174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */,
 				1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */,
+				43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */,
 				43985E472CB4EFA200BE2AB6 /* tekk_intro.riv in Resources */,
 				43985E492CB4EFC200BE2AB6 /* test_panting.riv in Resources */,
 			);

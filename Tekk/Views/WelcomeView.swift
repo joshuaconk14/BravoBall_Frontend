@@ -67,6 +67,7 @@ struct WelcomeView: View {
                     .padding(.horizontal, 80)
                     .padding(.bottom, 400)
                     .opacity(textOpacity1)
+                    .bold()
                 // bravo message 2, confined to ZStack
                 Text("Enter your player details below")
                     .foregroundColor(.white)
@@ -74,6 +75,7 @@ struct WelcomeView: View {
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
                     .opacity(textOpacity2)
+                    .bold()
                 
                 // Back button, confined to ZStack
                 HStack {
@@ -118,6 +120,7 @@ struct WelcomeView: View {
                         .background(Color(hex: "947F63"))
                         .foregroundColor(.white)
                         .cornerRadius(20)
+                        .font(.custom("Poppins-Bold", size: 16))
                 }
                 .padding(.top, 700)
             }

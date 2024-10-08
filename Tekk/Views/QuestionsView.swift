@@ -31,6 +31,7 @@ struct welcomeQs: View {
                     Text("First Name")
                         .foregroundColor(.gray)
                         .padding(.trailing, 200)
+                        .font(.custom("Poppins-Bold", size: 16))
                 }
                 TextField("", text: $firstName)
                 // make text field smaller
@@ -41,6 +42,7 @@ struct welcomeQs: View {
                             .stroke(Color.gray, lineWidth: 1) // Customize border color and width
                     )
                     .padding(.horizontal, 16)
+                    .font(.custom("Poppins-Bold", size: 16))
             }
             // last name, Zstack so placeholder is on top of input text
             ZStack {
@@ -48,6 +50,7 @@ struct welcomeQs: View {
                     Text("Last Name")
                         .foregroundColor(.gray)
                         .padding(.trailing, 200)
+                        .font(.custom("Poppins-Bold", size: 16))
                 }
                 TextField("", text: $lastName)
                 // make text field smaller
@@ -58,6 +61,7 @@ struct welcomeQs: View {
                             .stroke(Color.gray, lineWidth: 1) // Customize border color and width
                     )
                     .padding(.horizontal, 16)
+                    .font(.custom("Poppins-Bold", size: 16))
             }
             // confined version of structure drop down menus
             dropDownMenu(title: $selectedAge, options: ageOptions, placeholder: "Select your Age")
@@ -90,6 +94,7 @@ struct dropDownMenu: View {
                     Text(title.isEmpty ? placeholder : title)
                         .foregroundColor(title.isEmpty ? .gray : .white)
                         .padding()
+                        .font(.custom("Poppins-Bold", size: 16))
                     Spacer()
                     Image(systemName: "chevron.down")
                         .padding(.trailing, 20)
@@ -113,6 +118,7 @@ struct dropDownMenu: View {
                                     .padding()
                                     .foregroundColor(.white)
                                     .frame(maxWidth: .infinity, alignment: .leading)
+                                    .font(.custom("Poppins-Bold", size: 16))
                             }
                             // edit full drop down menu appearance
                             .background(Color(hex: "1E272E"))
@@ -153,6 +159,7 @@ struct Questionnaire_1: View {
                             Text(player)
                                 .foregroundColor(.white)
                                 .padding()
+                                .font(.custom("Poppins-Bold", size: 16))
                             Spacer()
                             if chosenPlayers.contains(player) {
                                 Image(systemName: "checkmark")
@@ -206,6 +213,7 @@ struct Questionnaire_2: View {
                             Text(strength)
                                 .foregroundColor(.white)
                                 .padding()
+                                .font(.custom("Poppins-Bold", size: 16))
                             Spacer()
                             if chosenStrengths.contains(strength) {
                                 Image(systemName: "checkmark")
@@ -259,6 +267,7 @@ struct Questionnaire_3: View {
                             Text(weakness)
                                 .foregroundColor(.white)
                                 .padding()
+                                .font(.custom("Poppins-Bold", size: 16))
                             Spacer()
                             if chosenWeaknesses.contains(weakness) {
                                 Image(systemName: "checkmark")

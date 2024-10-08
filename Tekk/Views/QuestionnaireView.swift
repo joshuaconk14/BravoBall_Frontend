@@ -78,6 +78,7 @@ struct QuestionnaireView: View {
                     .padding(.horizontal, 80)
                     .padding(.bottom, 400)
                     .opacity(textOpacity0)
+                    .bold()
                 // bravo message 3, confined to ZStack
                 Text("Which players do you feel represent your playstyle the best?")
                     .foregroundColor(.white)
@@ -85,6 +86,7 @@ struct QuestionnaireView: View {
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
                     .opacity(textOpacity1)
+                    .bold()
                 // bravo message 3, confined to ZStack
                 Text("What are your biggest strengths?")
                     .foregroundColor(.white)
@@ -92,6 +94,7 @@ struct QuestionnaireView: View {
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
                     .opacity(textOpacity2)
+                    .bold()
                 // bravo message 4, confined to ZStack
                 Text("What would you like to work on?")
                     .foregroundColor(.white)
@@ -99,6 +102,7 @@ struct QuestionnaireView: View {
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
                     .opacity(textOpacity3)
+                    .bold()
                 
                 // Back button, confined to ZStack
                 HStack {
@@ -162,6 +166,8 @@ struct QuestionnaireView: View {
                         .background(Color(hex: "947F63"))
                         .foregroundColor(.white)
                         .cornerRadius(20)
+                        .font(.custom("Poppins-Bold", size: 16))
+
                 }
                 .padding(.top, 700)
             }
