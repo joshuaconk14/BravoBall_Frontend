@@ -125,7 +125,7 @@ struct dropDownMenu: View {
                             .cornerRadius(5)
                         }
                     }
-                    .frame(height: 250) // Set height limit for the ScrollView
+                    .frame(height: 180) // Set height limit for the ScrollView
                 }
                 .background(Color(hex: "1E272E"))
                 .cornerRadius(10)
@@ -166,7 +166,7 @@ struct Questionnaire_1: View {
                                     .foregroundColor(.white)
                             }
                         }
-                        .background(chosenPlayers.contains(player) ? Color.gray : Color.clear)
+                        .background(chosenPlayers.contains(player) ? Color(hex: "5fa552") : Color.clear)
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)
@@ -175,8 +175,10 @@ struct Questionnaire_1: View {
                     }
                 }
             }
+            // LazyVStack padding
             .padding(.horizontal)
         }
+        // VStack padding
         .padding(.horizontal)
     }
     
@@ -220,7 +222,7 @@ struct Questionnaire_2: View {
                                     .foregroundColor(.white)
                             }
                         }
-                        .background(chosenStrengths.contains(strength) ? Color.gray : Color.clear)
+                        .background(chosenStrengths.contains(strength) ? Color(hex: "5fa552") : Color.clear)
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)
@@ -274,7 +276,7 @@ struct Questionnaire_3: View {
                                     .foregroundColor(.white)
                             }
                         }
-                        .background(chosenWeaknesses.contains(weakness) ? Color.gray : Color.clear)
+                        .background(chosenWeaknesses.contains(weakness) ? Color(hex: "5fa552") : Color.clear)
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)

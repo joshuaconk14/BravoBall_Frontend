@@ -16,6 +16,7 @@ struct WelcomeView: View {
 //    @State private var showQuestionnaire = false
     @State private var textOpacity1: Double = 1.0
     @State private var textOpacity2: Double = 0.0
+    // welcomeInput is where bravo is asking for player details, this is what will show when next button on hello bravo page is clicked
     @State private var welcomeInput: Int = 0
     @State private var firstName = ""
     @State private var lastName = ""
@@ -47,7 +48,7 @@ struct WelcomeView: View {
                 VStack {
                     if welcomeInput == 1 {
                         welcomeQs(welcomeInput: $welcomeInput, firstName: $firstName, lastName: $lastName, selectedAge: $selectedAge, selectedLevel: $selectedLevel, selectedPosition: $selectedPosition)
-                            .transition(.move(edge: .trailing)) // Move out to the left
+                            .transition(.move(edge: .trailing)) // transition from right
                             .animation(.easeInOut) // Animate the transition
                             .offset(x: welcomeInput == 1 ? 0 : UIScreen.main.bounds.width)
                     }
@@ -67,7 +68,7 @@ struct WelcomeView: View {
                     .padding(.horizontal, 80)
                     .padding(.bottom, 400)
                     .opacity(textOpacity1)
-                    .bold()
+                    .font(.custom("Poppins-Bold", size: 16))
                 // bravo message 2, confined to ZStack
                 Text("Enter your player details below")
                     .foregroundColor(.white)
@@ -75,7 +76,7 @@ struct WelcomeView: View {
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
                     .opacity(textOpacity2)
-                    .bold()
+                    .font(.custom("Poppins-Bold", size: 16))
                 
                 // Back button, confined to ZStack
                 HStack {
@@ -104,7 +105,7 @@ struct WelcomeView: View {
                         textOpacity1 = 0.0
                         textOpacity2 = 1.0
                     }
-                    // Move to the next questionnaire
+                    // Move to the questionnaire
                     if welcomeInput == 1 {
                         if validateQ1() {
                             withAnimation {
@@ -128,11 +129,8 @@ struct WelcomeView: View {
             .padding()
             .background(Color(hex:"1E272E"))
         }
-        // Zstack padding
-        .padding()
-        .background(Color(hex:"1E272E"))
     }
-    // MARK: - (change to && later)
+    // MARK: - (change to || for quick nav and && when done)
     // Validation function for Questionnaire 1
     private func validateQ1() -> Bool {
        return !firstName.isEmpty || !lastName.isEmpty || selectedAge != "Select your Age" || selectedLevel != "Select your Level" || selectedPosition != "Select your Position"

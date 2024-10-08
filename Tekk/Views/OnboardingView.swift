@@ -46,17 +46,17 @@ struct OnboardingView: View {
             VStack {
                 RiveViewModel(fileName: "test_panting").view()
                     .frame(width: 300, height: 300)
-                    .padding(.top, 150)
+                    .padding(.top, 30)
                     .padding(.bottom, 10)
                 Text("BravoTekk")
                     .foregroundColor(.white)
                     .padding(.bottom, 5)
-                    .font(.custom("???", size: 26))
+                    .font(.custom("PottaOne-Regular", size: 45))
                 
                 Text("Start Small. Dream Big")
                     .foregroundColor(.white)
                     .padding(.bottom, 100)
-                    .bold()
+                    .font(.custom("Poppins-Bold", size: 16))
                 
                 // transition to WelcomeView
                 Button(action: {
@@ -72,7 +72,9 @@ struct OnboardingView: View {
                         .cornerRadius(20)
                         .font(.custom("Poppins-Bold", size: 16))
                 }
+                // lets get tekky button padding to move it down
                 .padding(.horizontal)
+                .padding(.top, 80)
                 
                 // transition to login page
                 Button(action: {

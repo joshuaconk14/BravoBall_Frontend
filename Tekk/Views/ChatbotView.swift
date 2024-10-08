@@ -51,9 +51,8 @@ struct ChatbotView: View {
                         }
                         Spacer()
                         Text("BravoTekk")
-                            .font(.largeTitle)
-                            .bold()
                             .foregroundColor(.white)
+                            .font(.custom("PottaOne-Regular", size: 30))
                         
                         Spacer()
                         Button(action: startNewConversation) {

@@ -11,6 +11,9 @@ import RiveRuntime
 // MARK: - Main body
 struct QuestionnaireView: View {
     @Binding var showQuestionnaire: Bool
+    // questionnaires state variables
+    @State private var currentQuestionnaire: Int = 0
+    @State private var showQuestionnaireTwo = false
     @State private var showWelcome = false
     @State private var textOpacity0: Double = 1.0
     @State private var textOpacity1: Double = 0.0
@@ -19,8 +22,6 @@ struct QuestionnaireView: View {
     // State variables for animations:
     // animation offset
     @State private var riveViewOffset: CGSize = .zero // Offset for Rive animation hello
-    // questionnaires state variables
-    @State private var currentQuestionnaire: Int = 0
     
     //from questionnaire 1
     @State private var selectedPlayer: String = "player"
@@ -32,12 +33,26 @@ struct QuestionnaireView: View {
     @State private var selectedWeakness: String = "strength"
     @State private var chosenWeaknesses: [String] = []
     
-    
     var body: some View {
+        ZStack {
+            
+            content
+            
+            
+            // showQuestionnaire is above the WelcomeView content in a ZStack
+            if showQuestionnaireTwo {
+                QuestionnaireTwoView(showQuestionnaireTwo: $showQuestionnaireTwo)// Pass bindings as needed
+                    .transition(.move(edge: .trailing))
+                    .animation(.easeInOut)
+            }
+        }
+    }
+    var content: some View {
         NavigationView {
             // ZStack so lets get tekky button and back button arent confined to VStack
             ZStack {
                 // animation and text VStack
+                // need all these VStacks ???
                 VStack {
                     ScrollView {
                         VStack {
@@ -72,37 +87,37 @@ struct QuestionnaireView: View {
                     .offset(x: riveViewOffset.width, y: riveViewOffset.height)
                     .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
                 //MARK: - Bravo messages
-                // bravo message 3, confined to ZStack
-                Text("Great! I know so much more about you now! Just a few questions and we can create your plan.")
+                // bravo message 0, confined to ZStack
+                Text("Nice! I know so much more about you now! Just a few questions to know your style of play.")
                     .foregroundColor(.white)
                     .padding(.horizontal, 80)
                     .padding(.bottom, 400)
                     .opacity(textOpacity0)
-                    .bold()
-                // bravo message 3, confined to ZStack
+                    .font(.custom("Poppins-Bold", size: 16))
+                // bravo message 1, confined to ZStack
                 Text("Which players do you feel represent your playstyle the best?")
                     .foregroundColor(.white)
-                    .padding()
+                    .padding() // padding for text edges
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
                     .opacity(textOpacity1)
-                    .bold()
-                // bravo message 3, confined to ZStack
+                    .font(.custom("Poppins-Bold", size: 16))
+                // bravo message 2, confined to ZStack
                 Text("What are your biggest strengths?")
                     .foregroundColor(.white)
-                    .padding()
+                    .padding() // padding for text edges
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
                     .opacity(textOpacity2)
-                    .bold()
-                // bravo message 4, confined to ZStack
+                    .font(.custom("Poppins-Bold", size: 16))
+                // bravo message 3, confined to ZStack
                 Text("What would you like to work on?")
                     .foregroundColor(.white)
-                    .padding()
+                    .padding() // padding for text edges
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
                     .opacity(textOpacity3)
-                    .bold()
+                    .font(.custom("Poppins-Bold", size: 16))
                 
                 // Back button, confined to ZStack
                 HStack {
@@ -154,7 +169,7 @@ struct QuestionnaireView: View {
                     if currentQuestionnaire == 3 {
                         if validateQ3() {
                             withAnimation {
-                                currentQuestionnaire = 4
+                                showQuestionnaireTwo = true // from Questionnaire to QuestionnaireTwo
                                 textOpacity3 = 0.0
                             }
                         }
@@ -169,15 +184,13 @@ struct QuestionnaireView: View {
                         .font(.custom("Poppins-Bold", size: 16))
 
                 }
+                // padding for button
                 .padding(.top, 700)
             }
-            //VStack padding
+            //ZStack padding
             .padding()
             .background(Color(hex:"1E272E"))
         }
-        // Zstack padding
-        .padding()
-        .background(Color(hex:"1E272E"))
     }
     
     // MARK: - Validation functions
@@ -207,6 +220,5 @@ struct QuestionnaireView: View {
 //
 //    static var previews: some View {
 //        QuestionnaireView(showQuestionnaire: $showQuestionnaire)
-//            .preferredColorScheme(.dark) // Optional: Set the color scheme for the preview
 //    }
 //}
