@@ -130,7 +130,7 @@ struct SettingsView: View {
     }
     
     private var deleteAccountButton: some View {
-        Button(action: {    
+        Button(action: {
             showDeleteConfirmation = true
         }) {
             Text("Delete Account")

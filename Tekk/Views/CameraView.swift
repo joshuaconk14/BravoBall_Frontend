@@ -10,7 +10,7 @@ import SwiftUI
 struct CameraView: View {
     
     @Binding var image: CGImage?
-    // @Binding var activeTab: Tab
+    @Binding var activeTab: Tab
     
     enum Tab {
         case messages, camera, checklist, settings
@@ -31,43 +31,44 @@ struct CameraView: View {
                                height: geometry.size.height)
                 }
             
-            // // Navigation Bar
-            // VStack {
-            //     Divider()
-            //         .background(Color.gray.opacity(0.3))
-            //         .frame(height: 1)
-            //     HStack {
-            //         Spacer()
-            //         navigationButton(tab: .messages, icon: "messages")
-            //         Spacer()
-            //         navigationButton(tab: .camera, icon: "camera")
-            //         Spacer()
-            //         navigationButton(tab: .checklist, icon: "checklist")
-            //         Spacer()
-            //         navigationButton(tab: .settings, icon: "gear")
-            //         Spacer()
-            //     }
-            //     .padding(.vertical, 30)
-            //     .background(Color.white)
+             // Navigation Bar
+             VStack {
+                 Divider()
+                     .background(Color.gray.opacity(0.3))
+                     .frame(height: 1)
+                 HStack {
+                     Spacer()
+                     navigationButton(tab: .messages, icon: "messages")
+                     Spacer()
+                     navigationButton(tab: .camera, icon: "camera")
+                     Spacer()
+                     navigationButton(tab: .checklist, icon: "checklist")
+                     Spacer()
+                     navigationButton(tab: .settings, icon: "gear")
+                     Spacer()
+                 }
+                 .padding(.vertical, 30)
+                 .background(Color.white)
             }
         }
     }
     
 }
 
-//     private func navigationButton(tab: Tab, icon: String) -> some View {
-//         Button(action: {
-//             activeTab = tab
-//         }) {
-//             Image(systemName: icon)
-//                 .font(.system(size: 24))
-//                 .foregroundColor(activeTab == tab ? .green : .gray)
-//         }
-//     }
-// }
+     private func navigationButton(tab: Tab, icon: String) -> some View {
+         Button(action: {
+             activeTab = tab
+         }) {
+             Image(systemName: icon)
+                 .font(.system(size: 24))
+                 .foregroundColor(activeTab == tab ? .green : .gray)
+         }
+     }
+ }
 
-// struct CameraView_Previews: PreviewProvider {
-//     static var previews: some View {
-//         CameraView(image: .constant(nil), activeTab: .constant(.camera))
-//     }
-// }
+//struct CameraView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        // Provide a constant binding for image and activeTab
+//        CameraView(image: .constant(nil), activeTab: .constant(.camera))
+//    }
+//}

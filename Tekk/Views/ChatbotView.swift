@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 // Main chatbot view of the app
 struct ChatbotView: View {
     @State private var isShowingHistory = false
@@ -18,6 +20,7 @@ struct ChatbotView: View {
     @Binding var conversations: [Conversation]
     @State private var activeTab: Tab = .messages
 
+
     enum Tab {
         case messages, camera, modifier
     }
@@ -26,7 +29,7 @@ struct ChatbotView: View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 // Main chat view
-                VStack {
+                VStack(spacing: 1) {
                     // Header
                     HStack {
                         // Button(action: {
@@ -47,7 +50,7 @@ struct ChatbotView: View {
                                 .foregroundColor(.white)
                         }
                         Spacer()
-                        Text("TekkAI")
+                        Text("BravoTekk")
                             .font(.largeTitle)
                             .bold()
                             .foregroundColor(.white)
@@ -62,7 +65,7 @@ struct ChatbotView: View {
                     // header customization
                     .padding()
                     .frame(width: geometry.size.width)
-                    .background(Color.green)
+                    .background(Color(hex: "947F63"))
                     
                     
                     
@@ -75,8 +78,7 @@ struct ChatbotView: View {
                         .rotationEffect(.degrees(180))
                     }
                     .rotationEffect(.degrees(180))
-                    .background(Color.gray.opacity(0.2))
-                    .background(Color.black.opacity(0.85))
+                    .background(Color(hex:"1E272E"))
                     
                     // Message input
                     HStack {
@@ -106,8 +108,7 @@ struct ChatbotView: View {
                         .padding(.horizontal, 10)
                     }
                     .padding()
-                    .background(Color.green)
-                    //.background(Color.gray.opacity(0.6)
+                    .background(Color(hex:"1E272E"))
 
                     // Navigation Bar
                     VStack(spacing: 0) {
@@ -116,15 +117,15 @@ struct ChatbotView: View {
                             .frame(height: 1)
                         HStack {
                             Spacer()
-                            navigationButton(tab: .messages, icon: "message")
+                            navigationButton(tab: .messages, icon: "message.fill")
                             Spacer()
-                            navigationButton(tab: .camera, icon: "camera")
+                            navigationButton(tab: .camera, icon: "camera.fill")
                             Spacer()
                             navigationButton(tab: .modifier, icon: "slider.horizontal.3")
                             Spacer()
                         }
                         .padding(.vertical, 30)
-                        .background(Color.white)
+                        .background(Color(hex:"947F63"))
                     }
                 }
                 .zIndex(0)
@@ -145,15 +146,15 @@ struct ChatbotView: View {
                 
                 // Sliding chat history view
                 if isShowingHistory {
-                    ChatHistoryView(isShowingHistory: $isShowingHistory, 
+                    ChatHistoryView(isShowingHistory: $isShowingHistory,
                                     selectedSessionID: $selectedSessionID,
                                     conversations: $conversations,
                                     loadConversation: loadConversation,
                                     fetchConversations: fetchConversations,
-                                    deleteConversation: deleteConversation) 
+                                    deleteConversation: deleteConversation)
                     .frame(width: geometry.size.width * 0.75)
                     .transition(.move(edge: .leading))
-                    .zIndex(2) 
+                    .zIndex(2)
                 }
             }
         }
@@ -166,7 +167,7 @@ struct ChatbotView: View {
         }) {
             Image(systemName: icon)
                 .font(.system(size: 24))
-                .foregroundColor(.black)
+                .foregroundColor(.white)
         }
     }
     
@@ -407,7 +408,7 @@ struct MessageView: View {
                 Text(message.content.replacingOccurrences(of: "[USER]", with: ""))
                     .padding()
                     .foregroundColor(.white)
-                    .background(.green.opacity(0.8))
+                    .background(Color(hex:"947F63").opacity(0.8))
                     .cornerRadius(10)
                     .padding(.horizontal, 16)
                     .padding(.bottom, 10)
@@ -460,7 +461,7 @@ struct ChatHistoryView: View {
                 }
                 .padding()
                 .frame(width: geometry.size.width)
-                .background(Color.green)
+                .background(Color(hex:"1E272E"))
                 
                 // chat history content
                 if conversations.isEmpty {
@@ -512,7 +513,7 @@ struct ChatHistoryView: View {
                 Spacer()
             }
             .frame(width: geometry.size.width)
-            .background(Color.green)
+            .background(Color(hex:"1E272E"))
         }
         .onAppear {
             fetchConversations()
@@ -557,9 +558,6 @@ struct ChatHistoryView: View {
     //         }
     //     }.resume()
     // }
-
-
-
 
 
 

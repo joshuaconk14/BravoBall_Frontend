@@ -55,13 +55,13 @@ struct PlayerDetailsFormView: View {
                 }
                 .disabled(isSubmitted)
 
-                // "Already have an account?" section
-                Section {
-                    NavigationLink(destination: LoginView(isLoggedIn: $isLoggedIn, authToken: $authToken)) {
-                        Text("Already have an account? Log in here")
-                            .foregroundColor(.blue)
-                    }
-                }
+//                // "Already have an account?" section
+//                Section {
+//                    NavigationLink(destination: LoginView(isLoggedIn: $isLoggedIn, authToken: $authToken), showLoginPage: .constant(false)) {
+//                        Text("Already have an account? Log in here")
+//                            .foregroundColor(.blue)
+//                    }
+//                }
             }
             .navigationTitle("Player Details")
         }
@@ -139,9 +139,9 @@ struct PlayerDetailsFormView: View {
     }
 }
 
-
+//
 //struct PlayerDetailsFormView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        PlayerDetailsFormView(onDetailsSubmitted: {})
+//        PlayerDetailsFormView(isLoggedIn: .constant(false), onDetailsSubmitted: {})
 //    }
 //}

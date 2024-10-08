@@ -15,18 +15,22 @@
 		1749362C2C3E1032001163B9 /* TekkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749362B2C3E1032001163B9 /* TekkTests.swift */; };
 		174936362C3E1032001163B9 /* TekkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936352C3E1032001163B9 /* TekkUITests.swift */; };
 		174936382C3E1032001163B9 /* TekkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */; };
-		174936462C3E10D0001163B9 /* ChatbotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936452C3E10D0001163B9 /* ChatbotView.swift */; };
-		174936482C3E1123001163B9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936472C3E1123001163B9 /* SettingsView.swift */; };
-		1749364A2C3E1139001163B9 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936492C3E1139001163B9 /* CameraView.swift */; };
 		17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693192C743662006B58A3 /* CameraManager.swift */; };
 		17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */; };
 		17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */; };
 		17E693222C745811006B58A3 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693212C745811006B58A3 /* ViewModel.swift */; };
-		17E693242C7C6F51006B58A3 /* PlayerDetailsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693232C7C6F51006B58A3 /* PlayerDetailsFormView.swift */; };
 		17E693272C7D3504006B58A3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693262C7D3504006B58A3 /* LoginView.swift */; };
 		435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 435A70142CA7AB2600BFCC40 /* RiveRuntime */; };
-		435A70172CA7BCDA00BFCC40 /* AnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435A70162CA7BCDA00BFCC40 /* AnimationView.swift */; };
-		435A701B2CA7CBE500BFCC40 /* test_panting.riv in Resources */ = {isa = PBXBuildFile; fileRef = 435A701A2CA7CBE500BFCC40 /* test_panting.riv */; };
+		43985E352CB4ECBA00BE2AB6 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E342CB4ECB200BE2AB6 /* OnboardingView.swift */; };
+		43985E372CB4ED1D00BE2AB6 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E362CB4ECF900BE2AB6 /* WelcomeView.swift */; };
+		43985E392CB4ED4B00BE2AB6 /* QuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E382CB4ED4500BE2AB6 /* QuestionnaireView.swift */; };
+		43985E3B2CB4ED9500BE2AB6 /* QuestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E3A2CB4ED8700BE2AB6 /* QuestionsView.swift */; };
+		43985E3D2CB4EDD300BE2AB6 /* ChatbotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E3C2CB4EDCD00BE2AB6 /* ChatbotView.swift */; };
+		43985E3F2CB4EDE700BE2AB6 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E3E2CB4EDE300BE2AB6 /* CameraView.swift */; };
+		43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E402CB4EDF900BE2AB6 /* PlayerDetailsForm.swift */; };
+		43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E422CB4EE6000BE2AB6 /* SettingsView.swift */; };
+		43985E472CB4EFA200BE2AB6 /* tekk_intro.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E462CB4EFA200BE2AB6 /* tekk_intro.riv */; };
+		43985E492CB4EFC200BE2AB6 /* test_panting.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E482CB4EFC200BE2AB6 /* test_panting.riv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,18 +63,22 @@
 		174936312C3E1032001163B9 /* TekkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TekkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		174936352C3E1032001163B9 /* TekkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITests.swift; sourceTree = "<group>"; };
 		174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		174936452C3E10D0001163B9 /* ChatbotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatbotView.swift; sourceTree = "<group>"; };
-		174936472C3E1123001163B9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		174936492C3E1139001163B9 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17E693192C743662006B58A3 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Extension.swift"; sourceTree = "<group>"; };
 		17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIImage+Extension.swift"; sourceTree = "<group>"; };
 		17E693212C745811006B58A3 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		17E693232C7C6F51006B58A3 /* PlayerDetailsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsFormView.swift; sourceTree = "<group>"; };
 		17E693262C7D3504006B58A3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		435A70162CA7BCDA00BFCC40 /* AnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationView.swift; sourceTree = "<group>"; };
-		435A701A2CA7CBE500BFCC40 /* test_panting.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = test_panting.riv; sourceTree = "<group>"; };
+		43985E342CB4ECB200BE2AB6 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		43985E362CB4ECF900BE2AB6 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		43985E382CB4ED4500BE2AB6 /* QuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireView.swift; sourceTree = "<group>"; };
+		43985E3A2CB4ED8700BE2AB6 /* QuestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsView.swift; sourceTree = "<group>"; };
+		43985E3C2CB4EDCD00BE2AB6 /* ChatbotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatbotView.swift; sourceTree = "<group>"; };
+		43985E3E2CB4EDE300BE2AB6 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		43985E402CB4EDF900BE2AB6 /* PlayerDetailsForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsForm.swift; sourceTree = "<group>"; };
+		43985E422CB4EE6000BE2AB6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		43985E462CB4EFA200BE2AB6 /* tekk_intro.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = tekk_intro.riv; sourceTree = "<group>"; };
+		43985E482CB4EFC200BE2AB6 /* test_panting.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = test_panting.riv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,12 +172,15 @@
 		174936442C3E10C4001163B9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				435A70162CA7BCDA00BFCC40 /* AnimationView.swift */,
-				174936452C3E10D0001163B9 /* ChatbotView.swift */,
-				174936472C3E1123001163B9 /* SettingsView.swift */,
-				174936492C3E1139001163B9 /* CameraView.swift */,
-				17E693232C7C6F51006B58A3 /* PlayerDetailsFormView.swift */,
+				43985E342CB4ECB200BE2AB6 /* OnboardingView.swift */,
 				17E693262C7D3504006B58A3 /* LoginView.swift */,
+				43985E362CB4ECF900BE2AB6 /* WelcomeView.swift */,
+				43985E382CB4ED4500BE2AB6 /* QuestionnaireView.swift */,
+				43985E3A2CB4ED8700BE2AB6 /* QuestionsView.swift */,
+				43985E3C2CB4EDCD00BE2AB6 /* ChatbotView.swift */,
+				43985E3E2CB4EDE300BE2AB6 /* CameraView.swift */,
+				43985E402CB4EDF900BE2AB6 /* PlayerDetailsForm.swift */,
+				43985E422CB4EE6000BE2AB6 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -188,7 +199,8 @@
 		439A72632C9FA55700B4C5AD /* RiveAssets */ = {
 			isa = PBXGroup;
 			children = (
-				435A701A2CA7CBE500BFCC40 /* test_panting.riv */,
+				43985E462CB4EFA200BE2AB6 /* tekk_intro.riv */,
+				43985E482CB4EFC200BE2AB6 /* test_panting.riv */,
 			);
 			path = RiveAssets;
 			sourceTree = "<group>";
@@ -300,9 +312,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				435A701B2CA7CBE500BFCC40 /* test_panting.riv in Resources */,
 				174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */,
 				1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */,
+				43985E472CB4EFA200BE2AB6 /* tekk_intro.riv in Resources */,
+				43985E492CB4EFC200BE2AB6 /* test_panting.riv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,19 +340,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				174936462C3E10D0001163B9 /* ChatbotView.swift in Sources */,
 				17E693222C745811006B58A3 /* ViewModel.swift in Sources */,
+				43985E3F2CB4EDE700BE2AB6 /* CameraView.swift in Sources */,
 				17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */,
 				170217BB2C89030500DD020C /* Models.swift in Sources */,
-				435A70172CA7BCDA00BFCC40 /* AnimationView.swift in Sources */,
+				43985E352CB4ECBA00BE2AB6 /* OnboardingView.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
-				1749364A2C3E1139001163B9 /* CameraView.swift in Sources */,
-				17E693242C7C6F51006B58A3 /* PlayerDetailsFormView.swift in Sources */,
+				43985E392CB4ED4B00BE2AB6 /* QuestionnaireView.swift in Sources */,
+				43985E372CB4ED1D00BE2AB6 /* WelcomeView.swift in Sources */,
 				1749361A2C3E102B001163B9 /* TekkApp.swift in Sources */,
+				43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */,
+				43985E3D2CB4EDD300BE2AB6 /* ChatbotView.swift in Sources */,
+				43985E3B2CB4ED9500BE2AB6 /* QuestionsView.swift in Sources */,
+				43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */,
 				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,
 				17E693272C7D3504006B58A3 /* LoginView.swift in Sources */,
 				17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */,
-				174936482C3E1123001163B9 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,16 +2,19 @@
 //  TekkApp.swift
 //  Tekk
 //
-//  Created by Jordan on 7/9/24.
+//  Created by Joshua Conklin on 10/3/24.
 //
-
 import SwiftUI
+import RiveRuntime
 
 @main
 struct TekkApp: App {
+    @State private var isLoggedIn: Bool = false
+    @State private var authToken: String = ""
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            OnboardingView(isLoggedIn: $isLoggedIn, authToken: $authToken)
         }
     }
 }
