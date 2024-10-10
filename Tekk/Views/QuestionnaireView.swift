@@ -33,8 +33,9 @@ struct QuestionnaireView: View {
     @State private var selectedWeakness: String = "strength"
     @State private var chosenWeaknesses: [String] = []
     
-    // var for matchedGeometry function
+    // var for questionnaire matchedGeometry function
     @Namespace var questionnaireTwoSpace
+    @Namespace var questionnaireSpace
     
     
     var body: some View {

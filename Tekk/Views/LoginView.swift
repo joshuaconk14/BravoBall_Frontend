@@ -40,7 +40,7 @@ struct LoginView: View {
                         
                     }
                 }){
-                    Image(systemName:"arrow.left")
+                    Image(systemName:"xmark")
                         .font(.title2)
                         .foregroundColor(.white)
                         .padding()
