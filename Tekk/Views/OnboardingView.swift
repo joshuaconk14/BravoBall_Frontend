@@ -14,29 +14,48 @@ struct OnboardingView: View {
     @State private var showLoginPage = false // State to control login page visibility
     @State private var showWelcome = false
     @State private var showIntroAnimation = true
+    @Binding var showOnboarding: Bool
+    // var for matchedGeometry function
+    @Namespace var welcomeSpace
     
     var body: some View {
-        ZStack {
-            
-            content
-            
-            if showLoginPage {
-                LoginView(isLoggedIn: $isLoggedIn, authToken: $authToken, showLoginPage: $showLoginPage)
-                    .transition(.move(edge: .bottom))
-                    .animation(.easeInOut)
+        VStack {
+            ZStack {
+                
+                content
+                
+                if showLoginPage {
+                    LoginView(isLoggedIn: $isLoggedIn, authToken: $authToken, showLoginPage: $showLoginPage)
+                        .transition(.move(edge: .bottom))
+                        .animation(.easeInOut)
+                }
+                
+                // ZStack for matchedGeometry for smooth transitions
+                ZStack {
+                    // Present WelcomeView when showWelcomeView is true
+                    if !showWelcome {
+                        WelcomeView(showWelcome: $showWelcome)// Pass bindings as needed
+                            .matchedGeometryEffect(id: "welcome", in: welcomeSpace)
+                            .offset(x: UIScreen.main.bounds.width) // out of bounds
+    //                    OnboardingView(isLoggedIn: $isLoggedIn, authToken: $authToken, showOnboarding: $showOnboarding)
+    //                        .matchedGeometryEffect(id: "onboarding", in: namespace)
+    //                        .offset(x: 0) // showing
+                    } else {
+                        WelcomeView(showWelcome: $showWelcome)// Pass bindings as needed
+                            .matchedGeometryEffect(id: "welcome", in: welcomeSpace)
+                            .offset(x: 0) // showing
+    //                    OnboardingView(isLoggedIn: $isLoggedIn, authToken: $authToken, showOnboarding: $showOnboarding)
+    //                        .matchedGeometryEffect(id: "onboarding", in: namespace)
+    //                        .offset(x: UIScreen.main.bounds.width) // out of bounds
+                    }
+                }
             }
-            // Present WelcomeView when showWelcomeView is true
-            if showWelcome {
-                WelcomeView(showWelcome: $showWelcome)// Pass bindings as needed
-                    .transition(.move(edge: .trailing))
-                    .animation(.easeInOut)
-            }
-        }
-//      this works because of if statement declaring showIntroAnimation function
-//      Start a timer to hide the intro animation after a certain duration
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5.5) { // seconds until its false
-                showIntroAnimation = false
+    //      this works because of if statement declaring showIntroAnimation function
+    //      Start a timer to hide the intro animation after a certain duration
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5.5) { // seconds until its false
+                    showIntroAnimation = false
+                }
             }
         }
     }
@@ -61,7 +80,7 @@ struct OnboardingView: View {
                 // transition to WelcomeView
                 Button(action: {
                     withAnimation(.spring()) {
-                        showWelcome = true
+                        showWelcome.toggle()
                     }
                 }) {
                     Text("Let's get tekky")
@@ -115,6 +134,6 @@ struct OnboardingView: View {
 //struct OnboardingView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        // Provide constant bindings w/ diff views for the preview
-//        OnboardingView(isLoggedIn: .constant(false), authToken: .constant(""))
+//        OnboardingView(isLoggedIn: .constant(false), authToken: .constant(""), showOnboarding: .constant(true))
 //    }
 //}

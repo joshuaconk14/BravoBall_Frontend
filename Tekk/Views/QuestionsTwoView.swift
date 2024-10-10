@@ -16,7 +16,7 @@ struct QuestionnaireTwo_1: View {
     
     var body: some View {
         VStack (spacing: 25) {
-            // LazyVStack used for memory usage, since this will be a large list
+            // lazy for better performance
             LazyVStack (spacing: 10) {
                 ForEach(yesNoTeam, id: \.self) { yesNo in
                     Button(action: {

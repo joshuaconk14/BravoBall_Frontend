@@ -11,10 +11,11 @@ import RiveRuntime
 struct TekkApp: App {
     @State private var isLoggedIn: Bool = false
     @State private var authToken: String = ""
+    @State private var showOnboarding = true
     
     var body: some Scene {
         WindowGroup {
-            OnboardingView(isLoggedIn: $isLoggedIn, authToken: $authToken)
+            OnboardingView(isLoggedIn: $isLoggedIn, authToken: $authToken, showOnboarding: $showOnboarding)
         }
     }
 }

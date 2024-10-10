@@ -33,17 +33,30 @@ struct QuestionnaireView: View {
     @State private var selectedWeakness: String = "strength"
     @State private var chosenWeaknesses: [String] = []
     
+    // var for matchedGeometry function
+    @Namespace var questionnaireTwoSpace
+    
+    
     var body: some View {
-        ZStack {
-            
-            content
-            
-            
-            // showQuestionnaire is above the WelcomeView content in a ZStack
-            if showQuestionnaireTwo {
-                QuestionnaireTwoView(showQuestionnaireTwo: $showQuestionnaireTwo)// Pass bindings as needed
-                    .transition(.move(edge: .trailing))
-                    .animation(.easeInOut)
+        VStack {
+            ZStack {
+                
+                content
+                
+                
+                // ZStack for matchedGeometry for smooth transitions
+                ZStack {
+                    // Present WelcomeView when showWelcomeView is true
+                    if !showQuestionnaireTwo {
+                        QuestionnaireTwoView(showQuestionnaireTwo: $showQuestionnaireTwo)// Pass bindings as needed
+                            .matchedGeometryEffect(id: "welcome", in: questionnaireTwoSpace)
+                            .offset(x: UIScreen.main.bounds.width) // out of bounds
+                    } else {
+                        QuestionnaireTwoView(showQuestionnaireTwo: $showQuestionnaireTwo)// Pass bindings as needed
+                            .matchedGeometryEffect(id: "welcome", in: questionnaireTwoSpace)
+                            .offset(x: 0) // showing
+                    }
+                }
             }
         }
     }
@@ -55,7 +68,7 @@ struct QuestionnaireView: View {
                 // need all these VStacks ???
                 VStack {
                     ScrollView {
-                        VStack {
+                        LazyVStack {
                             // Current questionnaire REPRESENTATION based on the state variable
                             if currentQuestionnaire == 1 {
                                 Questionnaire_1(currentQuestionnaire: $currentQuestionnaire, selectedPlayer: $selectedPlayer, chosenPlayers: $chosenPlayers)

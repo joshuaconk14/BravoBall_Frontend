@@ -25,18 +25,29 @@ struct WelcomeView: View {
     @State private var selectedPosition: String = "Select your Position"
     
     @State private var riveViewOffset: CGSize = .zero // Offset for Rive animation hello
+    // var for matchedGeometry function
+    @Namespace var questionnaireSpace
+    
     
     var body: some View {
-        ZStack {
-            
-            content
-            
-            
-            // showQuestionnaire is above the WelcomeView content in a ZStack
-            if showQuestionnaire {
-                QuestionnaireView(showQuestionnaire: $showQuestionnaire)// Pass bindings as needed
-                    .transition(.move(edge: .trailing))
-                    .animation(.easeInOut)
+        VStack {
+            ZStack {
+                
+                content
+                
+                // ZStack for matchedGeometry for smooth transitions
+                ZStack {
+                    // Present WelcomeView when showWelcomeView is true
+                    if !showQuestionnaire {
+                        QuestionnaireView(showQuestionnaire: $showQuestionnaire)// Pass bindings as needed
+                            .matchedGeometryEffect(id: "welcome", in: questionnaireSpace)
+                            .offset(x: UIScreen.main.bounds.width) // out of bounds
+                    } else {
+                        QuestionnaireView(showQuestionnaire: $showQuestionnaire)// Pass bindings as needed
+                            .matchedGeometryEffect(id: "welcome", in: questionnaireSpace)
+                            .offset(x: 0) // showing
+                    }
+                }
             }
         }
     }
@@ -109,7 +120,7 @@ struct WelcomeView: View {
                     if welcomeInput == 1 {
                         if validateQ1() {
                             withAnimation {
-                                showQuestionnaire = true // from welcome to questionnaire
+                                showQuestionnaire.toggle() // from welcome to questionnaire
                                 textOpacity2 = 0.0
                             }
                         }

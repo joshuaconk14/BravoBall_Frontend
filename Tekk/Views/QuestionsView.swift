@@ -108,21 +108,24 @@ struct dropDownMenu: View {
             if showList {
                 VStack {
                     ScrollView {
-                        ForEach(options, id: \.self) { option in
-                            Button(action: {
-                                title = option
-                                showList = false
-                            }) {
-                                //edit inside drop down element
-                                Text(option)
-                                    .padding()
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .font(.custom("Poppins-Bold", size: 16))
+                        // lazy for better performance
+                        LazyVStack {
+                            ForEach(options, id: \.self) { option in
+                                Button(action: {
+                                    title = option
+                                    showList = false
+                                }) {
+                                    //edit inside drop down element
+                                    Text(option)
+                                        .padding()
+                                        .foregroundColor(.white)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .font(.custom("Poppins-Bold", size: 16))
+                                }
+                                // edit full drop down menu appearance
+                                .background(Color(hex: "1E272E"))
+                                .cornerRadius(5)
                             }
-                            // edit full drop down menu appearance
-                            .background(Color(hex: "1E272E"))
-                            .cornerRadius(5)
                         }
                     }
                     .frame(height: 180) // Set height limit for the ScrollView
