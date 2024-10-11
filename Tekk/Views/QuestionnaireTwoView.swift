@@ -8,6 +8,7 @@ import SwiftUI
 import RiveRuntime
 
 struct QuestionnaireTwoView: View {
+    // binding this struct to questionnairetwo
     @Binding var showQuestionnaireTwo: Bool
     // questionnaires state variables
     @State private var currentQuestionnaireTwo: Int = 0

@@ -137,9 +137,9 @@ struct OnboardingView: View {
 
 // Preview canvas
 
-//struct OnboardingView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        // Provide constant bindings w/ diff views for the preview
-//        OnboardingView(isLoggedIn: .constant(false), authToken: .constant(""), showOnboarding: .constant(true))
-//    }
-//}
+struct OnboardingView_Previews: PreviewProvider {
+    static var previews: some View {
+        // Provide constant bindings w/ diff views for the preview
+        OnboardingView(isLoggedIn: .constant(false), authToken: .constant(""), showOnboarding: .constant(true))
+    }
+}
