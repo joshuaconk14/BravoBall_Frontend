@@ -19,3 +19,12 @@ struct TekkApp: App {
         }
     }
 }
+
+//struct OnboardingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        // Use constant bindings for preview
+//        OnboardingView(isLoggedIn: .constant(false),
+//                       authToken: .constant(""),
+//                       showOnboarding: .constant(true))
+//    }
+//}

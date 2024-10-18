@@ -192,7 +192,7 @@ struct QuestionnaireView: View {
                     Text("Next")
                         .frame(width: 325, height: 15)
                         .padding()
-                        .background(Color(hex: "947F63"))
+                        .background(Color(hex: "E2AC65"))
                         .foregroundColor(.white)
                         .cornerRadius(20)
                         .font(.custom("Poppins-Bold", size: 16))

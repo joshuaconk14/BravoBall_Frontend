@@ -72,7 +72,7 @@ struct LoginView: View {
                 Text("Login")
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color(hex: "947F63"))
+                    .background(Color(hex: "E2AC65"))
                     .foregroundColor(.white)
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))

@@ -17,8 +17,10 @@ struct OnboardingView: View {
     @Binding var showOnboarding: Bool
     // var for "welcome" matchedGeometry function
     @Namespace var welcomeSpace
+    @Namespace var namespace
     // var for private showIntroAnimation scale (so it doesn't affect other elements
     @State private var animationScale: CGFloat = 1.5
+
     
     var body: some View {
         VStack {
@@ -47,32 +49,32 @@ struct OnboardingView: View {
                         WelcomeView(showWelcome: $showWelcome)// Pass bindings as needed
                             .matchedGeometryEffect(id: "welcome", in: welcomeSpace)
                             .offset(x: UIScreen.main.bounds.width) // out of bounds
-    //                    OnboardingView(isLoggedIn: $isLoggedIn, authToken: $authToken, showOnboarding: $showOnboarding)
-    //                        .matchedGeometryEffect(id: "onboarding", in: namespace)
-    //                        .offset(x: 0) // showing
+//                        OnboardingView(isLoggedIn: $isLoggedIn, authToken: $authToken, showOnboarding: $showOnboarding)
+//                            .matchedGeometryEffect(id: "onboarding", in: namespace)
+//                            .offset(x: 0) // showing
                     } else {
                         WelcomeView(showWelcome: $showWelcome)// Pass bindings as needed
                             .matchedGeometryEffect(id: "welcome", in: welcomeSpace)
                             .offset(x: 0) // showing
-    //                    OnboardingView(isLoggedIn: $isLoggedIn, authToken: $authToken, showOnboarding: $showOnboarding)
-    //                        .matchedGeometryEffect(id: "onboarding", in: namespace)
-    //                        .offset(x: UIScreen.main.bounds.width) // out of bounds
+//                        OnboardingView(isLoggedIn: $isLoggedIn, authToken: $authToken, showOnboarding: $showOnboarding)
+//                            .matchedGeometryEffect(id: "onboarding", in: namespace)
+//                            .offset(x: UIScreen.main.bounds.width) // out of bounds
                     }
                 }
                 // Intro animation, in front due to ZStack
                 //  the animation ending works because of if statement declaring showIntroAnimation function
-                if showIntroAnimation {
-                    RiveViewModel(fileName: "tekk_intro").view()
-                        .scaleEffect(animationScale)
-                        .edgesIgnoringSafeArea(.all)
-                        .allowsHitTesting(false) // no user interaction during this animation
-                    // Start a timer to hide the intro animation after a certain duration
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 5.7) { // seconds until its false
-                                showIntroAnimation = false
-                            }
-                        }
-                }
+//                if showIntroAnimation {
+//                    RiveViewModel(fileName: "tekk_intro").view()
+//                        .scaleEffect(animationScale)
+//                        .edgesIgnoringSafeArea(.all)
+//                        .allowsHitTesting(false) // no user interaction during this animation
+//                    // Start a timer to hide the intro animation after a certain duration
+//                        .onAppear {
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 5.7) { // seconds until its false
+//                                showIntroAnimation = false
+//                            }
+//                        }
+//                }
             }
         }
     }
@@ -83,7 +85,7 @@ struct OnboardingView: View {
                 .padding(.top, 30)
                 .padding(.bottom, 10)
             Text("BravoTekk")
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex: "E2AC65"))
                 .padding(.bottom, 5)
                 .font(.custom("PottaOne-Regular", size: 45))
             
@@ -95,13 +97,13 @@ struct OnboardingView: View {
             // transition to WelcomeView
             Button(action: {
                 withAnimation(.spring()) {
-                    showWelcome.toggle()
+                    showWelcome = true
                 }
             }) {
                 Text("Let's get tekky")
                     .frame(width: 325, height: 15)
                     .padding()
-                    .background(Color(hex: "947F63"))
+                    .background(Color(hex: "E2AC65"))
                     .foregroundColor(.white)
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))
@@ -137,9 +139,9 @@ struct OnboardingView: View {
 
 // Preview canvas
 
-struct OnboardingView_Previews: PreviewProvider {
-    static var previews: some View {
-        // Provide constant bindings w/ diff views for the preview
-        OnboardingView(isLoggedIn: .constant(false), authToken: .constant(""), showOnboarding: .constant(true))
-    }
-}
+//struct OnboardingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        // Provide constant bindings w/ diff views for the preview
+//        OnboardingView(isLoggedIn: .constant(false), authToken: .constant(""), showOnboarding: .constant(true))
+//    }
+//}

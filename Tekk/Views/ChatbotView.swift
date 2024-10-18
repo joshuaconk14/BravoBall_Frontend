@@ -64,7 +64,7 @@ struct ChatbotView: View {
                     // header customization
                     .padding()
                     .frame(width: geometry.size.width)
-                    .background(Color(hex: "947F63"))
+                    .background(Color(hex: "E2AC65"))
                     
                     
                     
@@ -124,7 +124,7 @@ struct ChatbotView: View {
                             Spacer()
                         }
                         .padding(.vertical, 30)
-                        .background(Color(hex:"947F63"))
+                        .background(Color(hex:"E2AC65"))
                     }
                 }
                 .zIndex(0)
