@@ -56,15 +56,15 @@
 
 /* Begin PBXFileReference section */
 		170217BA2C89030400DD020C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		174936162C3E102B001163B9 /* Tekk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tekk.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		174936162C3E102B001163B9 /* Bravotekk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bravotekk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		174936192C3E102B001163B9 /* TekkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkApp.swift; sourceTree = "<group>"; };
 		1749361B2C3E102B001163B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1749361D2C3E1031001163B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1749361F2C3E1031001163B9 /* Tekk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tekk.entitlements; sourceTree = "<group>"; };
 		174936212C3E1031001163B9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		174936272C3E1032001163B9 /* TekkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TekkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		174936272C3E1032001163B9 /* BravotekkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BravotekkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1749362B2C3E1032001163B9 /* TekkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkTests.swift; sourceTree = "<group>"; };
-		174936312C3E1032001163B9 /* TekkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TekkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		174936312C3E1032001163B9 /* BravotekkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BravotekkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		174936352C3E1032001163B9 /* TekkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITests.swift; sourceTree = "<group>"; };
 		174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -128,9 +128,9 @@
 		174936172C3E102B001163B9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				174936162C3E102B001163B9 /* Tekk.app */,
-				174936272C3E1032001163B9 /* TekkTests.xctest */,
-				174936312C3E1032001163B9 /* TekkUITests.xctest */,
+				174936162C3E102B001163B9 /* Bravotekk.app */,
+				174936272C3E1032001163B9 /* BravotekkTests.xctest */,
+				174936312C3E1032001163B9 /* BravotekkUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -228,9 +228,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		174936152C3E102B001163B9 /* Tekk */ = {
+		174936152C3E102B001163B9 /* Bravotekk */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1749363B2C3E1032001163B9 /* Build configuration list for PBXNativeTarget "Tekk" */;
+			buildConfigurationList = 1749363B2C3E1032001163B9 /* Build configuration list for PBXNativeTarget "Bravotekk" */;
 			buildPhases = (
 				174936122C3E102B001163B9 /* Sources */,
 				174936132C3E102B001163B9 /* Frameworks */,
@@ -240,14 +240,14 @@
 			);
 			dependencies = (
 			);
-			name = Tekk;
+			name = Bravotekk;
 			productName = Tekk;
-			productReference = 174936162C3E102B001163B9 /* Tekk.app */;
+			productReference = 174936162C3E102B001163B9 /* Bravotekk.app */;
 			productType = "com.apple.product-type.application";
 		};
-		174936262C3E1032001163B9 /* TekkTests */ = {
+		174936262C3E1032001163B9 /* BravotekkTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1749363E2C3E1032001163B9 /* Build configuration list for PBXNativeTarget "TekkTests" */;
+			buildConfigurationList = 1749363E2C3E1032001163B9 /* Build configuration list for PBXNativeTarget "BravotekkTests" */;
 			buildPhases = (
 				174936232C3E1032001163B9 /* Sources */,
 				174936242C3E1032001163B9 /* Frameworks */,
@@ -258,14 +258,14 @@
 			dependencies = (
 				174936292C3E1032001163B9 /* PBXTargetDependency */,
 			);
-			name = TekkTests;
+			name = BravotekkTests;
 			productName = TekkTests;
-			productReference = 174936272C3E1032001163B9 /* TekkTests.xctest */;
+			productReference = 174936272C3E1032001163B9 /* BravotekkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		174936302C3E1032001163B9 /* TekkUITests */ = {
+		174936302C3E1032001163B9 /* BravotekkUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 174936412C3E1032001163B9 /* Build configuration list for PBXNativeTarget "TekkUITests" */;
+			buildConfigurationList = 174936412C3E1032001163B9 /* Build configuration list for PBXNativeTarget "BravotekkUITests" */;
 			buildPhases = (
 				1749362D2C3E1032001163B9 /* Sources */,
 				1749362E2C3E1032001163B9 /* Frameworks */,
@@ -276,9 +276,9 @@
 			dependencies = (
 				174936332C3E1032001163B9 /* PBXTargetDependency */,
 			);
-			name = TekkUITests;
+			name = BravotekkUITests;
 			productName = TekkUITests;
-			productReference = 174936312C3E1032001163B9 /* TekkUITests.xctest */;
+			productReference = 174936312C3E1032001163B9 /* BravotekkUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -304,7 +304,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 174936112C3E102B001163B9 /* Build configuration list for PBXProject "Tekk" */;
+			buildConfigurationList = 174936112C3E102B001163B9 /* Build configuration list for PBXProject "Bravotekk" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -320,9 +320,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				174936152C3E102B001163B9 /* Tekk */,
-				174936262C3E1032001163B9 /* TekkTests */,
-				174936302C3E1032001163B9 /* TekkUITests */,
+				174936152C3E102B001163B9 /* Bravotekk */,
+				174936262C3E1032001163B9 /* BravotekkTests */,
+				174936302C3E1032001163B9 /* BravotekkUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -405,12 +405,12 @@
 /* Begin PBXTargetDependency section */
 		174936292C3E1032001163B9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 174936152C3E102B001163B9 /* Tekk */;
+			target = 174936152C3E102B001163B9 /* Bravotekk */;
 			targetProxy = 174936282C3E1032001163B9 /* PBXContainerItemProxy */;
 		};
 		174936332C3E1032001163B9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 174936152C3E102B001163B9 /* Tekk */;
+			target = 174936152C3E102B001163B9 /* Bravotekk */;
 			targetProxy = 174936322C3E1032001163B9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -542,7 +542,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Tekk/Preview Content\"";
-				DEVELOPMENT_TEAM = 9NT64FVZCY;
+				DEVELOPMENT_TEAM = J36CXA7LCG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tekk/Info.plist;
@@ -582,7 +582,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Tekk/Preview Content\"";
-				DEVELOPMENT_TEAM = 9NT64FVZCY;
+				DEVELOPMENT_TEAM = J36CXA7LCG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tekk/Info.plist;
@@ -630,7 +630,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tekk.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tekk";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bravotekk.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Bravotekk";
 			};
 			name = Debug;
 		};
@@ -652,7 +652,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tekk.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tekk";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bravotekk.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Bravotekk";
 			};
 			name = Release;
 		};
@@ -701,7 +701,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		174936112C3E102B001163B9 /* Build configuration list for PBXProject "Tekk" */ = {
+		174936112C3E102B001163B9 /* Build configuration list for PBXProject "Bravotekk" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				174936392C3E1032001163B9 /* Debug */,
@@ -710,7 +710,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1749363B2C3E1032001163B9 /* Build configuration list for PBXNativeTarget "Tekk" */ = {
+		1749363B2C3E1032001163B9 /* Build configuration list for PBXNativeTarget "Bravotekk" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1749363C2C3E1032001163B9 /* Debug */,
@@ -719,7 +719,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1749363E2C3E1032001163B9 /* Build configuration list for PBXNativeTarget "TekkTests" */ = {
+		1749363E2C3E1032001163B9 /* Build configuration list for PBXNativeTarget "BravotekkTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1749363F2C3E1032001163B9 /* Debug */,
@@ -728,7 +728,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		174936412C3E1032001163B9 /* Build configuration list for PBXNativeTarget "TekkUITests" */ = {
+		174936412C3E1032001163B9 /* Build configuration list for PBXNativeTarget "BravotekkUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				174936422C3E1032001163B9 /* Debug */,
