@@ -24,11 +24,11 @@ struct ContentView: View {
                 // Main views of app
                 ChatbotView(chatMessages: $chatMessages, authToken: $authToken, conversations: $conversations)
                     .tabItem {
-                        Image(systemName: "message.fill")
+                        Image(systemName: "message")
                     }
                 CameraView(image: $viewModel.currentFrame)
                     .tabItem {
-                        Image(systemName: "camera.fill")
+                        Image(systemName: "camera")
                     }
                 SettingsView()
                     .tabItem {
@@ -47,6 +47,5 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .previewDevice("iPhone 15 Pro Max")
     }
 }
