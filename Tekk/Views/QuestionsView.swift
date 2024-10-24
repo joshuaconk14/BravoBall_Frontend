@@ -230,7 +230,7 @@ struct Questionnaire_2: View {
                                     .foregroundColor(.white)
                             }
                         }
-                        .background(chosenStrengths.contains(strength) ? Color(hex: "5fa552") : Color.clear)
+                        .background(chosenStrengths.contains(strength) ? Color.primaryColorYellow : Color.clear)
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)
@@ -284,7 +284,7 @@ struct Questionnaire_3: View {
                                     .foregroundColor(.white)
                             }
                         }
-                        .background(chosenWeaknesses.contains(weakness) ? Color(hex: "5fa552") : Color.clear)
+                        .background(chosenWeaknesses.contains(weakness) ? Color.primaryColorYellow : Color.clear)
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)
