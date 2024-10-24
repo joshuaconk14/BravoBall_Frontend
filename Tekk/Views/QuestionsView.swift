@@ -23,53 +23,60 @@ struct welcomeQs: View {
     @Binding var selectedLevel: String
     @Binding var selectedPosition: String
     
+    @State private var isEditingFirstName = false
+    @State private var isEditingLastName = false
+    
     var body: some View {
         VStack(spacing: 25) {
             // first name, Zstack so placeholder is on top of input text
-            ZStack {
+            ZStack(alignment: .leading) {
                 if firstName.isEmpty {
                     Text("First Name")
                         .foregroundColor(.gray)
-                        .padding(.trailing, 200)
+                        .padding(.leading, 16)
                         .font(.custom("Poppins-Bold", size: 16))
                 }
                 TextField("", text: $firstName)
-                // make text field smaller
-                    .padding()
-                    .foregroundColor(.white)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gray, lineWidth: 1) // Customize border color and width
-                    )
-                    .padding(.horizontal, 16)
-                    .font(.custom("Poppins-Bold", size: 16))
+                .padding()
+                .foregroundColor(.white)
+                .background(Color.clear)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+                .font(.custom("Poppins-Bold", size: 16))
             }
+            .frame(height: 60)
+            
             // last name, Zstack so placeholder is on top of input text
-            ZStack {
+            ZStack(alignment: .leading) {
                 if lastName.isEmpty {
                     Text("Last Name")
                         .foregroundColor(.gray)
-                        .padding(.trailing, 200)
+                        .padding(.leading, 16)
                         .font(.custom("Poppins-Bold", size: 16))
                 }
                 TextField("", text: $lastName)
-                // make text field smaller
-                    .padding()
-                    .foregroundColor(.white)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gray, lineWidth: 1) // Customize border color and width
-                    )
-                    .padding(.horizontal, 16)
-                    .font(.custom("Poppins-Bold", size: 16))
+                .padding()
+                .foregroundColor(.white)
+                .background(Color.clear)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+                .font(.custom("Poppins-Bold", size: 16))
             }
+            .frame(height: 60)
+            
             // confined version of structure drop down menus
             dropDownMenu(title: $selectedAge, options: ageOptions, placeholder: "Select your Age")
             dropDownMenu(title: $selectedLevel, options: levelOptions, placeholder: "Select your Level")
-            dropDownMenu(title: $selectedPosition, options: positionOptions, placeholder: "Select you Position")
+            dropDownMenu(title: $selectedPosition, options: positionOptions, placeholder: "Select your Position")
+                .frame(height: 60)
                 .padding(.bottom, 325)
-                .transition(.move(edge: .bottom)) // Animate the appearance of input fields
+                .transition(.move(edge: .bottom))
         }
+        .padding(.horizontal)
         .padding(.top, 500)
     }
 }
@@ -83,8 +90,7 @@ struct dropDownMenu: View {
     @State private var showList: Bool = false
     
     var body: some View {
-        VStack {
-            // button animation and appearance
+        VStack(spacing: 0) {
             Button(action: {
                 withAnimation {
                     showList.toggle()
@@ -93,18 +99,17 @@ struct dropDownMenu: View {
                 HStack {
                     Text(title.isEmpty ? placeholder : title)
                         .foregroundColor(title.isEmpty ? .gray : .white)
-                        .padding()
+                        .padding(.leading, 16)
                         .font(.custom("Poppins-Bold", size: 16))
                     Spacer()
                     Image(systemName: "chevron.down")
-                        .padding(.trailing, 20)
+                        .padding(.trailing, 16)
                         .foregroundColor(.white)
                 }
+                .frame(height: 60)
                 .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray, lineWidth: 1))
             }
-            .padding(.horizontal)
             
-            // if chevron button is clicked on
             if showList {
                 VStack {
                     ScrollView {
@@ -303,3 +308,6 @@ struct Questionnaire_3: View {
         }
     }
 }
+
+
+
