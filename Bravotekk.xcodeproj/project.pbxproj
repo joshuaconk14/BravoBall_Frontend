@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		170217BB2C89030500DD020C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170217BA2C89030400DD020C /* Models.swift */; };
+		170D92DF2CCA04370006A901 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170D92DE2CCA04370006A901 /* ColorExtension.swift */; };
 		1749361A2C3E102B001163B9 /* TekkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936192C3E102B001163B9 /* TekkApp.swift */; };
 		1749361C2C3E102B001163B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749361B2C3E102B001163B9 /* ContentView.swift */; };
 		1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1749361D2C3E1031001163B9 /* Assets.xcassets */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		170217BA2C89030400DD020C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		170D92DE2CCA04370006A901 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		174936162C3E102B001163B9 /* Bravotekk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bravotekk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		174936192C3E102B001163B9 /* TekkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkApp.swift; sourceTree = "<group>"; };
 		1749361B2C3E102B001163B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				17E6931C2C743AC4006B58A3 /* Camera */,
 				174936192C3E102B001163B9 /* TekkApp.swift */,
 				170217BA2C89030400DD020C /* Models.swift */,
+				170D92DE2CCA04370006A901 /* ColorExtension.swift */,
 				1749361B2C3E102B001163B9 /* ContentView.swift */,
 				1749361D2C3E1031001163B9 /* Assets.xcassets */,
 				43985E502CB51DEC00BE2AB6 /* Font */,
@@ -380,6 +383,7 @@
 				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,
 				17E693272C7D3504006B58A3 /* LoginView.swift in Sources */,
 				17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */,
+				170D92DF2CCA04370006A901 /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

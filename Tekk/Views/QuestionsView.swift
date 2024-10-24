@@ -169,7 +169,7 @@ struct Questionnaire_1: View {
                                     .foregroundColor(.white)
                             }
                         }
-                        .background(chosenPlayers.contains(player) ? Color(hex: "5fa552") : Color.clear)
+                        .background(chosenPlayers.contains(player) ? Color.primaryColorYellow : Color.clear)
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)

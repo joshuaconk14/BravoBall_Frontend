@@ -192,7 +192,7 @@ struct QuestionnaireView: View {
                     Text("Next")
                         .frame(width: 325, height: 15)
                         .padding()
-                        .background(Color(hex: "947F63"))
+                        .background(Color.primaryColorYellow)
                         .foregroundColor(.white)
                         .cornerRadius(20)
                         .font(.custom("Poppins-Bold", size: 16))
@@ -229,10 +229,10 @@ struct QuestionnaireView: View {
 
 // MARK: - Preview
 
-//struct Questionnaire_Previews: PreviewProvider {
-//    @State static var showQuestionnaire = true // Example binding variable
-//
-//    static var previews: some View {
-//        QuestionnaireView(showQuestionnaire: $showQuestionnaire)
-//    }
-//}
+struct Questionnaire_Previews: PreviewProvider {
+    @State static var showQuestionnaire = true // Example binding variable
+
+    static var previews: some View {
+        QuestionnaireView(showQuestionnaire: $showQuestionnaire)
+    }
+}
