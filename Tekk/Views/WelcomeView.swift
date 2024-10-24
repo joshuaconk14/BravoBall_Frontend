@@ -23,6 +23,8 @@ struct WelcomeView: View {
     @State private var selectedAge: String = "Select your Age"
     @State private var selectedLevel: String = "Select your Level"
     @State private var selectedPosition: String = "Select your Position"
+    // For delayed transitions for questionnaires
+    @State private var animationStage = 0
     
     @State private var riveViewOffset: CGSize = .zero // Offset for Rive animation hello
     // var for matchedGeometry function
@@ -57,11 +59,10 @@ struct WelcomeView: View {
             // ZStack so lets get tekky button and back button arent confined to VStack
             ZStack {
                 VStack {
-                    if welcomeInput == 1 {
+                    if animationStage >= 3 {
                         welcomeQs(welcomeInput: $welcomeInput, firstName: $firstName, lastName: $lastName, selectedAge: $selectedAge, selectedLevel: $selectedLevel, selectedPosition: $selectedPosition)
-                            .transition(.move(edge: .trailing)) // transition from right
-                            .animation(.easeInOut) // Animate the transition
-                            .offset(x: welcomeInput == 1 ? 0 : UIScreen.main.bounds.width)
+                            .transition(.opacity.combined(with: .move(edge: .trailing)))
+                            .animation(.easeInOut(duration: 0.3), value: animationStage)
                     }
                 }
                 Spacer()
@@ -78,7 +79,8 @@ struct WelcomeView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal, 80)
                     .padding(.bottom, 400)
-                    .opacity(textOpacity1)
+                    .opacity(animationStage == 0 ? 1 : 0)
+                    .animation(.easeOut(duration: 0.2), value: animationStage)
                     .font(.custom("Poppins-Bold", size: 16))
                 // bravo message 2, confined to ZStack
                 Text("Enter your player details below")
@@ -86,7 +88,7 @@ struct WelcomeView: View {
                     .padding()
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
-                    .opacity(textOpacity2)
+                    .opacity(animationStage >= 2 ? 1 : 0)
                     .font(.custom("Poppins-Bold", size: 16))
                 
                 // Back button, confined to ZStack
@@ -109,20 +111,25 @@ struct WelcomeView: View {
                 // MARK: - "Next" button
                 // Current questionnaire ACTION based on the state variable
                 Button(action: {
-                    withAnimation(.spring()) {
-                        // Move the Rive animation up and show list
+                    withAnimation(.spring(duration: 0.4)) {
+                        // Move the Rive animation up and to the left
                         riveViewOffset = CGSize(width: -75, height: -250)
-                        welcomeInput = 1
-                        textOpacity1 = 0.0
-                        textOpacity2 = 1.0
+                        animationStage = 1
                     }
-                    // Move to the questionnaire
-                    if welcomeInput == 1 {
-                        if validateQ1() {
-                            withAnimation {
-                                showQuestionnaire.toggle() // from welcome to questionnaire
-                                textOpacity2 = 0.0
-                            }
+                    
+                    // Delay showing the message
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            textOpacity2 = 1.0
+                            animationStage = 2
+                        }
+                    }
+                    
+                    // Delay showing the questionnaire
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            welcomeInput = 1
+                            animationStage = 3
                         }
                     }
                 }) {
