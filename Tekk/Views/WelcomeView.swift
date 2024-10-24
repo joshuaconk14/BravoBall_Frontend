@@ -111,25 +111,31 @@ struct WelcomeView: View {
                 // MARK: - "Next" button
                 // Current questionnaire ACTION based on the state variable
                 Button(action: {
-                    withAnimation(.spring(duration: 0.4)) {
-                        // Move the Rive animation up and to the left
-                        riveViewOffset = CGSize(width: -75, height: -250)
-                        animationStage = 1
-                    }
-                    
-                    // Delay showing the message
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            textOpacity2 = 1.0
-                            animationStage = 2
+                    if animationStage < 3 {
+                        withAnimation(.spring(duration: 0.4)) {
+                            // Move the Rive animation up and to the left
+                            riveViewOffset = CGSize(width: -75, height: -250)
+                            animationStage = 1
                         }
-                    }
-                    
-                    // Delay showing the questionnaire
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            welcomeInput = 1
-                            animationStage = 3
+                        
+                        // Delay showing the message
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                textOpacity2 = 1.0
+                                animationStage = 2
+                            }
+                        }
+                        
+                        // Delay showing the questionnaire
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                welcomeInput = 1
+                                animationStage = 3
+                            }
+                        }
+                    } else if validateQ1() {
+                        withAnimation {
+                            showQuestionnaire = true // Transition to QuestionnaireView
                         }
                     }
                 }) {
