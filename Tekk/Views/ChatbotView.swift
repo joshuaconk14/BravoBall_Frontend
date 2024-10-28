@@ -50,7 +50,7 @@ struct ChatbotView: View {
                                 .foregroundColor(.white)
                         }
                         Spacer()
-                        Text("BravoTekk")
+                        Text("BravoBall")
                             .foregroundColor(.white)
                             .font(.custom("PottaOne-Regular", size: 30))
                         

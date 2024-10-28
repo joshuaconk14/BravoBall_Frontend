@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "174936152C3E102B001163B9"
-               BuildableName = "Bravotekk.app"
-               BlueprintName = "Bravotekk"
-               ReferencedContainer = "container:Bravotekk.xcodeproj">
+               BuildableName = "BravoBall.app"
+               BlueprintName = "BravoBall"
+               ReferencedContainer = "container:BravoBall.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "174936152C3E102B001163B9"
-            BuildableName = "Bravotekk.app"
-            BlueprintName = "Bravotekk"
-            ReferencedContainer = "container:Bravotekk.xcodeproj">
+            BuildableName = "BravoBall.app"
+            BlueprintName = "BravoBall"
+            ReferencedContainer = "container:BravoBall.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "174936152C3E102B001163B9"
-            BuildableName = "Bravotekk.app"
-            BlueprintName = "Bravotekk"
-            ReferencedContainer = "container:Bravotekk.xcodeproj">
+            BuildableName = "BravoBall.app"
+            BlueprintName = "BravoBall"
+            ReferencedContainer = "container:BravoBall.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

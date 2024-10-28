@@ -35,7 +35,7 @@ struct QuestionnaireTwo_1: View {
                                     .foregroundColor(.white)
                             }
                         }
-                        .background(chosenYesNoTeam.contains(yesNo) ? Color.primaryColorYellow : Color.clear)
+                        .background(chosenYesNoTeam.contains(yesNo) ? Color(hex:"F6C356") : Color.clear)
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)

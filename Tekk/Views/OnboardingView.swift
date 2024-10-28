@@ -82,7 +82,7 @@ struct OnboardingView: View {
                 .frame(width: 300, height: 300)
                 .padding(.top, 30)
                 .padding(.bottom, 10)
-            Text("BravoTekk")
+            Text("BravoBall")
                 .foregroundColor(.white)
                 .padding(.bottom, 5)
                 .font(.custom("PottaOne-Regular", size: 45))
@@ -98,10 +98,10 @@ struct OnboardingView: View {
                     showWelcome.toggle()
                 }
             }) {
-                Text("Let's get tekky")
+                Text("Let's ball out")
                     .frame(width: 325, height: 15)
                     .padding()
-                    .background(Color.primaryColorYellow)
+                    .background(Color(hex:"F6C356"))
                     .foregroundColor(.white)
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))
