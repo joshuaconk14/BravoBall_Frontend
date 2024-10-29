@@ -75,14 +75,14 @@ struct WelcomeView: View {
                 //MARK: - Bravo messages
                 // bravo message 1, confined to ZStack
                 Text("Hello there, I'm Bravo! Let's help you become a more tekky player.")
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(hex: "636363"))
                     .padding(.horizontal, 80)
                     .padding(.bottom, 400)
                     .opacity(textOpacity1)
                     .font(.custom("Poppins-Bold", size: 16))
                 // bravo message 2, confined to ZStack
                 Text("Enter your player details below")
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(hex: "636363"))
                     .padding()
                     .padding(.bottom, 500)
                     .padding(.leading, 150)

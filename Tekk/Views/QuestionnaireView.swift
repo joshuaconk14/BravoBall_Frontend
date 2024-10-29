@@ -103,14 +103,14 @@ struct QuestionnaireView: View {
                 //MARK: - Bravo messages
                 // bravo message 0, confined to ZStack
                 Text("Nice! I know so much more about you now! Just a few questions to know your style of play.")
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(hex: "636363"))
                     .padding(.horizontal, 80)
                     .padding(.bottom, 400)
                     .opacity(textOpacity0)
                     .font(.custom("Poppins-Bold", size: 16))
                 // bravo message 1, confined to ZStack
                 Text("Which players do you feel represent your playstyle the best?")
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(hex: "636363"))
                     .padding() // padding for text edges
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
@@ -118,7 +118,7 @@ struct QuestionnaireView: View {
                     .font(.custom("Poppins-Bold", size: 16))
                 // bravo message 2, confined to ZStack
                 Text("What are your biggest strengths?")
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(hex: "636363"))
                     .padding() // padding for text edges
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
@@ -126,7 +126,7 @@ struct QuestionnaireView: View {
                     .font(.custom("Poppins-Bold", size: 16))
                 // bravo message 3, confined to ZStack
                 Text("What would you like to work on?")
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(hex: "636363"))
                     .padding() // padding for text edges
                     .padding(.bottom, 500)
                     .padding(.leading, 150)

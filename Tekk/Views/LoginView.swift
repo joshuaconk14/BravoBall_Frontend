@@ -85,8 +85,8 @@ struct LoginView: View {
                 Text("Forgot my Password")
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.gray.opacity(0.2))
-                    .foregroundColor(.black)
+                    .background(Color(hex:"d2d2d2"))
+                    .foregroundColor(Color.white)
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))
             }
