@@ -36,7 +36,7 @@ struct welcomeQs: View {
                 TextField("", text: $firstName)
                 // make text field smaller
                     .padding()
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(Color.gray, lineWidth: 1) // Customize border color and width
@@ -55,7 +55,7 @@ struct welcomeQs: View {
                 TextField("", text: $lastName)
                 // make text field smaller
                     .padding()
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(Color.gray, lineWidth: 1) // Customize border color and width
@@ -98,7 +98,7 @@ struct dropDownMenu: View {
                     Spacer()
                     Image(systemName: "chevron.down")
                         .padding(.trailing, 20)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                 }
                 .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray, lineWidth: 1))
             }
@@ -118,19 +118,19 @@ struct dropDownMenu: View {
                                     //edit inside drop down element
                                     Text(option)
                                         .padding()
-                                        .foregroundColor(.white)
+                                        .foregroundColor(.black)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .font(.custom("Poppins-Bold", size: 16))
                                 }
                                 // edit full drop down menu appearance
-                                .background(Color(hex: "1E272E"))
+                                .background(Color.white)
                                 .cornerRadius(5)
                             }
                         }
                     }
                     .frame(height: 180) // Set height limit for the ScrollView
                 }
-                .background(Color(hex: "1E272E"))
+                .background(Color.white)
                 .cornerRadius(10)
                 .shadow(radius: 10)
                 .padding(.horizontal)
@@ -160,7 +160,7 @@ struct Questionnaire_1: View {
                     }) {
                         HStack {
                             Text(player)
-                                .foregroundColor(.white)
+                                .foregroundColor(.black)
                                 .padding()
                                 .font(.custom("Poppins-Bold", size: 16))
                             Spacer()
@@ -216,7 +216,7 @@ struct Questionnaire_2: View {
                     }) {
                         HStack {
                             Text(strength)
-                                .foregroundColor(.white)
+                                .foregroundColor(.black)
                                 .padding()
                                 .font(.custom("Poppins-Bold", size: 16))
                             Spacer()
@@ -270,7 +270,7 @@ struct Questionnaire_3: View {
                     }) {
                         HStack {
                             Text(weakness)
-                                .foregroundColor(.white)
+                                .foregroundColor(.black)
                                 .padding()
                                 .font(.custom("Poppins-Bold", size: 16))
                             Spacer()

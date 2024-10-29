@@ -42,7 +42,7 @@ struct LoginView: View {
                 }){
                     Image(systemName:"xmark")
                         .font(.title2)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .padding()
                 }
                 .padding()
@@ -72,7 +72,7 @@ struct LoginView: View {
                 Text("Login")
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color(hex: "E2AC65"))
+                    .background(Color(hex: "F6C356"))
                     .foregroundColor(.white)
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))
@@ -85,8 +85,8 @@ struct LoginView: View {
                 Text("Forgot my Password")
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .foregroundColor(.white)
+                    .background(Color.gray.opacity(0.2))
+                    .foregroundColor(.black)
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))
             }
@@ -96,7 +96,7 @@ struct LoginView: View {
             Spacer()
         }
         .padding()
-        .background(Color(hex:"1E272E"))
+        .background(Color.white)
     }
 
     

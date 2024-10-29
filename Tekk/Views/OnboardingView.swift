@@ -85,12 +85,12 @@ struct OnboardingView: View {
                 .padding(.top, 30)
                 .padding(.bottom, 10)
             Text("BravoTekk")
-                .foregroundColor(Color(hex: "E2AC65"))
+                .foregroundColor(Color(hex: "F6C356"))
                 .padding(.bottom, 5)
                 .font(.custom("PottaOne-Regular", size: 45))
             
             Text("Start Small. Dream Big")
-                .foregroundColor(.white)
+                .foregroundColor(.black.opacity(0.7))  // change this to dark-grey hex color later
                 .padding(.bottom, 100)
                 .font(.custom("Poppins-Bold", size: 16))
             
@@ -121,8 +121,8 @@ struct OnboardingView: View {
                 Text("Login")
                     .frame(width: 325, height: 15)
                     .padding()
-                    .background(.gray.opacity(0.1))
-                    .foregroundColor(.white)
+                    .background(.gray.opacity(0.2))
+                    .foregroundColor(Color(hex: "F6C356"))
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))
             }
@@ -132,7 +132,8 @@ struct OnboardingView: View {
             
         }
         .padding()
-        .background(Color(hex:"1E272E"))
+//        .background(Color(hex:"1E272E"))
+        .background(Color.white)
     }
 }
 
