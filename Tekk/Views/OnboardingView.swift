@@ -63,18 +63,18 @@ struct OnboardingView: View {
                 }
                 // Intro animation, in front due to ZStack
                 //  the animation ending works because of if statement declaring showIntroAnimation function
-//                if showIntroAnimation {
-//                    RiveViewModel(fileName: "tekk_intro").view()
-//                        .scaleEffect(animationScale)
-//                        .edgesIgnoringSafeArea(.all)
-//                        .allowsHitTesting(false) // no user interaction during this animation
-//                    // Start a timer to hide the intro animation after a certain duration
-//                        .onAppear {
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 5.7) { // seconds until its false
-//                                showIntroAnimation = false
-//                            }
-//                        }
-//                }
+                if showIntroAnimation {
+                    RiveViewModel(fileName: "tekk_intro").view()
+                        .scaleEffect(animationScale)
+                        .edgesIgnoringSafeArea(.all)
+                        .allowsHitTesting(false) // no user interaction during this animation
+                    // Start a timer to hide the intro animation after a certain duration
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 5.7) { // seconds until its false
+                                showIntroAnimation = false
+                            }
+                        }
+                }
             }
         }
     }
@@ -103,7 +103,7 @@ struct OnboardingView: View {
                 Text("Let's get tekky")
                     .frame(width: 325, height: 15)
                     .padding()
-                    .background(Color(hex: "E2AC65"))
+                    .background(Color(hex: "F6C356"))
                     .foregroundColor(.white)
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))
