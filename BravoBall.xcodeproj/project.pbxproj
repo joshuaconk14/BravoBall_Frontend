@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		170217BB2C89030500DD020C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170217BA2C89030400DD020C /* Models.swift */; };
-		170D92DF2CCA04370006A901 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170D92DE2CCA04370006A901 /* ColorExtension.swift */; };
 		1749361A2C3E102B001163B9 /* TekkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936192C3E102B001163B9 /* TekkApp.swift */; };
 		1749361C2C3E102B001163B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749361B2C3E102B001163B9 /* ContentView.swift */; };
 		1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1749361D2C3E1031001163B9 /* Assets.xcassets */; };
@@ -21,6 +20,8 @@
 		17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */; };
 		17E693222C745811006B58A3 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693212C745811006B58A3 /* ViewModel.swift */; };
 		17E693272C7D3504006B58A3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693262C7D3504006B58A3 /* LoginView.swift */; };
+		17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6532CD3477E008E8C24 /* ColorExtension.swift */; };
+		17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */; };
 		435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 435A70142CA7AB2600BFCC40 /* RiveRuntime */; };
 		43985E352CB4ECBA00BE2AB6 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E342CB4ECB200BE2AB6 /* OnboardingView.swift */; };
 		43985E372CB4ED1D00BE2AB6 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E362CB4ECF900BE2AB6 /* WelcomeView.swift */; };
@@ -57,7 +58,6 @@
 
 /* Begin PBXFileReference section */
 		170217BA2C89030400DD020C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		170D92DE2CCA04370006A901 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		174936162C3E102B001163B9 /* BravoBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BravoBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		174936192C3E102B001163B9 /* TekkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkApp.swift; sourceTree = "<group>"; };
 		1749361B2C3E102B001163B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -75,6 +75,8 @@
 		17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIImage+Extension.swift"; sourceTree = "<group>"; };
 		17E693212C745811006B58A3 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		17E693262C7D3504006B58A3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		17F5D6532CD3477E008E8C24 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
 		43985E342CB4ECB200BE2AB6 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		43985E362CB4ECF900BE2AB6 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		43985E382CB4ED4500BE2AB6 /* QuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireView.swift; sourceTree = "<group>"; };
@@ -145,7 +147,8 @@
 				17E6931C2C743AC4006B58A3 /* Camera */,
 				174936192C3E102B001163B9 /* TekkApp.swift */,
 				170217BA2C89030400DD020C /* Models.swift */,
-				170D92DE2CCA04370006A901 /* ColorExtension.swift */,
+				17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */,
+				17F5D6532CD3477E008E8C24 /* ColorExtension.swift */,
 				1749361B2C3E102B001163B9 /* ContentView.swift */,
 				1749361D2C3E1031001163B9 /* Assets.xcassets */,
 				43985E502CB51DEC00BE2AB6 /* Font */,
@@ -185,12 +188,12 @@
 			isa = PBXGroup;
 			children = (
 				43985E342CB4ECB200BE2AB6 /* OnboardingView.swift */,
-				17E693262C7D3504006B58A3 /* LoginView.swift */,
 				43985E362CB4ECF900BE2AB6 /* WelcomeView.swift */,
 				43985E382CB4ED4500BE2AB6 /* QuestionnaireView.swift */,
 				43985E3A2CB4ED8700BE2AB6 /* QuestionsView.swift */,
 				43985E5B2CB5BB9300BE2AB6 /* QuestionnaireTwoView.swift */,
 				43985E5D2CB5C56100BE2AB6 /* QuestionsTwoView.swift */,
+				17E693262C7D3504006B58A3 /* LoginView.swift */,
 				43985E3C2CB4EDCD00BE2AB6 /* ChatbotView.swift */,
 				43985E3E2CB4EDE300BE2AB6 /* CameraView.swift */,
 				43985E422CB4EE6000BE2AB6 /* SettingsView.swift */,
@@ -378,12 +381,13 @@
 				1749361A2C3E102B001163B9 /* TekkApp.swift in Sources */,
 				43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */,
 				43985E3D2CB4EDD300BE2AB6 /* ChatbotView.swift in Sources */,
+				17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */,
 				43985E3B2CB4ED9500BE2AB6 /* QuestionsView.swift in Sources */,
 				43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */,
 				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,
 				17E693272C7D3504006B58A3 /* LoginView.swift in Sources */,
 				17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */,
-				170D92DF2CCA04370006A901 /* ColorExtension.swift in Sources */,
+				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,7 +480,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -532,6 +536,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;

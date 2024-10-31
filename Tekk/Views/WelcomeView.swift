@@ -9,6 +9,8 @@ import SwiftUI
 import RiveRuntime
 
 struct WelcomeView: View {
+    @StateObject private var globalSettings = GlobalSettings()
+
     // Note: Binding/ Bool binds this structure, state private func on other pages determines function of this structure
     @Binding var showWelcome: Bool
     @State private var showOnboarding = false
@@ -142,7 +144,7 @@ struct WelcomeView: View {
                     Text("Next")
                         .frame(width: 325, height: 15)
                         .padding()
-                        .background(Color(hex:"F6C356"))
+                        .background(globalSettings.primaryYellowColor)
                         .foregroundColor(.white)
                         .cornerRadius(20)
                         .font(.custom("Poppins-Bold", size: 16))

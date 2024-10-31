@@ -8,6 +8,8 @@ import SwiftUI
 import RiveRuntime
 
 struct QuestionnaireTwo_1: View {
+    @StateObject private var globalSettings = GlobalSettings()
+
     @Binding var currentQuestionnaireTwo: Int
     // selected yesno
     @Binding var selectedYesNoTeam: String
@@ -35,7 +37,7 @@ struct QuestionnaireTwo_1: View {
                                     .foregroundColor(.white)
                             }
                         }
-                        .background(chosenYesNoTeam.contains(yesNo) ? Color(hex:"F6C356") : Color.clear)
+                        .background(chosenYesNoTeam.contains(yesNo) ? globalSettings.primaryYellowColor : Color.clear)
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)

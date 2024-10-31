@@ -20,7 +20,6 @@ struct ContentView: View {
     @State private var conversations: [Conversation] = []
     @State private var activeTab: CameraView.Tab = .messages
 
-
     // Main parent view
     var body: some View {
         if isLoggedIn {

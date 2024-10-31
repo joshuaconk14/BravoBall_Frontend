@@ -1,26 +1,18 @@
 //
 //  ColorExtension.swift
+//  BravoBall
+//
+//  Created by Jordan on 10/30/24.
+//
+
+//
+//  ColorExtension.swift
 //  Bravotekk
 //
 //  Created by Jordan on 10/23/24.
 //
 
 import SwiftUI
-
-extension Color {
-    static let primaryColorYellow = Color("PrimaryColor")
-    
-    // Add more custom colors as needed
-    // static let secondaryColor = Color("SecondaryColor")
-}
-
-// Fallback colors for use in previews or when asset colors are unavailable
-extension Color {
-    static let fallbackPrimaryColor = Color(hex: "F6C356")
-    
-    // Add more fallback colors as needed
-    // static let fallbackSecondaryColor = Color(hex: "123456")
-}
 
 // Helper initializer for creating colors from hex strings
 extension Color {

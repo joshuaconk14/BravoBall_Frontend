@@ -8,6 +8,8 @@ import SwiftUI
 import RiveRuntime
 
 struct QuestionnaireTwoView: View {
+    @StateObject private var globalSettings = GlobalSettings()
+
     // binding this struct to questionnairetwo
     @Binding var showQuestionnaireTwo: Bool
     // questionnaires state variables
@@ -138,7 +140,7 @@ struct QuestionnaireTwoView: View {
                     Text("Next")
                         .frame(width: 325, height: 15)
                         .padding()
-                        .background(Color(hex:"F6C356"))
+                        .background(globalSettings.primaryYellowColor)
                         .foregroundColor(.white)
                         .cornerRadius(20)
                         .font(.custom("Poppins-Bold", size: 16))

@@ -148,6 +148,8 @@ struct dropDownMenu: View {
 
 // MARK: - Questionnaire 1
 struct Questionnaire_1: View {
+    @StateObject private var globalSettings = GlobalSettings()
+
     @Binding var currentQuestionnaire: Int
     @Binding var selectedPlayer: String
     @Binding var chosenPlayers: [String]
@@ -174,7 +176,7 @@ struct Questionnaire_1: View {
                                     .foregroundColor(.white)
                             }
                         }
-                        .background(chosenPlayers.contains(player) ? Color(hex:"F6C356") : Color.clear)
+                        .background(chosenPlayers.contains(player) ? globalSettings.primaryYellowColor : Color.clear)
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)
@@ -204,6 +206,8 @@ struct Questionnaire_1: View {
 
 // MARK: - Questionnaire 2
 struct Questionnaire_2: View {
+    @StateObject private var globalSettings = GlobalSettings()
+
     @Binding var currentQuestionnaire: Int
     @Binding var selectedStrength: String
     @Binding var chosenStrengths: [String] // Change to Binding
@@ -230,7 +234,7 @@ struct Questionnaire_2: View {
                                     .foregroundColor(.white)
                             }
                         }
-                        .background(chosenStrengths.contains(strength) ? Color(hex:"F6C356") : Color.clear)
+                        .background(chosenStrengths.contains(strength) ? globalSettings.primaryYellowColor : Color.clear)
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)
@@ -258,6 +262,8 @@ struct Questionnaire_2: View {
 
 // MARK: - Questionnaire 3
 struct Questionnaire_3: View {
+    @StateObject private var globalSettings = GlobalSettings()
+
     @Binding var currentQuestionnaire: Int
     @Binding var selectedWeakness: String
     @Binding var chosenWeaknesses: [String] // Change to Binding
@@ -284,7 +290,7 @@ struct Questionnaire_3: View {
                                     .foregroundColor(.white)
                             }
                         }
-                        .background(chosenWeaknesses.contains(weakness) ? Color(hex:"F6C356") : Color.clear)
+                        .background(chosenWeaknesses.contains(weakness) ? globalSettings.primaryYellowColor : Color.clear)
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)

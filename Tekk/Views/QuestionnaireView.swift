@@ -10,6 +10,8 @@ import RiveRuntime
 
 // MARK: - Main body
 struct QuestionnaireView: View {
+    @StateObject private var globalSettings = GlobalSettings()
+
     @Binding var showQuestionnaire: Bool
     // questionnaires state variables
     @State private var currentQuestionnaire: Int = 0
@@ -192,7 +194,7 @@ struct QuestionnaireView: View {
                     Text("Next")
                         .frame(width: 325, height: 15)
                         .padding()
-                        .background(Color(hex:"F6C356"))
+                        .background(globalSettings.primaryYellowColor)
                         .foregroundColor(.white)
                         .cornerRadius(20)
                         .font(.custom("Poppins-Bold", size: 16))

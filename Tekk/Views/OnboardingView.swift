@@ -9,6 +9,8 @@ import SwiftUI
 import RiveRuntime
 
 struct OnboardingView: View {
+    @StateObject private var globalSettings = GlobalSettings()
+    
     @Binding var isLoggedIn: Bool
     @Binding var authToken: String
     @State private var showLoginPage = false // State to control login page visibility
@@ -98,10 +100,10 @@ struct OnboardingView: View {
                     showWelcome.toggle()
                 }
             }) {
-                Text("Let's ball out")
+                Text("Create an account")
                     .frame(width: 325, height: 15)
                     .padding()
-                    .background(Color(hex:"F6C356"))
+                    .background(globalSettings.primaryYellowColor)
                     .foregroundColor(.white)
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))
@@ -120,7 +122,7 @@ struct OnboardingView: View {
                     .frame(width: 325, height: 15)
                     .padding()
                     .background(.gray.opacity(0.1))
-                    .foregroundColor(.white)
+                    .foregroundColor(globalSettings.secondaryYellowColor)
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))
             }
