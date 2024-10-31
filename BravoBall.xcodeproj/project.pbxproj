@@ -15,6 +15,10 @@
 		1749362C2C3E1032001163B9 /* TekkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749362B2C3E1032001163B9 /* TekkTests.swift */; };
 		174936362C3E1032001163B9 /* TekkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936352C3E1032001163B9 /* TekkUITests.swift */; };
 		174936382C3E1032001163B9 /* TekkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */; };
+		17ACC8C32CD356BD0047EE09 /* First_PlayerRepresentPlaystyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8C22CD356BD0047EE09 /* First_PlayerRepresentPlaystyle.swift */; };
+		17ACC8C52CD35B220047EE09 /* Second_PickStrengths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8C42CD35B220047EE09 /* Second_PickStrengths.swift */; };
+		17ACC8C72CD35BED0047EE09 /* Third_PickWeaknesses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8C62CD35BED0047EE09 /* Third_PickWeaknesses.swift */; };
+		17ACC8CA2CD35CBF0047EE09 /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8C92CD35CBF0047EE09 /* DropdownMenu.swift */; };
 		17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693192C743662006B58A3 /* CameraManager.swift */; };
 		17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */; };
 		17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */; };
@@ -69,6 +73,10 @@
 		174936312C3E1032001163B9 /* BravoBallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BravoBallUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		174936352C3E1032001163B9 /* TekkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITests.swift; sourceTree = "<group>"; };
 		174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		17ACC8C22CD356BD0047EE09 /* First_PlayerRepresentPlaystyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = First_PlayerRepresentPlaystyle.swift; sourceTree = "<group>"; };
+		17ACC8C42CD35B220047EE09 /* Second_PickStrengths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Second_PickStrengths.swift; sourceTree = "<group>"; };
+		17ACC8C62CD35BED0047EE09 /* Third_PickWeaknesses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Third_PickWeaknesses.swift; sourceTree = "<group>"; };
+		17ACC8C92CD35CBF0047EE09 /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17E693192C743662006B58A3 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Extension.swift"; sourceTree = "<group>"; };
@@ -192,7 +200,9 @@
 				43985E382CB4ED4500BE2AB6 /* QuestionnaireView.swift */,
 				43985E3A2CB4ED8700BE2AB6 /* QuestionsView.swift */,
 				43985E5B2CB5BB9300BE2AB6 /* QuestionnaireTwoView.swift */,
+				17ACC8C82CD35CB20047EE09 /* Components */,
 				43985E5D2CB5C56100BE2AB6 /* QuestionsTwoView.swift */,
+				17ACC8C12CD356AD0047EE09 /* FirstQuestionnaireQuestions */,
 				17E693262C7D3504006B58A3 /* LoginView.swift */,
 				43985E3C2CB4EDCD00BE2AB6 /* ChatbotView.swift */,
 				43985E3E2CB4EDE300BE2AB6 /* CameraView.swift */,
@@ -200,6 +210,24 @@
 				43985E402CB4EDF900BE2AB6 /* PlayerDetailsForm.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		17ACC8C12CD356AD0047EE09 /* FirstQuestionnaireQuestions */ = {
+			isa = PBXGroup;
+			children = (
+				17ACC8C22CD356BD0047EE09 /* First_PlayerRepresentPlaystyle.swift */,
+				17ACC8C62CD35BED0047EE09 /* Third_PickWeaknesses.swift */,
+				17ACC8C42CD35B220047EE09 /* Second_PickStrengths.swift */,
+			);
+			path = FirstQuestionnaireQuestions;
+			sourceTree = "<group>";
+		};
+		17ACC8C82CD35CB20047EE09 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				17ACC8C92CD35CBF0047EE09 /* DropdownMenu.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		17E6931C2C743AC4006B58A3 /* Camera */ = {
@@ -375,19 +403,23 @@
 				43985E5E2CB5C56900BE2AB6 /* QuestionsTwoView.swift in Sources */,
 				170217BB2C89030500DD020C /* Models.swift in Sources */,
 				43985E352CB4ECBA00BE2AB6 /* OnboardingView.swift in Sources */,
+				17ACC8C72CD35BED0047EE09 /* Third_PickWeaknesses.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
 				43985E392CB4ED4B00BE2AB6 /* QuestionnaireView.swift in Sources */,
 				43985E372CB4ED1D00BE2AB6 /* WelcomeView.swift in Sources */,
 				1749361A2C3E102B001163B9 /* TekkApp.swift in Sources */,
 				43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */,
 				43985E3D2CB4EDD300BE2AB6 /* ChatbotView.swift in Sources */,
+				17ACC8C32CD356BD0047EE09 /* First_PlayerRepresentPlaystyle.swift in Sources */,
 				17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */,
 				43985E3B2CB4ED9500BE2AB6 /* QuestionsView.swift in Sources */,
 				43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */,
+				17ACC8C52CD35B220047EE09 /* Second_PickStrengths.swift in Sources */,
 				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,
 				17E693272C7D3504006B58A3 /* LoginView.swift in Sources */,
 				17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
+				17ACC8CA2CD35CBF0047EE09 /* DropdownMenu.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

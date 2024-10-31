@@ -113,6 +113,7 @@ struct WelcomeView: View {
                 // MARK: - "Next" button
                 // Current questionnaire ACTION based on the state variable
                 Button(action: {
+                    // Progress through animation stage for smooth transitions of Bravo avatar, message, and user input boxe
                     if animationStage < 3 {
                         withAnimation(.spring(duration: 0.4)) {
                             // Move the Rive animation up and to the left
