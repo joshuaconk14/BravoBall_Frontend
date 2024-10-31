@@ -28,13 +28,13 @@ struct QuestionnaireTwo_1: View {
                     }) {
                         HStack {
                             Text(yesNo)
-                                .foregroundColor(.white)
+                                .foregroundColor(globalSettings.primaryDarkColor)
                                 .padding()
                                 .font(.custom("Poppins-Bold", size: 16))
                             Spacer()
                             if chosenYesNoTeam.contains(yesNo) {
                                 Image(systemName: "checkmark")
-                                    .foregroundColor(.white)
+                                    .foregroundColor(globalSettings.primaryDarkColor)
                             }
                         }
                         .background(chosenYesNoTeam.contains(yesNo) ? globalSettings.primaryYellowColor : Color.clear)

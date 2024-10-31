@@ -53,14 +53,14 @@ struct QuestionnaireTwoView: View {
                 //MARK: - Bravo messages
                 // bravo message 0, confined to ZStack
                 Text("This is going so well! Now I just need to specialize the plan to your needs.")
-                    .foregroundColor(.white)
+                    .foregroundColor(globalSettings.primaryDarkColor)
                     .padding(.horizontal, 80)
                     .padding(.bottom, 400)
                     .opacity(textOpacity0)
                     .font(.custom("Poppins-Bold", size: 16))
                 // bravo message 1, confined to ZStack
                 Text("Are you currently playing for a team?") // LATER: make it mention in-season or off-season if clicked yes
-                    .foregroundColor(.white)
+                    .foregroundColor(globalSettings.primaryDarkColor)
                     .padding() // padding for text edges
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
@@ -68,7 +68,7 @@ struct QuestionnaireTwoView: View {
                     .font(.custom("Poppins-Bold", size: 16))
                 // bravo message 2, confined to ZStack
                 Text("What is your primary goal?")
-                    .foregroundColor(.white)
+                    .foregroundColor(globalSettings.primaryDarkColor)
                     .padding() // padding for text edges
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
@@ -76,7 +76,7 @@ struct QuestionnaireTwoView: View {
                     .font(.custom("Poppins-Bold", size: 16))
                 // bravo message 3, confined to ZStack
                 Text("When are you looking to achieve this by?")
-                    .foregroundColor(.white)
+                    .foregroundColor(globalSettings.primaryDarkColor)
                     .padding() // padding for text edges
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
@@ -84,7 +84,7 @@ struct QuestionnaireTwoView: View {
                     .font(.custom("Poppins-Bold", size: 16))
                 // bravo message 4, confined to ZStack
                 Text("Pick your training level.")
-                    .foregroundColor(.white)
+                    .foregroundColor(globalSettings.primaryDarkColor)
                     .padding() // padding for text edges
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
@@ -92,7 +92,7 @@ struct QuestionnaireTwoView: View {
                     .font(.custom("Poppins-Bold", size: 16))
                 // bravo message 5, confined to ZStack
                 Text("What days would you like to train?")
-                    .foregroundColor(.white)
+                    .foregroundColor(globalSettings.primaryDarkColor)
                     .padding() // padding for text edges
                     .padding(.bottom, 500)
                     .padding(.leading, 150)
@@ -108,7 +108,7 @@ struct QuestionnaireTwoView: View {
                     }) {
                         Image(systemName:"arrow.left")
                             .font(.title2)
-                            .foregroundColor(.white)
+                            .foregroundColor(globalSettings.primaryDarkColor)
                             .padding()
                     }
                     .padding(.bottom, 725)
@@ -151,7 +151,7 @@ struct QuestionnaireTwoView: View {
             }
             //ZStack padding
             .padding()
-            .background(Color(hex:"1E272E"))
+            .background(.white)
         }
     }
 }
