@@ -10,6 +10,8 @@ import RiveRuntime
 
 // MARK: - welcomeQs
 struct welcomeQs: View {
+    @StateObject private var globalSettings = GlobalSettings()
+
     @Binding var welcomeInput: Int
     @Binding var firstName: String
     @Binding var lastName: String
@@ -38,7 +40,7 @@ struct welcomeQs: View {
                 }
                 TextField("", text: $firstName)
                 .padding()
-                .foregroundColor(.white)
+                .foregroundColor(globalSettings.primaryDarkColor)
                 .background(Color.clear)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
@@ -58,7 +60,7 @@ struct welcomeQs: View {
                 }
                 TextField("", text: $lastName)
                 .padding()
-                .foregroundColor(.white)
+                .foregroundColor(globalSettings.primaryDarkColor)
                 .background(Color.clear)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
@@ -84,6 +86,8 @@ struct welcomeQs: View {
 
 // MARK: - Drop Down Menu (for Q1)
 struct dropDownMenu: View {
+    @StateObject private var globalSettings = GlobalSettings()
+
     @Binding var title: String
     var options: [String]
     var placeholder: String
@@ -98,13 +102,13 @@ struct dropDownMenu: View {
             }) {
                 HStack {
                     Text(title.isEmpty ? placeholder : title)
-                        .foregroundColor(title.isEmpty ? .gray : .white)
+                        .foregroundColor(title.isEmpty ? .gray : globalSettings.primaryDarkColor)
                         .padding(.leading, 16)
                         .font(.custom("Poppins-Bold", size: 16))
                     Spacer()
                     Image(systemName: "chevron.down")
                         .padding(.trailing, 16)
-                        .foregroundColor(.white)
+                        .foregroundColor(globalSettings.primaryDarkColor)
                 }
                 .frame(height: 60)
                 .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray, lineWidth: 1))
@@ -123,19 +127,19 @@ struct dropDownMenu: View {
                                     //edit inside drop down element
                                     Text(option)
                                         .padding()
-                                        .foregroundColor(.white)
+                                        .foregroundColor(globalSettings.primaryDarkColor)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .font(.custom("Poppins-Bold", size: 16))
                                 }
                                 // edit full drop down menu appearance
-                                .background(Color(hex: "1E272E"))
+                                .background(.white)
                                 .cornerRadius(5)
                             }
                         }
                     }
                     .frame(height: 180) // Set height limit for the ScrollView
                 }
-                .background(Color(hex: "1E272E"))
+                .background(.white)
                 .cornerRadius(10)
                 .shadow(radius: 10)
                 .padding(.horizontal)
@@ -167,13 +171,13 @@ struct Questionnaire_1: View {
                     }) {
                         HStack {
                             Text(player)
-                                .foregroundColor(.white)
+                                .foregroundColor(globalSettings.primaryDarkColor)
                                 .padding()
                                 .font(.custom("Poppins-Bold", size: 16))
                             Spacer()
                             if chosenPlayers.contains(player) {
                                 Image(systemName: "checkmark")
-                                    .foregroundColor(.white)
+                                    .foregroundColor(globalSettings.primaryDarkColor)
                             }
                         }
                         .background(chosenPlayers.contains(player) ? globalSettings.primaryYellowColor : Color.clear)
@@ -225,13 +229,13 @@ struct Questionnaire_2: View {
                     }) {
                         HStack {
                             Text(strength)
-                                .foregroundColor(.white)
+                                .foregroundColor(globalSettings.primaryDarkColor)
                                 .padding()
                                 .font(.custom("Poppins-Bold", size: 16))
                             Spacer()
                             if chosenStrengths.contains(strength) {
                                 Image(systemName: "checkmark")
-                                    .foregroundColor(.white)
+                                    .foregroundColor(globalSettings.primaryDarkColor)
                             }
                         }
                         .background(chosenStrengths.contains(strength) ? globalSettings.primaryYellowColor : Color.clear)
@@ -281,13 +285,13 @@ struct Questionnaire_3: View {
                     }) {
                         HStack {
                             Text(weakness)
-                                .foregroundColor(.white)
+                                .foregroundColor(globalSettings.primaryDarkColor)
                                 .padding()
                                 .font(.custom("Poppins-Bold", size: 16))
                             Spacer()
                             if chosenWeaknesses.contains(weakness) {
                                 Image(systemName: "checkmark")
-                                    .foregroundColor(.white)
+                                    .foregroundColor(globalSettings.primaryDarkColor)
                             }
                         }
                         .background(chosenWeaknesses.contains(weakness) ? globalSettings.primaryYellowColor : Color.clear)

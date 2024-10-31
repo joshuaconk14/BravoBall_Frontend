@@ -85,12 +85,12 @@ struct OnboardingView: View {
                 .padding(.top, 30)
                 .padding(.bottom, 10)
             Text("BravoBall")
-                .foregroundColor(.white)
+                .foregroundColor(globalSettings.primaryYellowColor)
                 .padding(.bottom, 5)
                 .font(.custom("PottaOne-Regular", size: 45))
             
             Text("Start Small. Dream Big")
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex:"1E272E"))
                 .padding(.bottom, 100)
                 .font(.custom("Poppins-Bold", size: 16))
             
@@ -122,7 +122,7 @@ struct OnboardingView: View {
                     .frame(width: 325, height: 15)
                     .padding()
                     .background(.gray.opacity(0.1))
-                    .foregroundColor(globalSettings.secondaryYellowColor)
+                    .foregroundColor(globalSettings.primaryDarkColor)
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))
             }
@@ -132,7 +132,7 @@ struct OnboardingView: View {
             
         }
         .padding()
-        .background(Color(hex:"1E272E"))
+        .background(.white)
     }
 }
 
