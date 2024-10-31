@@ -1,15 +1,16 @@
 //
-//  QuestionsView.swift
-//  Tekk
+//  WelcomeQuestions.swift
+//  BravoBall
 //
 //  Created by Joshua Conklin on 10/7/24.
 //
+// This file displays the views for the questions that get the player's basic information like name, position, and palying level
 import SwiftUI
 import RiveRuntime
 
 
-// MARK: - welcomeQs
-struct welcomeQs: View {
+// MARK: - WelcomeQuestions
+struct WelcomeQuestions: View {
     @StateObject private var globalSettings = GlobalSettings()
 
     @Binding var welcomeInput: Int

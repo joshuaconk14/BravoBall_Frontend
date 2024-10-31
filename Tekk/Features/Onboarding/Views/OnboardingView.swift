@@ -1,9 +1,8 @@
 //
 //  OnboardingView.swift
-//  Tekk
+//  BravoBall
 //
-//  Created by Joshua Conklin on 9/30/24.
-//
+//  Created by Joshua Conklin on 9/30/24.//
 
 import SwiftUI
 import RiveRuntime

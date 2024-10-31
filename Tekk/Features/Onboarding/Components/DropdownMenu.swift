@@ -1,8 +1,8 @@
 //
-//  dropdownMenu.swift
+//  DropdownMenu.swift
 //  BravoBall
 //
-//  Created by Jordan on 10/30/24.
+//  Created by Josh on 10/31/24.
 //
 // This file is to display the dropdown menu when the user clicks on the dropdown button
 

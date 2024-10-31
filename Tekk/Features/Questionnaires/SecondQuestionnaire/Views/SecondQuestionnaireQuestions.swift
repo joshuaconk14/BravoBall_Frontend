@@ -1,9 +1,11 @@
 //
-//  QuestionsTwo.swift
-//  Tekk
+//  SecondQuestionnaireQuestions.swift
+//  BravoBall
 //
 //  Created by Joshua Conklin on 10/8/24.
 //
+// This file is for displaying the questions in the second questionnaire for the user
+
 import SwiftUI
 import RiveRuntime
 
@@ -69,11 +71,11 @@ struct QuestionnaireTwo_1: View {
 //    @Binding var selectedGoal: String
 //    // stored in string
 //    @Binding var chosenGoal: [String]
-//    
-//    
+//
+//
 //    let goals = ["I want to improve my overall skill level", "I want to be the best player on my team", "I want to get scouted for college", "I want to become a professional soccer player."]
-//    
+//
 //    var body: some View {
-//        
+//
 //    }
 //}

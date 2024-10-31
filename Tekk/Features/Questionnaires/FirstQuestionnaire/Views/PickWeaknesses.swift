@@ -1,45 +1,45 @@
 //
-//  test.swift
+//  PickWeaknesses.swift
 //  BravoBall
 //
-//  Created by Jordan on 10/30/24.
+//  Created by Josh on 10/31/24.
 //
-// This file is for showing the players and selecting them in the question "Which player do you feel represents your playstyle the best?"
+// This file is for letting the player choose their weaknesses from the question "What are your biggest weaknesses?"
 
 import SwiftUI
 import Foundation
 
-// MARK: - Questionnaire 1
-struct Questionnaire_1: View {
+// MARK: - Questionnaire 3
+struct PickWeaknesses: View {
     @StateObject private var globalSettings = GlobalSettings()
 
     @Binding var currentQuestionnaire: Int
-    @Binding var selectedPlayer: String
-    @Binding var chosenPlayers: [String]
+    @Binding var selectedWeakness: String
+    @Binding var chosenWeaknesses: [String] // Change to Binding
     
     //LazyVStack options for players
-    let players = ["Alan Virginius", "Harry Maguire", "Big Bjorn", "Big Adam", "Big Bulk", "Oscar Bobb", "Gary Gardner", "The Enforcer"]
+    let weaknesses = ["Passing", "Dribbling", "Shooting", "First Touch", "Crossing", "1v1 Defending", "1v1 Attacking", "Vision"]
     
     var body: some View {
         VStack (spacing: 25) {
             // LazyVStack used for memory usage, since this will be a large list
             LazyVStack (spacing: 10) {
-                ForEach(players, id: \.self) { player in
+                ForEach(weaknesses, id: \.self) { weakness in
                     Button(action: {
-                        togglePlayerSelection(player)
+                        toggleWeaknessSelection(weakness)
                     }) {
                         HStack {
-                            Text(player)
+                            Text(weakness)
                                 .foregroundColor(globalSettings.primaryDarkColor)
                                 .padding()
                                 .font(.custom("Poppins-Bold", size: 16))
                             Spacer()
-                            if chosenPlayers.contains(player) {
+                            if chosenWeaknesses.contains(weakness) {
                                 Image(systemName: "checkmark")
                                     .foregroundColor(globalSettings.primaryDarkColor)
                             }
                         }
-                        .background(chosenPlayers.contains(player) ? globalSettings.primaryYellowColor : Color.clear)
+                        .background(chosenWeaknesses.contains(weakness) ? globalSettings.primaryYellowColor : Color.clear)
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)
@@ -48,20 +48,18 @@ struct Questionnaire_1: View {
                     }
                 }
             }
-            // LazyVStack padding
             .padding(.horizontal)
         }
-        // VStack padding
         .padding(.horizontal)
     }
     
-    private func togglePlayerSelection(_ player: String) {
-        if chosenPlayers.contains(player) {
+    private func toggleWeaknessSelection(_ weakness: String) {
+        if chosenWeaknesses.contains(weakness) {
             // If the player is already selected, remove them. Prevents from multiple selections of one player
-            chosenPlayers.removeAll { $0 == player }
-        } else if chosenPlayers.count < 3 { // indices
+            chosenWeaknesses.removeAll { $0 == weakness }
+        } else if chosenWeaknesses.count < 3 { // count max = 2 because they're indices
             // If the player is not selected and we have less than 3, add them
-            chosenPlayers.append(player)
+            chosenWeaknesses.append(weakness)
         }
     }
 }

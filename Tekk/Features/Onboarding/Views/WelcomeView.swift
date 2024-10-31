@@ -1,6 +1,6 @@
 //
-// WelcomeView.swift
-//  Tekk
+//  WelcomeView.swift
+//  BravoBall
 //
 //  Created by Josh on 9/28/24.
 //  This file contains the LoginView, which is used to welcome the user.
@@ -43,11 +43,11 @@ struct WelcomeView: View {
                 ZStack {
                     // Present WelcomeView when showWelcomeView is true
                     if !showQuestionnaire {
-                        QuestionnaireView(showQuestionnaire: $showQuestionnaire)// Pass bindings as needed
+                        FirstQuestionnaireView(showQuestionnaire: $showQuestionnaire)// Pass bindings as needed
                             .matchedGeometryEffect(id: "welcome", in: questionnaireSpace)
                             .offset(x: UIScreen.main.bounds.width) // out of bounds
                     } else {
-                        QuestionnaireView(showQuestionnaire: $showQuestionnaire)// Pass bindings as needed
+                        FirstQuestionnaireView(showQuestionnaire: $showQuestionnaire)// Pass bindings as needed
                             .matchedGeometryEffect(id: "welcome", in: questionnaireSpace)
                             .offset(x: 0) // showing
                     }
@@ -62,7 +62,7 @@ struct WelcomeView: View {
             ZStack {
                 VStack {
                     if animationStage >= 3 {
-                        welcomeQs(welcomeInput: $welcomeInput, firstName: $firstName, lastName: $lastName, selectedAge: $selectedAge, selectedLevel: $selectedLevel, selectedPosition: $selectedPosition)
+                        WelcomeQuestions(welcomeInput: $welcomeInput, firstName: $firstName, lastName: $lastName, selectedAge: $selectedAge, selectedLevel: $selectedLevel, selectedPosition: $selectedPosition)
                             .transition(.opacity.combined(with: .move(edge: .trailing)))
                             .animation(.easeInOut(duration: 0.3), value: animationStage)
                     }
@@ -138,7 +138,7 @@ struct WelcomeView: View {
                         }
                     } else if validateQ1() {
                         withAnimation {
-                            showQuestionnaire = true // Transition to QuestionnaireView
+                            showQuestionnaire = true // Transition to FirstQuestionnaireView
                         }
                     }
                 }) {

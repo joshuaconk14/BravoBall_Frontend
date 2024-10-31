@@ -1,15 +1,16 @@
 //
-//  QuestionnaireView.swift
-//  Tekk
+//  FirstFirstQuestionnaireView.swift
+//  BravoBall
 //
 //  Created by Josh on 8/26/24.
-//  This file contains the QuestionnaireView, which is used to show the questionnaire to the user.
+//
+//  This file contains the FirstQuestionnaireView, which is used to show the questionnaire to the user.
 
 import SwiftUI
 import RiveRuntime
 
 // MARK: - Main body
-struct QuestionnaireView: View {
+struct FirstQuestionnaireView: View {
     @StateObject private var globalSettings = GlobalSettings()
 
     @Binding var showQuestionnaire: Bool
@@ -74,7 +75,7 @@ struct QuestionnaireView: View {
                         LazyVStack {
                             // Current questionnaire REPRESENTATION based on the state variable
                             if currentQuestionnaire == 1 {
-                                Questionnaire_1(currentQuestionnaire: $currentQuestionnaire, selectedPlayer: $selectedPlayer, chosenPlayers: $chosenPlayers)
+                                PlayerRepresentPlaystyle(currentQuestionnaire: $currentQuestionnaire, selectedPlayer: $selectedPlayer, chosenPlayers: $chosenPlayers)
                                     .transition(.move(edge: .trailing)) // Move in from the right
                                     .animation(.easeInOut) // Animate the transition
                                     .offset(x: currentQuestionnaire == 1 ? 0 : UIScreen.main.bounds.width) // Start off-screen
@@ -84,7 +85,7 @@ struct QuestionnaireView: View {
                                     .animation(.easeInOut) // Animate the transition
                                     .offset(x: currentQuestionnaire == 2 ? 0 : UIScreen.main.bounds.width) // Start off-screen
                             } else if currentQuestionnaire == 3 {
-                                Questionnaire_3(currentQuestionnaire: $currentQuestionnaire, selectedWeakness: $selectedWeakness, chosenWeaknesses: $chosenWeaknesses)
+                                PickWeaknesses(currentQuestionnaire: $currentQuestionnaire, selectedWeakness: $selectedWeakness, chosenWeaknesses: $chosenWeaknesses)
                                     .transition(.move(edge: .trailing)) // Move in from the right
                                     .animation(.easeInOut) // Animate the transition
                                     .offset(x: currentQuestionnaire == 3 ? 0 : UIScreen.main.bounds.width) // Start off-screen
@@ -225,16 +226,12 @@ struct QuestionnaireView: View {
 }
 
 
-    
-    
-
-
 // MARK: - Preview
 
 struct Questionnaire_Previews: PreviewProvider {
     @State static var showQuestionnaire = true // Example binding variable
 
     static var previews: some View {
-        QuestionnaireView(showQuestionnaire: $showQuestionnaire)
+        FirstQuestionnaireView(showQuestionnaire: $showQuestionnaire)
     }
 }

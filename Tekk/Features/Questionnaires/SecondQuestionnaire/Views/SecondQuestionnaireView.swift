@@ -1,9 +1,10 @@
 //
-//  QuestionnaireTwo.swift
-//  Tekk
+//  SecondQuestionnaireView.swift
+//  BravoBall
 //
 //  Created by Joshua Conklin on 10/8/24.
 //
+
 import SwiftUI
 import RiveRuntime
 
