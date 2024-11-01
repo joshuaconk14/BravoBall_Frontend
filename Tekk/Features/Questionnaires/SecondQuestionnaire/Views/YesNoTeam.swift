@@ -9,7 +9,7 @@
 import SwiftUI
 import RiveRuntime
 
-struct QuestionnaireTwo_1: View {
+struct YesNoTeam: View {
     @StateObject private var globalSettings = GlobalSettings()
 
     @Binding var currentQuestionnaireTwo: Int
@@ -64,18 +64,3 @@ struct QuestionnaireTwo_1: View {
         }
     }
 }
-
-//struct QuestionnaireTwo_2: View {
-//    @Binding var currentQuestionnaireTwo: Int
-//    // selected goal
-//    @Binding var selectedGoal: String
-//    // stored in string
-//    @Binding var chosenGoal: [String]
-//
-//
-//    let goals = ["I want to improve my overall skill level", "I want to be the best player on my team", "I want to get scouted for college", "I want to become a professional soccer player."]
-//
-//    var body: some View {
-//
-//    }
-//}

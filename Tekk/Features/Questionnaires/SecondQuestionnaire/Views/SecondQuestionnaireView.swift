@@ -36,7 +36,7 @@ struct QuestionnaireTwoView: View {
 //                    VStack {
                         // Current questionnaire REPRESENTATION based on the state variable
                     if currentQuestionnaireTwo == 1 {
-                        QuestionnaireTwo_1(currentQuestionnaireTwo: $currentQuestionnaireTwo, selectedYesNoTeam: $selectedYesNoTeam, chosenYesNoTeam: $chosenYesNoTeam)
+                        YesNoTeam(currentQuestionnaireTwo: $currentQuestionnaireTwo, selectedYesNoTeam: $selectedYesNoTeam, chosenYesNoTeam: $chosenYesNoTeam)
                             .transition(.move(edge: .trailing)) // Move in from the right
                             .animation(.easeInOut) // Animate the transition
                             .offset(x: currentQuestionnaireTwo == 1 ? 0 : UIScreen.main.bounds.width) // Start off-screen
