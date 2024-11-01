@@ -120,7 +120,7 @@ struct OnboardingView: View {
                 Text("Login")
                     .frame(width: 325, height: 15)
                     .padding()
-                    .background(.gray.opacity(0.1))
+                    .background(.gray.opacity(0.2))
                     .foregroundColor(globalSettings.primaryDarkColor)
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))

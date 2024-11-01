@@ -5,6 +5,7 @@
 //  Created by Joshua Conklin on 10/7/24.
 //
 // This file displays the views for the questions that get the player's basic information like name, position, and palying level
+
 import SwiftUI
 import RiveRuntime
 
@@ -84,5 +85,24 @@ struct WelcomeQuestions: View {
     }
 }
 
-
-
+// MARK: - Preview for WelcomeQuestions
+struct WelcomeQuestions_Previews: PreviewProvider {
+    @State static var welcomeInput = 0
+    @State static var firstName = ""
+    @State static var lastName = ""
+    @State static var selectedAge = "Select your Age"
+    @State static var selectedLevel = "Select your Level"
+    @State static var selectedPosition = "Select your Position"
+    
+    static var previews: some View {
+        WelcomeQuestions(
+            welcomeInput: $welcomeInput,
+            firstName: $firstName,
+            lastName: $lastName,
+            selectedAge: $selectedAge,
+            selectedLevel: $selectedLevel,
+            selectedPosition: $selectedPosition
+        )
+        .background(Color.white)
+    }
+}

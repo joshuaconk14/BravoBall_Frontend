@@ -63,3 +63,18 @@ struct PickWeaknesses: View {
         }
     }
 }
+
+// MARK: - Preview for PickWeaknesses
+struct PickWeaknesses_Previews: PreviewProvider {
+    @State static var currentQuestionnaire = 3
+    @State static var selectedWeakness = ""
+    @State static var chosenWeaknesses: [String] = []
+    
+    static var previews: some View {
+        PickWeaknesses(
+            currentQuestionnaire: $currentQuestionnaire,
+            selectedWeakness: $selectedWeakness,
+            chosenWeaknesses: $chosenWeaknesses
+        )
+    }
+}

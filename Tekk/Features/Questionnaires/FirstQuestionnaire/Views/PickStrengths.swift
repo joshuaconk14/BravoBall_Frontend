@@ -63,3 +63,18 @@ struct Questionnaire_2: View {
         }
     }
 }
+
+// MARK: - Preview for PickStrengths
+struct PickStrengths_Previews: PreviewProvider {
+    @State static var currentQuestionnaire = 2
+    @State static var selectedStrength = ""
+    @State static var chosenStrengths: [String] = []
+    
+    static var previews: some View {
+        Questionnaire_2(
+            currentQuestionnaire: $currentQuestionnaire,
+            selectedStrength: $selectedStrength,
+            chosenStrengths: $chosenStrengths
+        )
+    }
+}

@@ -159,12 +159,11 @@ struct QuestionnaireTwoView: View {
 
 
 // MARK: - Preview
+struct QuestionnaireTwo_Previews: PreviewProvider {
+    @State static var showQuestionnaireTwo = true // Example binding variable
 
-//struct QuestionnaireTwo_Previews: PreviewProvider {
-//    @State static var showQuestionnaireTwo = true // Example binding variable
-//
-//    static var previews: some View {
-//        QuestionnaireTwoView(showQuestionnaireTwo: $showQuestionnaireTwo)
-//            .preferredColorScheme(.dark) // Optional: Set the color scheme for the preview
-//    }
-//}
+    static var previews: some View {
+        QuestionnaireTwoView(showQuestionnaireTwo: $showQuestionnaireTwo)
+            .preferredColorScheme(.dark) // Optional: Set the color scheme for the preview
+    }
+}

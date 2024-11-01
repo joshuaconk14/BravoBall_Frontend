@@ -72,3 +72,20 @@ struct dropDownMenu: View {
         }
     }
 }
+
+// MARK: - Preview for DropDownMenu
+struct DropDownMenu_Previews: PreviewProvider {
+    @State static var selectedOption = "Select Option"
+    static let options = ["Option 1", "Option 2", "Option 3"]
+    
+    static var previews: some View {
+        dropDownMenu(
+            title: $selectedOption,
+            options: options,
+            placeholder: "Select an Option"
+        )
+        .frame(height: 60)
+        .padding(.horizontal)
+        .background(Color.white)
+    }
+}

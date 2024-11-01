@@ -1,6 +1,6 @@
 //
 //  LoginView.swift
-//  Tekk
+//  BravoBall
 //
 //  Created by Jordan on 8/26/24.
 //  This file contains the LoginView, which is used to login the user.
@@ -21,6 +21,8 @@ struct ConversationsResponse: Codable {
 
 // MARK: - Main body
 struct LoginView: View {
+    @StateObject private var globalSettings = GlobalSettings()
+    
     @State private var email = ""
     @State private var password = ""
     @State private var errorMessage = ""
@@ -40,9 +42,9 @@ struct LoginView: View {
                         
                     }
                 }){
-                    Image(systemName:"xmark")
+                    Image(systemName:"arrow.left")
                         .font(.title2)
-                        .foregroundColor(.white)
+                        .foregroundColor(globalSettings.primaryDarkColor)
                         .padding()
                 }
                 .padding()
@@ -51,42 +53,72 @@ struct LoginView: View {
             }
 
 
-            TextField("Email", text: $email)
-                .keyboardType(.emailAddress)
-                .autocapitalization(.none)
+            ZStack(alignment: .leading) {
+                if email.isEmpty {
+                    Text("Email")
+                        .foregroundColor(.gray)
+                        .padding(.leading, 16)
+                        .font(.custom("Poppins-Bold", size: 16))
+                }
+                TextField("", text: $email)
                 .padding()
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .foregroundColor(globalSettings.primaryDarkColor)
+                .background(Color.clear)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
                 .font(.custom("Poppins-Bold", size: 16))
+            }
+            .frame(height: 60)
+            .padding(.horizontal)
             
-            SecureField("Password", text: $password)
-                .padding()
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .font(.custom("Poppins-Bold", size: 16))
+            // Password field with consistent styling
+            ZStack(alignment: .leading) {
+                if password.isEmpty {
+                    Text("Password")
+                        .foregroundColor(.gray)
+                        .padding(.leading, 16)
+                        .font(.custom("Poppins-Bold", size: 16))
+                }
+                SecureField("", text: $password)
+                    .padding()
+                    .foregroundColor(globalSettings.primaryDarkColor)
+                    .background(Color.clear)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .font(.custom("Poppins-Bold", size: 16))
+            }
+            .frame(height: 60)
+            .padding(.horizontal)
             
             if !errorMessage.isEmpty {
                 Text(errorMessage)
                     .foregroundColor(.red)
             }
             
+            // Login button with consistent width
             Button(action: loginUser) {
                 Text("Login")
-                    .frame(maxWidth: .infinity)
+                    .frame(width: 325, height: 15)
                     .padding()
-                    .background(Color(hex:"F6C356"))
+                    .background(globalSettings.primaryYellowColor)
                     .foregroundColor(.white)
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))
             }
             .padding(.horizontal)
             
-            // Action for creating an account
+            // Forgot Password button with consistent width
             Button(action: {
             }) {
                 Text("Forgot my Password")
-                    .frame(maxWidth: .infinity)
+                    .frame(width: 325, height: 15)
                     .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .foregroundColor(.white)
+                    .background(Color.gray.opacity(0.2))
+                    .foregroundColor(globalSettings.primaryDarkColor)
                     .cornerRadius(20)
                     .font(.custom("Poppins-Bold", size: 16))
             }
@@ -96,7 +128,7 @@ struct LoginView: View {
             Spacer()
         }
         .padding()
-        .background(Color(hex:"1E272E"))
+        .background(.white)
     }
 
     
@@ -154,8 +186,22 @@ struct LoginView: View {
 
 }
 
-//struct LoginView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        LoginView(isLoggedIn: .constant(false), authToken: .constant(""), showLoginPage: .constant(true))
-//    }
-//}
+// MARK: - Preview
+struct LoginView_Previews: PreviewProvider {
+    @Namespace static var namespace
+    
+    static var previews: some View {
+        ZStack {
+            LoginView(
+                isLoggedIn: .constant(false),
+                authToken: .constant(""),
+                showLoginPage: .constant(true)
+            )
+            // Include matchedGeometryEffect to better mimic how this page looks when running the app
+            .matchedGeometryEffect(id: "login", in: namespace)
+            .offset(y: 40)
+        }
+        .background(Color.white)
+        .edgesIgnoringSafeArea(.all)
+    }
+}

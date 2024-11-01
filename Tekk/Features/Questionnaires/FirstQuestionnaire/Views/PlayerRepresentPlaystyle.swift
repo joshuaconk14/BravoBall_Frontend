@@ -65,3 +65,18 @@ struct PlayerRepresentPlaystyle: View {
         }
     }
 }
+
+// MARK: - Preview for PlayerRepresentPlaystyle
+struct PlayerRepresentPlaystyle_Previews: PreviewProvider {
+    @State static var currentQuestionnaire = 1
+    @State static var selectedPlayer = ""
+    @State static var chosenPlayers: [String] = []
+    
+    static var previews: some View {
+        PlayerRepresentPlaystyle(
+            currentQuestionnaire: $currentQuestionnaire,
+            selectedPlayer: $selectedPlayer,
+            chosenPlayers: $chosenPlayers
+        )
+    }
+}
