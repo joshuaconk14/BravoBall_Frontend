@@ -48,10 +48,19 @@ struct WelcomeQuestions: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .font(.custom("Poppins-Bold", size: 16))
+                    .padding()
+                    .foregroundColor(globalSettings.primaryDarkColor)
+                    .background(Color.clear)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .font(.custom("Poppins-Bold", size: 16))
             }
             .frame(height: 60)
             .padding(.horizontal, 20)
             
+            // last name (same modifications as first name)
             // last name (same modifications as first name)
             ZStack(alignment: .leading) {
                 if lastName.isEmpty {
@@ -69,6 +78,14 @@ struct WelcomeQuestions: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .font(.custom("Poppins-Bold", size: 16))
+                    .padding()
+                    .foregroundColor(globalSettings.primaryDarkColor)
+                    .background(Color.clear)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .font(.custom("Poppins-Bold", size: 16))
             }
             .frame(height: 60)
             .padding(.horizontal, 20)
@@ -78,6 +95,7 @@ struct WelcomeQuestions: View {
             DropdownMenu(title: $selectedLevel, options: levelOptions, placeholder: "Select your Level")
             DropdownMenu(title: $selectedPosition, options: positionOptions, placeholder: "Select your Position")
         }
+        .padding(.top, 20)
         .padding(.top, 20)
     }
 }

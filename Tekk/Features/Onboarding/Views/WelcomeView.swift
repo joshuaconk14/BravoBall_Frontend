@@ -58,9 +58,26 @@ struct WelcomeView: View {
     
     var content: some View {
         NavigationView {
-            // ZStack so lets get tekky button and back button arent confined to VStack
             ZStack {
                 VStack {
+                    ScrollView {
+                        LazyVStack {
+                            Spacer()
+                                .frame(height: 10)
+                                
+                            if animationStage >= 3 {
+                                WelcomeQuestions(
+                                    welcomeInput: $welcomeInput,
+                                    firstName: $firstName,
+                                    lastName: $lastName,
+                                    selectedAge: $selectedAge,
+                                    selectedLevel: $selectedLevel,
+                                    selectedPosition: $selectedPosition
+                                )
+                                .transition(.opacity.combined(with: .move(edge: .trailing)))
+                                .animation(.easeInOut(duration: 0.3), value: animationStage)
+                            }
+                        }
                     ScrollView {
                         LazyVStack {
                             Spacer()

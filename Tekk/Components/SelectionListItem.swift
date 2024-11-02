@@ -38,3 +38,26 @@ struct SelectionListItem: View {
         }
     }
 }
+
+// MARK: - Preview
+struct SelectionListItem_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack(spacing: 20) {
+            // Unselected state
+            SelectionListItem(
+                text: "Sample Option",
+                isSelected: false,
+                action: {}
+            )
+            
+            // Selected state
+            SelectionListItem(
+                text: "Selected Option",
+                isSelected: true,
+                action: {}
+            )
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
+    }
+}
