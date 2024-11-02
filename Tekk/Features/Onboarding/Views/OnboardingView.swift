@@ -22,60 +22,43 @@ struct OnboardingView: View {
     @State private var animationScale: CGFloat = 1.5
     
     var body: some View {
-        VStack {
-            ZStack {
-                
+        ZStack {
+            Color.white.ignoresSafeArea()
+            
+            // Main content (Bravo and buttons)
+            if !showWelcome && !showLoginPage {
                 content
-                
-                
-                // ZStack for matchedGeometry for smooth page transitions
-                ZStack {
-                    if !showLoginPage {
-                        LoginView(isLoggedIn: $isLoggedIn, authToken: $authToken, showLoginPage: $showLoginPage)
-                            .matchedGeometryEffect(id: "login", in: welcomeSpace)
-                            .offset(y: UIScreen.main.bounds.height)
-                    } else {
-                        LoginView(isLoggedIn: $isLoggedIn, authToken: $authToken, showLoginPage: $showLoginPage)
-                            .matchedGeometryEffect(id: "login", in: welcomeSpace)
-                            .offset(y: 0)
-                    }
-                }
-                
-                // ZStack for matchedGeometry for smooth transitions
-                ZStack {
-                    // Present WelcomeView when showWelcomeView is true
-                    if !showWelcome {
-                        WelcomeView(showWelcome: $showWelcome)// Pass bindings as needed
-                            .matchedGeometryEffect(id: "welcome", in: welcomeSpace)
-                            .offset(x: UIScreen.main.bounds.width) // out of bounds
-    //                    OnboardingView(isLoggedIn: $isLoggedIn, authToken: $authToken, showOnboarding: $showOnboarding)
-    //                        .matchedGeometryEffect(id: "onboarding", in: namespace)
-    //                        .offset(x: 0) // showing
-                    } else {
-                        WelcomeView(showWelcome: $showWelcome)// Pass bindings as needed
-                            .matchedGeometryEffect(id: "welcome", in: welcomeSpace)
-                            .offset(x: 0) // showing
-    //                    OnboardingView(isLoggedIn: $isLoggedIn, authToken: $authToken, showOnboarding: $showOnboarding)
-    //                        .matchedGeometryEffect(id: "onboarding", in: namespace)
-    //                        .offset(x: UIScreen.main.bounds.width) // out of bounds
-                    }
-                }
-                // Intro animation, in front due to ZStack
-                //  the animation ending works because of if statement declaring showIntroAnimation function
-                if showIntroAnimation {
-                    RiveViewModel(fileName: "tekk_intro").view()
-                        .scaleEffect(animationScale)
-                        .edgesIgnoringSafeArea(.all)
-                        .allowsHitTesting(false) // no user interaction during this animation
-                    // Start a timer to hide the intro animation after a certain duration
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 5.7) { // seconds until its false
-                                showIntroAnimation = false
-                            }
+            }
+            
+            // Login view with transition
+            if showLoginPage {
+                LoginView(isLoggedIn: $isLoggedIn, 
+                         authToken: $authToken, 
+                         showLoginPage: $showLoginPage)
+                    .transition(.move(edge: .bottom))
+            }
+            
+            // Welcome view with transition
+            if showWelcome {
+                WelcomeView(showWelcome: $showWelcome)
+                    .transition(.move(edge: .trailing))
+            }
+            
+            // Intro animation overlay
+            if showIntroAnimation {
+                RiveViewModel(fileName: "tekk_intro").view()
+                    .scaleEffect(animationScale)
+                    .edgesIgnoringSafeArea(.all)
+                    .allowsHitTesting(false)
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5.7) {
+                            showIntroAnimation = false
                         }
-                }
+                    }
             }
         }
+        .animation(.spring(), value: showWelcome)
+        .animation(.spring(), value: showLoginPage)
     }
     var content: some View {
         VStack {
