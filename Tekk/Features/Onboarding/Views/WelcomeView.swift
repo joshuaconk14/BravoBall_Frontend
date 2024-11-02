@@ -61,14 +61,30 @@ struct WelcomeView: View {
             // ZStack so lets get tekky button and back button arent confined to VStack
             ZStack {
                 VStack {
-                    if animationStage >= 3 {
-                        WelcomeQuestions(welcomeInput: $welcomeInput, firstName: $firstName, lastName: $lastName, selectedAge: $selectedAge, selectedLevel: $selectedLevel, selectedPosition: $selectedPosition)
-                            .transition(.opacity.combined(with: .move(edge: .trailing)))
-                            .animation(.easeInOut(duration: 0.3), value: animationStage)
+                    ScrollView {
+                        LazyVStack {
+                            Spacer()
+                                .frame(height: 10)
+                                
+                            if animationStage >= 3 {
+                                WelcomeQuestions(
+                                    welcomeInput: $welcomeInput,
+                                    firstName: $firstName,
+                                    lastName: $lastName,
+                                    selectedAge: $selectedAge,
+                                    selectedLevel: $selectedLevel,
+                                    selectedPosition: $selectedPosition
+                                )
+                                .transition(.opacity.combined(with: .move(edge: .trailing)))
+                                .animation(.easeInOut(duration: 0.3), value: animationStage)
+                            }
+                        }
                     }
+                    .frame(height: 410)
+                    .padding(.top, 160)
                 }
-                Spacer()
-                // panting animation
+                
+                // Bravo Animation
                 RiveViewModel(fileName: "test_panting").view()
                     .frame(width: 250, height: 250)
                     .padding(.bottom, 5)
