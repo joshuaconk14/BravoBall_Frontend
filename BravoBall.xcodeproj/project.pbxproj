@@ -25,11 +25,7 @@
 		179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */; };
 		179D4FB12CD5E9E300F7E4AB /* SelectionListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */; };
 		179D4FB32CD5E9F200F7E4AB /* SelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */; };
-<<<<<<< HEAD
 		179D4FB82CD61D6500F7E4AB /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB72CD61D6500F7E4AB /* DropdownMenu.swift */; };
-=======
-		179D4FB52CD6031700F7E4AB /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB42CD6031700F7E4AB /* DropdownMenu.swift */; };
->>>>>>> 83d4cd9960b8bce95b406ecafbc1f4d879dfd6f0
 		17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */; };
 		17ACC8DE2CD3688A0047EE09 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */; };
 		17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */; };
@@ -94,11 +90,7 @@
 		179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDays.swift; sourceTree = "<group>"; };
 		179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListItem.swift; sourceTree = "<group>"; };
 		179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListView.swift; sourceTree = "<group>"; };
-<<<<<<< HEAD
 		179D4FB72CD61D6500F7E4AB /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
-=======
-		179D4FB42CD6031700F7E4AB /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
->>>>>>> 83d4cd9960b8bce95b406ecafbc1f4d879dfd6f0
 		17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstQuestionnaireView.swift; sourceTree = "<group>"; };
@@ -291,7 +283,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
 		17ACC8E12CD368E70047EE09 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,8 +290,6 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-=======
->>>>>>> 83d4cd9960b8bce95b406ecafbc1f4d879dfd6f0
 		17ACC8E42CD369350047EE09 /* Questionnaires */ = {
 			isa = PBXGroup;
 			children = (
