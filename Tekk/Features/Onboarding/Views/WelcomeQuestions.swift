@@ -31,59 +31,69 @@ struct WelcomeQuestions: View {
     @State private var isEditingLastName = false
     
     var body: some View {
-        VStack(spacing: 15) {
-            // first name, Zstack so placeholder is on top of input text
-            ZStack(alignment: .leading) {
-                if firstName.isEmpty {
-                    Text("First Name")
-                        .foregroundColor(.gray)
-                        .padding(.leading, 16)
-                        .font(.custom("Poppins-Bold", size: 16))
+        ScrollView {
+            LazyVStack(spacing: 15) {
+                // Add some top padding to account for Bravo and the question
+                Spacer()
+                    .frame(height: 275) // Adjust this value based on your needs
+                
+                // first name
+                ZStack(alignment: .leading) {
+                    if firstName.isEmpty {
+                        Text("First Name")
+                            .foregroundColor(.gray)
+                            .padding(.leading, 16)
+                            .font(.custom("Poppins-Bold", size: 16))
+                    }
+                    TextField("", text: $firstName)
+                    .padding()
+                    .foregroundColor(globalSettings.primaryDarkColor)
+                    .background(Color.clear)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .font(.custom("Poppins-Bold", size: 16))
                 }
-                TextField("", text: $firstName)
-                .padding()
-                .foregroundColor(globalSettings.primaryDarkColor)
-                .background(Color.clear)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
-                .font(.custom("Poppins-Bold", size: 16))
-            }
-            .frame(height: 60)
-            .padding(.horizontal, 5)
-            
-            // last name, Zstack so placeholder is on top of input text
-            ZStack(alignment: .leading) {
-                if lastName.isEmpty {
-                    Text("Last Name")
-                        .foregroundColor(.gray)
-                        .padding(.leading, 16)
-                        .font(.custom("Poppins-Bold", size: 16))
-                }
-                TextField("", text: $lastName)
-                .padding()
-                .foregroundColor(globalSettings.primaryDarkColor)
-                .background(Color.clear)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
-                .font(.custom("Poppins-Bold", size: 16))
-            }
-            .frame(height: 60)
-            .padding(.horizontal, 5)
-            
-            // confined version of structure drop down menus
-            DropdownMenu(title: $selectedAge, options: ageOptions, placeholder: "Select your Age")
-            DropdownMenu(title: $selectedLevel, options: levelOptions, placeholder: "Select your Level")
-            DropdownMenu(title: $selectedPosition, options: positionOptions, placeholder: "Select your Position")
                 .frame(height: 60)
-                .padding(.bottom, 325)
-                .transition(.move(edge: .bottom))
+                
+                // last name
+                ZStack(alignment: .leading) {
+                    if lastName.isEmpty {
+                        Text("Last Name")
+                            .foregroundColor(.gray)
+                            .padding(.leading, 16)
+                            .font(.custom("Poppins-Bold", size: 16))
+                    }
+                    TextField("", text: $lastName)
+                    .padding()
+                    .foregroundColor(globalSettings.primaryDarkColor)
+                    .background(Color.clear)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .font(.custom("Poppins-Bold", size: 16))
+                }
+                .frame(height: 60)
+
+                // dropdown menus
+                VStack(spacing: 15) {
+                    DropdownMenu(title: $selectedAge, options: ageOptions, placeholder: "Select your Age")
+                        .zIndex(3)
+                    DropdownMenu(title: $selectedLevel, options: levelOptions, placeholder: "Select your Level")
+                        .zIndex(2)
+                    DropdownMenu(title: $selectedPosition, options: positionOptions, placeholder: "Select your Position")
+                        .zIndex(1)
+                }
+                
+                // Add bottom spacing to ensure content doesn't get hidden behind the Next button
+                Spacer()
+                    .frame(height: 100)
+            }
+            .padding(.horizontal)
         }
-        .padding(.horizontal)
-        .padding(.top, 500)
+        .scrollDisabled(false) // Enable scrolling
     }
 }
 

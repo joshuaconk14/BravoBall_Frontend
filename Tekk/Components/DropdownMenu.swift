@@ -38,7 +38,6 @@ struct DropdownMenu: View {
                     .frame(height: 60)
                     .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray, lineWidth: 1))
                 }
-                .padding(.horizontal, 5)
                 
                 if showList {
                     VStack {
@@ -66,7 +65,6 @@ struct DropdownMenu: View {
                     .cornerRadius(10)
                     .shadow(radius: 10)
                     .zIndex(999)
-                    .padding(.horizontal, 20)
                 }
             }
         }

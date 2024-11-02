@@ -153,7 +153,6 @@ struct WelcomeView: View {
                 .padding(.top, 700)
             }
             //VStack padding
-            .padding()
             .background(.white)
         }
     }
