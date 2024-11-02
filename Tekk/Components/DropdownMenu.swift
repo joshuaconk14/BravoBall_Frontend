@@ -21,7 +21,7 @@ struct DropdownMenu: View {
     var body: some View {
             VStack(spacing: 0) {
                 Button(action: {
-                    withAnimation {
+                    withAnimation(.linear(duration: 0.2)) {
                         showList.toggle()
                     }
                 }) {
@@ -57,14 +57,15 @@ struct DropdownMenu: View {
                                     }
                                     .background(.white)
                                 }
+
                             }
+
                         }
                         .frame(maxHeight: 200)
                     }
                     .background(.white)
                     .cornerRadius(10)
                     .shadow(radius: 10)
-                    .zIndex(999)
                 }
             }
         }

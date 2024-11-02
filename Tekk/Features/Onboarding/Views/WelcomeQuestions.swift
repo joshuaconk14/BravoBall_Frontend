@@ -19,7 +19,13 @@ struct WelcomeQuestions: View {
     @Binding var lastName: String
     
     //  options for lists
-    let ageOptions = Array (5...100).map { String($0) }
+    let ageOptions = [
+            "Youth (Under 12)",
+            "Teen (13-16)",
+            "Junior (17-19)",
+            "Adult (20-29)",
+            "Senior (30+)"
+        ]
     let levelOptions = ["Beginner", "Intermediate", "Competitive", "Professional"]
     let positionOptions = ["Goalkeeper", "Fullback", "Centerback", "Defensive Mid", "Central Mid", "Attacking Mid", "Winger", "Forward"]
     
@@ -79,7 +85,7 @@ struct WelcomeQuestions: View {
 
                 // dropdown menus
                 VStack(spacing: 15) {
-                    DropdownMenu(title: $selectedAge, options: ageOptions, placeholder: "Select your Age")
+                    DropdownMenu(title: $selectedAge, options: ageOptions, placeholder: "Select your Age Range")
                         .zIndex(3)
                     DropdownMenu(title: $selectedLevel, options: levelOptions, placeholder: "Select your Level")
                         .zIndex(2)
