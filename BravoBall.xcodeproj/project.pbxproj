@@ -19,6 +19,7 @@
 		176D15032CD4815800450F85 /* WelcomeQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15022CD4815800450F85 /* WelcomeQuestions.swift */; };
 		176D15052CD4907000450F85 /* PickGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15042CD4907000450F85 /* PickGoal.swift */; };
 		176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15072CD490E200450F85 /* YesNoTeam.swift */; };
+		179D4FA72CD5E54000F7E4AB /* OnboardingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FA62CD5E54000F7E4AB /* OnboardingData.swift */; };
 		17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */; };
 		17ACC8DE2CD3688A0047EE09 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */; };
 		17ACC8E32CD368FC0047EE09 /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E22CD368FC0047EE09 /* DropdownMenu.swift */; };
@@ -78,6 +79,7 @@
 		176D15022CD4815800450F85 /* WelcomeQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeQuestions.swift; sourceTree = "<group>"; };
 		176D15042CD4907000450F85 /* PickGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickGoal.swift; sourceTree = "<group>"; };
 		176D15072CD490E200450F85 /* YesNoTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesNoTeam.swift; sourceTree = "<group>"; };
+		179D4FA62CD5E54000F7E4AB /* OnboardingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingData.swift; sourceTree = "<group>"; };
 		17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		17ACC8E22CD368FC0047EE09 /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
@@ -222,6 +224,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		179D4FA52CD5E52F00F7E4AB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				179D4FA62CD5E54000F7E4AB /* OnboardingData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		17ACC8D82CD367BA0047EE09 /* Features */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,6 +245,7 @@
 		17ACC8D92CD367DD0047EE09 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				179D4FA52CD5E52F00F7E4AB /* Models */,
 				17ACC8E12CD368E70047EE09 /* Components */,
 				17ACC8DA2CD368070047EE09 /* Views */,
 			);
@@ -475,6 +486,7 @@
 				43985E3F2CB4EDE700BE2AB6 /* CameraView.swift in Sources */,
 				17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */,
 				17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */,
+				179D4FA72CD5E54000F7E4AB /* OnboardingData.swift in Sources */,
 				170217BB2C89030500DD020C /* Models.swift in Sources */,
 				17ACC8E32CD368FC0047EE09 /* DropdownMenu.swift in Sources */,
 				17ACC8DE2CD3688A0047EE09 /* WelcomeView.swift in Sources */,

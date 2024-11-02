@@ -18,7 +18,7 @@ struct PlayerRepresentPlaystyle: View {
     @Binding var chosenPlayers: [String]
     
     //LazyVStack options for players
-    let players = ["Alan Virginius", "Harry Maguire", "Big Bjorn", "Big Adam", "Big Bulk", "Oscar Bobb", "Gary Gardner", "The Enforcer"]
+    let players = ["Alan Virginius", "Harry Maguire", "Big Bjorn", "Big Adam", "Big Bulk", "Oscar Bobb", "Gary   Gardner", "The Enforcer"]
     
     var body: some View {
         VStack (spacing: 25) {
