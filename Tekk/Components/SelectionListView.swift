@@ -39,3 +39,28 @@ struct SelectionListView<T: Hashable>: View {
         }
     }
 }
+
+// MARK: - Preview
+struct SelectionListView_Previews: PreviewProvider {
+    // Sample data for preview
+    static let sampleItems = [
+        "Option 1",
+        "Option 2",
+        "Option 3",
+        "Option 4"
+    ]
+    
+    @State static var selectedItems: [String] = ["Option 2"]
+    
+    static var previews: some View {
+        SelectionListView(
+            items: sampleItems,
+            maxSelections: 2,
+            selectedItems: $selectedItems
+        ) { item in
+            item // Simple string conversion for preview
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
+    }
+}

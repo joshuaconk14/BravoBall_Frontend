@@ -38,6 +38,8 @@ struct dropDownMenu: View {
                 .frame(height: 60)
                 .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray, lineWidth: 1))
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 20)
             
             if showList {
                 VStack {
@@ -58,16 +60,16 @@ struct dropDownMenu: View {
                                 }
                                 // edit full drop down menu appearance
                                 .background(.white)
-                                .cornerRadius(5)
                             }
                         }
                     }
-                    .frame(height: 180) // Set height limit for the ScrollView
+                    .frame(maxHeight: 200) // Limit dropdown height
                 }
                 .background(.white)
                 .cornerRadius(10)
                 .shadow(radius: 10)
-                .padding(.horizontal)
+                .zIndex(1)
+                .padding(.horizontal, 20)
             }
         }
     }

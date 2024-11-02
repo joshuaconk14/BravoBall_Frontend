@@ -94,7 +94,7 @@ struct FirstQuestionnaireView: View {
                         }
                     }
                     .frame(height: 410) // Set the height of the ScrollView to limit visible area
-                    .padding(.top, 200) // Optional: Add some padding at the bottom
+                    .padding(.top, 200) 
                 }
                 Spacer()
                 // panting animation

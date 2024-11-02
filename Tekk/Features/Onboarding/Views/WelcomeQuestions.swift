@@ -30,7 +30,7 @@ struct WelcomeQuestions: View {
     @State private var isEditingLastName = false
     
     var body: some View {
-        VStack(spacing: 25) {
+        VStack(spacing: 15) {
             // first name, Zstack so placeholder is on top of input text
             ZStack(alignment: .leading) {
                 if firstName.isEmpty {
@@ -40,18 +40,19 @@ struct WelcomeQuestions: View {
                         .font(.custom("Poppins-Bold", size: 16))
                 }
                 TextField("", text: $firstName)
-                .padding()
-                .foregroundColor(globalSettings.primaryDarkColor)
-                .background(Color.clear)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
-                .font(.custom("Poppins-Bold", size: 16))
+                    .padding()
+                    .foregroundColor(globalSettings.primaryDarkColor)
+                    .background(Color.clear)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .font(.custom("Poppins-Bold", size: 16))
             }
             .frame(height: 60)
+            .padding(.horizontal, 22)
             
-            // last name, Zstack so placeholder is on top of input text
+            // last name (same modifications as first name)
             ZStack(alignment: .leading) {
                 if lastName.isEmpty {
                     Text("Last Name")
@@ -60,27 +61,27 @@ struct WelcomeQuestions: View {
                         .font(.custom("Poppins-Bold", size: 16))
                 }
                 TextField("", text: $lastName)
-                .padding()
-                .foregroundColor(globalSettings.primaryDarkColor)
-                .background(Color.clear)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
-                .font(.custom("Poppins-Bold", size: 16))
+                    .padding()
+                    .foregroundColor(globalSettings.primaryDarkColor)
+                    .background(Color.clear)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .font(.custom("Poppins-Bold", size: 16))
             }
             .frame(height: 60)
+            .padding(.horizontal, 22)
             
-            // confined version of structure drop down menus
+            // dropdown menus
             dropDownMenu(title: $selectedAge, options: ageOptions, placeholder: "Select your Age")
+                .padding(.horizontal, 3)
             dropDownMenu(title: $selectedLevel, options: levelOptions, placeholder: "Select your Level")
+                .padding(.horizontal, 3)
             dropDownMenu(title: $selectedPosition, options: positionOptions, placeholder: "Select your Position")
-                .frame(height: 60)
-                .padding(.bottom, 325)
-                .transition(.move(edge: .bottom))
+                .padding(.horizontal, 3)
         }
-        .padding(.horizontal)
-        .padding(.top, 500)
+        .padding(.top, 20)
     }
 }
 

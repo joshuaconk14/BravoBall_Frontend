@@ -25,9 +25,9 @@
 		179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */; };
 		179D4FB12CD5E9E300F7E4AB /* SelectionListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */; };
 		179D4FB32CD5E9F200F7E4AB /* SelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */; };
+		179D4FB52CD6031700F7E4AB /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB42CD6031700F7E4AB /* DropdownMenu.swift */; };
 		17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */; };
 		17ACC8DE2CD3688A0047EE09 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */; };
-		17ACC8E32CD368FC0047EE09 /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E22CD368FC0047EE09 /* DropdownMenu.swift */; };
 		17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */; };
 		17ACC8EA2CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */; };
 		17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */; };
@@ -90,9 +90,9 @@
 		179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDays.swift; sourceTree = "<group>"; };
 		179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListItem.swift; sourceTree = "<group>"; };
 		179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListView.swift; sourceTree = "<group>"; };
+		179D4FB42CD6031700F7E4AB /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
 		17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
-		17ACC8E22CD368FC0047EE09 /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
 		17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstQuestionnaireView.swift; sourceTree = "<group>"; };
 		17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRepresentPlaystyle.swift; sourceTree = "<group>"; };
 		17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickWeaknesses.swift; sourceTree = "<group>"; };
@@ -248,6 +248,7 @@
 			children = (
 				179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */,
 				179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */,
+				179D4FB42CD6031700F7E4AB /* DropdownMenu.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -266,7 +267,6 @@
 			isa = PBXGroup;
 			children = (
 				179D4FA52CD5E52F00F7E4AB /* Models */,
-				17ACC8E12CD368E70047EE09 /* Components */,
 				17ACC8DA2CD368070047EE09 /* Views */,
 			);
 			path = Onboarding;
@@ -280,14 +280,6 @@
 				17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		17ACC8E12CD368E70047EE09 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8E22CD368FC0047EE09 /* DropdownMenu.swift */,
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		17ACC8E42CD369350047EE09 /* Questionnaires */ = {
@@ -512,7 +504,6 @@
 				17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */,
 				179D4FA72CD5E54000F7E4AB /* OnboardingData.swift in Sources */,
 				170217BB2C89030500DD020C /* Models.swift in Sources */,
-				17ACC8E32CD368FC0047EE09 /* DropdownMenu.swift in Sources */,
 				179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */,
 				17ACC8DE2CD3688A0047EE09 /* WelcomeView.swift in Sources */,
 				179D4FB32CD5E9F200F7E4AB /* SelectionListView.swift in Sources */,
@@ -520,6 +511,7 @@
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
 				17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */,
 				17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */,
+				179D4FB52CD6031700F7E4AB /* DropdownMenu.swift in Sources */,
 				176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */,
 				1749361A2C3E102B001163B9 /* TekkApp.swift in Sources */,
 				176D15012CD4799C00450F85 /* LoginView.swift in Sources */,
