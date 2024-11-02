@@ -46,17 +46,16 @@ struct FirstQuestionnaireView: View {
             ZStack {
                 
                 content
-                
-                
+            
                 // ZStack for matchedGeometry for smooth transitions
                 ZStack {
                     // Present WelcomeView when showWelcomeView is true
                     if !showQuestionnaireTwo {
-                        QuestionnaireTwoView(showQuestionnaireTwo: $showQuestionnaireTwo)// Pass bindings as needed
+                        SecondQuestionnaireView(showQuestionnaireTwo: $showQuestionnaireTwo)// Pass bindings as needed
                             .matchedGeometryEffect(id: "welcome", in: questionnaireTwoSpace)
                             .offset(x: UIScreen.main.bounds.width) // out of bounds
                     } else {
-                        QuestionnaireTwoView(showQuestionnaireTwo: $showQuestionnaireTwo)// Pass bindings as needed
+                        SecondQuestionnaireView(showQuestionnaireTwo: $showQuestionnaireTwo)// Pass bindings as needed
                             .matchedGeometryEffect(id: "welcome", in: questionnaireTwoSpace)
                             .offset(x: 0) // showing
                     }
@@ -73,6 +72,8 @@ struct FirstQuestionnaireView: View {
                 VStack {
                     ScrollView {
                         LazyVStack {
+                            Spacer()
+                                .frame(height:10)
                             // Current questionnaire REPRESENTATION based on the state variable
                             if currentQuestionnaire == 1 {
                                 PlayerRepresentPlaystyle(currentQuestionnaire: $currentQuestionnaire, selectedPlayer: $selectedPlayer, chosenPlayers: $chosenPlayers)
@@ -80,7 +81,7 @@ struct FirstQuestionnaireView: View {
                                     .animation(.easeInOut) // Animate the transition
                                     .offset(x: currentQuestionnaire == 1 ? 0 : UIScreen.main.bounds.width) // Start off-screen
                             } else if currentQuestionnaire == 2 {
-                                Questionnaire_2(currentQuestionnaire: $currentQuestionnaire, selectedStrength: $selectedStrength, chosenStrengths: $chosenStrengths)
+                                PickStrengths(currentQuestionnaire: $currentQuestionnaire, selectedStrength: $selectedStrength, chosenStrengths: $chosenStrengths)
                                     .transition(.move(edge: .trailing)) // Move in from the right
                                     .animation(.easeInOut) // Animate the transition
                                     .offset(x: currentQuestionnaire == 2 ? 0 : UIScreen.main.bounds.width) // Start off-screen

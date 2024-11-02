@@ -9,7 +9,6 @@
 import SwiftUI
 import RiveRuntime
 
-
 // MARK: - WelcomeQuestions
 struct WelcomeQuestions: View {
     @StateObject private var globalSettings = GlobalSettings()
