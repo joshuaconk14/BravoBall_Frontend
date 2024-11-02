@@ -31,7 +31,7 @@ struct WelcomeQuestions: View {
     @State private var isEditingLastName = false
     
     var body: some View {
-        VStack(spacing: 25) {
+        VStack(spacing: 15) {
             // first name, Zstack so placeholder is on top of input text
             ZStack(alignment: .leading) {
                 if firstName.isEmpty {
@@ -51,6 +51,7 @@ struct WelcomeQuestions: View {
                 .font(.custom("Poppins-Bold", size: 16))
             }
             .frame(height: 60)
+            .padding(.horizontal, 5)
             
             // last name, Zstack so placeholder is on top of input text
             ZStack(alignment: .leading) {
@@ -71,11 +72,12 @@ struct WelcomeQuestions: View {
                 .font(.custom("Poppins-Bold", size: 16))
             }
             .frame(height: 60)
+            .padding(.horizontal, 5)
             
             // confined version of structure drop down menus
-            dropDownMenu(title: $selectedAge, options: ageOptions, placeholder: "Select your Age")
-            dropDownMenu(title: $selectedLevel, options: levelOptions, placeholder: "Select your Level")
-            dropDownMenu(title: $selectedPosition, options: positionOptions, placeholder: "Select your Position")
+            DropdownMenu(title: $selectedAge, options: ageOptions, placeholder: "Select your Age")
+            DropdownMenu(title: $selectedLevel, options: levelOptions, placeholder: "Select your Level")
+            DropdownMenu(title: $selectedPosition, options: positionOptions, placeholder: "Select your Position")
                 .frame(height: 60)
                 .padding(.bottom, 325)
                 .transition(.move(edge: .bottom))

@@ -20,9 +20,14 @@
 		176D15052CD4907000450F85 /* PickGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15042CD4907000450F85 /* PickGoal.swift */; };
 		176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15072CD490E200450F85 /* YesNoTeam.swift */; };
 		179D4FA72CD5E54000F7E4AB /* OnboardingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FA62CD5E54000F7E4AB /* OnboardingData.swift */; };
+		179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */; };
+		179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */; };
+		179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */; };
+		179D4FB12CD5E9E300F7E4AB /* SelectionListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */; };
+		179D4FB32CD5E9F200F7E4AB /* SelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */; };
+		179D4FB82CD61D6500F7E4AB /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB72CD61D6500F7E4AB /* DropdownMenu.swift */; };
 		17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */; };
 		17ACC8DE2CD3688A0047EE09 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */; };
-		17ACC8E32CD368FC0047EE09 /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E22CD368FC0047EE09 /* DropdownMenu.swift */; };
 		17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */; };
 		17ACC8EA2CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */; };
 		17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */; };
@@ -80,9 +85,14 @@
 		176D15042CD4907000450F85 /* PickGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickGoal.swift; sourceTree = "<group>"; };
 		176D15072CD490E200450F85 /* YesNoTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesNoTeam.swift; sourceTree = "<group>"; };
 		179D4FA62CD5E54000F7E4AB /* OnboardingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingData.swift; sourceTree = "<group>"; };
+		179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingLevel.swift; sourceTree = "<group>"; };
+		179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineGoal.swift; sourceTree = "<group>"; };
+		179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDays.swift; sourceTree = "<group>"; };
+		179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListItem.swift; sourceTree = "<group>"; };
+		179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListView.swift; sourceTree = "<group>"; };
+		179D4FB72CD61D6500F7E4AB /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
 		17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
-		17ACC8E22CD368FC0047EE09 /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
 		17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstQuestionnaireView.swift; sourceTree = "<group>"; };
 		17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRepresentPlaystyle.swift; sourceTree = "<group>"; };
 		17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickWeaknesses.swift; sourceTree = "<group>"; };
@@ -161,6 +171,7 @@
 				170217BA2C89030400DD020C /* Models.swift */,
 				17ACC8D82CD367BA0047EE09 /* Features */,
 				17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */,
+				179D4FAE2CD5E9AC00F7E4AB /* Components */,
 				17F5D6532CD3477E008E8C24 /* ColorExtension.swift */,
 				1749361B2C3E102B001163B9 /* ContentView.swift */,
 				1749361D2C3E1031001163B9 /* Assets.xcassets */,
@@ -232,6 +243,16 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		179D4FAE2CD5E9AC00F7E4AB /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */,
+				179D4FB72CD61D6500F7E4AB /* DropdownMenu.swift */,
+				179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		17ACC8D82CD367BA0047EE09 /* Features */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,7 +267,6 @@
 			isa = PBXGroup;
 			children = (
 				179D4FA52CD5E52F00F7E4AB /* Models */,
-				17ACC8E12CD368E70047EE09 /* Components */,
 				17ACC8DA2CD368070047EE09 /* Views */,
 			);
 			path = Onboarding;
@@ -260,14 +280,6 @@
 				17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		17ACC8E12CD368E70047EE09 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8E22CD368FC0047EE09 /* DropdownMenu.swift */,
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		17ACC8E42CD369350047EE09 /* Questionnaires */ = {
@@ -311,6 +323,9 @@
 			children = (
 				17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */,
 				176D15072CD490E200450F85 /* YesNoTeam.swift */,
+				179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */,
+				179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */,
+				179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */,
 				176D15042CD4907000450F85 /* PickGoal.swift */,
 			);
 			path = Views;
@@ -434,7 +449,7 @@
 			);
 			mainGroup = 1749360D2C3E102B001163B9;
 			packageReferences = (
-				435A70132CA7A33B00BFCC40 /* XCRemoteSwiftPackageReference "rive-ios" */,
+				173B401B2CD6AB3C003C560D /* XCRemoteSwiftPackageReference "rive-ios" */,
 			);
 			productRefGroup = 174936172C3E102B001163B9 /* Products */;
 			projectDirPath = "";
@@ -485,11 +500,13 @@
 				17E693222C745811006B58A3 /* ViewModel.swift in Sources */,
 				43985E3F2CB4EDE700BE2AB6 /* CameraView.swift in Sources */,
 				17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */,
+				179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */,
 				17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */,
 				179D4FA72CD5E54000F7E4AB /* OnboardingData.swift in Sources */,
 				170217BB2C89030500DD020C /* Models.swift in Sources */,
-				17ACC8E32CD368FC0047EE09 /* DropdownMenu.swift in Sources */,
+				179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */,
 				17ACC8DE2CD3688A0047EE09 /* WelcomeView.swift in Sources */,
+				179D4FB32CD5E9F200F7E4AB /* SelectionListView.swift in Sources */,
 				17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
 				17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */,
@@ -497,6 +514,7 @@
 				176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */,
 				1749361A2C3E102B001163B9 /* TekkApp.swift in Sources */,
 				176D15012CD4799C00450F85 /* LoginView.swift in Sources */,
+				179D4FB82CD61D6500F7E4AB /* DropdownMenu.swift in Sources */,
 				43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */,
 				176D15052CD4907000450F85 /* PickGoal.swift in Sources */,
 				43985E3D2CB4EDD300BE2AB6 /* ChatbotView.swift in Sources */,
@@ -507,7 +525,9 @@
 				43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */,
 				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,
 				17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */,
+				179D4FB12CD5E9E300F7E4AB /* SelectionListItem.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
+				179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -869,6 +889,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		173B401B2CD6AB3C003C560D /* XCRemoteSwiftPackageReference "rive-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rive-app/rive-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.3.1;
+			};
+		};
 		435A70132CA7A33B00BFCC40 /* XCRemoteSwiftPackageReference "rive-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rive-app/rive-ios";
