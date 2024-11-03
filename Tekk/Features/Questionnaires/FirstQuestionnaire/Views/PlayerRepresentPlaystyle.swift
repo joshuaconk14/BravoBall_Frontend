@@ -10,6 +10,7 @@ import SwiftUI
 import Foundation
 
 struct PlayerRepresentPlaystyle: View {
+    @EnvironmentObject var stateManager: OnboardingStateManager
     @Binding var currentQuestionnaire: Int
     @Binding var selectedPlayer: String
     @Binding var chosenPlayers: [String]
@@ -30,15 +31,13 @@ struct PlayerRepresentPlaystyle: View {
 
 // MARK: - Preview for PlayerRepresentPlaystyle
 struct PlayerRepresentPlaystyle_Previews: PreviewProvider {
-    @State static var currentQuestionnaire = 1
-    @State static var selectedPlayer = ""
-    @State static var chosenPlayers: [String] = []
-    
     static var previews: some View {
+        let stateManager = OnboardingStateManager()
         PlayerRepresentPlaystyle(
-            currentQuestionnaire: $currentQuestionnaire,
-            selectedPlayer: $selectedPlayer,
-            chosenPlayers: $chosenPlayers
+            currentQuestionnaire: .constant(1),
+            selectedPlayer: .constant(""),
+            chosenPlayers: .constant([])
         )
+        .environmentObject(stateManager)
     }
 }

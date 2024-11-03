@@ -11,6 +11,8 @@ import SwiftUI
 import SwiftUI
 
 struct TrainingLevel: View {
+    @EnvironmentObject var stateManager: OnboardingStateManager
+
     @Binding var currentQuestionnaireTwo: Int
     @Binding var selectedLevel: String
     @Binding var chosenLevel: [String]
@@ -34,16 +36,14 @@ struct TrainingLevel: View {
 
 // MARK: - Preview
 struct TrainingLevel_Previews: PreviewProvider {
-    @State static var currentQuestionnaireTwo = 3
-    @State static var selectedLevel = ""
-    @State static var chosenLevel: [String] = []
-    
     static var previews: some View {
+        let stateManager = OnboardingStateManager()
         TrainingLevel(
-            currentQuestionnaireTwo: $currentQuestionnaireTwo,
-            selectedLevel: $selectedLevel,
-            chosenLevel: $chosenLevel
+            currentQuestionnaireTwo: .constant(4),
+            selectedLevel: .constant(""),
+            chosenLevel: .constant([])
         )
+        .environmentObject(stateManager)
     }
 }
 

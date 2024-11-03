@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 struct TrainingDays: View {
+    @EnvironmentObject var stateManager: OnboardingStateManager
+
     @Binding var currentQuestionnaireTwo: Int
     @Binding var selectedDays: String
     @Binding var chosenDays: [String]
@@ -29,17 +31,13 @@ struct TrainingDays: View {
 
 // MARK: - Preview
 struct TrainingDays_Previews: PreviewProvider {
-    @State static var currentQuestionnaireTwo = 4
-    @State static var selectedDays = ""
-    @State static var chosenDays: [String] = []
-    
     static var previews: some View {
+        let stateManager = OnboardingStateManager()
         TrainingDays(
-            currentQuestionnaireTwo: $currentQuestionnaireTwo,
-            selectedDays: $selectedDays,
-            chosenDays: $chosenDays
+            currentQuestionnaireTwo: .constant(5),
+            selectedDays: .constant(""),
+            chosenDays: .constant([])
         )
-        .previewLayout(.sizeThatFits)
+        .environmentObject(stateManager)
     }
 }
-

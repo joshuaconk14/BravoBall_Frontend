@@ -12,6 +12,7 @@ import RiveRuntime
 // MARK: - Main body
 struct FirstQuestionnaireView: View {
     @StateObject private var globalSettings = GlobalSettings()
+    @EnvironmentObject var stateManager: OnboardingStateManager
 
     @Binding var showQuestionnaire: Bool
     // questionnaires state variables
@@ -36,67 +37,57 @@ struct FirstQuestionnaireView: View {
     @State private var selectedWeakness: String = "strength"
     @State private var chosenWeaknesses: [String] = []
     
-    // var for questionnaire matchedGeometry function
-    @Namespace var questionnaireTwoSpace
-    @Namespace var questionnaireSpace
-    
-    
     var body: some View {
-        VStack {
-            ZStack {
-                
-                content
-            
-                // ZStack for matchedGeometry for smooth transitions
-                ZStack {
-                    // Present WelcomeView when showWelcomeView is true
-                    if !showQuestionnaireTwo {
-                        SecondQuestionnaireView(showQuestionnaireTwo: $showQuestionnaireTwo)// Pass bindings as needed
-                            .matchedGeometryEffect(id: "welcome", in: questionnaireTwoSpace)
-                            .offset(x: UIScreen.main.bounds.width) // out of bounds
-                    } else {
-                        SecondQuestionnaireView(showQuestionnaireTwo: $showQuestionnaireTwo)// Pass bindings as needed
-                            .matchedGeometryEffect(id: "welcome", in: questionnaireTwoSpace)
-                            .offset(x: 0) // showing
-                    }
-                }
-            }
+        if showQuestionnaireTwo {
+            SecondQuestionnaireView(showQuestionnaireTwo: $showQuestionnaireTwo)
+                .environmentObject(stateManager)
+                .transition(.move(edge: .trailing))
+        } else {
+            content
         }
     }
+    
     var content: some View {
         NavigationView {
             // ZStack so lets get tekky button and back button arent confined to VStack
             ZStack {
                 // animation and text VStack
-                // need all these VStacks ???
+                // need all these VStacks ??
                 VStack {
                     ScrollView {
                         LazyVStack {
                             Spacer()
                                 .frame(height:10)
-                            // Current questionnaire REPRESENTATION based on the state variable
-                            if currentQuestionnaire == 1 {
-                                PlayerRepresentPlaystyle(currentQuestionnaire: $currentQuestionnaire, selectedPlayer: $selectedPlayer, chosenPlayers: $chosenPlayers)
-                                    .transition(.move(edge: .trailing)) // Move in from the right
-                                    .animation(.easeInOut) // Animate the transition
-                                    .offset(x: currentQuestionnaire == 1 ? 0 : UIScreen.main.bounds.width) // Start off-screen
-                            } else if currentQuestionnaire == 2 {
-                                PickStrengths(currentQuestionnaire: $currentQuestionnaire, selectedStrength: $selectedStrength, chosenStrengths: $chosenStrengths)
-                                    .transition(.move(edge: .trailing)) // Move in from the right
-                                    .animation(.easeInOut) // Animate the transition
-                                    .offset(x: currentQuestionnaire == 2 ? 0 : UIScreen.main.bounds.width) // Start off-screen
-                            } else if currentQuestionnaire == 3 {
-                                PickWeaknesses(currentQuestionnaire: $currentQuestionnaire, selectedWeakness: $selectedWeakness, chosenWeaknesses: $chosenWeaknesses)
-                                    .transition(.move(edge: .trailing)) // Move in from the right
-                                    .animation(.easeInOut) // Animate the transition
-                                    .offset(x: currentQuestionnaire == 3 ? 0 : UIScreen.main.bounds.width) // Start off-screen
+                            Group {
+                                // Current questionnaire REPRESENTATION based on the state variable
+                                if currentQuestionnaire == 1 {
+                                    PlayerRepresentPlaystyle(currentQuestionnaire: $currentQuestionnaire, selectedPlayer: $selectedPlayer, chosenPlayers: $chosenPlayers)
+                                        .transition(AnyTransition.asymmetric(
+                                            insertion: .move(edge: .trailing),
+                                            removal: .move(edge: .leading)
+                                        ))
+                                } else if currentQuestionnaire == 2 {
+                                    PickStrengths(currentQuestionnaire: $currentQuestionnaire, selectedStrength: $selectedStrength, chosenStrengths: $chosenStrengths)
+                                        .transition(AnyTransition.asymmetric(
+                                            insertion: .move(edge: .trailing),
+                                            removal: .move(edge: .leading)
+                                        ))
+                                } else if currentQuestionnaire == 3 {
+                                    PickWeaknesses(currentQuestionnaire: $currentQuestionnaire, selectedWeakness: $selectedWeakness, chosenWeaknesses: $chosenWeaknesses)
+                                        .transition(AnyTransition.asymmetric(
+                                            insertion: .move(edge: .trailing),
+                                            removal: .move(edge: .leading)
+                                        ))
+                                }
                             }
+                            .animation(.easeInOut, value: currentQuestionnaire)
                         }
                     }
                     .frame(height: 410) // Set the height of the ScrollView to limit visible area
                     .padding(.top, 200) 
                 }
                 Spacer()
+                
                 // panting animation
                 RiveViewModel(fileName: "test_panting").view()
                     .frame(width: 250, height: 250)
@@ -104,6 +95,7 @@ struct FirstQuestionnaireView: View {
                 // riveViewOffset is amount it will offset, button will trigger it
                     .offset(x: riveViewOffset.width, y: riveViewOffset.height)
                     .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
+                
                 //MARK: - Bravo messages
                 // bravo message 0, confined to ZStack
                 Text("Nice! I know so much more about you now! Just a few questions to know your style of play.")
@@ -200,7 +192,6 @@ struct FirstQuestionnaireView: View {
                         .foregroundColor(.white)
                         .cornerRadius(20)
                         .font(.custom("Poppins-Bold", size: 16))
-
                 }
                 // padding for button
                 .padding(.top, 700)
@@ -222,17 +213,23 @@ struct FirstQuestionnaireView: View {
     }
     // Validation function for Questionnaire 3 (need?)
     private func validateQ3() -> Bool {
-        return !chosenWeaknesses.isEmpty // at least 1 player is chosen
+        if !chosenWeaknesses.isEmpty {
+            stateManager.updateFirstQuestionnaire(
+                playstyle: chosenPlayers,
+                strengths: chosenStrengths,
+                weaknesses: chosenWeaknesses
+            )
+            return true
+        }
+        return false
     }
 }
 
-
 // MARK: - Preview
-
 struct Questionnaire_Previews: PreviewProvider {
-    @State static var showQuestionnaire = true // Example binding variable
-
     static var previews: some View {
-        FirstQuestionnaireView(showQuestionnaire: $showQuestionnaire)
+        let stateManager = OnboardingStateManager()
+        FirstQuestionnaireView(showQuestionnaire: .constant(true))
+            .environmentObject(stateManager)
     }
 }

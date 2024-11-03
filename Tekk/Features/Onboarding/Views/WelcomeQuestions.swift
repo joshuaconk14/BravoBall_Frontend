@@ -9,6 +9,7 @@
 import SwiftUI
 import RiveRuntime
 
+
 // MARK: - WelcomeQuestions
 struct WelcomeQuestions: View {
     @StateObject private var globalSettings = GlobalSettings()
@@ -18,7 +19,13 @@ struct WelcomeQuestions: View {
     @Binding var lastName: String
     
     //  options for lists
-    let ageOptions = Array (5...100).map { String($0) }
+    let ageOptions = [
+            "Youth (Under 12)",
+            "Teen (13-16)",
+            "Junior (17-19)",
+            "Adult (20-29)",
+            "Senior (30+)"
+        ]
     let levelOptions = ["Beginner", "Intermediate", "Competitive", "Professional"]
     let positionOptions = ["Goalkeeper", "Fullback", "Centerback", "Defensive Mid", "Central Mid", "Attacking Mid", "Winger", "Forward"]
     
@@ -30,16 +37,41 @@ struct WelcomeQuestions: View {
     @State private var isEditingLastName = false
     
     var body: some View {
-        VStack(spacing: 15) {
-            // first name
-            ZStack(alignment: .leading) {
-                if firstName.isEmpty {
-                    Text("First Name")
-                        .foregroundColor(.gray)
-                        .padding(.leading, 16)
-                        .font(.custom("Poppins-Bold", size: 16))
+        ScrollView {
+            LazyVStack(spacing: 15) {
+                // Add some top padding to account for Bravo and the question
+                Spacer()
+                    .frame(height: 275) // Adjust this value based on your needs
+                
+                // first name
+                ZStack(alignment: .leading) {
+                    if firstName.isEmpty {
+                        Text("First Name")
+                            .foregroundColor(.gray)
+                            .padding(.leading, 16)
+                            .font(.custom("Poppins-Bold", size: 16))
+                    }
+                    TextField("", text: $firstName)
+                    .padding()
+                    .foregroundColor(globalSettings.primaryDarkColor)
+                    .background(Color.clear)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .font(.custom("Poppins-Bold", size: 16))
                 }
-                TextField("", text: $firstName)
+                .frame(height: 60)
+                
+                // last name
+                ZStack(alignment: .leading) {
+                    if lastName.isEmpty {
+                        Text("Last Name")
+                            .foregroundColor(.gray)
+                            .padding(.leading, 16)
+                            .font(.custom("Poppins-Bold", size: 16))
+                    }
+                    TextField("", text: $lastName)
                     .padding()
                     .foregroundColor(globalSettings.primaryDarkColor)
                     .background(Color.clear)
@@ -48,55 +80,26 @@ struct WelcomeQuestions: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .font(.custom("Poppins-Bold", size: 16))
-                    .padding()
-                    .foregroundColor(globalSettings.primaryDarkColor)
-                    .background(Color.clear)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
-                    .font(.custom("Poppins-Bold", size: 16))
-            }
-            .frame(height: 60)
-            .padding(.horizontal, 20)
-            
-            // last name (same modifications as first name)
-            // last name (same modifications as first name)
-            ZStack(alignment: .leading) {
-                if lastName.isEmpty {
-                    Text("Last Name")
-                        .foregroundColor(.gray)
-                        .padding(.leading, 16)
-                        .font(.custom("Poppins-Bold", size: 16))
                 }
-                TextField("", text: $lastName)
-                    .padding()
-                    .foregroundColor(globalSettings.primaryDarkColor)
-                    .background(Color.clear)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
-                    .font(.custom("Poppins-Bold", size: 16))
-                    .padding()
-                    .foregroundColor(globalSettings.primaryDarkColor)
-                    .background(Color.clear)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
-                    .font(.custom("Poppins-Bold", size: 16))
+                .frame(height: 60)
+
+                // dropdown menus
+                VStack(spacing: 15) {
+                    DropdownMenu(title: $selectedAge, options: ageOptions, placeholder: "Select your Age Range")
+                        .zIndex(3)
+                    DropdownMenu(title: $selectedLevel, options: levelOptions, placeholder: "Select your Level")
+                        .zIndex(2)
+                    DropdownMenu(title: $selectedPosition, options: positionOptions, placeholder: "Select your Position")
+                        .zIndex(1)
+                }
+                
+                // Add bottom spacing to ensure content doesn't get hidden behind the Next button
+                Spacer()
+                    .frame(height: 100)
             }
-            .frame(height: 60)
-            .padding(.horizontal, 20)
-            
-            // dropdown menus
-            DropdownMenu(title: $selectedAge, options: ageOptions, placeholder: "Select your Age")
-            DropdownMenu(title: $selectedLevel, options: levelOptions, placeholder: "Select your Level")
-            DropdownMenu(title: $selectedPosition, options: positionOptions, placeholder: "Select your Position")
+            .padding(.horizontal)
         }
-        .padding(.top, 20)
-        .padding(.top, 20)
+        .scrollDisabled(false) // Enable scrolling
     }
 }
 

@@ -10,6 +10,7 @@ import RiveRuntime
 
 struct SecondQuestionnaireView: View {
     @StateObject private var globalSettings = GlobalSettings()
+    @EnvironmentObject var stateManager: OnboardingStateManager
 
     // binding this struct to questionnairetwo
     @Binding var showQuestionnaireTwo: Bool
@@ -58,6 +59,7 @@ struct SecondQuestionnaireView: View {
                                     .transition(.move(edge: .trailing))
                                     .animation(.easeInOut)
                                     .offset(x: currentQuestionnaireTwo == 1 ? 0 : UIScreen.main.bounds.width)
+                                    .environmentObject(stateManager)
                             } else if currentQuestionnaireTwo == 2 {
                                 PickGoal(currentQuestionnaireTwo: $currentQuestionnaireTwo,
                                        selectedGoal: $selectedGoal,
@@ -65,6 +67,7 @@ struct SecondQuestionnaireView: View {
                                     .transition(.move(edge: .trailing))
                                     .animation(.easeInOut)
                                     .offset(x: currentQuestionnaireTwo == 2 ? 0 : UIScreen.main.bounds.width)
+                                    .environmentObject(stateManager)
                             } else if currentQuestionnaireTwo == 3 {
                                 TimelineGoal(currentQuestionnaireTwo: $currentQuestionnaireTwo,
                                            selectedTimeline: $selectedTimeline,
@@ -72,6 +75,7 @@ struct SecondQuestionnaireView: View {
                                     .transition(.move(edge: .trailing))
                                     .animation(.easeInOut)
                                     .offset(x: currentQuestionnaireTwo == 3 ? 0 : UIScreen.main.bounds.width)
+                                    .environmentObject(stateManager)
                             } else if currentQuestionnaireTwo == 4 {
                                 TrainingLevel(currentQuestionnaireTwo: $currentQuestionnaireTwo,
                                             selectedLevel: $selectedLevel,
@@ -79,6 +83,7 @@ struct SecondQuestionnaireView: View {
                                     .transition(.move(edge: .trailing))
                                     .animation(.easeInOut)
                                     .offset(x: currentQuestionnaireTwo == 4 ? 0 : UIScreen.main.bounds.width)
+                                    .environmentObject(stateManager)
                             } else if currentQuestionnaireTwo == 5 {
                                 TrainingDays(currentQuestionnaireTwo: $currentQuestionnaireTwo,
                                            selectedDays: $selectedDays,
@@ -86,6 +91,7 @@ struct SecondQuestionnaireView: View {
                                     .transition(.move(edge: .trailing))
                                     .animation(.easeInOut)
                                     .offset(x: currentQuestionnaireTwo == 5 ? 0 : UIScreen.main.bounds.width)
+                                    .environmentObject(stateManager)
                             }
                         }
                     }
@@ -222,9 +228,14 @@ struct SecondQuestionnaireView: View {
                 textOpacity5 = 1.0
             }
         } else if currentQuestionnaireTwo == 5 && !chosenDays.isEmpty {
-//            withAnimation {
-//                showQuestionnaireTwo = false // Complete questionnaire
-//            }
+            stateManager.updateSecondQuestionnaire(
+                hasTeam: !chosenYesNoTeam.isEmpty,
+                goal: chosenGoal.first ?? "",
+                timeline: chosenTimeline.first ?? "",
+                skillLevel: chosenLevel.first ?? "",
+                trainingDays: chosenDays
+            )
+            // Here you can proceed to the next view or handle completion
         }
     }
 }
@@ -232,10 +243,9 @@ struct SecondQuestionnaireView: View {
 
 // MARK: - Preview
 struct SecondQuestionnaire_Previews: PreviewProvider {
-    @State static var showQuestionnaireTwo = true // Example binding variable
-
     static var previews: some View {
-        SecondQuestionnaireView(showQuestionnaireTwo: $showQuestionnaireTwo)
-            .preferredColorScheme(.dark) // Optional: Set the color scheme for the preview
+        let stateManager = OnboardingStateManager()
+        SecondQuestionnaireView(showQuestionnaireTwo: .constant(true))
+            .environmentObject(stateManager)
     }
 }

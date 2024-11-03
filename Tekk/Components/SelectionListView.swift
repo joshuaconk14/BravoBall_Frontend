@@ -26,9 +26,7 @@ struct SelectionListView<T: Hashable>: View {
                     }
                 }
             }
-            .padding(.horizontal)
         }
-        .padding(.horizontal)
     }
     
     private func toggleSelection(_ item: T) {
