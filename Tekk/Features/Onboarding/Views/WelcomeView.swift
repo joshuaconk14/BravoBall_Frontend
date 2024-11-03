@@ -36,7 +36,7 @@ struct WelcomeView: View {
     var body: some View {
         VStack {
             ZStack {
-        Color.white.edgesIgnoringSafeArea(.all)  // Base white background
+                Color.white.edgesIgnoringSafeArea(.all)  // Base white background
                 
                 content
                 
