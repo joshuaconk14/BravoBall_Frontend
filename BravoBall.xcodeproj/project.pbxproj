@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		170217BB2C89030500DD020C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170217BA2C89030400DD020C /* Models.swift */; };
-		173B401E2CD6E452003C560D /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B401D2CD6E452003C560D /* OnboardingService.swift */; };
 		173B40212CD6F501003C560D /* OnboardingStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B40202CD6F501003C560D /* OnboardingStateManager.swift */; };
 		173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B40232CD6F55A003C560D /* OnboardingData.swift */; };
 		1749361C2C3E102B001163B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749361B2C3E102B001163B9 /* ContentView.swift */; };
@@ -22,6 +21,7 @@
 		176D15052CD4907000450F85 /* PickGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15042CD4907000450F85 /* PickGoal.swift */; };
 		176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15072CD490E200450F85 /* YesNoTeam.swift */; };
 		179CF94F2CD7077F00D07E49 /* BravoBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF94E2CD7077F00D07E49 /* BravoBall.swift */; };
+		179CF9522CD712CA00D07E49 /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9512CD712CA00D07E49 /* OnboardingService.swift */; };
 		179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */; };
 		179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */; };
 		179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */; };
@@ -71,7 +71,6 @@
 
 /* Begin PBXFileReference section */
 		170217BA2C89030400DD020C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		173B401D2CD6E452003C560D /* OnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingService.swift; sourceTree = "<group>"; };
 		173B40202CD6F501003C560D /* OnboardingStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStateManager.swift; sourceTree = "<group>"; };
 		173B40232CD6F55A003C560D /* OnboardingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingData.swift; sourceTree = "<group>"; };
 		174936162C3E102B001163B9 /* BravoBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BravoBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,6 +88,7 @@
 		176D15042CD4907000450F85 /* PickGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickGoal.swift; sourceTree = "<group>"; };
 		176D15072CD490E200450F85 /* YesNoTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesNoTeam.swift; sourceTree = "<group>"; };
 		179CF94E2CD7077F00D07E49 /* BravoBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BravoBall.swift; sourceTree = "<group>"; };
+		179CF9512CD712CA00D07E49 /* OnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingService.swift; sourceTree = "<group>"; };
 		179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingLevel.swift; sourceTree = "<group>"; };
 		179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineGoal.swift; sourceTree = "<group>"; };
 		179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDays.swift; sourceTree = "<group>"; };
@@ -145,14 +145,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		173B401C2CD6E43C003C560D /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				173B401D2CD6E452003C560D /* OnboardingService.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		173B401F2CD6F4F6003C560D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,7 +193,6 @@
 				17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */,
 				179D4FAE2CD5E9AC00F7E4AB /* Components */,
 				17F5D6532CD3477E008E8C24 /* ColorExtension.swift */,
-				173B401C2CD6E43C003C560D /* Services */,
 				1749361B2C3E102B001163B9 /* ContentView.swift */,
 				1749361D2C3E1031001163B9 /* Assets.xcassets */,
 				43985E502CB51DEC00BE2AB6 /* Font */,
@@ -264,6 +255,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		179CF9502CD712B500D07E49 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				179CF9512CD712CA00D07E49 /* OnboardingService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		179D4FAE2CD5E9AC00F7E4AB /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,6 +286,7 @@
 		17ACC8D92CD367DD0047EE09 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				179CF9502CD712B500D07E49 /* Services */,
 				173B40222CD6F547003C560D /* Models */,
 				173B401F2CD6F4F6003C560D /* ViewModels */,
 				17ACC8DA2CD368070047EE09 /* Views */,
@@ -534,7 +534,7 @@
 				173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */,
 				17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */,
 				176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */,
-				173B401E2CD6E452003C560D /* OnboardingService.swift in Sources */,
+				179CF9522CD712CA00D07E49 /* OnboardingService.swift in Sources */,
 				176D15012CD4799C00450F85 /* LoginView.swift in Sources */,
 				179D4FB82CD61D6500F7E4AB /* DropdownMenu.swift in Sources */,
 				43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */,

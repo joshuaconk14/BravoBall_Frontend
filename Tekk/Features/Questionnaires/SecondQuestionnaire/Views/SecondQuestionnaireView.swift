@@ -235,7 +235,21 @@ struct SecondQuestionnaireView: View {
                 skillLevel: chosenLevel.first ?? "",
                 trainingDays: chosenDays
             )
-            // Here you can proceed to the next view or handle completion
+            submitOnboardingData()
+            // TODO: Handle navigation after successful submission
+        }
+    }
+
+    private func submitOnboardingData() {
+        Task {
+            do {
+                try await OnboardingService.shared.submitOnboardingData(data: stateManager.onboardingData)
+                print("✅ Onboarding data submitted successfully")
+                // Handle successful submission (e.g., navigate to next screen)
+            } catch {
+                print("❌ Error submitting onboarding data: \(error)")
+                // Handle error (show alert to user)
+            }
         }
     }
 }
