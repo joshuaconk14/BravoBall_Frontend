@@ -12,6 +12,7 @@ import RiveRuntime
 // MARK: - Main body
 struct FirstQuestionnaireView: View {
     @StateObject private var globalSettings = GlobalSettings()
+    @EnvironmentObject var stateManager: OnboardingStateManager
 
     @Binding var showQuestionnaire: Bool
     // questionnaires state variables
@@ -222,7 +223,15 @@ struct FirstQuestionnaireView: View {
     }
     // Validation function for Questionnaire 3 (need?)
     private func validateQ3() -> Bool {
-        return !chosenWeaknesses.isEmpty // at least 1 player is chosen
+        if !chosenWeaknesses.isEmpty {
+            stateManager.updateFirstQuestionnaire(
+                playstyle: chosenPlayers,
+                strengths: chosenStrengths,
+                weaknesses: chosenWeaknesses
+            )
+            return true
+        }
+        return false
     }
 }
 
@@ -234,5 +243,6 @@ struct Questionnaire_Previews: PreviewProvider {
 
     static var previews: some View {
         FirstQuestionnaireView(showQuestionnaire: $showQuestionnaire)
+            .environmentObject(OnboardingStateManager())
     }
 }

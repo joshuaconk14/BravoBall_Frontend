@@ -10,6 +10,7 @@ import RiveRuntime
 
 struct WelcomeView: View {
     @StateObject private var globalSettings = GlobalSettings()
+    @StateObject private var stateManager = OnboardingStateManager()
 
     // Note: Binding/ Bool binds this structure, state private func on other pages determines function of this structure
     @Binding var showWelcome: Bool
@@ -159,7 +160,22 @@ struct WelcomeView: View {
     // MARK: - (change to || for quick nav and && when done)
     // Validation function for Questionnaire 1
     private func validateQ1() -> Bool {
-       return !firstName.isEmpty || !lastName.isEmpty || selectedAge != "Select your Age" || selectedLevel != "Select your Level" || selectedPosition != "Select your Position"
+        if !firstName.isEmpty && 
+           !lastName.isEmpty && 
+           selectedAge != "Select your Age" && 
+           selectedLevel != "Select your Level" && 
+           selectedPosition != "Select your Position" {
+            
+            stateManager.updateWelcomeData(
+                firstName: firstName,
+                lastName: lastName,
+                ageRange: selectedAge,
+                level: selectedLevel,
+                position: selectedPosition
+            )
+            return true
+        }
+        return false
     }
 }
 

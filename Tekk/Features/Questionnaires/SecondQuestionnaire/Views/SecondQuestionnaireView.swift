@@ -10,6 +10,7 @@ import RiveRuntime
 
 struct SecondQuestionnaireView: View {
     @StateObject private var globalSettings = GlobalSettings()
+    @EnvironmentObject var stateManager: OnboardingStateManager
 
     // binding this struct to questionnairetwo
     @Binding var showQuestionnaireTwo: Bool
@@ -222,9 +223,14 @@ struct SecondQuestionnaireView: View {
                 textOpacity5 = 1.0
             }
         } else if currentQuestionnaireTwo == 5 && !chosenDays.isEmpty {
-//            withAnimation {
-//                showQuestionnaireTwo = false // Complete questionnaire
-//            }
+            stateManager.updateSecondQuestionnaire(
+                hasTeam: !chosenYesNoTeam.isEmpty,
+                goal: chosenGoal.first ?? "",
+                timeline: chosenTimeline.first ?? "",
+                skillLevel: chosenLevel.first ?? "",
+                trainingDays: chosenDays
+            )
+            // Here you can proceed to the next view or handle completion
         }
     }
 }
@@ -236,6 +242,6 @@ struct SecondQuestionnaire_Previews: PreviewProvider {
 
     static var previews: some View {
         SecondQuestionnaireView(showQuestionnaireTwo: $showQuestionnaireTwo)
-            .preferredColorScheme(.dark) // Optional: Set the color scheme for the preview
+            .environmentObject(OnboardingStateManager())
     }
 }
