@@ -39,168 +39,175 @@ struct FirstQuestionnaireView: View {
     @State private var chosenWeaknesses: [String] = []
     
     var body: some View {
-        if showQuestionnaireTwo {
-            SecondQuestionnaireView(isLoggedIn: $isLoggedIn, showQuestionnaireTwo: $showQuestionnaireTwo)
-                .environmentObject(stateManager)
-                .transition(.move(edge: .trailing))
-        } else {
-            content
+        ZStack {
+            Color.white.edgesIgnoringSafeArea(.all)  // Base white background
+            
+            if showQuestionnaireTwo {
+                SecondQuestionnaireView(isLoggedIn: $isLoggedIn, showQuestionnaireTwo: $showQuestionnaireTwo)
+                    .environmentObject(stateManager)
+                    .transition(.move(edge: .trailing))
+            } else {
+                content
+            }
         }
     }
     
     var content: some View {
-        NavigationView {
-            // ZStack so lets get tekky button and back button arent confined to VStack
-            ZStack {
-                // animation and text VStack
-                // need all these VStacks ??
-                VStack {
-                    ScrollView {
-                        LazyVStack {
-                            Spacer()
-                                .frame(height:10)
-                            Group {
-                                // Current questionnaire REPRESENTATION based on the state variable
-                                if currentQuestionnaire == 1 {
-                                    PlayerRepresentPlaystyle(currentQuestionnaire: $currentQuestionnaire, selectedPlayer: $selectedPlayer, chosenPlayers: $chosenPlayers)
-                                        .transition(AnyTransition.asymmetric(
-                                            insertion: .move(edge: .trailing),
-                                            removal: .move(edge: .leading)
-                                        ))
-                                } else if currentQuestionnaire == 2 {
-                                    PickStrengths(currentQuestionnaire: $currentQuestionnaire, selectedStrength: $selectedStrength, chosenStrengths: $chosenStrengths)
-                                        .transition(AnyTransition.asymmetric(
-                                            insertion: .move(edge: .trailing),
-                                            removal: .move(edge: .leading)
-                                        ))
-                                } else if currentQuestionnaire == 3 {
-                                    PickWeaknesses(currentQuestionnaire: $currentQuestionnaire, selectedWeakness: $selectedWeakness, chosenWeaknesses: $chosenWeaknesses)
-                                        .transition(AnyTransition.asymmetric(
-                                            insertion: .move(edge: .trailing),
-                                            removal: .move(edge: .leading)
-                                        ))
+        VStack(spacing: 0) {
+            NavigationView {
+                ZStack {
+                    // animation and text VStack
+                    // need all these VStacks ??
+                    VStack {
+                        ScrollView {
+                            LazyVStack {
+                                Spacer()
+                                    .frame(height:10)
+                                Group {
+                                    // Current questionnaire REPRESENTATION based on the state variable
+                                    if currentQuestionnaire == 1 {
+                                        PlayerRepresentPlaystyle(currentQuestionnaire: $currentQuestionnaire, selectedPlayer: $selectedPlayer, chosenPlayers: $chosenPlayers)
+                                            .transition(AnyTransition.asymmetric(
+                                                insertion: .move(edge: .trailing),
+                                                removal: .move(edge: .leading)
+                                            ))
+                                    } else if currentQuestionnaire == 2 {
+                                        PickStrengths(currentQuestionnaire: $currentQuestionnaire, selectedStrength: $selectedStrength, chosenStrengths: $chosenStrengths)
+                                            .transition(AnyTransition.asymmetric(
+                                                insertion: .move(edge: .trailing),
+                                                removal: .move(edge: .leading)
+                                            ))
+                                    } else if currentQuestionnaire == 3 {
+                                        PickWeaknesses(currentQuestionnaire: $currentQuestionnaire, selectedWeakness: $selectedWeakness, chosenWeaknesses: $chosenWeaknesses)
+                                            .transition(AnyTransition.asymmetric(
+                                                insertion: .move(edge: .trailing),
+                                                removal: .move(edge: .leading)
+                                            ))
+                                    }
+                                }
+                                .animation(.easeInOut, value: currentQuestionnaire)
+                            }
+                        }
+                        .frame(height: 410) // Set the height of the ScrollView to limit visible area
+                        .padding(.top, 200) 
+                    }
+                    Spacer()
+                    
+                    // panting animation
+                    RiveViewModel(fileName: "test_panting").view()
+                        .frame(width: 250, height: 250)
+                        .padding(.bottom, 5)
+                    // riveViewOffset is amount it will offset, button will trigger it
+                        .offset(x: riveViewOffset.width, y: riveViewOffset.height)
+                        .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
+                    
+                    //MARK: - Bravo messages
+                    // bravo message 0, confined to ZStack
+                    Text("Nice! I know so much more about you now! Just a few questions to know your style of play.")
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding(.horizontal, 80)
+                        .padding(.bottom, 400)
+                        .opacity(textOpacity0)
+                        .font(.custom("Poppins-Bold", size: 16))
+                    // bravo message 1, confined to ZStack
+                    Text("Which players do you feel represent your playstyle the best?")
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding() // padding for text edges
+                        .padding(.bottom, 500)
+                        .padding(.leading, 150)
+                        .opacity(textOpacity1)
+                        .font(.custom("Poppins-Bold", size: 16))
+                    // bravo message 2, confined to ZStack
+                    Text("What are your biggest strengths?")
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding() // padding for text edges
+                        .padding(.bottom, 500)
+                        .padding(.leading, 150)
+                        .opacity(textOpacity2)
+                        .font(.custom("Poppins-Bold", size: 16))
+                    // bravo message 3, confined to ZStack
+                    Text("What would you like to work on?")
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding() // padding for text edges
+                        .padding(.bottom, 500)
+                        .padding(.leading, 150)
+                        .opacity(textOpacity3)
+                        .font(.custom("Poppins-Bold", size: 16))
+                    
+                    // Back button, confined to ZStack
+                    HStack {
+                        Button(action: {
+                            withAnimation {
+                                showQuestionnaire = false // Transition to Questionnaire
+                            }
+                        }) {
+                            Image(systemName:"arrow.left")
+                                .font(.title2)
+                                .foregroundColor(globalSettings.primaryDarkColor)
+                                .padding()
+                        }
+                        .padding(.bottom, 725)
+                        
+                        Spacer() // moving back button to left
+                    }
+                    
+                    // MARK: - "Next" button
+                    // Current questionnaire ACTION based on the state variable
+                    Button(action: {
+                        withAnimation(.spring()) {
+                            // Move the Rive animation up and show list
+                            riveViewOffset = CGSize(width: -75, height: -250)
+                            currentQuestionnaire = 1
+                            textOpacity0 = 0.0
+                            textOpacity1 = 1.0
+                        }
+
+                        // If statements to Move to the next questionnaire
+                        if currentQuestionnaire == 1 {
+                            if validateQ1() {
+                                withAnimation {
+                                    currentQuestionnaire = 2
+                                    textOpacity1 = 0.0
+                                    textOpacity2 = 1.0
                                 }
                             }
-                            .animation(.easeInOut, value: currentQuestionnaire)
                         }
-                    }
-                    .frame(height: 410) // Set the height of the ScrollView to limit visible area
-                    .padding(.top, 200) 
-                }
-                Spacer()
-                
-                // panting animation
-                RiveViewModel(fileName: "test_panting").view()
-                    .frame(width: 250, height: 250)
-                    .padding(.bottom, 5)
-                // riveViewOffset is amount it will offset, button will trigger it
-                    .offset(x: riveViewOffset.width, y: riveViewOffset.height)
-                    .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
-                
-                //MARK: - Bravo messages
-                // bravo message 0, confined to ZStack
-                Text("Nice! I know so much more about you now! Just a few questions to know your style of play.")
-                    .foregroundColor(globalSettings.primaryDarkColor)
-                    .padding(.horizontal, 80)
-                    .padding(.bottom, 400)
-                    .opacity(textOpacity0)
-                    .font(.custom("Poppins-Bold", size: 16))
-                // bravo message 1, confined to ZStack
-                Text("Which players do you feel represent your playstyle the best?")
-                    .foregroundColor(globalSettings.primaryDarkColor)
-                    .padding() // padding for text edges
-                    .padding(.bottom, 500)
-                    .padding(.leading, 150)
-                    .opacity(textOpacity1)
-                    .font(.custom("Poppins-Bold", size: 16))
-                // bravo message 2, confined to ZStack
-                Text("What are your biggest strengths?")
-                    .foregroundColor(globalSettings.primaryDarkColor)
-                    .padding() // padding for text edges
-                    .padding(.bottom, 500)
-                    .padding(.leading, 150)
-                    .opacity(textOpacity2)
-                    .font(.custom("Poppins-Bold", size: 16))
-                // bravo message 3, confined to ZStack
-                Text("What would you like to work on?")
-                    .foregroundColor(globalSettings.primaryDarkColor)
-                    .padding() // padding for text edges
-                    .padding(.bottom, 500)
-                    .padding(.leading, 150)
-                    .opacity(textOpacity3)
-                    .font(.custom("Poppins-Bold", size: 16))
-                
-                // Back button, confined to ZStack
-                HStack {
-                    Button(action: {
-                        withAnimation {
-                            showQuestionnaire = false // Transition to Questionnaire
+                        if currentQuestionnaire == 2 {
+                            if validateQ2() {
+                                withAnimation {
+                                    currentQuestionnaire = 3
+                                    textOpacity2 = 0.0
+                                    textOpacity3 = 1.0
+                                }
+                            }
+                        }
+                        if currentQuestionnaire == 3 {
+                            if validateQ3() {
+                                withAnimation {
+                                    showQuestionnaireTwo = true // from Questionnaire to QuestionnaireTwo
+                                    textOpacity3 = 0.0
+                                }
+                            }
                         }
                     }) {
-                        Image(systemName:"arrow.left")
-                            .font(.title2)
-                            .foregroundColor(globalSettings.primaryDarkColor)
+                        Text("Next")
+                            .frame(width: 325, height: 15)
                             .padding()
+                            .background(globalSettings.primaryYellowColor)
+                            .foregroundColor(.white)
+                            .cornerRadius(20)
+                            .font(.custom("Poppins-Bold", size: 16))
                     }
-                    .padding(.bottom, 725)
-                    
-                    Spacer() // moving back button to left
+                    // padding for button
+                    .padding(.top, 700)
                 }
-                
-                // MARK: - "Next" button
-                // Current questionnaire ACTION based on the state variable
-                Button(action: {
-                    withAnimation(.spring()) {
-                        // Move the Rive animation up and show list
-                        riveViewOffset = CGSize(width: -75, height: -250)
-                        currentQuestionnaire = 1
-                        textOpacity0 = 0.0
-                        textOpacity1 = 1.0
-                    }
-
-                    // If statements to Move to the next questionnaire
-                    if currentQuestionnaire == 1 {
-                        if validateQ1() {
-                            withAnimation {
-                                currentQuestionnaire = 2
-                                textOpacity1 = 0.0
-                                textOpacity2 = 1.0
-                            }
-                        }
-                    }
-                    if currentQuestionnaire == 2 {
-                        if validateQ2() {
-                            withAnimation {
-                                currentQuestionnaire = 3
-                                textOpacity2 = 0.0
-                                textOpacity3 = 1.0
-                            }
-                        }
-                    }
-                    if currentQuestionnaire == 3 {
-                        if validateQ3() {
-                            withAnimation {
-                                showQuestionnaireTwo = true // from Questionnaire to QuestionnaireTwo
-                                textOpacity3 = 0.0
-                            }
-                        }
-                    }
-                }) {
-                    Text("Next")
-                        .frame(width: 325, height: 15)
-                        .padding()
-                        .background(globalSettings.primaryYellowColor)
-                        .foregroundColor(.white)
-                        .cornerRadius(20)
-                        .font(.custom("Poppins-Bold", size: 16))
-                }
-                // padding for button
-                .padding(.top, 700)
+                .padding()
+                .background(.white)
             }
-            //ZStack padding
-            .padding()
-            .background(.white)
+            .navigationViewStyle(StackNavigationViewStyle())
         }
+        .background(.white)
+        .edgesIgnoringSafeArea(.all)
     }
     
     // MARK: - Validation functions

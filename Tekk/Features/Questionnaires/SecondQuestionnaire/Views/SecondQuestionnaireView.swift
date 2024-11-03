@@ -47,155 +47,154 @@ struct SecondQuestionnaireView: View {
     @State private var showLoadingView = false
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                VStack {
-                    ScrollView {
-                        LazyVStack {
-                            // Add padding at the top to prevent border clipping
-                            Spacer()
-                                .frame(height: 10)
-                            // Current questionnaire REPRESENTATION based on the state variable
-                            if currentQuestionnaireTwo == 1 {
-                                YesNoTeam(currentQuestionnaireTwo: $currentQuestionnaireTwo,
-                                        selectedYesNoTeam: $selectedYesNoTeam,
-                                        chosenYesNoTeam: $chosenYesNoTeam)
-                                    .transition(.move(edge: .trailing))
-                                    .animation(.easeInOut)
-                                    .offset(x: currentQuestionnaireTwo == 1 ? 0 : UIScreen.main.bounds.width)
-                                    .environmentObject(stateManager)
-                            } else if currentQuestionnaireTwo == 2 {
-                                PickGoal(currentQuestionnaireTwo: $currentQuestionnaireTwo,
-                                       selectedGoal: $selectedGoal,
-                                       chosenGoal: $chosenGoal)
-                                    .transition(.move(edge: .trailing))
-                                    .animation(.easeInOut)
-                                    .offset(x: currentQuestionnaireTwo == 2 ? 0 : UIScreen.main.bounds.width)
-                                    .environmentObject(stateManager)
-                            } else if currentQuestionnaireTwo == 3 {
-                                TimelineGoal(currentQuestionnaireTwo: $currentQuestionnaireTwo,
-                                           selectedTimeline: $selectedTimeline,
-                                           chosenTimeline: $chosenTimeline)
-                                    .transition(.move(edge: .trailing))
-                                    .animation(.easeInOut)
-                                    .offset(x: currentQuestionnaireTwo == 3 ? 0 : UIScreen.main.bounds.width)
-                                    .environmentObject(stateManager)
-                            } else if currentQuestionnaireTwo == 4 {
-                                TrainingLevel(currentQuestionnaireTwo: $currentQuestionnaireTwo,
-                                            selectedLevel: $selectedLevel,
-                                            chosenLevel: $chosenLevel)
-                                    .transition(.move(edge: .trailing))
-                                    .animation(.easeInOut)
-                                    .offset(x: currentQuestionnaireTwo == 4 ? 0 : UIScreen.main.bounds.width)
-                                    .environmentObject(stateManager)
-                            } else if currentQuestionnaireTwo == 5 {
-                                TrainingDays(currentQuestionnaireTwo: $currentQuestionnaireTwo,
-                                           selectedDays: $selectedDays,
-                                           chosenDays: $chosenDays)
-                                    .transition(.move(edge: .trailing))
-                                    .animation(.easeInOut)
-                                    .offset(x: currentQuestionnaireTwo == 5 ? 0 : UIScreen.main.bounds.width)
-                                    .environmentObject(stateManager)
-                            }
-                        }
-                    }
-                    .frame(height: 410)
-                    .padding(.top, 200)
-                }
-                
-                Spacer()
-                
-                // Bravo Animation
-                RiveViewModel(fileName: "test_panting").view()
-                    .frame(width: 250, height: 250)
-                    .padding(.bottom, 5)
-                    .offset(x: riveViewOffset.width, y: riveViewOffset.height)
-                    .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
-                
-                // Bravo Messages
-                Group {
-                    if currentQuestionnaireTwo == 0 {
-                        Text("This is going so well! Now I just need to specialize the plan to your needs.")
-                            .foregroundColor(globalSettings.primaryDarkColor)
-                            .padding(.horizontal, 80)
-                            .padding(.bottom, 400)
-                            .opacity(textOpacity0)
-                            .font(.custom("Poppins-Bold", size: 16))
-                    } else if currentQuestionnaireTwo == 1 {
-                        Text("Are you currently playing for a team?")
-                            .foregroundColor(globalSettings.primaryDarkColor)
-                            .padding()
-                            .padding(.bottom, 500)
-                            .padding(.leading, 150)
-                            .opacity(textOpacity1)
-                            .font(.custom("Poppins-Bold", size: 16))
-                    } else if currentQuestionnaireTwo == 2 {
-                        Text("What is your primary goal?")
-                            .foregroundColor(globalSettings.primaryDarkColor)
-                            .padding()
-                            .padding(.bottom, 500)
-                            .padding(.leading, 150)
-                            .opacity(textOpacity2)
-                            .font(.custom("Poppins-Bold", size: 16))
-                    } else if currentQuestionnaireTwo == 3 {
-                        Text("When are you looking to achieve this by?")
-                            .foregroundColor(globalSettings.primaryDarkColor)
-                            .padding()
-                            .padding(.bottom, 500)
-                            .padding(.leading, 150)
-                            .opacity(textOpacity3)
-                            .font(.custom("Poppins-Bold", size: 16))
-                    } else if currentQuestionnaireTwo == 4 {
-                        Text("Pick your training level.")
-                            .foregroundColor(globalSettings.primaryDarkColor)
-                            .padding()
-                            .padding(.bottom, 500)
-                            .padding(.leading, 150)
-                            .opacity(textOpacity4)
-                            .font(.custom("Poppins-Bold", size: 16))
-                    } else if currentQuestionnaireTwo == 5 {
-                        Text("What days would you like to train?")
-                            .foregroundColor(globalSettings.primaryDarkColor)
-                            .padding()
-                            .padding(.bottom, 500)
-                            .padding(.leading, 150)
-                            .opacity(textOpacity5)
-                            .font(.custom("Poppins-Bold", size: 16))
-                    }
-                }
-                
-                // Back Button
-                HStack {
-                    Button(action: {
-                        withAnimation {
-                            showQuestionnaireTwo = false
-                        }
-                    }) {
-                        Image(systemName: "arrow.left")
-                            .font(.title2)
-                            .foregroundColor(globalSettings.primaryDarkColor)
-                            .padding()
-                    }
-                    .padding(.bottom, 725)
-                    
+        ZStack {
+            Color.white.edgesIgnoringSafeArea(.all)  // Base white background
+            
+            ScrollView {
+                LazyVStack {
+                    // Add padding at the top to prevent border clipping
                     Spacer()
+                        .frame(height: 10)
+                    // Current questionnaire REPRESENTATION based on the state variable
+                    if currentQuestionnaireTwo == 1 {
+                        YesNoTeam(currentQuestionnaireTwo: $currentQuestionnaireTwo,
+                                selectedYesNoTeam: $selectedYesNoTeam,
+                                chosenYesNoTeam: $chosenYesNoTeam)
+                            .transition(.move(edge: .trailing))
+                            .animation(.easeInOut)
+                            .offset(x: currentQuestionnaireTwo == 1 ? 0 : UIScreen.main.bounds.width)
+                            .environmentObject(stateManager)
+                    } else if currentQuestionnaireTwo == 2 {
+                        PickGoal(currentQuestionnaireTwo: $currentQuestionnaireTwo,
+                               selectedGoal: $selectedGoal,
+                               chosenGoal: $chosenGoal)
+                            .transition(.move(edge: .trailing))
+                            .animation(.easeInOut)
+                            .offset(x: currentQuestionnaireTwo == 2 ? 0 : UIScreen.main.bounds.width)
+                            .environmentObject(stateManager)
+                    } else if currentQuestionnaireTwo == 3 {
+                        TimelineGoal(currentQuestionnaireTwo: $currentQuestionnaireTwo,
+                                   selectedTimeline: $selectedTimeline,
+                                   chosenTimeline: $chosenTimeline)
+                            .transition(.move(edge: .trailing))
+                            .animation(.easeInOut)
+                            .offset(x: currentQuestionnaireTwo == 3 ? 0 : UIScreen.main.bounds.width)
+                            .environmentObject(stateManager)
+                    } else if currentQuestionnaireTwo == 4 {
+                        TrainingLevel(currentQuestionnaireTwo: $currentQuestionnaireTwo,
+                                    selectedLevel: $selectedLevel,
+                                    chosenLevel: $chosenLevel)
+                            .transition(.move(edge: .trailing))
+                            .animation(.easeInOut)
+                            .offset(x: currentQuestionnaireTwo == 4 ? 0 : UIScreen.main.bounds.width)
+                            .environmentObject(stateManager)
+                    } else if currentQuestionnaireTwo == 5 {
+                        TrainingDays(currentQuestionnaireTwo: $currentQuestionnaireTwo,
+                                   selectedDays: $selectedDays,
+                                   chosenDays: $chosenDays)
+                            .transition(.move(edge: .trailing))
+                            .animation(.easeInOut)
+                            .offset(x: currentQuestionnaireTwo == 5 ? 0 : UIScreen.main.bounds.width)
+                            .environmentObject(stateManager)
+                    }
                 }
-                
-                // Next Button
-                Button(action: handleNextButton) {
-                    Text("Next")
-                        .frame(width: 325, height: 15)
+            }
+            .frame(height: 410)
+            .padding(.top, 200)
+            
+            Spacer()
+            
+            // Bravo Animation
+            RiveViewModel(fileName: "test_panting").view()
+                .frame(width: 250, height: 250)
+                .padding(.bottom, 5)
+                .offset(x: riveViewOffset.width, y: riveViewOffset.height)
+                .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
+            
+            // Bravo Messages
+            Group {
+                if currentQuestionnaireTwo == 0 {
+                    Text("This is going so well! Now I just need to specialize the plan to your needs.")
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding(.horizontal, 80)
+                        .padding(.bottom, 400)
+                        .opacity(textOpacity0)
+                        .font(.custom("Poppins-Bold", size: 16))
+                } else if currentQuestionnaireTwo == 1 {
+                    Text("Are you currently playing for a team?")
+                        .foregroundColor(globalSettings.primaryDarkColor)
                         .padding()
-                        .background(globalSettings.primaryYellowColor)
-                        .foregroundColor(.white)
-                        .cornerRadius(20)
+                        .padding(.bottom, 500)
+                        .padding(.leading, 150)
+                        .opacity(textOpacity1)
+                        .font(.custom("Poppins-Bold", size: 16))
+                } else if currentQuestionnaireTwo == 2 {
+                    Text("What is your primary goal?")
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding()
+                        .padding(.bottom, 500)
+                        .padding(.leading, 150)
+                        .opacity(textOpacity2)
+                        .font(.custom("Poppins-Bold", size: 16))
+                } else if currentQuestionnaireTwo == 3 {
+                    Text("When are you looking to achieve this by?")
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding()
+                        .padding(.bottom, 500)
+                        .padding(.leading, 150)
+                        .opacity(textOpacity3)
+                        .font(.custom("Poppins-Bold", size: 16))
+                } else if currentQuestionnaireTwo == 4 {
+                    Text("Pick your training level.")
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding()
+                        .padding(.bottom, 500)
+                        .padding(.leading, 150)
+                        .opacity(textOpacity4)
+                        .font(.custom("Poppins-Bold", size: 16))
+                } else if currentQuestionnaireTwo == 5 {
+                    Text("What days would you like to train?")
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding()
+                        .padding(.bottom, 500)
+                        .padding(.leading, 150)
+                        .opacity(textOpacity5)
                         .font(.custom("Poppins-Bold", size: 16))
                 }
-                .padding(.top, 700)
             }
-            .padding()
-            .background(.white)
+            
+            // Back Button
+            HStack {
+                Button(action: {
+                    withAnimation {
+                        showQuestionnaireTwo = false
+                    }
+                }) {
+                    Image(systemName: "arrow.left")
+                        .font(.title2)
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding()
+                }
+                .padding(.bottom, 725)
+                
+                Spacer()
+            }
+            
+            // Next Button
+            Button(action: handleNextButton) {
+                Text("Next")
+                    .frame(width: 325, height: 15)
+                    .padding()
+                    .background(globalSettings.primaryYellowColor)
+                    .foregroundColor(.white)
+                    .cornerRadius(20)
+                    .font(.custom("Poppins-Bold", size: 16))
+            }
+            .padding(.top, 700)
         }
+        .padding()
+        .background(.white)
+        .edgesIgnoringSafeArea(.all)
         .fullScreenCover(isPresented: $showLoadingView) {
             PostOnboardingLoadingView(onboardingData: stateManager.onboardingData, isLoggedIn: $isLoggedIn)
         }
