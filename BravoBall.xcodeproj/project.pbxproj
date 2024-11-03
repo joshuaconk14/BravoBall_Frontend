@@ -26,6 +26,7 @@
 		179CF9582CD731C400D07E49 /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9572CD731C400D07E49 /* DropdownMenu.swift */; };
 		179CF95A2CD731E200D07E49 /* SelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9592CD731E200D07E49 /* SelectionListView.swift */; };
 		179CF9602CD7326500D07E49 /* PostOnboardingLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF95F2CD7326500D07E49 /* PostOnboardingLoadingView.swift */; };
+		179CF9622CD74EC800D07E49 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9612CD74EC800D07E49 /* MainTabView.swift */; };
 		179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */; };
 		179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */; };
 		179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */; };
@@ -94,6 +95,7 @@
 		179CF9572CD731C400D07E49 /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
 		179CF9592CD731E200D07E49 /* SelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListView.swift; sourceTree = "<group>"; };
 		179CF95F2CD7326500D07E49 /* PostOnboardingLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOnboardingLoadingView.swift; sourceTree = "<group>"; };
+		179CF9612CD74EC800D07E49 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingLevel.swift; sourceTree = "<group>"; };
 		179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineGoal.swift; sourceTree = "<group>"; };
 		179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDays.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */,
 				179CF9532CD7318600D07E49 /* Common */,
 				17F5D6532CD3477E008E8C24 /* ColorExtension.swift */,
+				179CF9612CD74EC800D07E49 /* MainTabView.swift */,
 				1749361B2C3E102B001163B9 /* ContentView.swift */,
 				1749361D2C3E1031001163B9 /* Assets.xcassets */,
 				43985E502CB51DEC00BE2AB6 /* Font */,
@@ -534,6 +537,7 @@
 				17E693222C745811006B58A3 /* ViewModel.swift in Sources */,
 				43985E3F2CB4EDE700BE2AB6 /* CameraView.swift in Sources */,
 				17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */,
+				179CF9622CD74EC800D07E49 /* MainTabView.swift in Sources */,
 				179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */,
 				17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */,
 				170217BB2C89030500DD020C /* Models.swift in Sources */,

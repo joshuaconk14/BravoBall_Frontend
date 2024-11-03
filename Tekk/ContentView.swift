@@ -9,36 +9,14 @@ import SwiftUI
 import RiveRuntime
 
 struct ContentView: View {
-    @StateObject private var globalSettings = GlobalSettings()
     @StateObject private var stateManager = OnboardingStateManager()
     @State private var isLoggedIn: Bool = false
     @State private var authToken: String = ""
     @State private var showOnboarding: Bool = true
-
-    @State var chatMessages: [Message_Struct] = [Message_Struct(role: "system", content: "Welcome to TekkAI")] // Stores list of chat messages
-    @State private var viewModel = ViewModel()
-    @State private var conversations: [Conversation] = []
-    @State private var activeTab: CameraView.Tab = .messages
-
-    // Main parent view
+    
     var body: some View {
         if isLoggedIn {
-            TabView {
-                // Main views of app
-                ChatbotView(chatMessages: $chatMessages, authToken: $authToken, conversations: $conversations)
-                    .tabItem {
-                        Image(systemName: "message.fill")
-                    }
-                CameraView(image: $viewModel.currentFrame, activeTab: $activeTab)
-                    .tabItem {
-                        Image(systemName: "camera.fill")
-                    }
-                SettingsView()
-                    .tabItem {
-                        Image(systemName: "slider.horizontal.3")
-                    }
-            }
-            .accentColor(globalSettings.primaryYellowColor)
+            MainTabView(authToken: $authToken)
         } else {
             OnboardingView(
                 isLoggedIn: $isLoggedIn,
@@ -49,7 +27,6 @@ struct ContentView: View {
         }
     }
 }
-
 
 // for font ?
 //init() {
@@ -63,9 +40,9 @@ struct ContentView: View {
 //}
 
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-            .previewDevice("iPhone 15 Pro Max")
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//            .previewDevice("iPhone 15 Pro Max")
+//    }
+//}
