@@ -9,6 +9,8 @@ import RiveRuntime
 
 @main
 struct TekkApp: App {
+    @StateObject private var stateManager = OnboardingStateManager()
+    
     @State private var isLoggedIn: Bool = false
     @State private var authToken: String = ""
     @State private var showOnboarding = true
@@ -16,6 +18,7 @@ struct TekkApp: App {
     var body: some Scene {
         WindowGroup {
             OnboardingView(isLoggedIn: $isLoggedIn, authToken: $authToken, showOnboarding: $showOnboarding)
+                .environmentObject(stateManager)
         }
     }
 }

@@ -10,6 +10,8 @@ import SwiftUI
 import RiveRuntime
 
 struct YesNoTeam: View {
+    @EnvironmentObject var stateManager: OnboardingStateManager
+
     @Binding var currentQuestionnaireTwo: Int
     @Binding var selectedYesNoTeam: String
     @Binding var chosenYesNoTeam: [String]
@@ -25,5 +27,17 @@ struct YesNoTeam: View {
         ) { option in
             option
         }
+    }
+}
+
+struct YesNoTeam_Previews: PreviewProvider {
+    static var previews: some View {
+        let stateManager = OnboardingStateManager()
+        YesNoTeam(
+            currentQuestionnaireTwo: .constant(1),
+            selectedYesNoTeam: .constant(""),
+            chosenYesNoTeam: .constant([])
+        )
+        .environmentObject(stateManager)
     }
 }

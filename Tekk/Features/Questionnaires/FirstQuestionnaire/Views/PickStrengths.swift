@@ -35,10 +35,12 @@ struct PickStrengths_Previews: PreviewProvider {
     @State static var chosenStrengths: [String] = []
     
     static var previews: some View {
+        let stateManager = OnboardingStateManager()
         PickStrengths(
             currentQuestionnaire: $currentQuestionnaire,
             selectedStrength: $selectedStrength,
             chosenStrengths: $chosenStrengths
         )
+        .environmentObject(stateManager)
     }
 }

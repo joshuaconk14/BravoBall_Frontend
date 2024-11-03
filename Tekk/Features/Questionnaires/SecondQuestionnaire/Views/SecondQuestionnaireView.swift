@@ -59,6 +59,7 @@ struct SecondQuestionnaireView: View {
                                     .transition(.move(edge: .trailing))
                                     .animation(.easeInOut)
                                     .offset(x: currentQuestionnaireTwo == 1 ? 0 : UIScreen.main.bounds.width)
+                                    .environmentObject(stateManager)
                             } else if currentQuestionnaireTwo == 2 {
                                 PickGoal(currentQuestionnaireTwo: $currentQuestionnaireTwo,
                                        selectedGoal: $selectedGoal,
@@ -66,6 +67,7 @@ struct SecondQuestionnaireView: View {
                                     .transition(.move(edge: .trailing))
                                     .animation(.easeInOut)
                                     .offset(x: currentQuestionnaireTwo == 2 ? 0 : UIScreen.main.bounds.width)
+                                    .environmentObject(stateManager)
                             } else if currentQuestionnaireTwo == 3 {
                                 TimelineGoal(currentQuestionnaireTwo: $currentQuestionnaireTwo,
                                            selectedTimeline: $selectedTimeline,
@@ -73,6 +75,7 @@ struct SecondQuestionnaireView: View {
                                     .transition(.move(edge: .trailing))
                                     .animation(.easeInOut)
                                     .offset(x: currentQuestionnaireTwo == 3 ? 0 : UIScreen.main.bounds.width)
+                                    .environmentObject(stateManager)
                             } else if currentQuestionnaireTwo == 4 {
                                 TrainingLevel(currentQuestionnaireTwo: $currentQuestionnaireTwo,
                                             selectedLevel: $selectedLevel,
@@ -80,6 +83,7 @@ struct SecondQuestionnaireView: View {
                                     .transition(.move(edge: .trailing))
                                     .animation(.easeInOut)
                                     .offset(x: currentQuestionnaireTwo == 4 ? 0 : UIScreen.main.bounds.width)
+                                    .environmentObject(stateManager)
                             } else if currentQuestionnaireTwo == 5 {
                                 TrainingDays(currentQuestionnaireTwo: $currentQuestionnaireTwo,
                                            selectedDays: $selectedDays,
@@ -87,6 +91,7 @@ struct SecondQuestionnaireView: View {
                                     .transition(.move(edge: .trailing))
                                     .animation(.easeInOut)
                                     .offset(x: currentQuestionnaireTwo == 5 ? 0 : UIScreen.main.bounds.width)
+                                    .environmentObject(stateManager)
                             }
                         }
                     }
@@ -238,10 +243,9 @@ struct SecondQuestionnaireView: View {
 
 // MARK: - Preview
 struct SecondQuestionnaire_Previews: PreviewProvider {
-    @State static var showQuestionnaireTwo = true // Example binding variable
-
     static var previews: some View {
-        SecondQuestionnaireView(showQuestionnaireTwo: $showQuestionnaireTwo)
-            .environmentObject(OnboardingStateManager())
+        let stateManager = OnboardingStateManager()
+        SecondQuestionnaireView(showQuestionnaireTwo: .constant(true))
+            .environmentObject(stateManager)
     }
 }

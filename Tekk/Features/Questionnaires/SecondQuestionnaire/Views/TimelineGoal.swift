@@ -11,6 +11,8 @@ import SwiftUI
 import SwiftUI
 
 struct TimelineGoal: View {
+    @EnvironmentObject var stateManager: OnboardingStateManager
+
     @Binding var currentQuestionnaireTwo: Int
     @Binding var selectedTimeline: String
     @Binding var chosenTimeline: [String]
@@ -33,16 +35,13 @@ struct TimelineGoal: View {
 
 // MARK: - Preview
 struct TimelineGoal_Previews: PreviewProvider {
-    @State static var currentQuestionnaireTwo = 2
-    @State static var selectedTimeline = ""
-    @State static var chosenTimeline: [String] = []
-    
     static var previews: some View {
+        let stateManager = OnboardingStateManager()
         TimelineGoal(
-            currentQuestionnaireTwo: $currentQuestionnaireTwo,
-            selectedTimeline: $selectedTimeline,
-            chosenTimeline: $chosenTimeline
+            currentQuestionnaireTwo: .constant(3),
+            selectedTimeline: .constant(""),
+            chosenTimeline: .constant([])
         )
+        .environmentObject(stateManager)
     }
 }
-

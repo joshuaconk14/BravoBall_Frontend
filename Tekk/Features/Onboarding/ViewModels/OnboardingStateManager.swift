@@ -8,6 +8,11 @@
 import Foundation
 
 class OnboardingStateManager: ObservableObject {
+    
+    init() {
+        print("OnboardingStateManager initialized")
+    }
+    
     @Published var onboardingData = OnboardingData(
         firstName: "",
         lastName: "",

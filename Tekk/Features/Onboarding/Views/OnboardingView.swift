@@ -9,6 +9,7 @@ import RiveRuntime
 
 struct OnboardingView: View {
     @StateObject private var globalSettings = GlobalSettings()
+    @EnvironmentObject var stateManager: OnboardingStateManager
     
     @Binding var isLoggedIn: Bool
     @Binding var authToken: String
@@ -41,6 +42,7 @@ struct OnboardingView: View {
             // Welcome view with transition
             if showWelcome {
                 WelcomeView(showWelcome: $showWelcome)
+                    .environmentObject(stateManager)
                     .transition(.move(edge: .trailing))
             }
             
@@ -123,7 +125,12 @@ struct OnboardingView: View {
 
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-        // Provide constant bindings w/ diff views for the preview
-        OnboardingView(isLoggedIn: .constant(false), authToken: .constant(""), showOnboarding: .constant(true))
+        let stateManager = OnboardingStateManager()
+        OnboardingView(
+            isLoggedIn: .constant(false),
+            authToken: .constant(""),
+            showOnboarding: .constant(true)
+        )
+        .environmentObject(stateManager)
     }
 }

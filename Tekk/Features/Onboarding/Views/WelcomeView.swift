@@ -10,7 +10,7 @@ import RiveRuntime
 
 struct WelcomeView: View {
     @StateObject private var globalSettings = GlobalSettings()
-    @StateObject private var stateManager = OnboardingStateManager()
+    @EnvironmentObject var stateManager: OnboardingStateManager
 
     // Note: Binding/ Bool binds this structure, state private func on other pages determines function of this structure
     @Binding var showWelcome: Bool
@@ -45,10 +45,12 @@ struct WelcomeView: View {
                     // Present WelcomeView when showWelcomeView is true
                     if !showQuestionnaire {
                         FirstQuestionnaireView(showQuestionnaire: $showQuestionnaire)// Pass bindings as needed
+                        .environmentObject(stateManager)
                             .matchedGeometryEffect(id: "welcome", in: questionnaireSpace)
                             .offset(x: UIScreen.main.bounds.width) // out of bounds
                     } else {
                         FirstQuestionnaireView(showQuestionnaire: $showQuestionnaire)// Pass bindings as needed
+                            .environmentObject(stateManager)
                             .matchedGeometryEffect(id: "welcome", in: questionnaireSpace)
                             .offset(x: 0) // showing
                     }
@@ -185,7 +187,8 @@ struct WelcomeView_Previews: PreviewProvider {
     @State static var showWelcome = true // Example binding variable
 
     static var previews: some View {
+        let stateManager = OnboardingStateManager()
         WelcomeView(showWelcome: $showWelcome)
-            .preferredColorScheme(.dark) // Optional: Set the color scheme for the preview
+            .environmentObject(stateManager)
     }
 }

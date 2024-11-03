@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PickGoal: View {
+    @EnvironmentObject var stateManager: OnboardingStateManager
+
     @Binding var currentQuestionnaireTwo: Int
     @Binding var selectedGoal: String
     @Binding var chosenGoal: [String]
@@ -30,15 +32,13 @@ struct PickGoal: View {
 
 // MARK: - Preview
 struct PickGoal_Previews: PreviewProvider {
-    @State static var currentQuestionnaireTwo = 1
-    @State static var selectedGoal = ""
-    @State static var chosenGoal: [String] = []
-    
     static var previews: some View {
+        let stateManager = OnboardingStateManager()
         PickGoal(
-            currentQuestionnaireTwo: $currentQuestionnaireTwo,
-            selectedGoal: $selectedGoal,
-            chosenGoal: $chosenGoal
+            currentQuestionnaireTwo: .constant(2),
+            selectedGoal: .constant(""),
+            chosenGoal: .constant([])
         )
+        .environmentObject(stateManager)
     }
 }
