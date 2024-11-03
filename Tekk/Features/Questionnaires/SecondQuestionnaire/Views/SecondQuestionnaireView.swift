@@ -11,6 +11,7 @@ import RiveRuntime
 struct SecondQuestionnaireView: View {
     @StateObject private var globalSettings = GlobalSettings()
     @EnvironmentObject var stateManager: OnboardingStateManager
+    @Binding var isLoggedIn: Bool
 
     // binding this struct to questionnairetwo
     @Binding var showQuestionnaireTwo: Bool
@@ -41,7 +42,10 @@ struct SecondQuestionnaireView: View {
     
     @State private var selectedDays: String = "days"
     @State private var chosenDays: [String] = []
-    
+
+    // after onboarding data is submitted
+    @State private var showLoadingView = false
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -192,6 +196,9 @@ struct SecondQuestionnaireView: View {
             .padding()
             .background(.white)
         }
+        .fullScreenCover(isPresented: $showLoadingView) {
+            PostOnboardingLoadingView(onboardingData: stateManager.onboardingData, isLoggedIn: $isLoggedIn)
+        }
     }
     
     private func handleNextButton() {
@@ -241,16 +248,7 @@ struct SecondQuestionnaireView: View {
     }
 
     private func submitOnboardingData() {
-        Task {
-            do {
-                try await OnboardingService.shared.submitOnboardingData(data: stateManager.onboardingData)
-                print("✅ Onboarding data submitted successfully")
-                // Handle successful submission (e.g., navigate to next screen)
-            } catch {
-                print("❌ Error submitting onboarding data: \(error)")
-                // Handle error (show alert to user)
-            }
-        }
+        showLoadingView = true
     }
 }
 
@@ -259,7 +257,7 @@ struct SecondQuestionnaireView: View {
 struct SecondQuestionnaire_Previews: PreviewProvider {
     static var previews: some View {
         let stateManager = OnboardingStateManager()
-        SecondQuestionnaireView(showQuestionnaireTwo: .constant(true))
+        SecondQuestionnaireView(isLoggedIn: .constant(false), showQuestionnaireTwo: .constant(true))
             .environmentObject(stateManager)
     }
 }

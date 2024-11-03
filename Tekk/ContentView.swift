@@ -7,14 +7,14 @@
 
 import SwiftUI
 import RiveRuntime
-//import GoogleGenerativeAI
-
 
 struct ContentView: View {
-    @State private var isLoggedIn = false // Track if user is logged in
-    @State private var token: String? = nil // Store the JWT token
-    @State private var messageText = "" // Current text input from user
-    @State private var authToken = ""
+    @StateObject private var globalSettings = GlobalSettings()
+    @StateObject private var stateManager = OnboardingStateManager()
+    @State private var isLoggedIn: Bool = false
+    @State private var authToken: String = ""
+    @State private var showOnboarding: Bool = true
+
     @State var chatMessages: [Message_Struct] = [Message_Struct(role: "system", content: "Welcome to TekkAI")] // Stores list of chat messages
     @State private var viewModel = ViewModel()
     @State private var conversations: [Conversation] = []
@@ -38,11 +38,14 @@ struct ContentView: View {
                         Image(systemName: "slider.horizontal.3")
                     }
             }
-            .accentColor(.green)
+            .accentColor(globalSettings.primaryYellowColor)
         } else {
-            PlayerDetailsFormView(isLoggedIn: $isLoggedIn, onDetailsSubmitted: {
-                self.isLoggedIn = true
-            })
+            OnboardingView(
+                isLoggedIn: $isLoggedIn,
+                authToken: $authToken,
+                showOnboarding: $showOnboarding
+            )
+            .environmentObject(stateManager)
         }
     }
 }
@@ -58,7 +61,6 @@ struct ContentView: View {
 //        }
 //    }
 //}
-
 
 
 struct ContentView_Previews: PreviewProvider {

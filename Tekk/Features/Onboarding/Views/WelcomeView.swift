@@ -11,12 +11,11 @@ import RiveRuntime
 struct WelcomeView: View {
     @StateObject private var globalSettings = GlobalSettings()
     @EnvironmentObject var stateManager: OnboardingStateManager
+    @Binding var isLoggedIn: Bool
+    @State private var showQuestionnaire = false
+    @Binding var showWelcome: Bool
 
     // Note: Binding/ Bool binds this structure, state private func on other pages determines function of this structure
-    @Binding var showWelcome: Bool
-    @State private var showOnboarding = false
-    @State private var showQuestionnaire = false
-//    @State private var showQuestionnaire = false
     @State private var textOpacity1: Double = 1.0
     @State private var textOpacity2: Double = 0.0
     // welcomeInput is where bravo is asking for player details, this is what will show when next button on hello bravo page is clicked
@@ -37,23 +36,16 @@ struct WelcomeView: View {
     var body: some View {
         VStack {
             ZStack {
-                
                 content
                 
-                // ZStack for matchedGeometry for smooth transitions
-                ZStack {
-                    // Present WelcomeView when showWelcomeView is true
-                    if !showQuestionnaire {
-                        FirstQuestionnaireView(showQuestionnaire: $showQuestionnaire)// Pass bindings as needed
-                        .environmentObject(stateManager)
-                            .matchedGeometryEffect(id: "welcome", in: questionnaireSpace)
-                            .offset(x: UIScreen.main.bounds.width) // out of bounds
-                    } else {
-                        FirstQuestionnaireView(showQuestionnaire: $showQuestionnaire)// Pass bindings as needed
-                            .environmentObject(stateManager)
-                            .matchedGeometryEffect(id: "welcome", in: questionnaireSpace)
-                            .offset(x: 0) // showing
-                    }
+                // Only show FirstQuestionnaireView when showQuestionnaire is true
+                if showQuestionnaire {
+                    FirstQuestionnaireView(
+                        isLoggedIn: $isLoggedIn,
+                        showQuestionnaire: $showQuestionnaire
+                    )
+                    .environmentObject(stateManager)
+                    .transition(.move(edge: .trailing))
                 }
             }
         }
@@ -184,11 +176,12 @@ struct WelcomeView: View {
 
 // MARK: - Preview
 struct WelcomeView_Previews: PreviewProvider {
-    @State static var showWelcome = true // Example binding variable
-
     static var previews: some View {
         let stateManager = OnboardingStateManager()
-        WelcomeView(showWelcome: $showWelcome)
-            .environmentObject(stateManager)
+        WelcomeView(
+            isLoggedIn: .constant(false),
+            showWelcome: .constant(false)
+        )
+        .environmentObject(stateManager)
     }
 }

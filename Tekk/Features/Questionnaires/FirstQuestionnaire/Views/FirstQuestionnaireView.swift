@@ -14,6 +14,7 @@ struct FirstQuestionnaireView: View {
     @StateObject private var globalSettings = GlobalSettings()
     @EnvironmentObject var stateManager: OnboardingStateManager
 
+    @Binding var isLoggedIn: Bool
     @Binding var showQuestionnaire: Bool
     // questionnaires state variables
     @State private var currentQuestionnaire: Int = 0
@@ -39,7 +40,7 @@ struct FirstQuestionnaireView: View {
     
     var body: some View {
         if showQuestionnaireTwo {
-            SecondQuestionnaireView(showQuestionnaireTwo: $showQuestionnaireTwo)
+            SecondQuestionnaireView(isLoggedIn: $isLoggedIn, showQuestionnaireTwo: $showQuestionnaireTwo)
                 .environmentObject(stateManager)
                 .transition(.move(edge: .trailing))
         } else {
@@ -229,7 +230,10 @@ struct FirstQuestionnaireView: View {
 struct Questionnaire_Previews: PreviewProvider {
     static var previews: some View {
         let stateManager = OnboardingStateManager()
-        FirstQuestionnaireView(showQuestionnaire: .constant(true))
+        FirstQuestionnaireView(
+            isLoggedIn: .constant(false),
+            showQuestionnaire: .constant(true)
+        )
             .environmentObject(stateManager)
     }
 }
