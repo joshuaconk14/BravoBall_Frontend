@@ -8,7 +8,7 @@
 import Foundation
 
 // structure for onboarding data
-struct OnboardingData: Codable {
+struct OnboardingData: Codable, CustomStringConvertible{
     // From WelcomeQuestions
     var firstName: String
     var lastName: String
@@ -27,4 +27,31 @@ struct OnboardingData: Codable {
     var timeline: String                    // When looking to achieve this by
     var skillLevel: String                  // Current skill level
     var trainingDays: [String]             // Available training days
+
+    // Add custom description for better printing
+    var description: String {
+        return """
+        
+        📋 ONBOARDING DATA SUMMARY:
+        -------------------------
+        Personal Info:
+        - Name: \(firstName) \(lastName)
+        - Age Range: \(ageRange)
+        - Level: \(level)
+        - Position: \(position)
+        
+        Player Profile:
+        - Playstyle Representatives: \(playstyleRepresentatives)
+        - Strengths: \(strengths)
+        - Areas to Improve: \(weaknesses)
+        
+        Training Details:
+        - Currently on Team: \(hasTeam)
+        - Primary Goal: \(primaryGoal)
+        - Timeline: \(timeline)
+        - Skill Level: \(skillLevel)
+        - Training Days: \(trainingDays)
+        -------------------------
+        """
+    }
 }
