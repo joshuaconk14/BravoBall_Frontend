@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		170217BB2C89030500DD020C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170217BA2C89030400DD020C /* Models.swift */; };
-		173B401E2CD6E452003C560D /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B401D2CD6E452003C560D /* OnboardingService.swift */; };
 		173B40212CD6F501003C560D /* OnboardingStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B40202CD6F501003C560D /* OnboardingStateManager.swift */; };
 		173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B40232CD6F55A003C560D /* OnboardingData.swift */; };
 		1749361C2C3E102B001163B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749361B2C3E102B001163B9 /* ContentView.swift */; };
@@ -22,12 +21,15 @@
 		176D15052CD4907000450F85 /* PickGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15042CD4907000450F85 /* PickGoal.swift */; };
 		176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15072CD490E200450F85 /* YesNoTeam.swift */; };
 		179CF94F2CD7077F00D07E49 /* BravoBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF94E2CD7077F00D07E49 /* BravoBall.swift */; };
+		179CF9522CD712CA00D07E49 /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9512CD712CA00D07E49 /* OnboardingService.swift */; };
+		179CF9562CD731B100D07E49 /* SelectionListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9552CD731B100D07E49 /* SelectionListItem.swift */; };
+		179CF9582CD731C400D07E49 /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9572CD731C400D07E49 /* DropdownMenu.swift */; };
+		179CF95A2CD731E200D07E49 /* SelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9592CD731E200D07E49 /* SelectionListView.swift */; };
+		179CF9602CD7326500D07E49 /* PostOnboardingLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF95F2CD7326500D07E49 /* PostOnboardingLoadingView.swift */; };
+		179CF9622CD74EC800D07E49 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9612CD74EC800D07E49 /* MainTabView.swift */; };
 		179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */; };
 		179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */; };
 		179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */; };
-		179D4FB12CD5E9E300F7E4AB /* SelectionListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */; };
-		179D4FB32CD5E9F200F7E4AB /* SelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */; };
-		179D4FB82CD61D6500F7E4AB /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB72CD61D6500F7E4AB /* DropdownMenu.swift */; };
 		17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */; };
 		17ACC8DE2CD3688A0047EE09 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */; };
 		17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */; };
@@ -71,7 +73,6 @@
 
 /* Begin PBXFileReference section */
 		170217BA2C89030400DD020C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		173B401D2CD6E452003C560D /* OnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingService.swift; sourceTree = "<group>"; };
 		173B40202CD6F501003C560D /* OnboardingStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStateManager.swift; sourceTree = "<group>"; };
 		173B40232CD6F55A003C560D /* OnboardingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingData.swift; sourceTree = "<group>"; };
 		174936162C3E102B001163B9 /* BravoBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BravoBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,12 +90,15 @@
 		176D15042CD4907000450F85 /* PickGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickGoal.swift; sourceTree = "<group>"; };
 		176D15072CD490E200450F85 /* YesNoTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesNoTeam.swift; sourceTree = "<group>"; };
 		179CF94E2CD7077F00D07E49 /* BravoBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BravoBall.swift; sourceTree = "<group>"; };
+		179CF9512CD712CA00D07E49 /* OnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingService.swift; sourceTree = "<group>"; };
+		179CF9552CD731B100D07E49 /* SelectionListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListItem.swift; sourceTree = "<group>"; };
+		179CF9572CD731C400D07E49 /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
+		179CF9592CD731E200D07E49 /* SelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListView.swift; sourceTree = "<group>"; };
+		179CF95F2CD7326500D07E49 /* PostOnboardingLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOnboardingLoadingView.swift; sourceTree = "<group>"; };
+		179CF9612CD74EC800D07E49 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingLevel.swift; sourceTree = "<group>"; };
 		179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineGoal.swift; sourceTree = "<group>"; };
 		179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDays.swift; sourceTree = "<group>"; };
-		179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListItem.swift; sourceTree = "<group>"; };
-		179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListView.swift; sourceTree = "<group>"; };
-		179D4FB72CD61D6500F7E4AB /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
 		17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstQuestionnaireView.swift; sourceTree = "<group>"; };
@@ -145,14 +149,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		173B401C2CD6E43C003C560D /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				173B401D2CD6E452003C560D /* OnboardingService.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		173B401F2CD6F4F6003C560D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,9 +195,9 @@
 				179CF94E2CD7077F00D07E49 /* BravoBall.swift */,
 				17ACC8D82CD367BA0047EE09 /* Features */,
 				17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */,
-				179D4FAE2CD5E9AC00F7E4AB /* Components */,
+				179CF9532CD7318600D07E49 /* Common */,
 				17F5D6532CD3477E008E8C24 /* ColorExtension.swift */,
-				173B401C2CD6E43C003C560D /* Services */,
+				179CF9612CD74EC800D07E49 /* MainTabView.swift */,
 				1749361B2C3E102B001163B9 /* ContentView.swift */,
 				1749361D2C3E1031001163B9 /* Assets.xcassets */,
 				43985E502CB51DEC00BE2AB6 /* Font */,
@@ -264,12 +260,28 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		179D4FAE2CD5E9AC00F7E4AB /* Components */ = {
+		179CF9502CD712B500D07E49 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */,
-				179D4FB72CD61D6500F7E4AB /* DropdownMenu.swift */,
-				179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */,
+				179CF9512CD712CA00D07E49 /* OnboardingService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		179CF9532CD7318600D07E49 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				179CF9542CD7319400D07E49 /* Components */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		179CF9542CD7319400D07E49 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				179CF9552CD731B100D07E49 /* SelectionListItem.swift */,
+				179CF9592CD731E200D07E49 /* SelectionListView.swift */,
+				179CF9572CD731C400D07E49 /* DropdownMenu.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -287,6 +299,7 @@
 		17ACC8D92CD367DD0047EE09 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				179CF9502CD712B500D07E49 /* Services */,
 				173B40222CD6F547003C560D /* Models */,
 				173B401F2CD6F4F6003C560D /* ViewModels */,
 				17ACC8DA2CD368070047EE09 /* Views */,
@@ -299,6 +312,7 @@
 			children = (
 				17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */,
 				176D15022CD4815800450F85 /* WelcomeQuestions.swift */,
+				179CF95F2CD7326500D07E49 /* PostOnboardingLoadingView.swift */,
 				17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */,
 			);
 			path = Views;
@@ -519,24 +533,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				179CF9562CD731B100D07E49 /* SelectionListItem.swift in Sources */,
 				17E693222C745811006B58A3 /* ViewModel.swift in Sources */,
 				43985E3F2CB4EDE700BE2AB6 /* CameraView.swift in Sources */,
 				17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */,
+				179CF9622CD74EC800D07E49 /* MainTabView.swift in Sources */,
 				179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */,
 				17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */,
 				170217BB2C89030500DD020C /* Models.swift in Sources */,
 				179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */,
 				17ACC8DE2CD3688A0047EE09 /* WelcomeView.swift in Sources */,
-				179D4FB32CD5E9F200F7E4AB /* SelectionListView.swift in Sources */,
 				17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */,
+				179CF9602CD7326500D07E49 /* PostOnboardingLoadingView.swift in Sources */,
+				179CF9582CD731C400D07E49 /* DropdownMenu.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
 				17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */,
 				173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */,
 				17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */,
 				176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */,
-				173B401E2CD6E452003C560D /* OnboardingService.swift in Sources */,
+				179CF9522CD712CA00D07E49 /* OnboardingService.swift in Sources */,
 				176D15012CD4799C00450F85 /* LoginView.swift in Sources */,
-				179D4FB82CD61D6500F7E4AB /* DropdownMenu.swift in Sources */,
 				43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */,
 				176D15052CD4907000450F85 /* PickGoal.swift in Sources */,
 				43985E3D2CB4EDD300BE2AB6 /* ChatbotView.swift in Sources */,
@@ -547,9 +563,9 @@
 				179CF94F2CD7077F00D07E49 /* BravoBall.swift in Sources */,
 				17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */,
 				43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */,
+				179CF95A2CD731E200D07E49 /* SelectionListView.swift in Sources */,
 				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,
 				17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */,
-				179D4FB12CD5E9E300F7E4AB /* SelectionListItem.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
 				179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */,
 			);

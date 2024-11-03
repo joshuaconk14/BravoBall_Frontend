@@ -4,6 +4,12 @@
 //
 //  Created by Joshua Conklin on 10/3/24.
 //
+// BravoBall (Entry)
+// └── ContentView (Root)
+//     ├── TabView (main app view, if isLoggedIn)
+//     └── OnboardingView (onboarding flow, if !isLoggedIn)
+//         └── ... (rest of onboarding flow)
+
 import SwiftUI
 import RiveRuntime
 
@@ -11,13 +17,9 @@ import RiveRuntime
 struct BravoBall: App {
     @StateObject private var stateManager = OnboardingStateManager()
     
-    @State private var isLoggedIn: Bool = false
-    @State private var authToken: String = ""
-    @State private var showOnboarding = true
-    
     var body: some Scene {
         WindowGroup {
-            OnboardingView(isLoggedIn: $isLoggedIn, authToken: $authToken, showOnboarding: $showOnboarding)
+            ContentView()
                 .environmentObject(stateManager)
         }
     }
@@ -26,12 +28,8 @@ struct BravoBall: App {
 struct BravoBall_Previews: PreviewProvider {
     static var previews: some View {
         let stateManager = OnboardingStateManager()
-        OnboardingView(
-            isLoggedIn: .constant(false),
-            authToken: .constant(""),
-            showOnboarding: .constant(true)
-        )
-        .environmentObject(stateManager)
-        .previewDisplayName("Main App Preview")
+        ContentView()
+            .environmentObject(stateManager)
+            .previewDisplayName("Main App Preview")
     }
 }

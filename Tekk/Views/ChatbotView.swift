@@ -108,24 +108,6 @@ struct ChatbotView: View {
                     }
                     .padding()
                     .background(Color(hex:"1E272E"))
-
-                    // Navigation Bar
-                    VStack(spacing: 0) {
-                        Divider()
-                            .background(Color.gray.opacity(0.8))
-                            .frame(height: 1)
-                        HStack {
-                            Spacer()
-                            navigationButton(tab: .messages, icon: "message.fill")
-                            Spacer()
-                            navigationButton(tab: .camera, icon: "camera.fill")
-                            Spacer()
-                            navigationButton(tab: .modifier, icon: "slider.horizontal.3")
-                            Spacer()
-                        }
-                        .padding(.vertical, 30)
-                        .background(Color(hex:"947F63"))
-                    }
                 }
                 .zIndex(0)
                 
@@ -559,21 +541,22 @@ struct ChatHistoryView: View {
     // }
 
 
-
 // Preview
-
-//struct ChatbotView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ChatbotView(
-//            chatMessages: .constant([Message_Struct(role: "assistant", content: "Welcome to TekkAI")]),
-//            authToken: .constant("sample_token"),
-//            conversations: .constant([
-//                Conversation(id: "1", title: "Dribbling Techniques", createdAt: Date().addingTimeInterval(-86400)),
-//                Conversation(id: "2", title: "Penalty Kick Strategy", createdAt: Date().addingTimeInterval(-172800)),
-//                Conversation(id: "3", title: "Defensive Positioning", createdAt: Date().addingTimeInterval(-259200)),
-//                Conversation(id: "4", title: "Fitness Training", createdAt: Date().addingTimeInterval(-345600)),
-//                Conversation(id: "5", title: "Team Tactics", createdAt: Date().addingTimeInterval(-432000))
-//            ])
-//        )
-//    }
-//}
+struct ChatbotView_Previews: PreviewProvider {
+    static var previews: some View {
+        ChatbotView(
+            chatMessages: .constant([
+                Message_Struct(role: "system", content: "Welcome to TekkAI"),
+                Message_Struct(role: "user", content: "[USER]How can I improve my dribbling?"),
+                Message_Struct(role: "assistant", content: "To improve your dribbling, try these tips:\n\n1. Practice close control\n2. Use both feet\n3. Keep your head up\n4. Start slow and increase speed")
+            ]),
+            authToken: .constant("sample_token"),
+            conversations: .constant([
+                Conversation(id: "1", title: "Dribbling Techniques", createdAt: Date()),
+                Conversation(id: "2", title: "Shooting Practice", createdAt: Date().addingTimeInterval(-86400))
+            ])
+        )
+        .previewLayout(.device)
+        .previewDevice("iPhone 15 Pro")
+    }
+}

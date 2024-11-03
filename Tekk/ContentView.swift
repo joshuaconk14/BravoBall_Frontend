@@ -7,46 +7,26 @@
 
 import SwiftUI
 import RiveRuntime
-//import GoogleGenerativeAI
-
 
 struct ContentView: View {
-    @State private var isLoggedIn = false // Track if user is logged in
-    @State private var token: String? = nil // Store the JWT token
-    @State private var messageText = "" // Current text input from user
-    @State private var authToken = ""
-    @State var chatMessages: [Message_Struct] = [Message_Struct(role: "system", content: "Welcome to TekkAI")] // Stores list of chat messages
-    @State private var viewModel = ViewModel()
-    @State private var conversations: [Conversation] = []
-    @State private var activeTab: CameraView.Tab = .messages
-
-    // Main parent view
+    @StateObject private var stateManager = OnboardingStateManager()
+    @State private var isLoggedIn: Bool = false
+    @State private var authToken: String = ""
+    @State private var showOnboarding: Bool = true
+    
     var body: some View {
         if isLoggedIn {
-            TabView {
-                // Main views of app
-                ChatbotView(chatMessages: $chatMessages, authToken: $authToken, conversations: $conversations)
-                    .tabItem {
-                        Image(systemName: "message.fill")
-                    }
-                CameraView(image: $viewModel.currentFrame, activeTab: $activeTab)
-                    .tabItem {
-                        Image(systemName: "camera.fill")
-                    }
-                SettingsView()
-                    .tabItem {
-                        Image(systemName: "slider.horizontal.3")
-                    }
-            }
-            .accentColor(.green)
+            MainTabView(authToken: $authToken)
         } else {
-            PlayerDetailsFormView(isLoggedIn: $isLoggedIn, onDetailsSubmitted: {
-                self.isLoggedIn = true
-            })
+            OnboardingView(
+                isLoggedIn: $isLoggedIn,
+                authToken: $authToken,
+                showOnboarding: $showOnboarding
+            )
+            .environmentObject(stateManager)
         }
     }
 }
-
 
 // for font ?
 //init() {
@@ -60,10 +40,9 @@ struct ContentView: View {
 //}
 
 
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-            .previewDevice("iPhone 15 Pro Max")
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//            .previewDevice("iPhone 15 Pro Max")
+//    }
+//}

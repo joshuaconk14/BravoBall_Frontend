@@ -41,9 +41,12 @@ struct OnboardingView: View {
             
             // Welcome view with transition
             if showWelcome {
-                WelcomeView(showWelcome: $showWelcome)
-                    .environmentObject(stateManager)
-                    .transition(.move(edge: .trailing))
+                WelcomeView(
+                    isLoggedIn: $isLoggedIn,
+                    showWelcome: $showWelcome
+                )
+                .environmentObject(stateManager)
+                .transition(.move(edge: .trailing))
             }
             
             // Intro animation overlay
