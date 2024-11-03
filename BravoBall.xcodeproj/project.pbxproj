@@ -11,7 +11,6 @@
 		173B401E2CD6E452003C560D /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B401D2CD6E452003C560D /* OnboardingService.swift */; };
 		173B40212CD6F501003C560D /* OnboardingStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B40202CD6F501003C560D /* OnboardingStateManager.swift */; };
 		173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B40232CD6F55A003C560D /* OnboardingData.swift */; };
-		1749361A2C3E102B001163B9 /* TekkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936192C3E102B001163B9 /* TekkApp.swift */; };
 		1749361C2C3E102B001163B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749361B2C3E102B001163B9 /* ContentView.swift */; };
 		1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1749361D2C3E1031001163B9 /* Assets.xcassets */; };
 		174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 174936212C3E1031001163B9 /* Preview Assets.xcassets */; };
@@ -22,6 +21,7 @@
 		176D15032CD4815800450F85 /* WelcomeQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15022CD4815800450F85 /* WelcomeQuestions.swift */; };
 		176D15052CD4907000450F85 /* PickGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15042CD4907000450F85 /* PickGoal.swift */; };
 		176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15072CD490E200450F85 /* YesNoTeam.swift */; };
+		179CF94F2CD7077F00D07E49 /* BravoBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF94E2CD7077F00D07E49 /* BravoBall.swift */; };
 		179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */; };
 		179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */; };
 		179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */; };
@@ -75,7 +75,6 @@
 		173B40202CD6F501003C560D /* OnboardingStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStateManager.swift; sourceTree = "<group>"; };
 		173B40232CD6F55A003C560D /* OnboardingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingData.swift; sourceTree = "<group>"; };
 		174936162C3E102B001163B9 /* BravoBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BravoBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		174936192C3E102B001163B9 /* TekkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkApp.swift; sourceTree = "<group>"; };
 		1749361B2C3E102B001163B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1749361D2C3E1031001163B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1749361F2C3E1031001163B9 /* Tekk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tekk.entitlements; sourceTree = "<group>"; };
@@ -89,6 +88,7 @@
 		176D15022CD4815800450F85 /* WelcomeQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeQuestions.swift; sourceTree = "<group>"; };
 		176D15042CD4907000450F85 /* PickGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickGoal.swift; sourceTree = "<group>"; };
 		176D15072CD490E200450F85 /* YesNoTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesNoTeam.swift; sourceTree = "<group>"; };
+		179CF94E2CD7077F00D07E49 /* BravoBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BravoBall.swift; sourceTree = "<group>"; };
 		179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingLevel.swift; sourceTree = "<group>"; };
 		179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineGoal.swift; sourceTree = "<group>"; };
 		179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDays.swift; sourceTree = "<group>"; };
@@ -195,8 +195,8 @@
 				17E693182C7435B3006B58A3 /* Info.plist */,
 				174936442C3E10C4001163B9 /* Views */,
 				17E6931C2C743AC4006B58A3 /* Camera */,
-				174936192C3E102B001163B9 /* TekkApp.swift */,
 				170217BA2C89030400DD020C /* Models.swift */,
+				179CF94E2CD7077F00D07E49 /* BravoBall.swift */,
 				17ACC8D82CD367BA0047EE09 /* Features */,
 				17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */,
 				179D4FAE2CD5E9AC00F7E4AB /* Components */,
@@ -535,7 +535,6 @@
 				17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */,
 				176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */,
 				173B401E2CD6E452003C560D /* OnboardingService.swift in Sources */,
-				1749361A2C3E102B001163B9 /* TekkApp.swift in Sources */,
 				176D15012CD4799C00450F85 /* LoginView.swift in Sources */,
 				179D4FB82CD61D6500F7E4AB /* DropdownMenu.swift in Sources */,
 				43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */,
@@ -545,6 +544,7 @@
 				173B40212CD6F501003C560D /* OnboardingStateManager.swift in Sources */,
 				17ACC8EA2CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift in Sources */,
 				17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */,
+				179CF94F2CD7077F00D07E49 /* BravoBall.swift in Sources */,
 				17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */,
 				43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */,
 				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,
