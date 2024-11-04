@@ -8,8 +8,6 @@
 import Foundation
 import SwiftUI
 
-import SwiftUI
-
 struct TimelineGoal: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
 

@@ -37,6 +37,7 @@
 		17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */; };
 		17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */; };
 		17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */; };
+		17C3A5352CD88D8800A64BC5 /* HomeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */; };
 		17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693192C743662006B58A3 /* CameraManager.swift */; };
 		17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */; };
 		17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */; };
@@ -106,6 +107,7 @@
 		17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickWeaknesses.swift; sourceTree = "<group>"; };
 		17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickStrengths.swift; sourceTree = "<group>"; };
 		17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondQuestionnaireView.swift; sourceTree = "<group>"; };
+		17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProgramView.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17E693192C743662006B58A3 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Extension.swift"; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				43985E3C2CB4EDCD00BE2AB6 /* ChatbotView.swift */,
+				17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */,
 				43985E3E2CB4EDE300BE2AB6 /* CameraView.swift */,
 				43985E422CB4EE6000BE2AB6 /* SettingsView.swift */,
 				43985E402CB4EDF900BE2AB6 /* PlayerDetailsForm.swift */,
@@ -549,6 +552,7 @@
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
 				17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */,
 				173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */,
+				17C3A5352CD88D8800A64BC5 /* HomeProgramView.swift in Sources */,
 				17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */,
 				176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */,
 				179CF9522CD712CA00D07E49 /* OnboardingService.swift in Sources */,
