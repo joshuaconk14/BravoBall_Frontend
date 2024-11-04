@@ -19,14 +19,18 @@ struct MainTabView: View {
     
     var body: some View {
         TabView {
-            ChatbotView(chatMessages: $chatMessages, authToken: $authToken, conversations: $conversations)
-                .tabItem {
-                    Image(systemName: "message.fill")
-                }
-            CameraView(image: $viewModel.currentFrame, activeTab: $activeTab)
-                .tabItem {
-                    Image(systemName: "camera.fill")
-                }
+            HomeProgramView()  // Add this new view
+                    .tabItem {
+                        Image(systemName: "figure.run")
+                    }
+//            ChatbotView(chatMessages: $chatMessages, authToken: $authToken, conversations: $conversations)
+//                .tabItem {
+//                    Image(systemName: "message.fill")
+//                }
+//            CameraView(image: $viewModel.currentFrame, activeTab: $activeTab)
+//                .tabItem {
+//                    Image(systemName: "camera.fill")
+//                }
             SettingsView()
                 .tabItem {
                     Image(systemName: "slider.horizontal.3")

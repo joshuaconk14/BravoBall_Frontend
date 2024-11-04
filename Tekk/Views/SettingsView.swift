@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @StateObject private var globalSettings = GlobalSettings()
+
     @State private var name = "Jordan Conklin"
     @State private var email = "jordinhoconk@gmail.com"
     @State private var showDeleteConfirmation = false
@@ -16,14 +18,9 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 20) {
+                VStack(spacing: 25) {
                     profileHeader
                     
-                    // Text("Account")
-                    //     .font(.headline)
-                    //     .frame(maxWidth: .infinity, alignment: .leading)
-                    //     .padding(.leading)
-                        
                     actionSection(title: "Account", buttons: [
                         customActionButton(title: "Favorite Conversations", icon: "heart.fill"),
                         customActionButton(title: "Share With a Friend", icon: "square.and.arrow.up.fill"),
@@ -38,8 +35,9 @@ struct SettingsView: View {
                     ])
                     
                     deleteAccountButton
+                        .padding(.horizontal)
                 }
-                .padding()
+                .padding(.vertical)
                 .background(Color.white)
             }
         }
@@ -63,7 +61,7 @@ struct SettingsView: View {
             HStack {
                 Image(systemName: "chevron.left")
             }
-            .foregroundColor(.green)
+            .foregroundColor(globalSettings.primaryYellowColor)
         }
     }
     
@@ -73,39 +71,48 @@ struct SettingsView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 60, height: 60)
-                .foregroundColor(.green)
+                .foregroundColor(globalSettings.primaryYellowColor)
             
             VStack(spacing: 0) {
                 Text(name)
-                    .font(.headline)
-                    .fontWeight(.bold)
+                    .font(.custom("Poppins-Bold", size: 18))
                 
                 Text(email)
-                    .font(.subheadline)
+                    .font(.custom("Poppins-Regular", size: 14))
                     .foregroundColor(.gray)
             }
-            
-            Spacer()
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color.white))
-        .shadow(radius: 2)
+        .background(Color.white)
     }
     
     private func actionSection(title: String, buttons: [AnyView]) -> some View {
-        VStack(alignment: .leading, spacing: 15) {
+        VStack(alignment: .leading, spacing: 0) {
            Text(title)
-               .font(.headline)
-               .foregroundColor(.black)
+               .font(.custom("Poppins-Bold", size: 20))
+               .foregroundColor(globalSettings.primaryDarkColor)
                .padding(.leading)
-            ForEach(buttons.indices, id: \.self) { index in
-                buttons[index]
+               .padding(.bottom, 10)
+            
+            VStack(spacing: 0) {
+                ForEach(buttons.indices, id: \.self) { index in
+                    buttons[index]
+                    
+                    if index < buttons.count - 1 {
+                        Divider()
+                            .background(Color.gray.opacity(0.2))
+                    }
+                }
             }
+            .background(Color.white)
+            .cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+            )
         }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color.white.opacity(0.90)))
-        .shadow(radius: 1)
+        .padding(.horizontal)
     }
     
     private func customActionButton(title: String, icon: String) -> AnyView {
@@ -115,15 +122,17 @@ struct SettingsView: View {
             }) {
                 HStack {
                     Image(systemName: icon)
-                        .foregroundColor(.green)
+                        .foregroundColor(globalSettings.primaryYellowColor)
                     Text(title)
-                        .foregroundColor(.black)
+                        .font(.custom("Poppins-Regular", size: 16))
+                        .foregroundColor(globalSettings.primaryDarkColor)
                     Spacer()
                     Image(systemName: "chevron.right")
-                        .foregroundColor(.black.opacity(0.7))
+                        .foregroundColor(globalSettings.primaryDarkColor.opacity(0.7))
                 }
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(0.90)))
+                .frame(maxWidth: .infinity)
+                .background(Color.white)
             }
             .buttonStyle(PlainButtonStyle())
         )
@@ -134,18 +143,38 @@ struct SettingsView: View {
             showDeleteConfirmation = true
         }) {
             Text("Delete Account")
+                .font(.custom("Poppins-Bold", size: 16))
                 .foregroundColor(.white)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color.red))
+                .background(globalSettings.primaryYellowColor)
+                .cornerRadius(10)
         }
         .padding(.top, 20)
     }
 }
 
-//struct SettingsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SettingsView()
-//    }
-//}
-//
+// Preview code
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            // Light mode preview
+            SettingsView()
+                .previewDisplayName("Light Mode")
+            
+            // Dark mode preview
+            SettingsView()
+                .preferredColorScheme(.dark)
+                .previewDisplayName("Dark Mode")
+            
+            // Different device sizes
+            SettingsView()
+                .previewDevice("iPhone SE (3rd generation)")
+                .previewDisplayName("iPhone SE")
+            
+            SettingsView()
+                .previewDevice("iPhone 15 Pro Max")
+                .previewDisplayName("iPhone 15 Pro Max")
+        }
+    }
+}
