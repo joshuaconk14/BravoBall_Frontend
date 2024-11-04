@@ -22,15 +22,13 @@ struct ConversationsResponse: Codable {
 // MARK: - Main body
 struct LoginView: View {
     @StateObject private var globalSettings = GlobalSettings()
+    @EnvironmentObject var navigator: NavigationCoordinator
+    @EnvironmentObject var stateManager: OnboardingStateManager
     
     @State private var email = ""
     @State private var password = ""
     @State private var errorMessage = ""
     @State private var conversations: [Conversation] = []
-    @Binding var isLoggedIn: Bool
-    @Binding var authToken: String
-    @Binding var showLoginPage: Bool // Binding to control visibility of the login page
-    
     
     var body: some View {
         VStack {
@@ -38,8 +36,7 @@ struct LoginView: View {
                 //back button
                 Button(action: {
                     withAnimation(.spring()) {
-                        showLoginPage = false
-                        
+                        navigator.navigate(to: .onboarding)
                     }
                 }){
                     Image(systemName:"arrow.left")
@@ -49,7 +46,7 @@ struct LoginView: View {
                 }
                 .padding()
                 
-                Spacer() // moving back button to left
+                Spacer()
             }
 
 
@@ -149,7 +146,7 @@ struct LoginView: View {
         let url = URL(string: "http://127.0.0.1:8000/login/")!
         var request = URLRequest(url: url)
 
-        print("current token: \(authToken)")
+        print("current token: \(stateManager.authToken)")
         // HTTP POST request to login user and receive JWT token
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -160,15 +157,11 @@ struct LoginView: View {
             if let data = data,
                let decodedResponse = try? JSONDecoder().decode(LoginResponse.self, from: data) {
                 DispatchQueue.main.async {
-                    self.authToken = decodedResponse.access_token
-                    self.isLoggedIn = true
-                    print("Login token: \(self.authToken)")
-                    print("Login success: \(self.isLoggedIn)")
-                    // TODO make this a secure key
-                    UserDefaults.standard.set(self.authToken, forKey: "authToken")
-
-                    // // Fetch conversations after successful login
-                    // self.fetchConversations()
+                    // Store auth token in both UserDefaults and StateManager
+                    UserDefaults.standard.set(decodedResponse.access_token, forKey: "authToken")
+                    stateManager.authToken = decodedResponse.access_token
+                    // Navigate to home screen
+                    navigator.navigate(to: .home)
                 }
             } else {
                 DispatchQueue.main.async {
@@ -188,20 +181,14 @@ struct LoginView: View {
 
 // MARK: - Preview
 struct LoginView_Previews: PreviewProvider {
-    @Namespace static var namespace
-    
     static var previews: some View {
-        ZStack {
-            LoginView(
-                isLoggedIn: .constant(false),
-                authToken: .constant(""),
-                showLoginPage: .constant(true)
-            )
-            // Include matchedGeometryEffect to better mimic how this page looks when running the app
-            .matchedGeometryEffect(id: "login", in: namespace)
-            .offset(y: 40)
-        }
-        .background(Color.white)
-        .edgesIgnoringSafeArea(.all)
+        let stateManager = OnboardingStateManager()
+        let navigator = NavigationCoordinator()
+        
+        LoginView()
+            .environmentObject(stateManager)
+            .environmentObject(navigator)
+            .background(Color.white)
+            .edgesIgnoringSafeArea(.all)
     }
 }

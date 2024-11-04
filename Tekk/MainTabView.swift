@@ -10,38 +10,34 @@ import SwiftUI
 import RiveRuntime
 
 struct MainTabView: View {
-    @StateObject private var globalSettings = GlobalSettings()
-    @State var chatMessages: [Message_Struct] = [Message_Struct(role: "system", content: "Welcome to TekkAI")]
-    @State private var viewModel = ViewModel()
-    @State private var conversations: [Conversation] = []
-    @State private var activeTab: CameraView.Tab = .messages
-    @Binding var authToken: String
+    @EnvironmentObject var navigator: NavigationCoordinator
+    let authToken: String
     
     var body: some View {
         TabView {
-            HomeProgramView()  // Add this new view
-                    .tabItem {
-                        Image(systemName: "figure.run")
-                    }
-//            ChatbotView(chatMessages: $chatMessages, authToken: $authToken, conversations: $conversations)
-//                .tabItem {
-//                    Image(systemName: "message.fill")
-//                }
-//            CameraView(image: $viewModel.currentFrame, activeTab: $activeTab)
-//                .tabItem {
-//                    Image(systemName: "camera.fill")
-//                }
-            SettingsView()
+            // Your tab items here
+            Text("Home")
                 .tabItem {
-                    Image(systemName: "slider.horizontal.3")
+                    Image(systemName: "house.fill")
+                    Text("Home")
+                }        
+            Text("Profile")
+                .tabItem {
+                    Image(systemName: "person.fill")
+                    Text("Profile")
                 }
         }
-        .accentColor(globalSettings.primaryYellowColor)
+        .onAppear {
+            // Handle any initialization needed with authToken
+            print("MainTabView appeared with token: \(authToken)")
+        }
     }
 }
 
+// MARK: - Preview
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
-        MainTabView(authToken: .constant("preview-token"))
+        MainTabView(authToken: "preview-token")
+            .environmentObject(NavigationCoordinator())
     }
 }

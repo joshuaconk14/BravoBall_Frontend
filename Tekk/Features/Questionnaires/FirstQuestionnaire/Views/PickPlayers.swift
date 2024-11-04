@@ -1,35 +1,44 @@
 //
-//  TrainingDays.swift
+//  PickPlayers.swift
 //  BravoBall
 //
-//  Created by Jordan on 11/1/24.
+//  Created by Jordan on 11/4/24.
 //
 
 import Foundation
 import SwiftUI
+import Foundation
 
-struct TrainingDays: View {
+struct PickPlayers: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
     @EnvironmentObject var questionnaireCoordinator: QuestionnaireCoordinator
-    @Binding var selectedDays: String
-    @Binding var chosenDays: [String]
+    @Binding var selectedPlayer: String
+    @Binding var chosenPlayers: [String]
     
-    let days = ["Monday", "Tuesday", "Wednesday", "Thursday",
-                "Friday", "Saturday", "Sunday"]
+    let players = [
+        "Lionel Messi",
+        "Cristiano Ronaldo",
+        "Kylian Mbappe",
+        "Erling Haaland",
+        "Kevin De Bruyne",
+        "Jude Bellingham",
+        "Vinicius Jr",
+        "Mohamed Salah"
+    ]
     
     var body: some View {
         VStack {
-            Text("Which days would you like to train?")
+            Text("Which player represents your playstyle the best?")
                 .font(.custom("Poppins-Bold", size: 16))
                 .foregroundColor(.black)
                 .padding(.bottom, 20)
             
             SelectionListView(
-                items: days,
-                maxSelections: 7,
-                selectedItems: $chosenDays
-            ) { day in
-                day
+                items: players,
+                maxSelections: 1,
+                selectedItems: $chosenPlayers
+            ) { player in
+                player
             }
         }
         .transition(.move(edge: questionnaireCoordinator.direction == .forward ? .trailing : .leading))
@@ -38,14 +47,14 @@ struct TrainingDays: View {
 }
 
 // MARK: - Preview
-struct TrainingDays_Previews: PreviewProvider {
+struct PickPlayers_Previews: PreviewProvider {
     static var previews: some View {
         let stateManager = OnboardingStateManager()
         let coordinator = QuestionnaireCoordinator()
         
-        TrainingDays(
-            selectedDays: .constant(""),
-            chosenDays: .constant([])
+        PickPlayers(
+            selectedPlayer: .constant(""),
+            chosenPlayers: .constant([])
         )
         .environmentObject(stateManager)
         .environmentObject(coordinator)

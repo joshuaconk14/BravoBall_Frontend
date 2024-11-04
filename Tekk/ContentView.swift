@@ -10,39 +10,36 @@ import RiveRuntime
 
 struct ContentView: View {
     @StateObject private var stateManager = OnboardingStateManager()
-    @State private var isLoggedIn: Bool = false
+    @StateObject private var navigator = NavigationCoordinator()
     @State private var authToken: String = ""
-    @State private var showOnboarding: Bool = true
     
     var body: some View {
-        if isLoggedIn {
-            MainTabView(authToken: $authToken)
-        } else {
-            OnboardingView(
-                isLoggedIn: $isLoggedIn,
-                authToken: $authToken,
-                showOnboarding: $showOnboarding
-            )
+        NavigationStack {
+            ZStack {
+                switch navigator.currentScreen {
+                case .onboarding:
+                    OnboardingView()
+                case .welcome:
+                    WelcomeView()
+                case .login:
+                    LoginView()
+                case .firstQuestionnaire:
+                    FirstQuestionnaireView()
+                case .secondQuestionnaire:
+                    SecondQuestionnaireView()
+                case .postOnboardingLoading:
+                    PostOnboardingLoadingView(onboardingData: stateManager.onboardingData)
+                case .home:
+                    MainTabView(authToken: authToken)                }
+            }
             .environmentObject(stateManager)
+            .environmentObject(navigator)
         }
     }
 }
 
-// for font ?
-//init() {
-//    for familyName in UIFont.familyNames {
-//        print(familyName)
-//        
-//        for fontName in UIFont.fontNames(forFamilyName: familyName) {
-//            print(fontName)
-//        }
-//    }
-//}
-
-
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//            .previewDevice("iPhone 15 Pro Max")
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}

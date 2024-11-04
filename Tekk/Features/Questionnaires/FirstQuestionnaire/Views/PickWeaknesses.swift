@@ -10,7 +10,8 @@ import SwiftUI
 import Foundation
 
 struct PickWeaknesses: View {
-    @Binding var currentQuestionnaire: Int
+    @EnvironmentObject var stateManager: OnboardingStateManager
+    @EnvironmentObject var questionnaireCoordinator: QuestionnaireCoordinator
     @Binding var selectedWeakness: String
     @Binding var chosenWeaknesses: [String]
     
@@ -18,29 +19,36 @@ struct PickWeaknesses: View {
                       "Crossing", "1v1 Defending", "1v1 Attacking", "Vision"]
     
     var body: some View {
-        SelectionListView(
-            items: weaknesses,
-            maxSelections: 3,
-            selectedItems: $chosenWeaknesses
-        ) { weakness in
-            weakness
+        VStack {
+            Text("What areas would you like to improve?")
+                .font(.custom("Poppins-Bold", size: 16))
+                .foregroundColor(.black)
+                .padding(.bottom, 20)
+            
+            SelectionListView(
+                items: weaknesses,
+                maxSelections: 3,
+                selectedItems: $chosenWeaknesses
+            ) { weakness in
+                weakness
+            }
         }
+        .transition(.move(edge: questionnaireCoordinator.direction == .forward ? .trailing : .leading))
+        .animation(.easeInOut, value: questionnaireCoordinator.currentStep)
     }
 }
 
-// MARK: - Preview for PickWeaknesses
+// MARK: - Preview
 struct PickWeaknesses_Previews: PreviewProvider {
-    @State static var currentQuestionnaire = 3
-    @State static var selectedWeakness = ""
-    @State static var chosenWeaknesses: [String] = []
-    
     static var previews: some View {
         let stateManager = OnboardingStateManager()
+        let coordinator = QuestionnaireCoordinator()
+        
         PickWeaknesses(
-            currentQuestionnaire: $currentQuestionnaire,
-            selectedWeakness: $selectedWeakness,
-            chosenWeaknesses: $chosenWeaknesses
+            selectedWeakness: .constant(""),
+            chosenWeaknesses: .constant([])
         )
         .environmentObject(stateManager)
+        .environmentObject(coordinator)
     }
 }

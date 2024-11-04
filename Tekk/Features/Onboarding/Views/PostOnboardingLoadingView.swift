@@ -11,13 +11,11 @@ import RiveRuntime
 
 struct PostOnboardingLoadingView: View {
     @StateObject private var globalSettings = GlobalSettings()
+    @EnvironmentObject var navigator: NavigationCoordinator
     @State private var isLoading = true
-    @State private var showNextScreen = false
     @State private var errorMessage: String?
-    @Environment(\.dismiss) private var dismiss
     
     let onboardingData: OnboardingData
-    @Binding var isLoggedIn: Bool
     
     var body: some View {
         ZStack {
@@ -25,7 +23,6 @@ struct PostOnboardingLoadingView: View {
             
             VStack(spacing: 20) {
                 if isLoading {
-                    // You can replace this with your Rive animation
                     ProgressView()
                         .scaleEffect(2)
                         .progressViewStyle(CircularProgressViewStyle(tint: globalSettings.primaryYellowColor))
@@ -58,33 +55,17 @@ struct PostOnboardingLoadingView: View {
         .onAppear {
             submitData()
         }
-        .fullScreenCover(isPresented: $showNextScreen) {
-            // Instead of creating a new ContentView, just set isLoggedIn
-            Color.clear.onAppear {
-                isLoggedIn = true
-            }
-        }
     }
     
     private func submitData() {
         isLoading = true
         errorMessage = nil
         
-        Task {
-            do {
-                try await OnboardingService.shared.submitOnboardingData(data: onboardingData)
-                DispatchQueue.main.async {
-                    isLoading = false
-                    showNextScreen = true
-                }
-                print("✅ Onboarding data submitted successfully")
-            } catch {
-                DispatchQueue.main.async {
-                    isLoading = false
-                    errorMessage = "Something went wrong. Please try again."
-                }
-                print("❌ Error submitting onboarding data: \(error)")
-            }
+        // Simulate API call with delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            isLoading = false
+            // Navigate to home screen
+            navigator.navigate(to: .home)
         }
     }
 }
@@ -110,7 +91,7 @@ struct PostOnboardingLoadingView_Previews: PreviewProvider {
             trainingDays: ["Monday", "Wednesday"]
         )
         
-        PostOnboardingLoadingView(onboardingData: sampleData, isLoggedIn: .constant(false))
+        PostOnboardingLoadingView(onboardingData: sampleData)
             .environmentObject(stateManager)
     }
 }

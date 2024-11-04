@@ -9,8 +9,7 @@ import SwiftUI
 
 struct PickGoal: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
-
-    @Binding var currentQuestionnaireTwo: Int
+    @EnvironmentObject var questionnaireCoordinator: QuestionnaireCoordinator
     @Binding var selectedGoal: String
     @Binding var chosenGoal: [String]
     
@@ -20,13 +19,22 @@ struct PickGoal: View {
                  "I want to become a professional soccer player."]
     
     var body: some View {
-        SelectionListView(
-            items: goals,
-            maxSelections: 1,
-            selectedItems: $chosenGoal
-        ) { goal in
-            goal
+        VStack {
+            Text("What is your main goal?")
+                .font(.custom("Poppins-Bold", size: 16))
+                .foregroundColor(.black)
+                .padding(.bottom, 20)
+            
+            SelectionListView(
+                items: goals,
+                maxSelections: 1,
+                selectedItems: $chosenGoal
+            ) { goal in
+                goal
+            }
         }
+        .transition(.move(edge: questionnaireCoordinator.direction == .forward ? .trailing : .leading))
+        .animation(.easeInOut, value: questionnaireCoordinator.currentStep)
     }
 }
 
@@ -35,7 +43,6 @@ struct PickGoal_Previews: PreviewProvider {
     static var previews: some View {
         let stateManager = OnboardingStateManager()
         PickGoal(
-            currentQuestionnaireTwo: .constant(2),
             selectedGoal: .constant(""),
             chosenGoal: .constant([])
         )

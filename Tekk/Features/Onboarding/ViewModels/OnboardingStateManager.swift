@@ -30,6 +30,8 @@ class OnboardingStateManager: ObservableObject {
         trainingDays: []
     )
     
+    @Published var authToken: String = ""
+    
     func updateWelcomeData(firstName: String, lastName: String, ageRange: String, level: String, position: String) {
         onboardingData.firstName = firstName
         onboardingData.lastName = lastName

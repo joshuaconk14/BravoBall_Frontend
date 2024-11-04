@@ -11,8 +11,7 @@ import RiveRuntime
 
 struct YesNoTeam: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
-
-    @Binding var currentQuestionnaireTwo: Int
+    @EnvironmentObject var questionnaireCoordinator: QuestionnaireCoordinator
     @Binding var selectedYesNoTeam: String
     @Binding var chosenYesNoTeam: [String]
     
@@ -20,13 +19,22 @@ struct YesNoTeam: View {
                      "No I am not currently on a team"]
     
     var body: some View {
-        SelectionListView(
-            items: yesNoTeam,
-            maxSelections: 1,
-            selectedItems: $chosenYesNoTeam
-        ) { option in
-            option
+        VStack {
+            Text("Are you currently on a team?")
+                .font(.custom("Poppins-Bold", size: 16))
+                .foregroundColor(.black)
+                .padding(.bottom, 20)
+            
+            SelectionListView(
+                items: yesNoTeam,
+                maxSelections: 1,
+                selectedItems: $chosenYesNoTeam
+            ) { option in
+                option
+            }
         }
+        .transition(.move(edge: questionnaireCoordinator.direction == .forward ? .trailing : .leading))
+        .animation(.easeInOut, value: questionnaireCoordinator.currentStep)
     }
 }
 
@@ -34,7 +42,6 @@ struct YesNoTeam_Previews: PreviewProvider {
     static var previews: some View {
         let stateManager = OnboardingStateManager()
         YesNoTeam(
-            currentQuestionnaireTwo: .constant(1),
             selectedYesNoTeam: .constant(""),
             chosenYesNoTeam: .constant([])
         )

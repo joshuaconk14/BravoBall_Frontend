@@ -38,6 +38,10 @@
 		17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */; };
 		17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */; };
 		17C3A5352CD88D8800A64BC5 /* HomeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */; };
+		17C3A5392CD8CBBD00A64BC5 /* NavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A5382CD8CBBD00A64BC5 /* NavigationCoordinator.swift */; };
+		17C3A53C2CD8D40800A64BC5 /* QuestionnaireCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A53B2CD8D40800A64BC5 /* QuestionnaireCoordinator.swift */; };
+		17C3A53E2CD8D57900A64BC5 /* PickPlayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A53D2CD8D57900A64BC5 /* PickPlayers.swift */; };
+		17C3A5422CD9402D00A64BC5 /* QuestionnaireNavigationButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A5412CD9402D00A64BC5 /* QuestionnaireNavigationButtons.swift */; };
 		17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693192C743662006B58A3 /* CameraManager.swift */; };
 		17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */; };
 		17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */; };
@@ -108,6 +112,10 @@
 		17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickStrengths.swift; sourceTree = "<group>"; };
 		17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondQuestionnaireView.swift; sourceTree = "<group>"; };
 		17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProgramView.swift; sourceTree = "<group>"; };
+		17C3A5382CD8CBBD00A64BC5 /* NavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
+		17C3A53B2CD8D40800A64BC5 /* QuestionnaireCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireCoordinator.swift; sourceTree = "<group>"; };
+		17C3A53D2CD8D57900A64BC5 /* PickPlayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPlayers.swift; sourceTree = "<group>"; };
+		17C3A5412CD9402D00A64BC5 /* QuestionnaireNavigationButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireNavigationButtons.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17E693192C743662006B58A3 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Extension.swift"; sourceTree = "<group>"; };
@@ -197,8 +205,10 @@
 				179CF94E2CD7077F00D07E49 /* BravoBall.swift */,
 				17ACC8D82CD367BA0047EE09 /* Features */,
 				17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */,
+				17C3A5362CD8CB8600A64BC5 /* Onboarding */,
 				179CF9532CD7318600D07E49 /* Common */,
 				17F5D6532CD3477E008E8C24 /* ColorExtension.swift */,
+				17C3A53F2CD9401200A64BC5 /* Components */,
 				179CF9612CD74EC800D07E49 /* MainTabView.swift */,
 				1749361B2C3E102B001163B9 /* ContentView.swift */,
 				1749361D2C3E1031001163B9 /* Assets.xcassets */,
@@ -344,6 +354,7 @@
 				17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */,
 				17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */,
 				17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */,
+				17C3A53D2CD8D57900A64BC5 /* PickPlayers.swift */,
 				17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */,
 			);
 			path = Views;
@@ -368,6 +379,47 @@
 				176D15042CD4907000450F85 /* PickGoal.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		17C3A5362CD8CB8600A64BC5 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				17C3A53A2CD8D3CA00A64BC5 /* Questionnaire */,
+				17C3A5372CD8CB8D00A64BC5 /* Main */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		17C3A5372CD8CB8D00A64BC5 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				17C3A5382CD8CBBD00A64BC5 /* NavigationCoordinator.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		17C3A53A2CD8D3CA00A64BC5 /* Questionnaire */ = {
+			isa = PBXGroup;
+			children = (
+				17C3A53B2CD8D40800A64BC5 /* QuestionnaireCoordinator.swift */,
+			);
+			path = Questionnaire;
+			sourceTree = "<group>";
+		};
+		17C3A53F2CD9401200A64BC5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				17C3A5402CD9401E00A64BC5 /* Navigation */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		17C3A5402CD9401E00A64BC5 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				17C3A5412CD9402D00A64BC5 /* QuestionnaireNavigationButtons.swift */,
+			);
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 		17E6931C2C743AC4006B58A3 /* Camera */ = {
@@ -541,15 +593,18 @@
 				43985E3F2CB4EDE700BE2AB6 /* CameraView.swift in Sources */,
 				17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */,
 				179CF9622CD74EC800D07E49 /* MainTabView.swift in Sources */,
+				17C3A5422CD9402D00A64BC5 /* QuestionnaireNavigationButtons.swift in Sources */,
 				179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */,
 				17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */,
 				170217BB2C89030500DD020C /* Models.swift in Sources */,
+				17C3A53E2CD8D57900A64BC5 /* PickPlayers.swift in Sources */,
 				179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */,
 				17ACC8DE2CD3688A0047EE09 /* WelcomeView.swift in Sources */,
 				17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */,
 				179CF9602CD7326500D07E49 /* PostOnboardingLoadingView.swift in Sources */,
 				179CF9582CD731C400D07E49 /* DropdownMenu.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
+				17C3A5392CD8CBBD00A64BC5 /* NavigationCoordinator.swift in Sources */,
 				17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */,
 				173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */,
 				17C3A5352CD88D8800A64BC5 /* HomeProgramView.swift in Sources */,
@@ -567,6 +622,7 @@
 				179CF94F2CD7077F00D07E49 /* BravoBall.swift in Sources */,
 				17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */,
 				43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */,
+				17C3A53C2CD8D40800A64BC5 /* QuestionnaireCoordinator.swift in Sources */,
 				179CF95A2CD731E200D07E49 /* SelectionListView.swift in Sources */,
 				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,
 				17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */,

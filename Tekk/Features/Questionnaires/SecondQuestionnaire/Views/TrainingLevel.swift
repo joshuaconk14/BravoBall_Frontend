@@ -8,12 +8,9 @@
 import Foundation
 import SwiftUI
 
-import SwiftUI
-
 struct TrainingLevel: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
-
-    @Binding var currentQuestionnaireTwo: Int
+    @EnvironmentObject var questionnaireCoordinator: QuestionnaireCoordinator
     @Binding var selectedLevel: String
     @Binding var chosenLevel: [String]
     
@@ -23,27 +20,37 @@ struct TrainingLevel: View {
                   "Professional (6+ sessions/week)"]
     
     var body: some View {
-        SelectionListView(
-            items: levels,
-            maxSelections: 1,
-            selectedItems: $chosenLevel
-        ) { level in
-            level
+        VStack {
+            Text("What training intensity level suits you best?")
+                .font(.custom("Poppins-Bold", size: 16))
+                .foregroundColor(.black)
+                .padding(.bottom, 20)
+            
+            SelectionListView(
+                items: levels,
+                maxSelections: 1,
+                selectedItems: $chosenLevel
+            ) { level in
+                level
+            }
         }
+        .transition(.move(edge: questionnaireCoordinator.direction == .forward ? .trailing : .leading))
+        .animation(.easeInOut, value: questionnaireCoordinator.currentStep)
     }
 }
-
 
 // MARK: - Preview
 struct TrainingLevel_Previews: PreviewProvider {
     static var previews: some View {
         let stateManager = OnboardingStateManager()
+        let coordinator = QuestionnaireCoordinator()
+        
         TrainingLevel(
-            currentQuestionnaireTwo: .constant(4),
             selectedLevel: .constant(""),
             chosenLevel: .constant([])
         )
         .environmentObject(stateManager)
+        .environmentObject(coordinator)
     }
 }
 
