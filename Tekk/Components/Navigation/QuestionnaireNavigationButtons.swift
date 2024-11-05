@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct QuestionnaireNavigationButtons: View {
-    @EnvironmentObject var globalSettings: GlobalSettings
+    @StateObject private var globalSettings = GlobalSettings()
     @EnvironmentObject var questionnaireCoordinator: QuestionnaireCoordinator
     
     let isLastStep: Bool
@@ -36,11 +36,10 @@ struct QuestionnaireNavigationButtons: View {
                     .frame(width: 325, height: 15)
                     .padding()
                     .background(globalSettings.primaryYellowColor)
-                    .foregroundColor(.white)
-                    .cornerRadius(20)
+                    .foregroundColor(globalSettings.primaryDarkColor)
+                    .cornerRadius(25)
                     .font(.custom("Poppins-Bold", size: 16))
             }
-            .padding(.top, 700)
         }
     }
 }

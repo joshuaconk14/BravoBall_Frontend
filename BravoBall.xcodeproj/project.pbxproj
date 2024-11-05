@@ -42,6 +42,10 @@
 		17C3A53C2CD8D40800A64BC5 /* QuestionnaireCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A53B2CD8D40800A64BC5 /* QuestionnaireCoordinator.swift */; };
 		17C3A53E2CD8D57900A64BC5 /* PickPlayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A53D2CD8D57900A64BC5 /* PickPlayers.swift */; };
 		17C3A5422CD9402D00A64BC5 /* QuestionnaireNavigationButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A5412CD9402D00A64BC5 /* QuestionnaireNavigationButtons.swift */; };
+		17C3A5442CD9FA0300A64BC5 /* BravoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A5432CD9FA0300A64BC5 /* BravoCoordinator.swift */; };
+		17C3A5462CDA030400A64BC5 /* PageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A5452CDA030400A64BC5 /* PageCoordinator.swift */; };
+		17C3A54C2CDA0DF800A64BC5 /* WelcomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A54B2CDA0DF800A64BC5 /* WelcomePage.swift */; };
+		17C3A54E2CDA0E1800A64BC5 /* SplashPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A54D2CDA0E1800A64BC5 /* SplashPage.swift */; };
 		17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693192C743662006B58A3 /* CameraManager.swift */; };
 		17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */; };
 		17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */; };
@@ -116,6 +120,10 @@
 		17C3A53B2CD8D40800A64BC5 /* QuestionnaireCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireCoordinator.swift; sourceTree = "<group>"; };
 		17C3A53D2CD8D57900A64BC5 /* PickPlayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPlayers.swift; sourceTree = "<group>"; };
 		17C3A5412CD9402D00A64BC5 /* QuestionnaireNavigationButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireNavigationButtons.swift; sourceTree = "<group>"; };
+		17C3A5432CD9FA0300A64BC5 /* BravoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BravoCoordinator.swift; sourceTree = "<group>"; };
+		17C3A5452CDA030400A64BC5 /* PageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageCoordinator.swift; sourceTree = "<group>"; };
+		17C3A54B2CDA0DF800A64BC5 /* WelcomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePage.swift; sourceTree = "<group>"; };
+		17C3A54D2CDA0E1800A64BC5 /* SplashPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashPage.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17E693192C743662006B58A3 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Extension.swift"; sourceTree = "<group>"; };
@@ -394,6 +402,10 @@
 			isa = PBXGroup;
 			children = (
 				17C3A5382CD8CBBD00A64BC5 /* NavigationCoordinator.swift */,
+				17C3A5452CDA030400A64BC5 /* PageCoordinator.swift */,
+				17C3A5432CD9FA0300A64BC5 /* BravoCoordinator.swift */,
+				17C3A54D2CDA0E1800A64BC5 /* SplashPage.swift */,
+				17C3A54B2CDA0DF800A64BC5 /* WelcomePage.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -589,6 +601,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				179CF9562CD731B100D07E49 /* SelectionListItem.swift in Sources */,
+				17C3A5442CD9FA0300A64BC5 /* BravoCoordinator.swift in Sources */,
 				17E693222C745811006B58A3 /* ViewModel.swift in Sources */,
 				43985E3F2CB4EDE700BE2AB6 /* CameraView.swift in Sources */,
 				17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */,
@@ -604,7 +617,9 @@
 				179CF9602CD7326500D07E49 /* PostOnboardingLoadingView.swift in Sources */,
 				179CF9582CD731C400D07E49 /* DropdownMenu.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
+				17C3A5462CDA030400A64BC5 /* PageCoordinator.swift in Sources */,
 				17C3A5392CD8CBBD00A64BC5 /* NavigationCoordinator.swift in Sources */,
+				17C3A54E2CDA0E1800A64BC5 /* SplashPage.swift in Sources */,
 				17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */,
 				173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */,
 				17C3A5352CD88D8800A64BC5 /* HomeProgramView.swift in Sources */,
@@ -622,6 +637,7 @@
 				179CF94F2CD7077F00D07E49 /* BravoBall.swift in Sources */,
 				17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */,
 				43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */,
+				17C3A54C2CDA0DF800A64BC5 /* WelcomePage.swift in Sources */,
 				17C3A53C2CD8D40800A64BC5 /* QuestionnaireCoordinator.swift in Sources */,
 				179CF95A2CD731E200D07E49 /* SelectionListView.swift in Sources */,
 				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,

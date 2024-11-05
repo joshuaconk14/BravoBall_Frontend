@@ -27,47 +27,7 @@ struct WelcomeView: View {
         ZStack {
             Color.white.edgesIgnoringSafeArea(.all)
             
-            // Main content
             VStack {
-                if animationStage >= 3 {
-                    WelcomeQuestions(
-                        welcomeInput: $welcomeInput,
-                        firstName: $firstName,
-                        lastName: $lastName,
-                        selectedAge: $selectedAge,
-                        selectedLevel: $selectedLevel,
-                        selectedPosition: $selectedPosition
-                    )
-                    .transition(.opacity.combined(with: .move(edge: .trailing)))
-                    .animation(.easeInOut(duration: 0.3), value: animationStage)
-                }
-                
-                Spacer()
-                
-                // Bravo Animation
-                RiveViewModel(fileName: "test_panting").view()
-                    .frame(width: 250, height: 250)
-                    .padding(.bottom, 5)
-                    .offset(x: riveViewOffset.width, y: riveViewOffset.height)
-                    .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
-                
-                // Bravo Messages
-                Text("Hello there, I'm Bravo! Let's help you become a more tekky player.")
-                    .foregroundColor(globalSettings.primaryDarkColor)
-                    .padding(.horizontal, 80)
-                    .padding(.bottom, 400)
-                    .opacity(animationStage == 0 ? 1 : 0)
-                    .animation(.easeOut(duration: 0.2), value: animationStage)
-                    .font(.custom("Poppins-Bold", size: 16))
-                
-                Text("Enter your player details below")
-                    .foregroundColor(globalSettings.primaryDarkColor)
-                    .padding()
-                    .padding(.bottom, 500)
-                    .padding(.leading, 150)
-                    .opacity(animationStage >= 2 ? 1 : 0)
-                    .font(.custom("Poppins-Bold", size: 16))
-                
                 // Back button
                 HStack {
                     Button(action: {
@@ -78,14 +38,57 @@ struct WelcomeView: View {
                             .foregroundColor(globalSettings.primaryDarkColor)
                             .padding()
                     }
-                    .padding(.bottom, 725)
+                    Spacer()
+                }
+                .padding(.top)
+                
+                if animationStage >= 3 {
+                    ZStack {
+                        // Bravo Animation
+                        RiveViewModel(fileName: "test_panting").view()
+                            .frame(width: 250, height: 250)
+                            .padding(.bottom, 5)
+                            .offset(x: riveViewOffset.width, y: riveViewOffset.height)
+                            .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
+                        
+                        // Questions form
+                        WelcomeQuestions(
+                            welcomeInput: $welcomeInput,
+                            firstName: $firstName,
+                            lastName: $lastName,
+                            selectedAge: $selectedAge,
+                            selectedLevel: $selectedLevel,
+                            selectedPosition: $selectedPosition
+                        )
+                        .transition(.opacity.combined(with: .move(edge: .trailing)))
+                        .animation(.easeInOut(duration: 0.3), value: animationStage)
+                    }
+                } else {
+                    // Initial welcome content
+                    Spacer()
+                    
+                    // Bravo Animation
+                    RiveViewModel(fileName: "test_panting").view()
+                        .frame(width: 250, height: 250)
+                        .padding(.bottom, 5)
+                        .offset(x: riveViewOffset.width, y: riveViewOffset.height)
+                        .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
+                    
+                    // Bravo Messages
+                    Text("Hello there, I'm Bravo! Let's help you become a more tekky player.")
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding(.horizontal, 80)
+                        .multilineTextAlignment(.center)
+                        .opacity(animationStage == 0 ? 1 : 0)
+                        .animation(.easeOut(duration: 0.2), value: animationStage)
+                        .font(.custom("Poppins-Bold", size: 16))
                     
                     Spacer()
                 }
                 
                 // Next button
                 Button(action: handleNextButton) {
-                    Text("Next")
+                    Text(animationStage >= 3 ? "Next" : "Get Started")
                         .frame(width: 325, height: 15)
                         .padding()
                         .background(globalSettings.primaryYellowColor)
@@ -93,7 +96,7 @@ struct WelcomeView: View {
                         .cornerRadius(20)
                         .font(.custom("Poppins-Bold", size: 16))
                 }
-                .padding(.top, 700)
+                .padding(.bottom)
             }
         }
     }
@@ -151,7 +154,10 @@ struct WelcomeView: View {
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
         let stateManager = OnboardingStateManager()
+        let navigator = NavigationCoordinator()
         WelcomeView()
             .environmentObject(stateManager)
+            .environmentObject(navigator)
+            .environmentObject(GlobalSettings())
     }
 }

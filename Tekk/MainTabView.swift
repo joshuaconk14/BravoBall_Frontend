@@ -16,15 +16,13 @@ struct MainTabView: View {
     var body: some View {
         TabView {
             // Your tab items here
-            Text("Home")
+            HomeProgramView()
                 .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Home")
-                }        
-            Text("Profile")
+                    Image(systemName: "figure.run")
+                }
+            SettingsView()
                 .tabItem {
-                    Image(systemName: "person.fill")
-                    Text("Profile")
+                    Image(systemName: "gearshape")
                 }
         }
         .onAppear {
