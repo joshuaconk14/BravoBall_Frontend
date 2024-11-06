@@ -66,6 +66,17 @@ struct WelcomeView: View {
                         }
                     }
                     Spacer()
+                    
+                    // Add overlay to cover up user input boxes from overlapping with Bravo
+                    
+                    VStack {
+                        Spacer()
+                        Rectangle()
+                            .fill(.white)
+                            .frame(height: 500) // Increased height for more coverage
+                            .offset(y: -500) // Negative value moves it up, positive moves it down
+                    }
+                    
                     // panting animation
                     RiveViewModel(fileName: "test_panting").view()
                         .frame(width: 250, height: 250)
@@ -106,6 +117,15 @@ struct WelcomeView: View {
                         .padding(.bottom, 725)
                         
                         Spacer() // moving back button to left
+                    }
+                    
+                    // Add overlay to cover up the bottom of the screen for next button
+                    VStack {
+                        Spacer()
+                        Rectangle()
+                            .fill(.white)
+                            .frame(height: 200) // Increased height for more coverage
+                            .offset(y: 125) // Negative value moves it up, positive moves it down
                     }
                     
                     // MARK: - "Next" button
