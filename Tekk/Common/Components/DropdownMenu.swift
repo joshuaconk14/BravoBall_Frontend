@@ -16,13 +16,13 @@ struct DropdownMenu: View {
     @Binding var title: String
     var options: [String]
     var placeholder: String
-    @State private var showList: Bool = false
+    @Binding var isOpen: Bool
     
     var body: some View {
             VStack(spacing: 0) {
                 Button(action: {
                     withAnimation(.linear(duration: 0.2)) {
-                        showList.toggle()
+                        isOpen.toggle()
                     }
                 }) {
                     HStack {
@@ -39,14 +39,14 @@ struct DropdownMenu: View {
                     .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray, lineWidth: 1))
                 }
                 
-                if showList {
+                if isOpen {
                     VStack {
                         ScrollView {
                             LazyVStack(alignment: .leading, spacing: 8) {
                                 ForEach(options, id: \.self) { option in
                                     Button(action: {
                                         title = option
-                                        showList = false
+                                        isOpen = false
                                     }) {
                                         Text(option)
                                             .padding(.vertical, 12)
@@ -80,7 +80,8 @@ struct DropdownMenu_Previews: PreviewProvider {
         DropdownMenu(
             title: $selectedOption,
             options: options,
-            placeholder: "Select an Option"
+            placeholder: "Select an Option",
+            isOpen: .constant(false)
         )
         .padding()
         .background(Color.white)

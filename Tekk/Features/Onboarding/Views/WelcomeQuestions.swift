@@ -36,6 +36,8 @@ struct WelcomeQuestions: View {
     @State private var isEditingFirstName = false
     @State private var isEditingLastName = false
     
+    @State private var openMenu: String? = nil // Add this to track which menu is open
+    
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 15) {
@@ -85,12 +87,38 @@ struct WelcomeQuestions: View {
 
                 // dropdown menus
                 VStack(spacing: 15) {
-                    DropdownMenu(title: $selectedAge, options: ageOptions, placeholder: "Select your Age Range")
-                        .zIndex(3)
-                    DropdownMenu(title: $selectedLevel, options: levelOptions, placeholder: "Select your Level")
-                        .zIndex(2)
-                    DropdownMenu(title: $selectedPosition, options: positionOptions, placeholder: "Select your Position")
-                        .zIndex(1)
+                    DropdownMenu(
+                        title: $selectedAge,
+                        options: ageOptions,
+                        placeholder: "Select your Age Range",
+                        isOpen: Binding(
+                            get: { openMenu == "age" },
+                            set: { if $0 { openMenu = "age" } else { openMenu = nil } }
+                        )
+                    )
+                    .zIndex(3)
+                    
+                    DropdownMenu(
+                        title: $selectedLevel,
+                        options: levelOptions,
+                        placeholder: "Select your Level",
+                        isOpen: Binding(
+                            get: { openMenu == "level" },
+                            set: { if $0 { openMenu = "level" } else { openMenu = nil } }
+                        )
+                    )
+                    .zIndex(2)
+                    
+                    DropdownMenu(
+                        title: $selectedPosition,
+                        options: positionOptions,
+                        placeholder: "Select your Position",
+                        isOpen: Binding(
+                            get: { openMenu == "position" },
+                            set: { if $0 { openMenu = "position" } else { openMenu = nil } }
+                        )
+                    )
+                    .zIndex(1)
                 }
                 
                 // Add bottom spacing to ensure content doesn't get hidden behind the Next button
