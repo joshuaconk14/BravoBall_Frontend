@@ -204,10 +204,27 @@ struct WelcomeView: View {
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
         let stateManager = OnboardingStateManager()
-        WelcomeView(
-            isLoggedIn: .constant(false),
-            showWelcome: .constant(false)
-        )
-        .environmentObject(stateManager)
+        Group {
+            WelcomeView(
+                isLoggedIn: .constant(false),
+                showWelcome: .constant(false)
+            )
+            .environmentObject(stateManager)
+            .previewDevice("iPhone 15 Pro Max")
+            
+            WelcomeView(
+                isLoggedIn: .constant(false),
+                showWelcome: .constant(false)
+            )
+            .environmentObject(stateManager)
+            .previewDevice("iPhone SE (3rd generation)")
+            
+            WelcomeView(
+                isLoggedIn: .constant(false),
+                showWelcome: .constant(false)
+            )
+            .environmentObject(stateManager)
+            .previewDevice("iPhone 14")
+        }
     }
 }
