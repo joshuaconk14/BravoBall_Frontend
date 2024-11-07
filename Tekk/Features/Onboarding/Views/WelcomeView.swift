@@ -147,14 +147,14 @@ struct WelcomeView: View {
                                 }
                             }) {
                                 Text("Next")
-                                    .frame(maxWidth: min(geometry.size.width * 0.85, 325))
+                                    .frame(maxWidth: geometry.size.width * 0.85)
                                     .frame(height: geometry.size.height * 0.06)
                                     .background(globalSettings.primaryYellowColor)
                                     .foregroundColor(.white)
                                     .cornerRadius(20)
                                     .font(.custom("Poppins-Bold", size: min(geometry.size.width * 0.045, 18)))
                             }
-                            .padding(.bottom, geometry.size.height * 0.05)
+                            .padding(.bottom, geometry.size.height * 0.0075)
                         }
                         .frame(maxWidth: .infinity)
                     }
