@@ -9,32 +9,29 @@ import SwiftUI
 import RiveRuntime
 
 struct ContentView: View {
+    @StateObject private var onboardingCoordinator = OnboardingCoordinator()
+    @StateObject private var bravoCoordinator = BravoCoordinator()
     @StateObject private var stateManager = OnboardingStateManager()
-    @StateObject private var navigator = NavigationCoordinator()
-    @State private var authToken: String = ""
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                switch navigator.currentScreen {
-                case .onboarding:
-                    OnboardingView()
-                case .welcome:
-                    WelcomeView()
-                case .login:
-                    LoginView()
-                case .firstQuestionnaire:
-                    FirstQuestionnaireView()
-                case .secondQuestionnaire:
-                    SecondQuestionnaireView()
-                case .postOnboardingLoading:
-                    PostOnboardingLoadingView(onboardingData: stateManager.onboardingData)
-                case .home:
-                    MainTabView(authToken: authToken)                }
+        ZStack {
+            switch onboardingCoordinator.currentStep {
+            case .splash:
+                SplashView()
+            case .welcome:
+                WelcomePage()
+            case .playerStyle, .strengths, .weaknesses,
+                 .teamStatus, .goals, .timeline,
+                 .trainingLevel, .trainingDays:
+                OnboardingFlowView()
+            case .completion:
+                // Replace with your home view
+                Text("Welcome to BravoBall!")
             }
-            .environmentObject(stateManager)
-            .environmentObject(navigator)
         }
+        .environmentObject(onboardingCoordinator)
+        .environmentObject(bravoCoordinator)
+        .environmentObject(stateManager)
     }
 }
 

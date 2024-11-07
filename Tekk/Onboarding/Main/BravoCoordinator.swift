@@ -66,6 +66,7 @@ class BravoCoordinator: ObservableObject {
 
 struct BravoView: View {
    @EnvironmentObject var bravoCoordinator: BravoCoordinator
+   var showMessage: Bool = false
    
    var body: some View {
        VStack {
@@ -75,7 +76,7 @@ struct BravoView: View {
                       y: bravoCoordinator.position.height + bravoCoordinator.offset.height)
                .scaleEffect(bravoCoordinator.scale)
            
-           if !bravoCoordinator.message.isEmpty {
+           if showMessage && !bravoCoordinator.message.isEmpty {
                Text(bravoCoordinator.message)
                    .foregroundColor(.black)
                    .padding(.horizontal, 80)

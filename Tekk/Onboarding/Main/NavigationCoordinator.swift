@@ -9,17 +9,14 @@ import Foundation
 import SwiftUI
 
 enum AppScreen {
-    case onboarding
+    case splash
     case welcome
-    case login
-    case firstQuestionnaire
-    case secondQuestionnaire
-    case postOnboardingLoading
+    case onboardingFlow
     case home
 }
 
 class NavigationCoordinator: ObservableObject {
-    @Published var currentScreen: AppScreen = .onboarding
+    @Published var currentScreen: AppScreen = .splash
     @Published var navigationPath = NavigationPath()
     
     func navigate(to screen: AppScreen) {
@@ -32,18 +29,12 @@ class NavigationCoordinator: ObservableObject {
         withAnimation(.spring()) {
             switch currentScreen {
             case .welcome:
-                currentScreen = .onboarding
-            case .login:
-                currentScreen = .onboarding
-            case .firstQuestionnaire:
+                currentScreen = .splash
+            case .onboardingFlow:
                 currentScreen = .welcome
-            case .secondQuestionnaire:
-                currentScreen = .firstQuestionnaire
-            case .postOnboardingLoading:
-                currentScreen = .secondQuestionnaire
             case .home:
-                currentScreen = .onboarding
-            case .onboarding:
+                currentScreen = .onboardingFlow
+            case .splash:
                 break
             }
         }

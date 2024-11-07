@@ -11,8 +11,9 @@ import RiveRuntime
 
 struct WelcomePage: View {
     @StateObject private var globalSettings = GlobalSettings()
-    @EnvironmentObject var pageCoordinator: PageCoordinator
+    @EnvironmentObject var onboardingCoordinator: OnboardingCoordinator
     @EnvironmentObject var bravoCoordinator: BravoCoordinator
+    @EnvironmentObject var stateManager: OnboardingStateManager
     
     // Animation states
     @State private var animationStage = 0
@@ -47,13 +48,13 @@ struct WelcomePage: View {
                     ZStack {
                         // Bravo with gradient mask below
                         VStack {
-                            BravoView()
+                            BravoView(showMessage: true)
                             LinearGradient(
                                 gradient: Gradient(colors: [.white, .clear]),
                                 startPoint: .top,
                                 endPoint: .bottom
                             )
-                            .frame(height: 50) // Adjust height of gradient as needed
+                            .frame(height: 50)
                         }
                         
                         WelcomeQuestions(
@@ -64,14 +65,22 @@ struct WelcomePage: View {
                             selectedLevel: $selectedLevel,
                             selectedPosition: $selectedPosition
                         )
-                        .padding(.top, 130) // Adjust based on Bravo's position
+                        .padding(.top, 130)
                         .transition(.opacity.combined(with: .move(edge: .trailing)))
                         .animation(.easeInOut(duration: 0.3), value: animationStage)
                     }
                 } else {
-                    // Initial welcome content
                     Spacer()
-                    BravoView()
+                    BravoView(showMessage: true)
+                    if animationStage == 0 {
+                        Text(onboardingCoordinator.currentStep.bravoMessage)
+                            .foregroundColor(globalSettings.primaryDarkColor)
+                            .padding(.horizontal, 80)
+                            .multilineTextAlignment(.center)
+                            .opacity(animationStage == 0 ? 1 : 0)
+                            .animation(.easeOut(duration: 0.2), value: animationStage)
+                            .font(.custom("Poppins-Bold", size: 16))
+                    }
                     Spacer()
                 }
                 
@@ -95,7 +104,7 @@ struct WelcomePage: View {
     
     private func setupInitialState() {
         bravoCoordinator.centerBravo()
-        bravoCoordinator.showMessage(OnboardingPage.welcome.bravoMessage, duration: 0)
+        bravoCoordinator.showMessage(onboardingCoordinator.currentStep.bravoMessage, duration: 0)
     }
     
     private func handleBack() {
@@ -105,7 +114,7 @@ struct WelcomePage: View {
                 bravoCoordinator.centerBravo()
             }
         } else {
-            pageCoordinator.moveToPrevious()
+            onboardingCoordinator.moveToPrevious()
         }
     }
     
@@ -113,7 +122,14 @@ struct WelcomePage: View {
         if animationStage < 3 {
             animateToQuestions()
         } else if validateForm() {
-            pageCoordinator.moveToNext()
+            stateManager.updateWelcomeData(
+                firstName: firstName,
+                lastName: lastName,
+                ageRange: selectedAge,
+                level: selectedLevel,
+                position: selectedPosition
+            )
+            onboardingCoordinator.moveToNext()
         }
     }
     
@@ -148,6 +164,6 @@ struct WelcomePage: View {
 
 #Preview {
     WelcomePage()
-        .environmentObject(PageCoordinator())
+        .environmentObject(OnboardingCoordinator())
         .environmentObject(BravoCoordinator())
 }

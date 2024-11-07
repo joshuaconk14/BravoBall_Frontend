@@ -11,8 +11,9 @@ import RiveRuntime
 
 struct SplashView: View {
     @StateObject private var globalSettings = GlobalSettings()
-    @EnvironmentObject var pageCoordinator: PageCoordinator
+    @EnvironmentObject var onboardingCoordinator: OnboardingCoordinator
     @EnvironmentObject var bravoCoordinator: BravoCoordinator
+    @EnvironmentObject var stateManager: OnboardingStateManager
     @State private var animationScale: CGFloat = 1.5
     
     var body: some View {
@@ -21,7 +22,7 @@ struct SplashView: View {
             
             VStack {
                 // Bravo Animation
-                BravoView()
+                BravoView(showMessage: false) // No message for splash view
                     .padding(.top, 30)
                     .padding(.bottom, 10)
                 
@@ -57,17 +58,17 @@ struct SplashView: View {
     
     private func setupInitialState() {
         bravoCoordinator.centerBravo()
-        bravoCoordinator.showMessage("Hello there, I'm Bravo! Let's help you become a more tekky player.", duration: 0)
     }
     
     private func handleGetStarted() {
         bravoCoordinator.moveToSide()
-        pageCoordinator.moveToNext()
+        onboardingCoordinator.moveToNext()
     }
 }
 
 #Preview {
     SplashView()
-        .environmentObject(PageCoordinator())
+        .environmentObject(OnboardingCoordinator())
         .environmentObject(BravoCoordinator())
+        .environmentObject(OnboardingStateManager())
 }
