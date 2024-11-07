@@ -14,188 +14,197 @@ struct WelcomeView: View {
     @Binding var isLoggedIn: Bool
     @State private var showQuestionnaire = false
     @Binding var showWelcome: Bool
-
-    // Note: Binding/ Bool binds this structure, state private func on other pages determines function of this structure
-    @State private var textOpacity1: Double = 1.0
+    
+    @State private var currentWelcomeStage = 0
+    @State private var riveViewOffset: CGSize = .zero
+    @State private var textOpacity0: Double = 1.0
+    @State private var textOpacity1: Double = 0.0
     @State private var textOpacity2: Double = 0.0
-    // welcomeInput is where bravo is asking for player details, this is what will show when next button on hello bravo page is clicked
-    @State private var welcomeInput: Int = 0
-    @State private var firstName = ""
-    @State private var lastName = ""
-    @State private var selectedAge: String = "Select your Age"
-    @State private var selectedLevel: String = "Select your Level"
-    @State private var selectedPosition: String = "Select your Position"
-    // For delayed transitions for questionnaires
-    @State private var animationStage = 0
+    @State private var textOpacity3: Double = 0.0
     
-    @State private var riveViewOffset: CGSize = .zero // Offset for Rive animation hello
-    // var for matchedGeometry function
-    @Namespace var questionnaireSpace
-    
+    // State for selections
+    @State private var selectedAge = ""
+    @State private var chosenAge: [String] = []
+    @State private var selectedLevel = ""
+    @State private var chosenLevel: [String] = []
+    @State private var selectedPosition = ""
+    @State private var chosenPosition: [String] = []
     
     var body: some View {
-        VStack {
-            ZStack {
-                Color.white.edgesIgnoringSafeArea(.all)  // Base white background
-                
-                content
-                
-                // Only show FirstQuestionnaireView when showQuestionnaire is true
-                if showQuestionnaire {
-                    FirstQuestionnaireView(
-                        isLoggedIn: $isLoggedIn,
-                        showQuestionnaire: $showQuestionnaire
-                    )
-                    .environmentObject(stateManager)
-                    .transition(.move(edge: .trailing))
-                }
-            }
-        }
-    }
-    
-    var content: some View {
-        VStack {
-            NavigationView {
-                // ZStack so lets get tekky button and back button arent confined to VStack
-                ZStack {
-                    VStack {
-                        if animationStage >= 3 {
-                            WelcomeQuestions(welcomeInput: $welcomeInput, firstName: $firstName, lastName: $lastName, selectedAge: $selectedAge, selectedLevel: $selectedLevel, selectedPosition: $selectedPosition)
-                                .transition(.opacity.combined(with: .move(edge: .trailing)))
-                                .animation(.easeInOut(duration: 0.3), value: animationStage)
-                        }
-                    }
-                    Spacer()
-                    
-                    // Add overlay to cover up user input boxes from overlapping with Bravo
-                    
-                    VStack {
+        ZStack {
+            Color.white.edgesIgnoringSafeArea(.all)
+            
+            if showQuestionnaire {
+                FirstQuestionnaireView(
+                    isLoggedIn: $isLoggedIn,
+                    showQuestionnaire: $showQuestionnaire
+                )
+                .environmentObject(stateManager)
+                .transition(.move(edge: .trailing))
+            } else {
+                ScrollView {
+                    LazyVStack {
                         Spacer()
-                        Rectangle()
-                            .fill(.white)
-                            .frame(height: 500) // Increased height for more coverage
-                            .offset(y: -500) // Negative value moves it up, positive moves it down
-                    }
-                    
-                    // panting animation
-                    RiveViewModel(fileName: "test_panting").view()
-                        .frame(width: 250, height: 250)
-                        .padding(.bottom, 5)
-                    // riveViewOffset is amount it will offset, button will trigger it
-                        .offset(x: riveViewOffset.width, y: riveViewOffset.height)
-                        .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
-                    //MARK: - Bravo messages
-                    // bravo message 1, confined to ZStack
-                    Text("Hello there, I'm Bravo! Let's help you become a more tekky player.")
-                        .foregroundColor(globalSettings.primaryDarkColor)
-                        .padding(.horizontal, 80)
-                        .padding(.bottom, 400)
-                        .opacity(animationStage == 0 ? 1 : 0)
-                        .animation(.easeOut(duration: 0.2), value: animationStage)
-                        .font(.custom("Poppins-Bold", size: 16))
-                    // bravo message 2, confined to ZStack
-                    Text("Enter your player details below")
-                        .foregroundColor(globalSettings.primaryDarkColor)
-                        .padding()
-                        .padding(.bottom, 500)
-                        .padding(.leading, 150)
-                        .opacity(animationStage >= 2 ? 1 : 0)
-                        .font(.custom("Poppins-Bold", size: 16))
-                    
-                    // Back button, confined to ZStack
-                    HStack {
-                        Button(action: {
-                            withAnimation {
-                                showWelcome = false // Transition to OnboardingView
-                            }
-                        }) {
-                            Image(systemName:"arrow.left")
-                                .font(.title2)
-                                .foregroundColor(globalSettings.primaryDarkColor)
-                                .padding()
-                        }
-                        .padding(.bottom, 725)
+                            .frame(height: 10)
                         
-                        Spacer() // moving back button to left
-                    }
-                    
-                    // Add overlay to cover up the bottom of the screen for next button
-                    VStack {
-                        Spacer()
-                        Rectangle()
-                            .fill(.white)
-                            .frame(height: 200) // Increased height for more coverage
-                            .offset(y: 125) // Negative value moves it up, positive moves it down
-                    }
-                    
-                    // MARK: - "Next" button
-                    // Current questionnaire ACTION based on the state variable
-                    Button(action: {
-                        // Progress through animation stage for smooth transitions of Bravo avatar, message, and user input boxe
-                        if animationStage < 3 {
-                            withAnimation(.spring(duration: 0.4)) {
-                                // Move the Rive animation up and to the left
-                                riveViewOffset = CGSize(width: -75, height: -250)
-                                animationStage = 1
-                            }
-                            
-                            // Delay showing the message
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                withAnimation(.easeInOut(duration: 0.3)) {
-                                    textOpacity2 = 1.0
-                                    animationStage = 2
-                                }
-                            }
-                            
-                            // Delay showing the questionnaire
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                                withAnimation(.easeInOut(duration: 0.3)) {
-                                    welcomeInput = 1
-                                    animationStage = 3
-                                }
-                            }
-                        } else if validateQ1() {
-                            withAnimation {
-                                showQuestionnaire = true // Transition to FirstQuestionnaireView
+                        if currentWelcomeStage >= 1 {
+                            if currentWelcomeStage == 1 {
+                                SelectAgeRange(
+                                    currentWelcomeStage: $currentWelcomeStage,
+                                    selectedAge: $selectedAge,
+                                    chosenAge: $chosenAge
+                                )
+                                .transition(.move(edge: .trailing))
+                                .animation(.easeInOut)
+                                .offset(x: currentWelcomeStage == 1 ? 0 : UIScreen.main.bounds.width)
+                            } else if currentWelcomeStage == 2 {
+                                SelectLevel(
+                                    currentWelcomeStage: $currentWelcomeStage,
+                                    selectedLevel: $selectedLevel,
+                                    chosenLevel: $chosenLevel
+                                )
+                                .transition(.move(edge: .trailing))
+                                .animation(.easeInOut)
+                                .offset(x: currentWelcomeStage == 2 ? 0 : UIScreen.main.bounds.width)
+                            } else if currentWelcomeStage == 3 {
+                                SelectPosition(
+                                    currentWelcomeStage: $currentWelcomeStage,
+                                    selectedPosition: $selectedPosition,
+                                    chosenPosition: $chosenPosition
+                                )
+                                .transition(.move(edge: .trailing))
+                                .animation(.easeInOut)
+                                .offset(x: currentWelcomeStage == 3 ? 0 : UIScreen.main.bounds.width)
                             }
                         }
-                    }) {
-                        Text("Next")
-                            .frame(width: 325, height: 15)
-                            .padding()
-                            .background(globalSettings.primaryYellowColor)
-                            .foregroundColor(.white)
-                            .cornerRadius(20)
-                            .font(.custom("Poppins-Bold", size: 16))
                     }
-                    .padding(.top, 700)
                 }
-                .background(.white)
+                .frame(height: 410)
+                .padding(.top, 200)
+                
+                Spacer()
+                
+                // Bravo Animation
+                RiveViewModel(fileName: "test_panting").view()
+                    .frame(width: 250, height: 250)
+                    .padding(.bottom, 5)
+                    .offset(x: riveViewOffset.width, y: riveViewOffset.height)
+                    .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
+                
+                // Bravo Messages
+                Group {
+                    if currentWelcomeStage == 0 {
+                        Text("Hello there, I'm Bravo! Let's help you become a more tekky player.")
+                            .foregroundColor(globalSettings.primaryDarkColor)
+                            .padding(.horizontal, 80)
+                            .padding(.bottom, 400)
+                            .font(.custom("Poppins-Bold", size: 16))
+                            .opacity(textOpacity0)
+                    } else if currentWelcomeStage == 1 {
+                        Text("What's your age range?")
+                            .foregroundColor(globalSettings.primaryDarkColor)
+                            .padding()
+                            .padding(.bottom, 500)
+                            .padding(.leading, 150)
+                            .font(.custom("Poppins-Bold", size: 16))
+                            .opacity(textOpacity1)
+                    } else if currentWelcomeStage == 2 {
+                        Text("What's your playing level?")
+                            .foregroundColor(globalSettings.primaryDarkColor)
+                            .padding()
+                            .padding(.bottom, 500)
+                            .padding(.leading, 150)
+                            .font(.custom("Poppins-Bold", size: 16))
+                            .opacity(textOpacity2)
+                    } else if currentWelcomeStage == 3 {
+                        Text("What position do you play?")
+                            .foregroundColor(globalSettings.primaryDarkColor)
+                            .padding()
+                            .padding(.bottom, 500)
+                            .padding(.leading, 150)
+                            .font(.custom("Poppins-Bold", size: 16))
+                            .opacity(textOpacity3)
+                    }
+                }
+                
+                // Back Button
+                HStack {
+                    Button(action: handleBackButton) {
+                        Image(systemName: "arrow.left")
+                            .font(.title2)
+                            .foregroundColor(globalSettings.primaryDarkColor)
+                            .padding()
+                    }
+                    .padding(.bottom, 725)
+                    
+                    Spacer()
+                }
+                
+                // Next Button
+                Button(action: handleNextButton) {
+                    Text("Next")
+                        .frame(width: 325, height: 15)
+                        .padding()
+                        .background(globalSettings.primaryYellowColor)
+                        .foregroundColor(.white)
+                        .cornerRadius(20)
+                        .font(.custom("Poppins-Bold", size: 16))
+                }
+                .padding(.top, 700)
             }
-            .navigationViewStyle(StackNavigationViewStyle())
         }
+        .padding()
         .background(.white)
         .edgesIgnoringSafeArea(.all)
     }
-    // MARK: - (change to || for quick nav and && when done)
-    // Validation function for Questionnaire 1
-    private func validateQ1() -> Bool {
-        if !firstName.isEmpty && 
-           !lastName.isEmpty && 
-           selectedAge != "Select your Age" && 
-           selectedLevel != "Select your Level" && 
-           selectedPosition != "Select your Position" {
-            
-            stateManager.updateWelcomeData(
-                firstName: firstName,
-                lastName: lastName,
-                ageRange: selectedAge,
-                level: selectedLevel,
-                position: selectedPosition
-            )
-            return true
+    
+    private func handleBackButton() {
+        if currentWelcomeStage > 0 {
+            withAnimation {
+                currentWelcomeStage -= 1
+                if currentWelcomeStage == 0 {
+                    riveViewOffset = .zero
+                }
+            }
+        } else {
+            withAnimation {
+                showWelcome = false
+            }
         }
-        return false
+    }
+    
+    private func handleNextButton() {
+        if currentWelcomeStage == 0 {
+            withAnimation(.spring()) {
+                riveViewOffset = CGSize(width: -75, height: -250)
+                currentWelcomeStage = 1
+                textOpacity0 = 0.0
+                textOpacity1 = 1.0
+            }
+        } else if currentWelcomeStage == 1 && !chosenAge.isEmpty {
+            withAnimation {
+                currentWelcomeStage = 2
+                textOpacity1 = 0.0
+                textOpacity2 = 1.0
+            }
+        } else if currentWelcomeStage == 2 && !chosenLevel.isEmpty {
+            withAnimation {
+                currentWelcomeStage = 3
+                textOpacity2 = 0.0
+                textOpacity3 = 1.0
+            }
+        } else if currentWelcomeStage == 3 && !chosenPosition.isEmpty {
+            stateManager.updateWelcomeData(
+                firstName: "",
+                lastName: "",
+                ageRange: chosenAge[0],
+                level: chosenLevel[0],
+                position: chosenPosition[0]
+            )
+            withAnimation {
+                showQuestionnaire = true
+            }
+        }
     }
 }
 
@@ -204,27 +213,10 @@ struct WelcomeView: View {
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
         let stateManager = OnboardingStateManager()
-        Group {
-            WelcomeView(
-                isLoggedIn: .constant(false),
-                showWelcome: .constant(false)
-            )
-            .environmentObject(stateManager)
-            .previewDevice("iPhone 15 Pro Max")
-            
-            WelcomeView(
-                isLoggedIn: .constant(false),
-                showWelcome: .constant(false)
-            )
-            .environmentObject(stateManager)
-            .previewDevice("iPhone SE (3rd generation)")
-            
-            WelcomeView(
-                isLoggedIn: .constant(false),
-                showWelcome: .constant(false)
-            )
-            .environmentObject(stateManager)
-            .previewDevice("iPhone 14")
-        }
+        WelcomeView(
+            isLoggedIn: .constant(false),
+            showWelcome: .constant(false)
+        )
+        .environmentObject(stateManager)
     }
 }

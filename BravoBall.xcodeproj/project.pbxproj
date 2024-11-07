@@ -16,6 +16,9 @@
 		1749362C2C3E1032001163B9 /* TekkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749362B2C3E1032001163B9 /* TekkTests.swift */; };
 		174936362C3E1032001163B9 /* TekkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936352C3E1032001163B9 /* TekkUITests.swift */; };
 		174936382C3E1032001163B9 /* TekkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */; };
+		1750493A2CDD62920030CF3E /* SelectAgeRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175049392CDD62920030CF3E /* SelectAgeRange.swift */; };
+		1750493C2CDD62B30030CF3E /* SelectLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750493B2CDD62B30030CF3E /* SelectLevel.swift */; };
+		1750493E2CDD62C40030CF3E /* SelectPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750493D2CDD62C40030CF3E /* SelectPosition.swift */; };
 		176D15012CD4799C00450F85 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15002CD4799C00450F85 /* LoginView.swift */; };
 		176D15032CD4815800450F85 /* WelcomeQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15022CD4815800450F85 /* WelcomeQuestions.swift */; };
 		176D15052CD4907000450F85 /* PickGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15042CD4907000450F85 /* PickGoal.swift */; };
@@ -86,6 +89,9 @@
 		174936312C3E1032001163B9 /* BravoBallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BravoBallUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		174936352C3E1032001163B9 /* TekkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITests.swift; sourceTree = "<group>"; };
 		174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		175049392CDD62920030CF3E /* SelectAgeRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAgeRange.swift; sourceTree = "<group>"; };
+		1750493B2CDD62B30030CF3E /* SelectLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLevel.swift; sourceTree = "<group>"; };
+		1750493D2CDD62C40030CF3E /* SelectPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPosition.swift; sourceTree = "<group>"; };
 		176D15002CD4799C00450F85 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		176D15022CD4815800450F85 /* WelcomeQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeQuestions.swift; sourceTree = "<group>"; };
 		176D15042CD4907000450F85 /* PickGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickGoal.swift; sourceTree = "<group>"; };
@@ -247,6 +253,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		175049382CDD627F0030CF3E /* WelcomeQuestionnaire */ = {
+			isa = PBXGroup;
+			children = (
+				175049392CDD62920030CF3E /* SelectAgeRange.swift */,
+				1750493D2CDD62C40030CF3E /* SelectPosition.swift */,
+				1750493B2CDD62B30030CF3E /* SelectLevel.swift */,
+			);
+			path = WelcomeQuestionnaire;
+			sourceTree = "<group>";
+		};
 		176D14FC2CD4794B00450F85 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,6 +308,7 @@
 		17ACC8D82CD367BA0047EE09 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				175049382CDD627F0030CF3E /* WelcomeQuestionnaire */,
 				176D14FC2CD4794B00450F85 /* Login */,
 				17ACC8E42CD369350047EE09 /* Questionnaires */,
 				17ACC8D92CD367DD0047EE09 /* Onboarding */,
@@ -488,7 +505,7 @@
 			);
 			mainGroup = 1749360D2C3E102B001163B9;
 			packageReferences = (
-				17C3A54F2CDA29AE00A64BC5 /* XCRemoteSwiftPackageReference "rive-ios" */,
+				175049362CDD60320030CF3E /* XCRemoteSwiftPackageReference "rive-ios" */,
 			);
 			productRefGroup = 174936172C3E102B001163B9 /* Products */;
 			projectDirPath = "";
@@ -547,6 +564,7 @@
 				179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */,
 				17ACC8DE2CD3688A0047EE09 /* WelcomeView.swift in Sources */,
 				17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */,
+				1750493A2CDD62920030CF3E /* SelectAgeRange.swift in Sources */,
 				179CF9602CD7326500D07E49 /* PostOnboardingLoadingView.swift in Sources */,
 				179CF9582CD731C400D07E49 /* DropdownMenu.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
@@ -559,6 +577,7 @@
 				176D15012CD4799C00450F85 /* LoginView.swift in Sources */,
 				43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */,
 				176D15052CD4907000450F85 /* PickGoal.swift in Sources */,
+				1750493C2CDD62B30030CF3E /* SelectLevel.swift in Sources */,
 				43985E3D2CB4EDD300BE2AB6 /* ChatbotView.swift in Sources */,
 				176D15032CD4815800450F85 /* WelcomeQuestions.swift in Sources */,
 				173B40212CD6F501003C560D /* OnboardingStateManager.swift in Sources */,
@@ -572,6 +591,7 @@
 				17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
 				179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */,
+				1750493E2CDD62C40030CF3E /* SelectPosition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -933,7 +953,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		17C3A54F2CDA29AE00A64BC5 /* XCRemoteSwiftPackageReference "rive-ios" */ = {
+		175049362CDD60320030CF3E /* XCRemoteSwiftPackageReference "rive-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rive-app/rive-ios";
 			requirement = {
