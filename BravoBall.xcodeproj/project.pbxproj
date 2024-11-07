@@ -485,7 +485,7 @@
 			);
 			mainGroup = 1749360D2C3E102B001163B9;
 			packageReferences = (
-				173B401B2CD6AB3C003C560D /* XCRemoteSwiftPackageReference "rive-ios" */,
+				175049342CDD5D6B0030CF3E /* XCRemoteSwiftPackageReference "rive-ios" */,
 			);
 			productRefGroup = 174936172C3E102B001163B9 /* Products */;
 			projectDirPath = "";
@@ -929,12 +929,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		173B401B2CD6AB3C003C560D /* XCRemoteSwiftPackageReference "rive-ios" */ = {
+		175049342CDD5D6B0030CF3E /* XCRemoteSwiftPackageReference "rive-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rive-app/rive-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.3.1;
+				minimumVersion = 6.3.3;
 			};
 		};
 		435A70132CA7A33B00BFCC40 /* XCRemoteSwiftPackageReference "rive-ios" */ = {
