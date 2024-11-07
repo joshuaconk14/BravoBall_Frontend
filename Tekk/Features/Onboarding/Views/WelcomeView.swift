@@ -67,30 +67,28 @@ struct WelcomeView: View {
                             }
                         }
                         
-                        // Bravo animation
-                        RiveViewModel(fileName: "test_panting").view()
-                            .frame(width: min(geometry.size.width * 0.6, 300), height: min(geometry.size.width * 0.6, 300))
-                            .position(x: geometry.size.width / 2, 
-                                     y: geometry.size.height * (animationStage >= 3 ? 0.25 : 0.45))
-                            .offset(x: riveViewOffset.width, y: riveViewOffset.height)
-                            .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
-                        
-                        // Bravo messages
+                        // First welcome message
                         Text("Hello there, I'm Bravo! Let's help you become a more tekky player.")
                             .foregroundColor(globalSettings.primaryDarkColor)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, geometry.size.width * 0.1)
-                            .position(x: geometry.size.width / 2, 
-                                     y: geometry.size.height * 0.2)
                             .opacity(animationStage == 0 ? 1 : 0)
                             .font(.custom("Poppins-Bold", size: min(geometry.size.width * 0.045, 18)))
+                            .position(x: geometry.size.width * 0.5, y: geometry.size.height * 0.2)
                         
+                        // Bravo animation
+                        RiveViewModel(fileName: "test_panting").view()
+                            .frame(width: min(geometry.size.width * 0.6, 300), height: min(geometry.size.width * 0.6, 300))
+                            .position(x: geometry.size.width * 0.5, y: geometry.size.height * 0.5)
+                            .offset(x: riveViewOffset.width, y: riveViewOffset.height)
+                            .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
+                        
+                        // Second message (appears after animation)
                         Text("Enter your player details below")
                             .foregroundColor(globalSettings.primaryDarkColor)
-                            .position(x: geometry.size.width * 0.7, 
-                                     y: geometry.size.height * 0.15)
                             .opacity(animationStage >= 2 ? 1 : 0)
                             .font(.custom("Poppins-Bold", size: min(geometry.size.width * 0.045, 18)))
+                            .position(x: geometry.size.width * 0.5, y: geometry.size.height * 0.3)
                         
                         // Back button
                         HStack {
