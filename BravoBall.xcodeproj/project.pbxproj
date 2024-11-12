@@ -40,7 +40,6 @@
 		17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */; };
 		17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */; };
 		17C3A5352CD88D8800A64BC5 /* HomeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */; };
-		17CBE92C2CE1942D0094DC58 /* TestOnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CBE92B2CE1942D0094DC58 /* TestOnboardingCoordinator.swift */; };
 		17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693192C743662006B58A3 /* CameraManager.swift */; };
 		17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */; };
 		17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */; };
@@ -113,7 +112,6 @@
 		17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickStrengths.swift; sourceTree = "<group>"; };
 		17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondQuestionnaireView.swift; sourceTree = "<group>"; };
 		17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProgramView.swift; sourceTree = "<group>"; };
-		17CBE92B2CE1942D0094DC58 /* TestOnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestOnboardingCoordinator.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17E693192C743662006B58A3 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Extension.swift"; sourceTree = "<group>"; };
@@ -390,7 +388,6 @@
 		17CBE91A2CE09F230094DC58 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				17CBE92B2CE1942D0094DC58 /* TestOnboardingCoordinator.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -513,7 +510,7 @@
 			);
 			mainGroup = 1749360D2C3E102B001163B9;
 			packageReferences = (
-				17CBE9262CE0A9600094DC58 /* XCRemoteSwiftPackageReference "rive-ios" */,
+				179014F02CE3F39A00323345 /* XCRemoteSwiftPackageReference "rive-ios" */,
 			);
 			productRefGroup = 174936172C3E102B001163B9 /* Products */;
 			projectDirPath = "";
@@ -593,7 +590,6 @@
 				179CF94F2CD7077F00D07E49 /* BravoBall.swift in Sources */,
 				17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */,
 				43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */,
-				17CBE92C2CE1942D0094DC58 /* TestOnboardingCoordinator.swift in Sources */,
 				179CF95A2CD731E200D07E49 /* SelectionListView.swift in Sources */,
 				175049472CDD6A170030CF3E /* WelcomeView.swift in Sources */,
 				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,
@@ -961,12 +957,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		17CBE9262CE0A9600094DC58 /* XCRemoteSwiftPackageReference "rive-ios" */ = {
+		179014F02CE3F39A00323345 /* XCRemoteSwiftPackageReference "rive-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rive-app/rive-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.3.3;
+				minimumVersion = 6.3.4;
 			};
 		};
 		435A70132CA7A33B00BFCC40 /* XCRemoteSwiftPackageReference "rive-ios" */ = {
