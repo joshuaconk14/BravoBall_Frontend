@@ -18,14 +18,15 @@ struct ContentView: View {
         if isLoggedIn {
             MainTabView(authToken: $authToken)
         } else {
-//            OnboardingView(
-//                isLoggedIn: $isLoggedIn,
-//                authToken: $authToken,
-//                showOnboarding: $showOnboarding
-//            )
-//            .environmentObject(stateManager)
-            
-            SimplifiedOnboardingView()
+            OnboardingView(
+                isLoggedIn: $isLoggedIn,
+                authToken: $authToken,
+                showOnboarding: $showOnboarding
+            )
+            .environmentObject(stateManager)
+//    
+//            SimplifiedOnboardingView()
+//            TestOnboardingView()
         }
     }
 }
@@ -45,6 +46,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .previewDevice("iPhone 15 Pro Max")
+            .previewDevice("iPhone 15 Pro")
     }
 }

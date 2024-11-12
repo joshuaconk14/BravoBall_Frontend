@@ -40,11 +40,7 @@
 		17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */; };
 		17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */; };
 		17C3A5352CD88D8800A64BC5 /* HomeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */; };
-		17CBE91C2CE0A11A0094DC58 /* TestCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CBE91B2CE0A11A0094DC58 /* TestCoordinator.swift */; };
-		17CBE91E2CE0A13D0094DC58 /* TestQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CBE91D2CE0A13D0094DC58 /* TestQuestionnaireView.swift */; };
-		17CBE9202CE0A2A80094DC58 /* TestWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CBE91F2CE0A2A80094DC58 /* TestWelcomeView.swift */; };
-		17CBE9232CE0A2BA0094DC58 /* TestAgeQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CBE9222CE0A2BA0094DC58 /* TestAgeQuestions.swift */; };
-		17CBE9252CE0A4620094DC58 /* SimplifiedOnboardingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CBE9242CE0A4620094DC58 /* SimplifiedOnboardingTest.swift */; };
+		17CBE92C2CE1942D0094DC58 /* TestOnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CBE92B2CE1942D0094DC58 /* TestOnboardingCoordinator.swift */; };
 		17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693192C743662006B58A3 /* CameraManager.swift */; };
 		17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */; };
 		17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */; };
@@ -117,11 +113,7 @@
 		17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickStrengths.swift; sourceTree = "<group>"; };
 		17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondQuestionnaireView.swift; sourceTree = "<group>"; };
 		17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProgramView.swift; sourceTree = "<group>"; };
-		17CBE91B2CE0A11A0094DC58 /* TestCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCoordinator.swift; sourceTree = "<group>"; };
-		17CBE91D2CE0A13D0094DC58 /* TestQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestQuestionnaireView.swift; sourceTree = "<group>"; };
-		17CBE91F2CE0A2A80094DC58 /* TestWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestWelcomeView.swift; sourceTree = "<group>"; };
-		17CBE9222CE0A2BA0094DC58 /* TestAgeQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAgeQuestions.swift; sourceTree = "<group>"; };
-		17CBE9242CE0A4620094DC58 /* SimplifiedOnboardingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplifiedOnboardingTest.swift; sourceTree = "<group>"; };
+		17CBE92B2CE1942D0094DC58 /* TestOnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestOnboardingCoordinator.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17E693192C743662006B58A3 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Extension.swift"; sourceTree = "<group>"; };
@@ -213,7 +205,6 @@
 				17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */,
 				179CF9532CD7318600D07E49 /* Common */,
 				17F5D6532CD3477E008E8C24 /* ColorExtension.swift */,
-				17CBE9242CE0A4620094DC58 /* SimplifiedOnboardingTest.swift */,
 				179CF9612CD74EC800D07E49 /* MainTabView.swift */,
 				1749361B2C3E102B001163B9 /* ContentView.swift */,
 				17CBE91A2CE09F230094DC58 /* Tests */,
@@ -399,20 +390,9 @@
 		17CBE91A2CE09F230094DC58 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				17CBE91B2CE0A11A0094DC58 /* TestCoordinator.swift */,
-				17CBE9212CE0A2B00094DC58 /* New Group */,
-				17CBE91F2CE0A2A80094DC58 /* TestWelcomeView.swift */,
-				17CBE9222CE0A2BA0094DC58 /* TestAgeQuestions.swift */,
-				17CBE91D2CE0A13D0094DC58 /* TestQuestionnaireView.swift */,
+				17CBE92B2CE1942D0094DC58 /* TestOnboardingCoordinator.swift */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		17CBE9212CE0A2B00094DC58 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		17E6931C2C743AC4006B58A3 /* Camera */ = {
@@ -591,7 +571,6 @@
 				17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */,
 				170217BB2C89030500DD020C /* Models.swift in Sources */,
 				179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */,
-				17CBE9252CE0A4620094DC58 /* SimplifiedOnboardingTest.swift in Sources */,
 				17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */,
 				175049452CDD69DD0030CF3E /* SelectLevel.swift in Sources */,
 				175049432CDD69CC0030CF3E /* SelectPosition.swift in Sources */,
@@ -603,11 +582,9 @@
 				17C3A5352CD88D8800A64BC5 /* HomeProgramView.swift in Sources */,
 				17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */,
 				176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */,
-				17CBE9232CE0A2BA0094DC58 /* TestAgeQuestions.swift in Sources */,
 				179CF9522CD712CA00D07E49 /* OnboardingService.swift in Sources */,
 				176D15012CD4799C00450F85 /* LoginView.swift in Sources */,
 				43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */,
-				17CBE91E2CE0A13D0094DC58 /* TestQuestionnaireView.swift in Sources */,
 				176D15052CD4907000450F85 /* PickGoal.swift in Sources */,
 				43985E3D2CB4EDD300BE2AB6 /* ChatbotView.swift in Sources */,
 				173B40212CD6F501003C560D /* OnboardingStateManager.swift in Sources */,
@@ -616,13 +593,12 @@
 				179CF94F2CD7077F00D07E49 /* BravoBall.swift in Sources */,
 				17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */,
 				43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */,
-				17CBE9202CE0A2A80094DC58 /* TestWelcomeView.swift in Sources */,
+				17CBE92C2CE1942D0094DC58 /* TestOnboardingCoordinator.swift in Sources */,
 				179CF95A2CD731E200D07E49 /* SelectionListView.swift in Sources */,
 				175049472CDD6A170030CF3E /* WelcomeView.swift in Sources */,
 				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,
 				17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
-				17CBE91C2CE0A11A0094DC58 /* TestCoordinator.swift in Sources */,
 				179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
