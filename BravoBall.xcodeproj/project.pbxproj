@@ -8,39 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		170217BB2C89030500DD020C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170217BA2C89030400DD020C /* Models.swift */; };
-		173B40212CD6F501003C560D /* OnboardingStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B40202CD6F501003C560D /* OnboardingStateManager.swift */; };
-		173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B40232CD6F55A003C560D /* OnboardingData.swift */; };
 		1749361C2C3E102B001163B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749361B2C3E102B001163B9 /* ContentView.swift */; };
 		1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1749361D2C3E1031001163B9 /* Assets.xcassets */; };
 		174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 174936212C3E1031001163B9 /* Preview Assets.xcassets */; };
 		1749362C2C3E1032001163B9 /* TekkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749362B2C3E1032001163B9 /* TekkTests.swift */; };
 		174936362C3E1032001163B9 /* TekkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936352C3E1032001163B9 /* TekkUITests.swift */; };
 		174936382C3E1032001163B9 /* TekkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */; };
-		175049412CDD69B00030CF3E /* SelectAgeRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175049402CDD69B00030CF3E /* SelectAgeRange.swift */; };
-		175049432CDD69CC0030CF3E /* SelectPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175049422CDD69CC0030CF3E /* SelectPosition.swift */; };
-		175049452CDD69DD0030CF3E /* SelectLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175049442CDD69DD0030CF3E /* SelectLevel.swift */; };
-		175049472CDD6A170030CF3E /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175049462CDD6A170030CF3E /* WelcomeView.swift */; };
-		176D15012CD4799C00450F85 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15002CD4799C00450F85 /* LoginView.swift */; };
-		176D15052CD4907000450F85 /* PickGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15042CD4907000450F85 /* PickGoal.swift */; };
-		176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15072CD490E200450F85 /* YesNoTeam.swift */; };
+		179014DD2CE3E77600323345 /* OnboardingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179014DC2CE3E77600323345 /* OnboardingStep.swift */; };
+		179014E12CE3E83C00323345 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179014E02CE3E83C00323345 /* ProgressBar.swift */; };
+		179014E32CE3E84E00323345 /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179014E22CE3E84E00323345 /* OptionButton.swift */; };
+		179014E52CE3E86500323345 /* OnboardingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179014E42CE3E86500323345 /* OnboardingContainer.swift */; };
+		179014E72CE3E88B00323345 /* TestWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179014E62CE3E88B00323345 /* TestWelcomeView.swift */; };
+		179014E92CE3E8A500323345 /* AgeGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179014E82CE3E8A500323345 /* AgeGroupView.swift */; };
+		179014EB2CE3E91400323345 /* TestOnboardingStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179014EA2CE3E91400323345 /* TestOnboardingStateManager.swift */; };
+		179014ED2CE3E99C00323345 /* PlayingLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179014EC2CE3E99C00323345 /* PlayingLevelView.swift */; };
+		179014EF2CE3E9AB00323345 /* PositionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179014EE2CE3E9AB00323345 /* PositionView.swift */; };
 		179CF94F2CD7077F00D07E49 /* BravoBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF94E2CD7077F00D07E49 /* BravoBall.swift */; };
-		179CF9522CD712CA00D07E49 /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9512CD712CA00D07E49 /* OnboardingService.swift */; };
 		179CF9562CD731B100D07E49 /* SelectionListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9552CD731B100D07E49 /* SelectionListItem.swift */; };
 		179CF9582CD731C400D07E49 /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9572CD731C400D07E49 /* DropdownMenu.swift */; };
 		179CF95A2CD731E200D07E49 /* SelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9592CD731E200D07E49 /* SelectionListView.swift */; };
-		179CF9602CD7326500D07E49 /* PostOnboardingLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF95F2CD7326500D07E49 /* PostOnboardingLoadingView.swift */; };
 		179CF9622CD74EC800D07E49 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9612CD74EC800D07E49 /* MainTabView.swift */; };
-		179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */; };
-		179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */; };
-		179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */; };
-		17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */; };
-		17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */; };
-		17ACC8EA2CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */; };
-		17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */; };
-		17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */; };
-		17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */; };
 		17C3A5352CD88D8800A64BC5 /* HomeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */; };
-		17CBE92C2CE1942D0094DC58 /* TestOnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CBE92B2CE1942D0094DC58 /* TestOnboardingCoordinator.swift */; };
 		17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693192C743662006B58A3 /* CameraManager.swift */; };
 		17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */; };
 		17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */; };
@@ -77,8 +65,6 @@
 
 /* Begin PBXFileReference section */
 		170217BA2C89030400DD020C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		173B40202CD6F501003C560D /* OnboardingStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStateManager.swift; sourceTree = "<group>"; };
-		173B40232CD6F55A003C560D /* OnboardingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingData.swift; sourceTree = "<group>"; };
 		174936162C3E102B001163B9 /* BravoBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BravoBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1749361B2C3E102B001163B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1749361D2C3E1031001163B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -89,31 +75,21 @@
 		174936312C3E1032001163B9 /* BravoBallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BravoBallUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		174936352C3E1032001163B9 /* TekkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITests.swift; sourceTree = "<group>"; };
 		174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		175049402CDD69B00030CF3E /* SelectAgeRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAgeRange.swift; sourceTree = "<group>"; };
-		175049422CDD69CC0030CF3E /* SelectPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPosition.swift; sourceTree = "<group>"; };
-		175049442CDD69DD0030CF3E /* SelectLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLevel.swift; sourceTree = "<group>"; };
-		175049462CDD6A170030CF3E /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
-		176D15002CD4799C00450F85 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		176D15042CD4907000450F85 /* PickGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickGoal.swift; sourceTree = "<group>"; };
-		176D15072CD490E200450F85 /* YesNoTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesNoTeam.swift; sourceTree = "<group>"; };
+		179014DC2CE3E77600323345 /* OnboardingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStep.swift; sourceTree = "<group>"; };
+		179014E02CE3E83C00323345 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		179014E22CE3E84E00323345 /* OptionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
+		179014E42CE3E86500323345 /* OnboardingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContainer.swift; sourceTree = "<group>"; };
+		179014E62CE3E88B00323345 /* TestWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestWelcomeView.swift; sourceTree = "<group>"; };
+		179014E82CE3E8A500323345 /* AgeGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeGroupView.swift; sourceTree = "<group>"; };
+		179014EA2CE3E91400323345 /* TestOnboardingStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestOnboardingStateManager.swift; sourceTree = "<group>"; };
+		179014EC2CE3E99C00323345 /* PlayingLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingLevelView.swift; sourceTree = "<group>"; };
+		179014EE2CE3E9AB00323345 /* PositionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionView.swift; sourceTree = "<group>"; };
 		179CF94E2CD7077F00D07E49 /* BravoBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BravoBall.swift; sourceTree = "<group>"; };
-		179CF9512CD712CA00D07E49 /* OnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingService.swift; sourceTree = "<group>"; };
 		179CF9552CD731B100D07E49 /* SelectionListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListItem.swift; sourceTree = "<group>"; };
 		179CF9572CD731C400D07E49 /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
 		179CF9592CD731E200D07E49 /* SelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListView.swift; sourceTree = "<group>"; };
-		179CF95F2CD7326500D07E49 /* PostOnboardingLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOnboardingLoadingView.swift; sourceTree = "<group>"; };
 		179CF9612CD74EC800D07E49 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingLevel.swift; sourceTree = "<group>"; };
-		179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineGoal.swift; sourceTree = "<group>"; };
-		179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDays.swift; sourceTree = "<group>"; };
-		17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstQuestionnaireView.swift; sourceTree = "<group>"; };
-		17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRepresentPlaystyle.swift; sourceTree = "<group>"; };
-		17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickWeaknesses.swift; sourceTree = "<group>"; };
-		17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickStrengths.swift; sourceTree = "<group>"; };
-		17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondQuestionnaireView.swift; sourceTree = "<group>"; };
 		17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProgramView.swift; sourceTree = "<group>"; };
-		17CBE92B2CE1942D0094DC58 /* TestOnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestOnboardingCoordinator.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17E693192C743662006B58A3 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Extension.swift"; sourceTree = "<group>"; };
@@ -157,22 +133,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		173B401F2CD6F4F6003C560D /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				173B40202CD6F501003C560D /* OnboardingStateManager.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		173B40222CD6F547003C560D /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				173B40232CD6F55A003C560D /* OnboardingData.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		1749360D2C3E102B001163B9 = {
 			isa = PBXGroup;
 			children = (
@@ -201,7 +161,6 @@
 				17E6931C2C743AC4006B58A3 /* Camera */,
 				170217BA2C89030400DD020C /* Models.swift */,
 				179CF94E2CD7077F00D07E49 /* BravoBall.swift */,
-				17ACC8D82CD367BA0047EE09 /* Features */,
 				17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */,
 				179CF9532CD7318600D07E49 /* Common */,
 				17F5D6532CD3477E008E8C24 /* ColorExtension.swift */,
@@ -254,41 +213,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		1750493F2CDD69A00030CF3E /* WelcomeQuestionnaire */ = {
-			isa = PBXGroup;
-			children = (
-				175049402CDD69B00030CF3E /* SelectAgeRange.swift */,
-				175049442CDD69DD0030CF3E /* SelectLevel.swift */,
-				175049462CDD6A170030CF3E /* WelcomeView.swift */,
-				175049422CDD69CC0030CF3E /* SelectPosition.swift */,
-			);
-			path = WelcomeQuestionnaire;
-			sourceTree = "<group>";
-		};
-		176D14FC2CD4794B00450F85 /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				176D14FD2CD4795C00450F85 /* Views */,
-			);
-			path = Login;
-			sourceTree = "<group>";
-		};
-		176D14FD2CD4795C00450F85 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				176D15002CD4799C00450F85 /* LoginView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		179CF9502CD712B500D07E49 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				179CF9512CD712CA00D07E49 /* OnboardingService.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		179CF9532CD7318600D07E49 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -307,90 +231,18 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		17ACC8D82CD367BA0047EE09 /* Features */ = {
-			isa = PBXGroup;
-			children = (
-				176D14FC2CD4794B00450F85 /* Login */,
-				17ACC8E42CD369350047EE09 /* Questionnaires */,
-				17ACC8D92CD367DD0047EE09 /* Onboarding */,
-			);
-			path = Features;
-			sourceTree = "<group>";
-		};
-		17ACC8D92CD367DD0047EE09 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				179CF9502CD712B500D07E49 /* Services */,
-				173B40222CD6F547003C560D /* Models */,
-				173B401F2CD6F4F6003C560D /* ViewModels */,
-				17ACC8DA2CD368070047EE09 /* Views */,
-			);
-			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		17ACC8DA2CD368070047EE09 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */,
-				179CF95F2CD7326500D07E49 /* PostOnboardingLoadingView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		17ACC8E42CD369350047EE09 /* Questionnaires */ = {
-			isa = PBXGroup;
-			children = (
-				1750493F2CDD69A00030CF3E /* WelcomeQuestionnaire */,
-				17ACC8EF2CD36AEC0047EE09 /* SecondQuestionnaire */,
-				17ACC8E52CD3693D0047EE09 /* FirstQuestionnaire */,
-			);
-			path = Questionnaires;
-			sourceTree = "<group>";
-		};
-		17ACC8E52CD3693D0047EE09 /* FirstQuestionnaire */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8E62CD369530047EE09 /* Views */,
-			);
-			path = FirstQuestionnaire;
-			sourceTree = "<group>";
-		};
-		17ACC8E62CD369530047EE09 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */,
-				17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */,
-				17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */,
-				17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		17ACC8EF2CD36AEC0047EE09 /* SecondQuestionnaire */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8F02CD36AF40047EE09 /* Views */,
-			);
-			path = SecondQuestionnaire;
-			sourceTree = "<group>";
-		};
-		17ACC8F02CD36AF40047EE09 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */,
-				176D15072CD490E200450F85 /* YesNoTeam.swift */,
-				179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */,
-				179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */,
-				179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */,
-				176D15042CD4907000450F85 /* PickGoal.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		17CBE91A2CE09F230094DC58 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				17CBE92B2CE1942D0094DC58 /* TestOnboardingCoordinator.swift */,
+				179014DC2CE3E77600323345 /* OnboardingStep.swift */,
+				179014E02CE3E83C00323345 /* ProgressBar.swift */,
+				179014EE2CE3E9AB00323345 /* PositionView.swift */,
+				179014E82CE3E8A500323345 /* AgeGroupView.swift */,
+				179014E22CE3E84E00323345 /* OptionButton.swift */,
+				179014E42CE3E86500323345 /* OnboardingContainer.swift */,
+				179014E62CE3E88B00323345 /* TestWelcomeView.swift */,
+				179014EA2CE3E91400323345 /* TestOnboardingStateManager.swift */,
+				179014EC2CE3E99C00323345 /* PlayingLevelView.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -562,44 +414,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				179CF9562CD731B100D07E49 /* SelectionListItem.swift in Sources */,
-				175049412CDD69B00030CF3E /* SelectAgeRange.swift in Sources */,
 				17E693222C745811006B58A3 /* ViewModel.swift in Sources */,
 				43985E3F2CB4EDE700BE2AB6 /* CameraView.swift in Sources */,
-				17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */,
 				179CF9622CD74EC800D07E49 /* MainTabView.swift in Sources */,
-				179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */,
 				17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */,
 				170217BB2C89030500DD020C /* Models.swift in Sources */,
-				179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */,
-				17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */,
-				175049452CDD69DD0030CF3E /* SelectLevel.swift in Sources */,
-				175049432CDD69CC0030CF3E /* SelectPosition.swift in Sources */,
-				179CF9602CD7326500D07E49 /* PostOnboardingLoadingView.swift in Sources */,
+				179014E92CE3E8A500323345 /* AgeGroupView.swift in Sources */,
+				179014E32CE3E84E00323345 /* OptionButton.swift in Sources */,
 				179CF9582CD731C400D07E49 /* DropdownMenu.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
-				17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */,
-				173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */,
+				179014EB2CE3E91400323345 /* TestOnboardingStateManager.swift in Sources */,
 				17C3A5352CD88D8800A64BC5 /* HomeProgramView.swift in Sources */,
-				17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */,
-				176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */,
-				179CF9522CD712CA00D07E49 /* OnboardingService.swift in Sources */,
-				176D15012CD4799C00450F85 /* LoginView.swift in Sources */,
+				179014ED2CE3E99C00323345 /* PlayingLevelView.swift in Sources */,
 				43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */,
-				176D15052CD4907000450F85 /* PickGoal.swift in Sources */,
 				43985E3D2CB4EDD300BE2AB6 /* ChatbotView.swift in Sources */,
-				173B40212CD6F501003C560D /* OnboardingStateManager.swift in Sources */,
-				17ACC8EA2CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift in Sources */,
 				17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */,
 				179CF94F2CD7077F00D07E49 /* BravoBall.swift in Sources */,
-				17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */,
 				43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */,
-				17CBE92C2CE1942D0094DC58 /* TestOnboardingCoordinator.swift in Sources */,
+				179014E12CE3E83C00323345 /* ProgressBar.swift in Sources */,
 				179CF95A2CD731E200D07E49 /* SelectionListView.swift in Sources */,
-				175049472CDD6A170030CF3E /* WelcomeView.swift in Sources */,
+				179014E72CE3E88B00323345 /* TestWelcomeView.swift in Sources */,
+				179014E52CE3E86500323345 /* OnboardingContainer.swift in Sources */,
 				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,
 				17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
-				179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */,
+				179014EF2CE3E9AB00323345 /* PositionView.swift in Sources */,
+				179014DD2CE3E77600323345 /* OnboardingStep.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

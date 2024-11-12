@@ -9,7 +9,7 @@ import SwiftUI
 import RiveRuntime
 
 struct ContentView: View {
-    @StateObject private var stateManager = OnboardingStateManager()
+    @StateObject private var stateManager = TestOnboardingStateManager()
     @State private var isLoggedIn: Bool = false
     @State private var authToken: String = ""
     @State private var showOnboarding: Bool = true
@@ -18,15 +18,15 @@ struct ContentView: View {
         if isLoggedIn {
             MainTabView(authToken: $authToken)
         } else {
-            OnboardingView(
-                isLoggedIn: $isLoggedIn,
-                authToken: $authToken,
-                showOnboarding: $showOnboarding
-            )
-            .environmentObject(stateManager)
+//            OnboardingView(
+//                isLoggedIn: $isLoggedIn,
+//                authToken: $authToken,
+//                showOnboarding: $showOnboarding
+//            )
+//            .environmentObject(stateManager)
 //    
 //            SimplifiedOnboardingView()
-//            TestOnboardingView()
+            OnboardingContainer()
         }
     }
 }

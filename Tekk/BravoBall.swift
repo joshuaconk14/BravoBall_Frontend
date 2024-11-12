@@ -15,7 +15,7 @@ import RiveRuntime
 
 @main
 struct BravoBall: App {
-    @StateObject private var stateManager = OnboardingStateManager()
+    @StateObject private var stateManager = TestOnboardingStateManager()
     
     var body: some Scene {
         WindowGroup {
@@ -27,7 +27,7 @@ struct BravoBall: App {
 
 struct BravoBall_Previews: PreviewProvider {
     static var previews: some View {
-        let stateManager = OnboardingStateManager()
+        let stateManager = TestOnboardingStateManager()
         ContentView()
             .environmentObject(stateManager)
             .previewDisplayName("Main App Preview")
