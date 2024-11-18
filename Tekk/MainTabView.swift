@@ -19,7 +19,7 @@ struct MainTabView: View {
     
     var body: some View {
         TabView {
-            HomeProgramView()  // Add this new view
+            HomeProgramView()
                     .tabItem {
                         Image(systemName: "figure.run")
                     }

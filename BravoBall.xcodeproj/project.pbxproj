@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		170217BB2C89030500DD020C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170217BA2C89030400DD020C /* Models.swift */; };
 		173B40212CD6F501003C560D /* OnboardingStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B40202CD6F501003C560D /* OnboardingStateManager.swift */; };
 		173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B40232CD6F55A003C560D /* OnboardingData.swift */; };
 		1749361C2C3E102B001163B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749361B2C3E102B001163B9 /* ContentView.swift */; };
@@ -20,6 +19,12 @@
 		175049432CDD69CC0030CF3E /* SelectPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175049422CDD69CC0030CF3E /* SelectPosition.swift */; };
 		175049452CDD69DD0030CF3E /* SelectLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175049442CDD69DD0030CF3E /* SelectLevel.swift */; };
 		175049472CDD6A170030CF3E /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175049462CDD6A170030CF3E /* WelcomeView.swift */; };
+		176031932CE4460400BD847E /* ChatbotModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176031922CE4460400BD847E /* ChatbotModels.swift */; };
+		176031952CE4462400BD847E /* ProgramModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176031942CE4462400BD847E /* ProgramModels.swift */; };
+		176031982CE4465C00BD847E /* ProgramService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176031972CE4465C00BD847E /* ProgramService.swift */; };
+		1760319B2CE447E900BD847E /* ProgramViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760319A2CE447E900BD847E /* ProgramViewModel.swift */; };
+		1760319D2CE45A7D00BD847E /* ProgramContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760319C2CE45A7C00BD847E /* ProgramContentView.swift */; };
+		1760319F2CE45A9800BD847E /* DrillCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760319E2CE45A9800BD847E /* DrillCardView.swift */; };
 		176D15012CD4799C00450F85 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15002CD4799C00450F85 /* LoginView.swift */; };
 		176D15052CD4907000450F85 /* PickGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15042CD4907000450F85 /* PickGoal.swift */; };
 		176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15072CD490E200450F85 /* YesNoTeam.swift */; };
@@ -75,7 +80,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		170217BA2C89030400DD020C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		173B40202CD6F501003C560D /* OnboardingStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStateManager.swift; sourceTree = "<group>"; };
 		173B40232CD6F55A003C560D /* OnboardingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingData.swift; sourceTree = "<group>"; };
 		174936162C3E102B001163B9 /* BravoBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BravoBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +96,12 @@
 		175049422CDD69CC0030CF3E /* SelectPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPosition.swift; sourceTree = "<group>"; };
 		175049442CDD69DD0030CF3E /* SelectLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLevel.swift; sourceTree = "<group>"; };
 		175049462CDD6A170030CF3E /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		176031922CE4460400BD847E /* ChatbotModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatbotModels.swift; sourceTree = "<group>"; };
+		176031942CE4462400BD847E /* ProgramModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramModels.swift; sourceTree = "<group>"; };
+		176031972CE4465C00BD847E /* ProgramService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramService.swift; sourceTree = "<group>"; };
+		1760319A2CE447E900BD847E /* ProgramViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramViewModel.swift; sourceTree = "<group>"; };
+		1760319C2CE45A7C00BD847E /* ProgramContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramContentView.swift; sourceTree = "<group>"; };
+		1760319E2CE45A9800BD847E /* DrillCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillCardView.swift; sourceTree = "<group>"; };
 		176D15002CD4799C00450F85 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		176D15042CD4907000450F85 /* PickGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickGoal.swift; sourceTree = "<group>"; };
 		176D15072CD490E200450F85 /* YesNoTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesNoTeam.swift; sourceTree = "<group>"; };
@@ -197,13 +207,15 @@
 				17E693182C7435B3006B58A3 /* Info.plist */,
 				174936442C3E10C4001163B9 /* Views */,
 				17E6931C2C743AC4006B58A3 /* Camera */,
-				170217BA2C89030400DD020C /* Models.swift */,
 				179CF94E2CD7077F00D07E49 /* BravoBall.swift */,
 				17ACC8D82CD367BA0047EE09 /* Features */,
 				17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */,
 				179CF9532CD7318600D07E49 /* Common */,
 				17F5D6532CD3477E008E8C24 /* ColorExtension.swift */,
+				176031992CE447D500BD847E /* ViewModels */,
+				176031962CE4465100BD847E /* Services */,
 				179CF9612CD74EC800D07E49 /* MainTabView.swift */,
+				176031912CE445F700BD847E /* Models */,
 				1749361B2C3E102B001163B9 /* ContentView.swift */,
 				17CBE91A2CE09F230094DC58 /* Tests */,
 				1749361D2C3E1031001163B9 /* Assets.xcassets */,
@@ -246,7 +258,9 @@
 				43985E3C2CB4EDCD00BE2AB6 /* ChatbotView.swift */,
 				17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */,
 				43985E3E2CB4EDE300BE2AB6 /* CameraView.swift */,
+				1760319C2CE45A7C00BD847E /* ProgramContentView.swift */,
 				43985E422CB4EE6000BE2AB6 /* SettingsView.swift */,
+				1760319E2CE45A9800BD847E /* DrillCardView.swift */,
 				43985E402CB4EDF900BE2AB6 /* PlayerDetailsForm.swift */,
 			);
 			path = Views;
@@ -261,6 +275,31 @@
 				175049422CDD69CC0030CF3E /* SelectPosition.swift */,
 			);
 			path = WelcomeQuestionnaire;
+			sourceTree = "<group>";
+		};
+		176031912CE445F700BD847E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				176031922CE4460400BD847E /* ChatbotModels.swift */,
+				176031942CE4462400BD847E /* ProgramModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		176031962CE4465100BD847E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				176031972CE4465C00BD847E /* ProgramService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		176031992CE447D500BD847E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				1760319A2CE447E900BD847E /* ProgramViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		176D14FC2CD4794B00450F85 /* Login */ = {
@@ -559,6 +598,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				179CF9562CD731B100D07E49 /* SelectionListItem.swift in Sources */,
+				1760319D2CE45A7D00BD847E /* ProgramContentView.swift in Sources */,
 				175049412CDD69B00030CF3E /* SelectAgeRange.swift in Sources */,
 				17E693222C745811006B58A3 /* ViewModel.swift in Sources */,
 				43985E3F2CB4EDE700BE2AB6 /* CameraView.swift in Sources */,
@@ -566,11 +606,13 @@
 				179CF9622CD74EC800D07E49 /* MainTabView.swift in Sources */,
 				179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */,
 				17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */,
-				170217BB2C89030500DD020C /* Models.swift in Sources */,
+				176031982CE4465C00BD847E /* ProgramService.swift in Sources */,
 				179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */,
+				176031932CE4460400BD847E /* ChatbotModels.swift in Sources */,
 				17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */,
 				175049452CDD69DD0030CF3E /* SelectLevel.swift in Sources */,
 				175049432CDD69CC0030CF3E /* SelectPosition.swift in Sources */,
+				1760319B2CE447E900BD847E /* ProgramViewModel.swift in Sources */,
 				179CF9602CD7326500D07E49 /* PostOnboardingLoadingView.swift in Sources */,
 				179CF9582CD731C400D07E49 /* DropdownMenu.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
@@ -578,6 +620,7 @@
 				173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */,
 				17C3A5352CD88D8800A64BC5 /* HomeProgramView.swift in Sources */,
 				17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */,
+				176031952CE4462400BD847E /* ProgramModels.swift in Sources */,
 				176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */,
 				179CF9522CD712CA00D07E49 /* OnboardingService.swift in Sources */,
 				176D15012CD4799C00450F85 /* LoginView.swift in Sources */,
@@ -592,6 +635,7 @@
 				43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */,
 				179CF95A2CD731E200D07E49 /* SelectionListView.swift in Sources */,
 				175049472CDD6A170030CF3E /* WelcomeView.swift in Sources */,
+				1760319F2CE45A9800BD847E /* DrillCardView.swift in Sources */,
 				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,
 				17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
