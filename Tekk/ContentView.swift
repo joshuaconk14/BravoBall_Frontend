@@ -24,6 +24,9 @@ struct ContentView: View {
                 showOnboarding: $showOnboarding
             )
             .environmentObject(stateManager)
+//    
+//            SimplifiedOnboardingView()
+//            TestOnboardingView()
         }
     }
 }
@@ -40,9 +43,9 @@ struct ContentView: View {
 //}
 
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//            .previewDevice("iPhone 15 Pro Max")
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+            .previewDevice("iPhone 15 Pro")
+    }
+}

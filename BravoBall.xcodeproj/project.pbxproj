@@ -205,6 +205,7 @@
 				17F5D6532CD3477E008E8C24 /* ColorExtension.swift */,
 				179CF9612CD74EC800D07E49 /* MainTabView.swift */,
 				1749361B2C3E102B001163B9 /* ContentView.swift */,
+				17CBE91A2CE09F230094DC58 /* Tests */,
 				1749361D2C3E1031001163B9 /* Assets.xcassets */,
 				43985E502CB51DEC00BE2AB6 /* Font */,
 				439A72632C9FA55700B4C5AD /* RiveAssets */,
@@ -384,6 +385,13 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		17CBE91A2CE09F230094DC58 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		17E6931C2C743AC4006B58A3 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
@@ -502,7 +510,7 @@
 			);
 			mainGroup = 1749360D2C3E102B001163B9;
 			packageReferences = (
-				175049362CDD60320030CF3E /* XCRemoteSwiftPackageReference "rive-ios" */,
+				1793CEDD2CEBF64000A905E3 /* XCRemoteSwiftPackageReference "rive-ios" */,
 			);
 			productRefGroup = 174936172C3E102B001163B9 /* Products */;
 			projectDirPath = "";
@@ -949,12 +957,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		175049362CDD60320030CF3E /* XCRemoteSwiftPackageReference "rive-ios" */ = {
+		1793CEDD2CEBF64000A905E3 /* XCRemoteSwiftPackageReference "rive-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rive-app/rive-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.3.3;
+				minimumVersion = 6.3.7;
 			};
 		};
 		435A70132CA7A33B00BFCC40 /* XCRemoteSwiftPackageReference "rive-ios" */ = {

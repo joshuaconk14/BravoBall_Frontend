@@ -527,7 +527,7 @@ struct ChatHistoryView: View {
     //             print("Error deleting conversation: \(error.localizedDescription)")
     //             return
     //         }
-            
+ 
     //         if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
     //             DispatchQueue.main.async {
     //                 if let index = self.conversations.firstIndex(where: { $0.id == conversation.id }) {
