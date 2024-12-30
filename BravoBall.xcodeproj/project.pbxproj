@@ -55,6 +55,7 @@
 		43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */; };
 		43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */; };
 		43985E5A2CB5B0BB00BE2AB6 /* test_panting.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E592CB5B0BB00BE2AB6 /* test_panting.riv */; };
+		43C71B7A2D2218C300EDA620 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C71B792D2218BD00EDA620 /* NavigationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +128,7 @@
 		43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PottaOne-Regular.ttf"; sourceTree = "<group>"; };
 		43985E592CB5B0BB00BE2AB6 /* test_panting.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = test_panting.riv; sourceTree = "<group>"; };
+		43C71B792D2218BD00EDA620 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,6 +245,7 @@
 		174936442C3E10C4001163B9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				43C71B792D2218BD00EDA620 /* NavigationView.swift */,
 				43985E3C2CB4EDCD00BE2AB6 /* ChatbotView.swift */,
 				17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */,
 				43985E3E2CB4EDE300BE2AB6 /* CameraView.swift */,
@@ -580,6 +583,7 @@
 				17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */,
 				176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */,
 				179CF9522CD712CA00D07E49 /* OnboardingService.swift in Sources */,
+				43C71B7A2D2218C300EDA620 /* NavigationView.swift in Sources */,
 				176D15012CD4799C00450F85 /* LoginView.swift in Sources */,
 				43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */,
 				176D15052CD4907000450F85 /* PickGoal.swift in Sources */,
