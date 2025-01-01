@@ -15,6 +15,9 @@ struct PostOnboardingLoadingView: View {
     @State private var showNextScreen = false
     @State private var errorMessage: String?
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var stateManager: OnboardingStateManager
+    @State private var navigateToHome = false
+    @State private var error: Error?
     
     let onboardingData: OnboardingData
     @Binding var isLoggedIn: Bool
@@ -25,7 +28,6 @@ struct PostOnboardingLoadingView: View {
             
             VStack(spacing: 20) {
                 if isLoading {
-                    // You can replace this with your Rive animation
                     ProgressView()
                         .scaleEffect(2)
                         .progressViewStyle(CircularProgressViewStyle(tint: globalSettings.primaryYellowColor))
@@ -58,9 +60,8 @@ struct PostOnboardingLoadingView: View {
         .onAppear {
             submitData()
         }
-        .fullScreenCover(isPresented: $showNextScreen) {
-            // Instead of creating a new ContentView, just set isLoggedIn
-            Color.clear.onAppear {
+        .onChange(of: navigateToHome) { _, newValue in
+            if newValue {
                 isLoggedIn = true
             }
         }
@@ -72,16 +73,24 @@ struct PostOnboardingLoadingView: View {
         
         Task {
             do {
-                try await OnboardingService.shared.submitOnboardingData(data: onboardingData)
-                DispatchQueue.main.async {
-                    isLoading = false
-                    showNextScreen = true
-                }
+                // Submit onboarding data to the backend, get drill recommendations in response
+                let response = try await OnboardingService.shared.submitOnboardingData(data: onboardingData)
                 print("✅ Onboarding data submitted successfully")
-            } catch {
-                DispatchQueue.main.async {
+                
+                await MainActor.run {
+                    // Store access token
+                    UserDefaults.standard.set(response.access_token, forKey: "accessToken")
+                    
+                    // Update drills in ViewModel
+                    DrillsViewModel.shared.recommendedDrills = response.recommendations
+                    
                     isLoading = false
-                    errorMessage = "Something went wrong. Please try again."
+                    navigateToHome = true
+                }
+            } catch {
+                await MainActor.run {
+                    isLoading = false
+                    errorMessage = "Something went wrong in the onboarding process. Please try again."
                 }
                 print("❌ Error submitting onboarding data: \(error)")
             }
@@ -107,10 +116,14 @@ struct PostOnboardingLoadingView_Previews: PreviewProvider {
             primaryGoal: "Be the best player",
             timeline: "Within 1 year",
             skillLevel: "Intermediate",
-            trainingDays: ["Monday", "Wednesday"]
+            trainingDays: ["Monday", "Wednesday"],
+            availableEquipment: ["Ball", "Cones"]
         )
         
-        PostOnboardingLoadingView(onboardingData: sampleData, isLoggedIn: .constant(false))
-            .environmentObject(stateManager)
+        PostOnboardingLoadingView(
+            onboardingData: sampleData,
+            isLoggedIn: .constant(false)
+        )
+        .environmentObject(stateManager)
     }
 }

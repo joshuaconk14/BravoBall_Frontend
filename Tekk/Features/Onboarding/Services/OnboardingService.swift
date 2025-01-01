@@ -11,7 +11,7 @@ import SwiftUI
 class OnboardingService {
     static let shared = OnboardingService()
     
-    func submitOnboardingData(data: OnboardingData) async throws {
+    func submitOnboardingData(data: OnboardingData) async throws -> RecommendationsResponse {
         guard let url = URL(string: "\(AppSettings.baseURL)/api/onboarding") else {
             throw URLError(.badURL)
         }
@@ -40,5 +40,7 @@ class OnboardingService {
         guard (200...299).contains(httpResponse.statusCode) else {
             throw URLError(.badServerResponse)
         }
+        
+        return try JSONDecoder().decode(RecommendationsResponse.self, from: responseData)
     }
 }

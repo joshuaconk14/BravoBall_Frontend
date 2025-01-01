@@ -24,6 +24,7 @@ struct SecondQuestionnaireView: View {
     @State private var textOpacity3: Double = 0.0
     @State private var textOpacity4: Double = 0.0
     @State private var textOpacity5: Double = 0.0
+    @State private var textOpacity6: Double = 0.0
     // State variables for animations:
     // animation offset
     @State private var riveViewOffset: CGSize = .zero // Offset for Rive animation hello
@@ -42,6 +43,9 @@ struct SecondQuestionnaireView: View {
     
     @State private var selectedDays: String = "days"
     @State private var chosenDays: [String] = []
+
+    @State private var selectedEquipment: String = "equipment"
+    @State private var chosenEquipment: [String] = []
 
     // after onboarding data is submitted
     @State private var showLoadingView = false
@@ -95,6 +99,14 @@ struct SecondQuestionnaireView: View {
                             .transition(.move(edge: .trailing))
                             .animation(.easeInOut)
                             .offset(x: currentQuestionnaireTwo == 5 ? 0 : UIScreen.main.bounds.width)
+                            .environmentObject(stateManager)
+                    } else if currentQuestionnaireTwo == 6 {
+                        AvailableEquipment(currentQuestionnaireTwo: $currentQuestionnaireTwo,
+                                           selectedEquipment: $selectedEquipment,
+                                           chosenEquipment: $chosenEquipment)
+                            .transition(.move(edge: .trailing))
+                            .animation(.easeInOut)
+                            .offset(x: currentQuestionnaireTwo == 6 ? 0 : UIScreen.main.bounds.width)
                             .environmentObject(stateManager)
                     }
                 }
@@ -160,6 +172,14 @@ struct SecondQuestionnaireView: View {
                         .padding(.leading, 150)
                         .opacity(textOpacity5)
                         .font(.custom("Poppins-Bold", size: 16))
+                } else if currentQuestionnaireTwo == 6 {
+                    Text("What equipment do you have available?")
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding()
+                        .padding(.bottom, 500)
+                        .padding(.leading, 150)
+                        .opacity(textOpacity6)
+                        .font(.custom("Poppins-Bold", size: 16))
                 }
             }
             
@@ -196,7 +216,9 @@ struct SecondQuestionnaireView: View {
         .background(.white)
         .edgesIgnoringSafeArea(.all)
         .fullScreenCover(isPresented: $showLoadingView) {
-            PostOnboardingLoadingView(onboardingData: stateManager.onboardingData, isLoggedIn: $isLoggedIn)
+            PostOnboardingLoadingView(
+                onboardingData: stateManager.onboardingData,
+                isLoggedIn: $isLoggedIn)
         }
     }
     
@@ -234,16 +256,24 @@ struct SecondQuestionnaireView: View {
                 textOpacity5 = 1.0
             }
         } else if currentQuestionnaireTwo == 5 && !chosenDays.isEmpty {
+            withAnimation {
+                currentQuestionnaireTwo = 6
+                textOpacity5 = 0.0
+                textOpacity6 = 1.0
+            }
+        } else if currentQuestionnaireTwo == 6 && !chosenEquipment.isEmpty {
             stateManager.updateSecondQuestionnaire(
                 hasTeam: !chosenYesNoTeam.isEmpty,
                 goal: chosenGoal.first ?? "",
                 timeline: chosenTimeline.first ?? "",
                 skillLevel: chosenLevel.first ?? "",
-                trainingDays: chosenDays
+                trainingDays: chosenDays,
+                availableEquipment: chosenEquipment
             )
             submitOnboardingData()
-            // TODO: Handle navigation after successful submission
         }
+
+
     }
 
     private func submitOnboardingData() {
@@ -256,7 +286,9 @@ struct SecondQuestionnaireView: View {
 struct SecondQuestionnaire_Previews: PreviewProvider {
     static var previews: some View {
         let stateManager = OnboardingStateManager()
-        SecondQuestionnaireView(isLoggedIn: .constant(false), showQuestionnaireTwo: .constant(true))
+        SecondQuestionnaireView(
+            isLoggedIn: .constant(false),
+            showQuestionnaireTwo: .constant(true))
             .environmentObject(stateManager)
     }
 }

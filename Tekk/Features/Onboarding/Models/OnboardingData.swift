@@ -27,6 +27,7 @@ struct OnboardingData: Codable, CustomStringConvertible{
     var timeline: String                    // When looking to achieve this by
     var skillLevel: String                  // Current skill level
     var trainingDays: [String]             // Available training days
+    var availableEquipment: [String]     // Available training equipment
 
     // Add custom description for better printing
     var description: String {

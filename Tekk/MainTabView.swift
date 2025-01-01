@@ -19,21 +19,28 @@ struct MainTabView: View {
     
     var body: some View {
         TabView {
-            HomeProgramView()  // Add this new view
-                    .tabItem {
-                        Image(systemName: "figure.run")
-                    }
-//            ChatbotView(chatMessages: $chatMessages, authToken: $authToken, conversations: $conversations)
+            RecommendedDrillsView()
+                .tabItem {
+                    Image(systemName: "star.fill")
+                    Text("For You")
+                }
+            
+            HomeProgramView()
+                .tabItem {
+                    Image(systemName: "house.fill")
+                    Text("Program")
+                }
+            
+//            DrillCatalogView()
 //                .tabItem {
-//                    Image(systemName: "message.fill")
+//                    Image(systemName: "book.fill")
+//                    Text("Drills")
 //                }
-//            CameraView(image: $viewModel.currentFrame, activeTab: $activeTab)
-//                .tabItem {
-//                    Image(systemName: "camera.fill")
-//                }
+//            
             SettingsView()
                 .tabItem {
-                    Image(systemName: "slider.horizontal.3")
+                    Image(systemName: "person.fill")
+                    Text("Profile")
                 }
         }
         .accentColor(globalSettings.primaryYellowColor)
