@@ -41,7 +41,9 @@ struct FirstQuestionnaireView: View {
             Color.white.edgesIgnoringSafeArea(.all)
             
             if showQuestionnaireTwo {
-                SecondQuestionnaireView(isLoggedIn: $isLoggedIn, showQuestionnaireTwo: $showQuestionnaireTwo)
+                SecondQuestionnaireView(
+                    isLoggedIn: $isLoggedIn,
+                    showQuestionnaireTwo: $showQuestionnaireTwo)
                     .environmentObject(stateManager)
                     .transition(.move(edge: .trailing))
             } else {

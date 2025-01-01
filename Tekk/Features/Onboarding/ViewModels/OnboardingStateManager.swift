@@ -27,7 +27,8 @@ class OnboardingStateManager: ObservableObject {
         primaryGoal: "",
         timeline: "",
         skillLevel: "",
-        trainingDays: []
+        trainingDays: [],
+        availableEquipment: []
     )
     
     func updateWelcomeData(firstName: String, lastName: String, ageRange: String, level: String, position: String) {
@@ -53,18 +54,20 @@ class OnboardingStateManager: ObservableObject {
         print("Weaknesses: \(weaknesses)")
     }
     
-    func updateSecondQuestionnaire(hasTeam: Bool, goal: String, timeline: String, skillLevel: String, trainingDays: [String]) {
+    func updateSecondQuestionnaire(hasTeam: Bool, goal: String, timeline: String, skillLevel: String, trainingDays: [String], availableEquipment: [String]) {
         onboardingData.hasTeam = hasTeam
         onboardingData.primaryGoal = goal
         onboardingData.timeline = timeline
         onboardingData.skillLevel = skillLevel
         onboardingData.trainingDays = trainingDays
+        onboardingData.availableEquipment = availableEquipment
         print("🔴 Second Questionnaire Data Updated:")
         print("Has Team: \(hasTeam)")
         print("Goal: \(goal)")
         print("Timeline: \(timeline)")
         print("Skill Level: \(skillLevel)")
         print("Training Days: \(trainingDays)")
+        print("Available Equipment: \(availableEquipment)")
         print("\n📱 Final Onboarding Data:")
         print(onboardingData)
     }

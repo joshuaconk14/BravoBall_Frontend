@@ -7,7 +7,7 @@
 
 import Foundation
 
-// expected response structure from backend after GET request to conversations/<id> endpoint
+// Chatbot models, for later use
 struct ConversationResponse: Codable {
     let id: String
     let messages: [APIMessage]
