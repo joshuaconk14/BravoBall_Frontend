@@ -165,64 +165,69 @@ struct DrillRecommendationCard: View {
     }
 }
 
-//// MARK: - Preview
-//struct RecommendedDrillsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RecommendedDrillsView(recommendedDrills: [
-//            DrillRecommendation(
-//                id: 1,
-//                title: "Wall Passing",
-//                description: "Improve your passing accuracy and first touch with this wall passing drill. Focus on using both feet and maintaining proper technique.",
-//                category: "Passing",
-//                duration: 20,
-//                difficulty: "Medium",
-//                recommended_equipment: ["Ball", "Wall"],
-//                instructions: [
-//                    "Set up 2 yards from wall",
-//                    "Pass ball against wall",
-//                    "Control the rebound",
-//                    "Repeat with both feet"
-//                ],
-//                tips: [
-//                    "Keep your head up",
-//                    "Use both feet",
-//                    "Stay on your toes"
-//                ],
-//                video_url: "https://youtube.com/example1",
-//                matchScore: DrillRecommendation.MatchScore(
-//                    skillLevelMatch: true,
-//                    equipmentAvailable: true,
-//                    recommendedForPosition: true,
-//                    calculatedScore: 1.5
-//                )
-//            ),
-//            DrillRecommendation(
-//                id: 2,
-//                title: "Cone Weaves",
-//                description: "Enhance your dribbling control and agility by weaving through cones. Practice with both feet and gradually increase your speed.",
-//                category: "Dribbling",
-//                duration: 15,
-//                difficulty: "Medium",
-//                recommended_equipment: ["Ball", "Cones"],
-//                instructions: [
-//                    "Set up 6 cones in line",
-//                    "Dribble through cones",
-//                    "Return to start",
-//                    "Repeat with other foot"
-//                ],
-//                tips: [
-//                    "Keep ball close",
-//                    "Look up occasionally",
-//                    "Use both feet"
-//                ],
-//                video_url: "https://youtube.com/example2",
-//                matchScore: DrillRecommendation.MatchScore(
-//                    skillLevelMatch: true,
-//                    equipmentAvailable: true,
-//                    recommendedForPosition: true,
-//                    calculatedScore: 1.3
-//                )
-//            )
-//        ])
-//    }
-//}
+// MARK: - Preview
+struct RecommendedDrillsView_Previews: PreviewProvider {
+    static var previews: some View {
+        let viewModel = DrillsViewModel.shared
+        
+        // Set up sample data
+        viewModel.recommendedDrills = [
+            DrillRecommendation(
+                id: 1,
+                title: "Wall Passing",
+                description: "Improve your passing accuracy and first touch with this wall passing drill. Focus on using both feet and maintaining proper technique.",
+                category: "Passing",
+                duration: 20,
+                difficulty: "Medium",
+                recommended_equipment: ["Ball", "Wall"],
+                instructions: [
+                    "Set up 2 yards from wall",
+                    "Pass ball against wall",
+                    "Control the rebound",
+                    "Repeat with both feet"
+                ],
+                tips: [
+                    "Keep your head up",
+                    "Use both feet",
+                    "Stay on your toes"
+                ],
+                video_url: "https://youtube.com/example1",
+                matchScore: DrillRecommendation.MatchScore(
+                    skillLevelMatch: true,
+                    equipmentAvailable: true,
+                    recommendedForPosition: true,
+                    calculatedScore: 1.5
+                )
+            ),
+            DrillRecommendation(
+                id: 2,
+                title: "Cone Weaves",
+                description: "Enhance your dribbling control and agility by weaving through cones. Practice with both feet and gradually increase your speed.",
+                category: "Dribbling",
+                duration: 15,
+                difficulty: "Medium",
+                recommended_equipment: ["Ball", "Cones"],
+                instructions: [
+                    "Set up 6 cones in line",
+                    "Dribble through cones",
+                    "Return to start",
+                    "Repeat with other foot"
+                ],
+                tips: [
+                    "Keep ball close",
+                    "Look up occasionally",
+                    "Use both feet"
+                ],
+                video_url: "https://youtube.com/example2",
+                matchScore: DrillRecommendation.MatchScore(
+                    skillLevelMatch: true,
+                    equipmentAvailable: true,
+                    recommendedForPosition: true,
+                    calculatedScore: 1.3
+                )
+            )
+        ]
+        
+        return RecommendedDrillsView()
+    }
+}
