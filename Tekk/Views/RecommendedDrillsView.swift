@@ -107,10 +107,7 @@ struct DrillRecommendationCard: View {
                     ForEach(drill.recommended_equipment, id: \.self) { item in
                         HStack(spacing: 4) {
                             // Check if the user has the equipment
-                            let hasEquipment = userEquipment.contains(item)
-                        
-                            Image(systemName: hasEquipment ? "checkmark.circle.fill" : "xmark.circle.fill")
-                                .foregroundColor(hasEquipment ? .green : .red)
+//                            let hasEquipment = userEquipment.contains(item)
                             
                             Text(item)
                         }

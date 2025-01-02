@@ -29,12 +29,12 @@ struct MainTabView: View {
                     Text("Program")
                 }
             
-//            DrillCatalogView()
-//                .tabItem {
-//                    Image(systemName: "book.fill")
-//                    Text("Drills")
-//                }
-//            
+            DrillCatalogView()
+                .tabItem {
+                    Image(systemName: "book.fill")
+                    Text("Drills")
+                }
+            
             SettingsView()
                 .tabItem {
                     Image(systemName: "person.fill")
