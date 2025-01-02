@@ -18,6 +18,7 @@ struct PostOnboardingLoadingView: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
     @State private var navigateToHome = false
     @State private var error: Error?
+    @State private var showRegisterView = false
     
     let onboardingData: OnboardingData
     @Binding var isLoggedIn: Bool
@@ -45,12 +46,16 @@ struct PostOnboardingLoadingView: View {
                             .multilineTextAlignment(.center)
                         
                         Button("Try Again") {
-                            submitData()
+                            showRegisterView = true
                         }
                         .padding()
                         .background(globalSettings.primaryYellowColor)
                         .foregroundColor(.white)
                         .cornerRadius(20)
+                        .fullScreenCover(isPresented: $showRegisterView) {
+                            RegisterView(
+                                isLoggedIn: $isLoggedIn, onDetailsSubmitted: {} )
+                        }
                     }
                     .padding()
                 }
@@ -73,7 +78,10 @@ struct PostOnboardingLoadingView: View {
         
         Task {
             do {
-                // Submit onboarding data to the backend, get drill recommendations in response
+                // Debug print to see what data we're sending
+                print("📤 Sending onboarding data: \(onboardingData)")
+                
+                // Submit onboarding data to the backend
                 let response = try await OnboardingService.shared.submitOnboardingData(data: onboardingData)
                 print("✅ Onboarding data submitted successfully")
                 
@@ -87,12 +95,22 @@ struct PostOnboardingLoadingView: View {
                     isLoading = false
                     navigateToHome = true
                 }
+            } catch let error as NSError {
+                await MainActor.run {
+                    isLoading = false
+                    // More detailed error message
+                    errorMessage = "Server Error (\(error.code)): \(error.localizedDescription)"
+                    print("❌ Detailed error: \(error)")
+                    print("❌ Error domain: \(error.domain)")
+                    print("❌ Error code: \(error.code)")
+                    print("❌ Error user info: \(error.userInfo)")
+                }
             } catch {
                 await MainActor.run {
                     isLoading = false
-                    errorMessage = "Something went wrong in the onboarding process. Please try again."
+                    errorMessage = "Error: \(error.localizedDescription)"
+                    print("❌ Error submitting onboarding data: \(error)")
                 }
-                print("❌ Error submitting onboarding data: \(error)")
             }
         }
     }
@@ -106,6 +124,8 @@ struct PostOnboardingLoadingView_Previews: PreviewProvider {
         let sampleData = OnboardingData(
             firstName: "John",
             lastName: "Doe",
+            email: "jdoe@gmail.com",
+            password: "imjohndoe",
             ageRange: "Teen (13-16)",
             level: "Beginner",
             position: "Forward",

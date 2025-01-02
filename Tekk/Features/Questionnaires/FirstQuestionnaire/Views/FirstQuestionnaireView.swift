@@ -29,11 +29,8 @@ struct FirstQuestionnaireView: View {
     @State private var riveViewOffset: CGSize = .zero // Offset for Rive animation hello
     
     // Questionnaire data
-    @State private var selectedPlayer: String = "player"
     @State private var chosenPlayers: [String] = []
-    @State private var selectedStrength: String = "strength"
     @State private var chosenStrengths: [String] = []
-    @State private var selectedWeakness: String = "strength"
     @State private var chosenWeaknesses: [String] = []
     
     var body: some View {
@@ -55,7 +52,6 @@ struct FirstQuestionnaireView: View {
                         if currentQuestionnaire == 1 {
                             PlayerRepresentPlaystyle(
                                 currentQuestionnaire: $currentQuestionnaire,
-                                selectedPlayer: $selectedPlayer,
                                 chosenPlayers: $chosenPlayers
                             )
                             .transition(.move(edge: .trailing))
@@ -65,7 +61,6 @@ struct FirstQuestionnaireView: View {
                         } else if currentQuestionnaire == 2 {
                             PickStrengths(
                                 currentQuestionnaire: $currentQuestionnaire,
-                                selectedStrength: $selectedStrength,
                                 chosenStrengths: $chosenStrengths
                             )
                             .transition(.move(edge: .trailing))
@@ -75,7 +70,6 @@ struct FirstQuestionnaireView: View {
                         } else if currentQuestionnaire == 3 {
                             PickWeaknesses(
                                 currentQuestionnaire: $currentQuestionnaire,
-                                selectedWeakness: $selectedWeakness,
                                 chosenWeaknesses: $chosenWeaknesses
                             )
                             .transition(.move(edge: .trailing))

@@ -14,9 +14,12 @@ class OnboardingStateManager: ObservableObject {
         print("Initial onboardingData: \(onboardingData)")
     }
     
+    // takes the structure from OnboardingData and creates an instance
     @Published var onboardingData = OnboardingData(
         firstName: "",
         lastName: "",
+        email: "",
+        password: "",
         ageRange: "",
         level: "",
         position: "",
@@ -31,14 +34,11 @@ class OnboardingStateManager: ObservableObject {
         availableEquipment: []
     )
     
-    func updateWelcomeData(firstName: String, lastName: String, ageRange: String, level: String, position: String) {
-        onboardingData.firstName = firstName
-        onboardingData.lastName = lastName
+    func updateWelcomeData(ageRange: String, level: String, position: String) {
         onboardingData.ageRange = ageRange
         onboardingData.level = level
         onboardingData.position = position
         print("🟢 Welcome Data Updated:")
-        print("Name: \(firstName) \(lastName)")
         print("Age: \(ageRange)")
         print("Level: \(level)")
         print("Position: \(position)")
@@ -70,5 +70,17 @@ class OnboardingStateManager: ObservableObject {
         print("Available Equipment: \(availableEquipment)")
         print("\n📱 Final Onboarding Data:")
         print(onboardingData)
+    }
+    
+    // TODO: create a register function based on what you give the RegisterView
+    func updateRegister(firstName: String, lastName: String, email: String, password: String) {
+        onboardingData.firstName = firstName
+        onboardingData.lastName = lastName
+        onboardingData.email = email
+        onboardingData.password = password
+        print("🟣 Register Updated:")
+        print("Name: \(firstName) \(lastName)")
+        print("Email: \(email)")
+        print("Password: \(password)")
     }
 }

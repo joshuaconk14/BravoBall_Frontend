@@ -11,7 +11,6 @@ import Foundation
 
 struct PickStrengths: View {
     @Binding var currentQuestionnaire: Int
-    @Binding var selectedStrength: String
     @Binding var chosenStrengths: [String]
     
     let strengths = ["Passing", "Dribbling", "Shooting", "First Touch",
@@ -38,7 +37,6 @@ struct PickStrengths_Previews: PreviewProvider {
         let stateManager = OnboardingStateManager()
         PickStrengths(
             currentQuestionnaire: $currentQuestionnaire,
-            selectedStrength: $selectedStrength,
             chosenStrengths: $chosenStrengths
         )
         .environmentObject(stateManager)

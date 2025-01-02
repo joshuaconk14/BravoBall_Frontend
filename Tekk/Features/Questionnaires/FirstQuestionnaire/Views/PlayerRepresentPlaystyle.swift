@@ -12,7 +12,6 @@ import Foundation
 struct PlayerRepresentPlaystyle: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
     @Binding var currentQuestionnaire: Int
-    @Binding var selectedPlayer: String
     @Binding var chosenPlayers: [String]
     
     let players = ["Alan Virginius", "Harry Maguire", "Big Bjorn", "Big Adam",
@@ -35,7 +34,6 @@ struct PlayerRepresentPlaystyle_Previews: PreviewProvider {
         let stateManager = OnboardingStateManager()
         PlayerRepresentPlaystyle(
             currentQuestionnaire: .constant(1),
-            selectedPlayer: .constant(""),
             chosenPlayers: .constant([])
         )
         .environmentObject(stateManager)

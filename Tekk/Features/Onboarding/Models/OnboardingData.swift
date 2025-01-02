@@ -4,14 +4,19 @@
 //
 //  Created by Jordan on 11/2/24.
 //
+// this is the structure of onboarding data, no instances created here
 
 import Foundation
 
 // structure for onboarding data
 struct OnboardingData: Codable, CustomStringConvertible{
-    // From WelcomeQuestions
+    // From Register
     var firstName: String
     var lastName: String
+    var email: String
+    var password: String
+    
+    // From WelcomeQuestions
     var ageRange: String
     var level: String
     var position: String
@@ -37,6 +42,8 @@ struct OnboardingData: Codable, CustomStringConvertible{
         -------------------------
         Personal Info:
         - Name: \(firstName) \(lastName)
+        - Email: \(email)
+        - Password: \(password)
         - Age Range: \(ageRange)
         - Level: \(level)
         - Position: \(position)

@@ -11,7 +11,6 @@ import Foundation
 struct AvailableEquipment: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
     @Binding var currentQuestionnaireTwo: Int
-    @Binding var selectedEquipment: String
     @Binding var chosenEquipment: [String]
     
     let equipment = [
@@ -39,7 +38,6 @@ struct AvailableEquipment_Previews: PreviewProvider {
         let stateManager = OnboardingStateManager()
         AvailableEquipment(
             currentQuestionnaireTwo: .constant(6),
-            selectedEquipment: .constant(""),
             chosenEquipment: .constant([])
         )
         .environmentObject(stateManager)

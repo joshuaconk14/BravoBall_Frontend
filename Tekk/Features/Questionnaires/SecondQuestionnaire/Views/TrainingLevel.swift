@@ -14,7 +14,6 @@ struct TrainingLevel: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
 
     @Binding var currentQuestionnaireTwo: Int
-    @Binding var selectedLevel: String
     @Binding var chosenLevel: [String]
     
     let levels = ["Light (2-3 sessions/week)",
@@ -40,7 +39,6 @@ struct TrainingLevel_Previews: PreviewProvider {
         let stateManager = OnboardingStateManager()
         TrainingLevel(
             currentQuestionnaireTwo: .constant(4),
-            selectedLevel: .constant(""),
             chosenLevel: .constant([])
         )
         .environmentObject(stateManager)

@@ -11,7 +11,6 @@ struct PickGoal: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
 
     @Binding var currentQuestionnaireTwo: Int
-    @Binding var selectedGoal: String
     @Binding var chosenGoal: [String]
     
     let goals = ["I want to improve my overall skill level",
@@ -36,7 +35,6 @@ struct PickGoal_Previews: PreviewProvider {
         let stateManager = OnboardingStateManager()
         PickGoal(
             currentQuestionnaireTwo: .constant(2),
-            selectedGoal: .constant(""),
             chosenGoal: .constant([])
         )
         .environmentObject(stateManager)

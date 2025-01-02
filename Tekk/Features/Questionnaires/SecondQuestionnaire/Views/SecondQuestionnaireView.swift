@@ -29,26 +29,15 @@ struct SecondQuestionnaireView: View {
     // animation offset
     @State private var riveViewOffset: CGSize = .zero // Offset for Rive animation hello
     //from questionnaire 1
-    @State private var selectedYesNoTeam: String = "yesNo"
     @State private var chosenYesNoTeam: [String] = []
-    
-    @State private var selectedGoal: String = "goal"
     @State private var chosenGoal: [String] = []
-    
-    @State private var selectedTimeline: String = "timeline"
     @State private var chosenTimeline: [String] = []
-    
-    @State private var selectedLevel: String = "level"
     @State private var chosenLevel: [String] = []
-    
-    @State private var selectedDays: String = "days"
     @State private var chosenDays: [String] = []
-
-    @State private var selectedEquipment: String = "equipment"
     @State private var chosenEquipment: [String] = []
 
     // after onboarding data is submitted
-    @State private var showLoadingView = false
+    @State private var showRegisterView = false
 
     var body: some View {
         ZStack {
@@ -62,7 +51,6 @@ struct SecondQuestionnaireView: View {
                     // Current questionnaire REPRESENTATION based on the state variable
                     if currentQuestionnaireTwo == 1 {
                         YesNoTeam(currentQuestionnaireTwo: $currentQuestionnaireTwo,
-                                selectedYesNoTeam: $selectedYesNoTeam,
                                 chosenYesNoTeam: $chosenYesNoTeam)
                             .transition(.move(edge: .trailing))
                             .animation(.easeInOut)
@@ -70,7 +58,6 @@ struct SecondQuestionnaireView: View {
                             .environmentObject(stateManager)
                     } else if currentQuestionnaireTwo == 2 {
                         PickGoal(currentQuestionnaireTwo: $currentQuestionnaireTwo,
-                               selectedGoal: $selectedGoal,
                                chosenGoal: $chosenGoal)
                             .transition(.move(edge: .trailing))
                             .animation(.easeInOut)
@@ -78,7 +65,6 @@ struct SecondQuestionnaireView: View {
                             .environmentObject(stateManager)
                     } else if currentQuestionnaireTwo == 3 {
                         TimelineGoal(currentQuestionnaireTwo: $currentQuestionnaireTwo,
-                                   selectedTimeline: $selectedTimeline,
                                    chosenTimeline: $chosenTimeline)
                             .transition(.move(edge: .trailing))
                             .animation(.easeInOut)
@@ -86,7 +72,6 @@ struct SecondQuestionnaireView: View {
                             .environmentObject(stateManager)
                     } else if currentQuestionnaireTwo == 4 {
                         TrainingLevel(currentQuestionnaireTwo: $currentQuestionnaireTwo,
-                                    selectedLevel: $selectedLevel,
                                     chosenLevel: $chosenLevel)
                             .transition(.move(edge: .trailing))
                             .animation(.easeInOut)
@@ -94,7 +79,6 @@ struct SecondQuestionnaireView: View {
                             .environmentObject(stateManager)
                     } else if currentQuestionnaireTwo == 5 {
                         TrainingDays(currentQuestionnaireTwo: $currentQuestionnaireTwo,
-                                   selectedDays: $selectedDays,
                                    chosenDays: $chosenDays)
                             .transition(.move(edge: .trailing))
                             .animation(.easeInOut)
@@ -102,7 +86,6 @@ struct SecondQuestionnaireView: View {
                             .environmentObject(stateManager)
                     } else if currentQuestionnaireTwo == 6 {
                         AvailableEquipment(currentQuestionnaireTwo: $currentQuestionnaireTwo,
-                                           selectedEquipment: $selectedEquipment,
                                            chosenEquipment: $chosenEquipment)
                             .transition(.move(edge: .trailing))
                             .animation(.easeInOut)
@@ -215,10 +198,9 @@ struct SecondQuestionnaireView: View {
         .padding()
         .background(.white)
         .edgesIgnoringSafeArea(.all)
-        .fullScreenCover(isPresented: $showLoadingView) {
-            PostOnboardingLoadingView(
-                onboardingData: stateManager.onboardingData,
-                isLoggedIn: $isLoggedIn)
+        .fullScreenCover(isPresented: $showRegisterView) {
+            RegisterView(
+                isLoggedIn: $isLoggedIn, onDetailsSubmitted: {} )
         }
     }
     
@@ -277,7 +259,7 @@ struct SecondQuestionnaireView: View {
     }
 
     private func submitOnboardingData() {
-        showLoadingView = true
+        showRegisterView = true
     }
 }
 

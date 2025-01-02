@@ -13,7 +13,6 @@ struct YesNoTeam: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
 
     @Binding var currentQuestionnaireTwo: Int
-    @Binding var selectedYesNoTeam: String
     @Binding var chosenYesNoTeam: [String]
     
     let yesNoTeam = ["Yes I am currently on a team",
@@ -35,7 +34,6 @@ struct YesNoTeam_Previews: PreviewProvider {
         let stateManager = OnboardingStateManager()
         YesNoTeam(
             currentQuestionnaireTwo: .constant(1),
-            selectedYesNoTeam: .constant(""),
             chosenYesNoTeam: .constant([])
         )
         .environmentObject(stateManager)

@@ -12,7 +12,6 @@ struct TrainingDays: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
 
     @Binding var currentQuestionnaireTwo: Int
-    @Binding var selectedDays: String
     @Binding var chosenDays: [String]
     
     let days = ["Monday", "Tuesday", "Wednesday", "Thursday",
@@ -35,7 +34,6 @@ struct TrainingDays_Previews: PreviewProvider {
         let stateManager = OnboardingStateManager()
         TrainingDays(
             currentQuestionnaireTwo: .constant(5),
-            selectedDays: .constant(""),
             chosenDays: .constant([])
         )
         .environmentObject(stateManager)

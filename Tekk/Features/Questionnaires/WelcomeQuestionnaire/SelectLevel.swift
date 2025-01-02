@@ -11,7 +11,6 @@ import SwiftUI
 struct SelectLevel: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
     @Binding var currentWelcomeStage: Int
-    @Binding var selectedLevel: String
     @Binding var chosenLevel: [String]
     
     let levelOptions = [

@@ -12,7 +12,6 @@ struct TimelineGoal: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
 
     @Binding var currentQuestionnaireTwo: Int
-    @Binding var selectedTimeline: String
     @Binding var chosenTimeline: [String]
     
     let timelines = ["Within 3 months",
@@ -37,7 +36,6 @@ struct TimelineGoal_Previews: PreviewProvider {
         let stateManager = OnboardingStateManager()
         TimelineGoal(
             currentQuestionnaireTwo: .constant(3),
-            selectedTimeline: .constant(""),
             chosenTimeline: .constant([])
         )
         .environmentObject(stateManager)

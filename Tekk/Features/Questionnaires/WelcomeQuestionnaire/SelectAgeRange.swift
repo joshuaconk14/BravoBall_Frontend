@@ -11,7 +11,6 @@ import SwiftUI
 struct SelectAgeRange: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
     @Binding var currentWelcomeStage: Int
-    @Binding var selectedAge: String
     @Binding var chosenAge: [String]
     
     let ageOptions = [

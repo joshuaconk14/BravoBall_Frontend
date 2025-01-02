@@ -11,7 +11,6 @@ import SwiftUI
 struct SelectPosition: View {
     @EnvironmentObject var stateManager: OnboardingStateManager
     @Binding var currentWelcomeStage: Int
-    @Binding var selectedPosition: String
     @Binding var chosenPosition: [String]
     
     let positionOptions = [

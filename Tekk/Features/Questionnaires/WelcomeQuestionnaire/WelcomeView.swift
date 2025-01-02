@@ -23,11 +23,8 @@ struct WelcomeView: View {
     @State private var textOpacity3: Double = 0.0
     
     // State for selections
-    @State private var selectedAge = ""
     @State private var chosenAge: [String] = []
-    @State private var selectedLevel = ""
     @State private var chosenLevel: [String] = []
-    @State private var selectedPosition = ""
     @State private var chosenPosition: [String] = []
     
     var body: some View {
@@ -51,7 +48,6 @@ struct WelcomeView: View {
                             if currentWelcomeStage == 1 {
                                 SelectAgeRange(
                                     currentWelcomeStage: $currentWelcomeStage,
-                                    selectedAge: $selectedAge,
                                     chosenAge: $chosenAge
                                 )
                                 .transition(.move(edge: .trailing))
@@ -60,7 +56,6 @@ struct WelcomeView: View {
                             } else if currentWelcomeStage == 2 {
                                 SelectLevel(
                                     currentWelcomeStage: $currentWelcomeStage,
-                                    selectedLevel: $selectedLevel,
                                     chosenLevel: $chosenLevel
                                 )
                                 .transition(.move(edge: .trailing))
@@ -69,7 +64,6 @@ struct WelcomeView: View {
                             } else if currentWelcomeStage == 3 {
                                 SelectPosition(
                                     currentWelcomeStage: $currentWelcomeStage,
-                                    selectedPosition: $selectedPosition,
                                     chosenPosition: $chosenPosition
                                 )
                                 .transition(.move(edge: .trailing))
@@ -195,8 +189,6 @@ struct WelcomeView: View {
             }
         } else if currentWelcomeStage == 3 && !chosenPosition.isEmpty {
             stateManager.updateWelcomeData(
-                firstName: "",
-                lastName: "",
                 ageRange: chosenAge[0],
                 level: chosenLevel[0],
                 position: chosenPosition[0]
