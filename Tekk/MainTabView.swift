@@ -12,9 +12,7 @@ import RiveRuntime
 struct MainTabView: View {
     @StateObject private var globalSettings = GlobalSettings()
     @State var chatMessages: [Message_Struct] = [Message_Struct(role: "system", content: "Welcome to TekkAI")]
-    @State private var viewModel = ViewModel()
     @State private var conversations: [Conversation] = []
-    @State private var activeTab: CameraView.Tab = .messages
     @Binding var authToken: String
     
     var body: some View {
