@@ -93,6 +93,7 @@ struct DrillRecommendationCard: View {
                                 
                 Spacer()
                 
+                // Category tag
                 Text(drill.category)
                     .font(.custom("Poppins-Bold", size: 12))
                     .padding(.horizontal, 8)
