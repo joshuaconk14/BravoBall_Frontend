@@ -55,7 +55,7 @@ struct WelcomeView: View {
                                     chosenAge: $chosenAge
                                 )
                                 .transition(.move(edge: .trailing))
-                                .animation(.easeInOut)
+                                .animation(.easeInOut, value: currentWelcomeStage)
                                 .offset(x: currentWelcomeStage == 1 ? 0 : UIScreen.main.bounds.width)
                             } else if currentWelcomeStage == 2 {
                                 SelectLevel(
@@ -64,7 +64,7 @@ struct WelcomeView: View {
                                     chosenLevel: $chosenLevel
                                 )
                                 .transition(.move(edge: .trailing))
-                                .animation(.easeInOut)
+                                .animation(.easeInOut, value: currentWelcomeStage)
                                 .offset(x: currentWelcomeStage == 2 ? 0 : UIScreen.main.bounds.width)
                             } else if currentWelcomeStage == 3 {
                                 SelectPosition(
@@ -73,7 +73,7 @@ struct WelcomeView: View {
                                     chosenPosition: $chosenPosition
                                 )
                                 .transition(.move(edge: .trailing))
-                                .animation(.easeInOut)
+                                .animation(.easeInOut, value: currentWelcomeStage)
                                 .offset(x: currentWelcomeStage == 3 ? 0 : UIScreen.main.bounds.width)
                             }
                         }

@@ -39,8 +39,11 @@ struct RecommendedDrillsView: View {
                         
                         // Loop through the recommended drills and display them
                         ForEach(drillsViewModel.recommendedDrills) { drill in
-                            DrillRecommendationCard(drill: drill)
-                                .padding(.horizontal)
+                            DrillRecommendationCard(
+                                drill: drill,
+                                userEquipment: drillsViewModel.userEquipment
+                            )
+                            .padding(.horizontal)
                         }
                     }
                 }
@@ -54,6 +57,7 @@ struct RecommendedDrillsView: View {
 struct DrillRecommendationCard: View {
     @StateObject private var globalSettings = GlobalSettings()
     let drill: DrillRecommendation
+    let userEquipment: [String]
     @State private var showDetails = false
     
     var body: some View {
@@ -102,8 +106,11 @@ struct DrillRecommendationCard: View {
                 HStack {
                     ForEach(drill.recommended_equipment, id: \.self) { item in
                         HStack(spacing: 4) {
-                            Image(systemName: drill.matchScore.equipmentAvailable ? "checkmark.circle.fill" : "xmark.circle.fill")
-                                .foregroundColor(drill.matchScore.equipmentAvailable ? .green : .red)
+                            // Check if the user has the equipment
+                            let hasEquipment = userEquipment.contains(item)
+                        
+                            Image(systemName: hasEquipment ? "checkmark.circle.fill" : "xmark.circle.fill")
+                                .foregroundColor(hasEquipment ? .green : .red)
                             
                             Text(item)
                         }

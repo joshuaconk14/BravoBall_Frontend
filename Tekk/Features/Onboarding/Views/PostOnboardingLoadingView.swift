@@ -76,6 +76,7 @@ struct PostOnboardingLoadingView: View {
                 // Submit onboarding data to the backend, get drill recommendations in response
                 let response = try await OnboardingService.shared.submitOnboardingData(data: onboardingData)
                 print("✅ Onboarding data submitted successfully")
+                print("📦 User Equipment: \(response.metadata.availableEquipment)")
                 
                 await MainActor.run {
                     // Store access token
@@ -83,6 +84,9 @@ struct PostOnboardingLoadingView: View {
                     
                     // Update drills in ViewModel
                     DrillsViewModel.shared.recommendedDrills = response.recommendations
+                    DrillsViewModel.shared.userEquipment = response.metadata.availableEquipment
+                    print("🎯 First Drill Equipment Needed: \(response.recommendations.first?.recommended_equipment ?? [])")
+                    print("🔍 Equipment Check Result: \(response.recommendations.first?.recommended_equipment.map { response.metadata.availableEquipment.contains($0) } ?? [])")
                     
                     isLoading = false
                     navigateToHome = true

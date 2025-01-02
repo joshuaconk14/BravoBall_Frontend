@@ -65,7 +65,7 @@ struct SecondQuestionnaireView: View {
                                 selectedYesNoTeam: $selectedYesNoTeam,
                                 chosenYesNoTeam: $chosenYesNoTeam)
                             .transition(.move(edge: .trailing))
-                            .animation(.easeInOut)
+                            .animation(.easeInOut, value: currentQuestionnaireTwo)
                             .offset(x: currentQuestionnaireTwo == 1 ? 0 : UIScreen.main.bounds.width)
                             .environmentObject(stateManager)
                     } else if currentQuestionnaireTwo == 2 {
@@ -73,7 +73,7 @@ struct SecondQuestionnaireView: View {
                                selectedGoal: $selectedGoal,
                                chosenGoal: $chosenGoal)
                             .transition(.move(edge: .trailing))
-                            .animation(.easeInOut)
+                            .animation(.easeInOut, value: currentQuestionnaireTwo)
                             .offset(x: currentQuestionnaireTwo == 2 ? 0 : UIScreen.main.bounds.width)
                             .environmentObject(stateManager)
                     } else if currentQuestionnaireTwo == 3 {
@@ -81,7 +81,7 @@ struct SecondQuestionnaireView: View {
                                    selectedTimeline: $selectedTimeline,
                                    chosenTimeline: $chosenTimeline)
                             .transition(.move(edge: .trailing))
-                            .animation(.easeInOut)
+                            .animation(.easeInOut, value: currentQuestionnaireTwo)
                             .offset(x: currentQuestionnaireTwo == 3 ? 0 : UIScreen.main.bounds.width)
                             .environmentObject(stateManager)
                     } else if currentQuestionnaireTwo == 4 {
@@ -89,7 +89,7 @@ struct SecondQuestionnaireView: View {
                                     selectedLevel: $selectedLevel,
                                     chosenLevel: $chosenLevel)
                             .transition(.move(edge: .trailing))
-                            .animation(.easeInOut)
+                            .animation(.easeInOut, value: currentQuestionnaireTwo)
                             .offset(x: currentQuestionnaireTwo == 4 ? 0 : UIScreen.main.bounds.width)
                             .environmentObject(stateManager)
                     } else if currentQuestionnaireTwo == 5 {
@@ -97,7 +97,7 @@ struct SecondQuestionnaireView: View {
                                    selectedDays: $selectedDays,
                                    chosenDays: $chosenDays)
                             .transition(.move(edge: .trailing))
-                            .animation(.easeInOut)
+                            .animation(.easeInOut, value: currentQuestionnaireTwo)
                             .offset(x: currentQuestionnaireTwo == 5 ? 0 : UIScreen.main.bounds.width)
                             .environmentObject(stateManager)
                     } else if currentQuestionnaireTwo == 6 {
@@ -105,7 +105,7 @@ struct SecondQuestionnaireView: View {
                                            selectedEquipment: $selectedEquipment,
                                            chosenEquipment: $chosenEquipment)
                             .transition(.move(edge: .trailing))
-                            .animation(.easeInOut)
+                            .animation(.easeInOut, value: currentQuestionnaireTwo)
                             .offset(x: currentQuestionnaireTwo == 6 ? 0 : UIScreen.main.bounds.width)
                             .environmentObject(stateManager)
                     }

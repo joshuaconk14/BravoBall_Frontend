@@ -59,7 +59,7 @@ struct FirstQuestionnaireView: View {
                                 chosenPlayers: $chosenPlayers
                             )
                             .transition(.move(edge: .trailing))
-                            .animation(.easeInOut)
+                            .animation(.easeInOut, value: currentQuestionnaire)
                             .offset(x: currentQuestionnaire == 1 ? 0 : UIScreen.main.bounds.width)
                             .environmentObject(stateManager)
                         } else if currentQuestionnaire == 2 {
@@ -69,7 +69,7 @@ struct FirstQuestionnaireView: View {
                                 chosenStrengths: $chosenStrengths
                             )
                             .transition(.move(edge: .trailing))
-                            .animation(.easeInOut)
+                            .animation(.easeInOut, value: currentQuestionnaire)
                             .offset(x: currentQuestionnaire == 2 ? 0 : UIScreen.main.bounds.width)
                             .environmentObject(stateManager)
                         } else if currentQuestionnaire == 3 {
@@ -79,7 +79,7 @@ struct FirstQuestionnaireView: View {
                                 chosenWeaknesses: $chosenWeaknesses
                             )
                             .transition(.move(edge: .trailing))
-                            .animation(.easeInOut)
+                            .animation(.easeInOut, value: currentQuestionnaire)
                             .offset(x: currentQuestionnaire == 3 ? 0 : UIScreen.main.bounds.width)
                             .environmentObject(stateManager)
                         }

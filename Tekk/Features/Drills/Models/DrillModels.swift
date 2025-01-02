@@ -21,6 +21,7 @@ struct DrillRecommendation: Codable, Identifiable {
     let video_url: String
     let matchScore: MatchScore
     
+    // Struct for the match score, used to determine if the drill is a good fit for the user
     struct MatchScore: Codable {
         let skillLevelMatch: Bool
         let equipmentAvailable: Bool
@@ -49,5 +50,6 @@ struct RecommendationsResponse: Codable {
 // Class for storing and managing drill recommendations
 class DrillsViewModel: ObservableObject {
     @Published var recommendedDrills: [DrillRecommendation] = []
+    @Published var userEquipment: [String] = [] // List of equipment the user has
     static let shared = DrillsViewModel()
 }
