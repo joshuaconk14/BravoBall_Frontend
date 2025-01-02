@@ -90,7 +90,7 @@ struct DrillRecommendationCard: View {
                 Text("Difficulty: \(drill.difficulty)")
                     .font(.custom("Poppins-Regular", size: 12))
                     .foregroundColor(.gray)
-                
+                                
                 Spacer()
                 
                 Text(drill.category)
