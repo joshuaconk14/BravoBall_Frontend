@@ -19,7 +19,7 @@ struct BravoBall: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentViewTest()
                 .environmentObject(stateManager)
         }
     }
@@ -28,7 +28,7 @@ struct BravoBall: App {
 struct BravoBall_Previews: PreviewProvider {
     static var previews: some View {
         let stateManager = OnboardingStateManager()
-        ContentView()
+        ContentViewTest()
             .environmentObject(stateManager)
             .previewDisplayName("Main App Preview")
     }

@@ -42,8 +42,8 @@ struct OnboardingView: View {
             // Welcome view with transition
             if showWelcome {
                 WelcomeView(
-                    isLoggedIn: $isLoggedIn,
-                    showWelcome: $showWelcome
+                    isLoggedIn: $isLoggedIn
+//                    showWelcome: $showWelcome
                 )
                 .environmentObject(stateManager)
                 .transition(.move(edge: .trailing))

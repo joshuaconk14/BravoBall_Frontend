@@ -6,217 +6,140 @@
 //  This file contains the LoginView, which is used to welcome the user.
 
 import SwiftUI
-import RiveRuntime
 
 struct WelcomeView: View {
-    @StateObject private var globalSettings = GlobalSettings()
     @EnvironmentObject var stateManager: OnboardingStateManager
+    @EnvironmentObject var coordinator: OnboardingCoordinator
+    @StateObject private var globalSettings = GlobalSettings()
     @Binding var isLoggedIn: Bool
-    @State private var showQuestionnaire = false
-    @Binding var showWelcome: Bool
     
-    @State private var currentWelcomeStage = 0
-    @State private var riveViewOffset: CGSize = .zero
-    @State private var textOpacity0: Double = 1.0
-    @State private var textOpacity1: Double = 0.0
-    @State private var textOpacity2: Double = 0.0
-    @State private var textOpacity3: Double = 0.0
-    
-    // State for selections
-    @State private var selectedAge = ""
-    @State private var chosenAge: [String] = []
+    @State private var firstName = ""
+    @State private var lastName = ""
+    @State private var selectedAgeRange = ""
     @State private var selectedLevel = ""
-    @State private var chosenLevel: [String] = []
     @State private var selectedPosition = ""
-    @State private var chosenPosition: [String] = []
+    
+    let ageRanges = ["Youth (8-12)", "Teen (13-16)", "High School (14-18)", "College (18-22)", "Adult (23+)"]
+    let levels = ["Beginner", "Intermediate", "Advanced", "Elite"]
+    let positions = ["Guard", "Forward", "Center", "Not Sure"]
+    
+    var isFormValid: Bool {
+        !firstName.isEmpty && !lastName.isEmpty &&
+        !selectedAgeRange.isEmpty && !selectedLevel.isEmpty &&
+        !selectedPosition.isEmpty
+    }
     
     var body: some View {
-        ZStack {
-            Color.white.edgesIgnoringSafeArea(.all)
-            
-            if showQuestionnaire {
-                FirstQuestionnaireView(
-                    isLoggedIn: $isLoggedIn,
-                    showQuestionnaire: $showQuestionnaire
-                )
-                .environmentObject(stateManager)
-                .transition(.move(edge: .trailing))
-            } else {
-                ScrollView {
-                    LazyVStack {
-                        Spacer()
-                            .frame(height: 10)
-                        
-                        if currentWelcomeStage >= 1 {
-                            if currentWelcomeStage == 1 {
-                                SelectAgeRange(
-                                    currentWelcomeStage: $currentWelcomeStage,
-                                    selectedAge: $selectedAge,
-                                    chosenAge: $chosenAge
-                                )
-                                .transition(.move(edge: .trailing))
-                                .animation(.easeInOut, value: currentWelcomeStage)
-                                .offset(x: currentWelcomeStage == 1 ? 0 : UIScreen.main.bounds.width)
-                            } else if currentWelcomeStage == 2 {
-                                SelectLevel(
-                                    currentWelcomeStage: $currentWelcomeStage,
-                                    selectedLevel: $selectedLevel,
-                                    chosenLevel: $chosenLevel
-                                )
-                                .transition(.move(edge: .trailing))
-                                .animation(.easeInOut, value: currentWelcomeStage)
-                                .offset(x: currentWelcomeStage == 2 ? 0 : UIScreen.main.bounds.width)
-                            } else if currentWelcomeStage == 3 {
-                                SelectPosition(
-                                    currentWelcomeStage: $currentWelcomeStage,
-                                    selectedPosition: $selectedPosition,
-                                    chosenPosition: $chosenPosition
-                                )
-                                .transition(.move(edge: .trailing))
-                                .animation(.easeInOut, value: currentWelcomeStage)
-                                .offset(x: currentWelcomeStage == 3 ? 0 : UIScreen.main.bounds.width)
-                            }
-                        }
-                    }
-                }
-                .frame(height: 410)
-                .padding(.top, 200)
+        ScrollView {
+            VStack(spacing: 20) {
+                Text("Welcome to BravoBall")
+                    .font(.custom("PottaOne-Regular", size: 32))
+                    .foregroundColor(globalSettings.primaryYellowColor)
+                    .padding(.top, 20)
                 
-                Spacer()
+                Text("Let's get to know you better")
+                    .font(.custom("Poppins-Regular", size: 16))
+                    .foregroundColor(globalSettings.primaryDarkColor)
                 
-                // Bravo Animation
-                RiveViewModel(fileName: "test_panting").view()
-                    .frame(width: 250, height: 250)
-                    .padding(.bottom, 5)
-                    .offset(x: riveViewOffset.width, y: riveViewOffset.height)
-                    .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
-                
-                // Bravo Messages
-                Group {
-                    if currentWelcomeStage == 0 {
-                        Text("Hello there, I'm Bravo! Let's help you become a more tekky player.")
-                            .foregroundColor(globalSettings.primaryDarkColor)
-                            .padding(.horizontal, 80)
-                            .padding(.bottom, 400)
-                            .font(.custom("Poppins-Bold", size: 16))
-                            .opacity(textOpacity0)
-                    } else if currentWelcomeStage == 1 {
-                        Text("What's your age range?")
-                            .foregroundColor(globalSettings.primaryDarkColor)
-                            .padding()
-                            .padding(.bottom, 500)
-                            .padding(.leading, 150)
-                            .font(.custom("Poppins-Bold", size: 16))
-                            .opacity(textOpacity1)
-                    } else if currentWelcomeStage == 2 {
-                        Text("What's your playing level?")
-                            .foregroundColor(globalSettings.primaryDarkColor)
-                            .padding()
-                            .padding(.bottom, 500)
-                            .padding(.leading, 150)
-                            .font(.custom("Poppins-Bold", size: 16))
-                            .opacity(textOpacity2)
-                    } else if currentWelcomeStage == 3 {
-                        Text("What position do you play?")
-                            .foregroundColor(globalSettings.primaryDarkColor)
-                            .padding()
-                            .padding(.bottom, 500)
-                            .padding(.leading, 150)
-                            .font(.custom("Poppins-Bold", size: 16))
-                            .opacity(textOpacity3)
-                    }
-                }
-                
-                // Back Button
-                HStack {
-                    Button(action: handleBackButton) {
-                        Image(systemName: "arrow.left")
-                            .font(.title2)
-                            .foregroundColor(globalSettings.primaryDarkColor)
-                            .padding()
-                    }
-                    .padding(.bottom, 725)
+                VStack(alignment: .leading, spacing: 15) {
+                    CustomTextField(text: $firstName, placeholder: "First Name", title: "First Name")
+                    CustomTextField(text: $lastName, placeholder: "Last Name", title: "Last Name")
                     
-                    Spacer()
+                    CustomPicker(selection: $selectedAgeRange,
+                               options: ageRanges,
+                               title: "Age Range")
+                    
+                    CustomPicker(selection: $selectedLevel,
+                               options: levels,
+                               title: "Level")
+                    
+                    CustomPicker(selection: $selectedPosition,
+                               options: positions,
+                               title: "Position")
                 }
+                .padding(.horizontal)
                 
-                // Next Button
-                Button(action: handleNextButton) {
-                    Text("Next")
+                Button(action: {
+                    stateManager.updateWelcomeData(
+                        firstName: firstName,
+                        lastName: lastName,
+                        ageRange: selectedAgeRange,
+                        level: selectedLevel,
+                        position: selectedPosition
+                    )
+                    coordinator.navigateToStep(.firstQuestionnaire)
+                }) {
+                    Text("Continue")
                         .frame(width: 325, height: 15)
                         .padding()
-                        .background(globalSettings.primaryYellowColor)
+                        .background(isFormValid ? globalSettings.primaryYellowColor : .gray)
                         .foregroundColor(.white)
                         .cornerRadius(20)
                         .font(.custom("Poppins-Bold", size: 16))
                 }
-                .padding(.top, 700)
+                .disabled(!isFormValid)
+                .padding(.top, 30)
+                
+                Spacer()
             }
         }
-        .padding()
-        .background(.white)
-        .edgesIgnoringSafeArea(.all)
+        .navigationBarTitleDisplayMode(.inline)
     }
+}
+
+struct CustomTextField: View {
+    @Binding var text: String
+    let placeholder: String
+    let title: String
     
-    private func handleBackButton() {
-        if currentWelcomeStage > 0 {
-            withAnimation {
-                currentWelcomeStage -= 1
-                if currentWelcomeStage == 0 {
-                    riveViewOffset = .zero
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(title)
+                .font(.custom("Poppins-Regular", size: 14))
+                .foregroundColor(.gray)
+            
+            TextField(placeholder, text: $text)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .font(.custom("Poppins-Regular", size: 16))
+        }
+    }
+}
+
+struct CustomPicker: View {
+    @Binding var selection: String
+    let options: [String]
+    let title: String
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(title)
+                .font(.custom("Poppins-Regular", size: 14))
+                .foregroundColor(.gray)
+            
+            Picker(title, selection: $selection) {
+                Text("Select \(title)").tag("")
+                ForEach(options, id: \.self) { option in
+                    Text(option).tag(option)
                 }
             }
-        } else {
-            withAnimation {
-                showWelcome = false
-            }
-        }
-    }
-    
-    private func handleNextButton() {
-        if currentWelcomeStage == 0 {
-            withAnimation(.spring()) {
-                riveViewOffset = CGSize(width: -75, height: -250)
-                currentWelcomeStage = 1
-                textOpacity0 = 0.0
-                textOpacity1 = 1.0
-            }
-        } else if currentWelcomeStage == 1 && !chosenAge.isEmpty {
-            withAnimation {
-                currentWelcomeStage = 2
-                textOpacity1 = 0.0
-                textOpacity2 = 1.0
-            }
-        } else if currentWelcomeStage == 2 && !chosenLevel.isEmpty {
-            withAnimation {
-                currentWelcomeStage = 3
-                textOpacity2 = 0.0
-                textOpacity3 = 1.0
-            }
-        } else if currentWelcomeStage == 3 && !chosenPosition.isEmpty {
-            stateManager.updateWelcomeData(
-                firstName: "",
-                lastName: "",
-                ageRange: chosenAge[0],
-                level: chosenLevel[0],
-                position: chosenPosition[0]
-            )
-            withAnimation {
-                showQuestionnaire = true
-            }
+            .pickerStyle(MenuPickerStyle())
+            .frame(maxWidth: .infinity)
+            .padding(8)
+            .background(Color(.systemGray6))
+            .cornerRadius(8)
         }
     }
 }
 
 
-// MARK: - Preview
-struct WelcomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        let stateManager = OnboardingStateManager()
-        WelcomeView(
-            isLoggedIn: .constant(false),
-            showWelcome: .constant(false)
-        )
-        .environmentObject(stateManager)
-    }
-}
+//// MARK: - Preview
+//struct WelcomeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let stateManager = OnboardingStateManager()
+//        WelcomeView(
+//            isLoggedIn: .constant(false),
+//            showWelcome: .constant(false)
+//        )
+//        .environmentObject(stateManager)
+//    }
+//}
