@@ -7,10 +7,19 @@
 
 import Foundation
 import SwiftUI
+import RiveRuntime
 
 struct RegisterView: View {
     @StateObject private var globalSettings = GlobalSettings()
     @EnvironmentObject var stateManager: OnboardingStateManager
+    
+    
+    @State private var currentRegisterStage = 0
+    @State private var textOpacity0: Double = 1.0
+    @State private var riveViewOffset: CGSize = .zero
+    
+    
+    
     @State private var chosenFirstName = ""
     @State private var chosenLastName = ""
     @State private var chosenEmail = ""
@@ -24,60 +33,111 @@ struct RegisterView: View {
     var onDetailsSubmitted: () -> Void // Closure to notify when details are submitted
 
     var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Player Information")) {
-                    TextField("First Name", text: $chosenFirstName)
-                        .disableAutocorrection(true)
-                    TextField("Last Name", text: $chosenLastName)
-                        .disableAutocorrection(true)
+        ZStack {
+            
+            if showLoadingView {
+                PostOnboardingLoadingView(
+                    onboardingData: stateManager.onboardingData,
+                    isLoggedIn: $isLoggedIn
+                )
+                
+            } else {
+                ScrollView {
+                    LazyVStack {
+                        Spacer()
+                            .frame(height: 325)
+                        
+                        if currentRegisterStage >= 1 {
+                            if currentRegisterStage == 1 {
+                                Section(header: Text("Registration Form")) {
+                                    CustomTextField(placeholder: "First Name", icon: "person",text: $chosenFirstName)
+                                        .disableAutocorrection(true)
+                                    CustomTextField(placeholder: "Last Name", icon: "person",text: $chosenLastName)
+                                        .disableAutocorrection(true)
+                                }
+                                
+                                Section(header: Text(" ")) {
+                                    CustomTextField(placeholder: "Email", icon: "envelope",text: $chosenEmail)
+                                        .keyboardType(.emailAddress)
+                                        .disableAutocorrection(true)
+                                        .autocapitalization(.none)
+                                    CustomTextField(placeholder: "Password", icon: "key",text: $chosenPassword)
+                                        .disableAutocorrection(true)
+                                }
+                                
+                                if !errorMessage.isEmpty {
+                                    Text(errorMessage)
+                                        .foregroundColor(.red)
+                                }
+                                
+                                Button(action: {
+                                    submitDetails()
+                                    showLoadingView = true  // This will trigger the fullScreenCover
+                                }) {
+                                    Text("Submit")
+                                        .foregroundColor(.white)
+                                        .frame(maxWidth: .infinity)
+                                        .padding()
+                                        .background(isFormValid() ? globalSettings.primaryYellowColor : Color.gray)
+                                        .cornerRadius(10)
+                                }
+                                .disabled(isSubmitted)
+                                .transition(.move(edge: .trailing))
+                                .animation(.easeInOut)
+                                .offset(x: currentRegisterStage == 1 ? 0 : UIScreen.main.bounds.width)
+                                
+                                //                // "Already have an account?" section
+                                //                Section {
+                                //                    NavigationLink(destination: LoginView(isLoggedIn: $isLoggedIn, authToken: $authToken), showLoginPage: .constant(false)) {
+                                //                        Text("Already have an account? Log in here")
+                                //                            .foregroundColor(.blue)
+                                //                    }
+                                //                }
+                                
+                            }
+                        }
+                    }
                 }
 
-                Section(header: Text("Contact Information")) {
-                    TextField("Email", text: $chosenEmail)
-                        .keyboardType(.emailAddress)
-                        .disableAutocorrection(true)
-                        .autocapitalization(.none)
-                    TextField("Password", text: $chosenPassword)
-                        .disableAutocorrection(true)
+                
+                Spacer()
+                
+                // Bravo Animation
+                RiveViewModel(fileName: "test_panting").view()
+                    .frame(width: 250, height: 250)
+                    .padding(.bottom, 5)
+                    .offset(x: riveViewOffset.width, y: riveViewOffset.height)
+                    .animation(.easeInOut(duration: 0.5), value: riveViewOffset)
+                
+                if currentRegisterStage == 0 {
+                    Text("Finally, let's create an account for you!")
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding(.horizontal, 80)
+                        .padding(.bottom, 400)
+                        .font(.custom("Poppins-Bold", size: 16))
+                        .opacity(textOpacity0)
+                    
+                    // Next Button
+                    Button(action: handleNextButton) {
+                        Text("Next")
+                            .frame(width: 325, height: 15)
+                            .padding()
+                            .background(globalSettings.primaryYellowColor)
+                            .foregroundColor(.white)
+                            .cornerRadius(20)
+                            .font(.custom("Poppins-Bold", size: 16))
+                    }
+                    .padding(.top, 700)
+                    
                 }
-
-                if !errorMessage.isEmpty {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                }
-
-                Button(action: {
-                    submitDetails()
-                    showLoadingView = true  // This will trigger the fullScreenCover
-                }) {
-                    Text("Submit")
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(isFormValid() ? globalSettings.primaryYellowColor : Color.gray)
-                        .cornerRadius(10)
-                }
-                .disabled(isSubmitted)
-                .fullScreenCover(isPresented: $showLoadingView) {
-                    PostOnboardingLoadingView(
-                        onboardingData: stateManager.onboardingData,
-                        isLoggedIn: $isLoggedIn
-                    )
-                }
-
-//                // "Already have an account?" section
-//                Section {
-//                    NavigationLink(destination: LoginView(isLoggedIn: $isLoggedIn, authToken: $authToken), showLoginPage: .constant(false)) {
-//                        Text("Already have an account? Log in here")
-//                            .foregroundColor(.blue)
-//                    }
-//                }
                 
             }
-            .navigationTitle("Player Details")
         }
+        .padding()
+        .background(.white)
+        .edgesIgnoringSafeArea(.all)
     }
+        
     
     // TODO: add more constraints for secure registration
     
@@ -108,6 +168,17 @@ struct RegisterView: View {
         isSubmitted = true
         errorMessage = ""
         onDetailsSubmitted()
+    }
+
+
+    private func handleNextButton() {
+        if currentRegisterStage == 0 {
+            withAnimation(.spring()) {
+                riveViewOffset = CGSize(width: -75, height: -250)
+                currentRegisterStage = 1
+                textOpacity0 = 0.0
+            }
+        }
     }
 }
 

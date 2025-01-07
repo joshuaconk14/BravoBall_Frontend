@@ -22,6 +22,17 @@ struct OnboardingView: View {
     // var for private showIntroAnimation scale (so it doesn't affect other elements
     @State private var animationScale: CGFloat = 1.5
     
+    // Add this computed property to check if animation should show
+    private var shouldShowAnimation: Bool {
+        // If animation has never been shown before (first app launch)
+        if !UserDefaults.standard.bool(forKey: "hasSeenIntroAnimation") {
+            // Set the flag to true so it won't show again
+            UserDefaults.standard.set(true, forKey: "hasSeenIntroAnimation")
+            return true
+        }
+        return false
+    }
+    
     var body: some View {
         ZStack {
             Color.white.ignoresSafeArea()
@@ -50,7 +61,7 @@ struct OnboardingView: View {
             }
             
             // Intro animation overlay
-            if showIntroAnimation {
+            if showIntroAnimation && shouldShowAnimation {
                 RiveViewModel(fileName: "tekk_intro").view()
                     .scaleEffect(animationScale)
                     .edgesIgnoringSafeArea(.all)

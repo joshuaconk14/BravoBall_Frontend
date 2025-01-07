@@ -86,7 +86,7 @@ struct PostOnboardingLoadingView: View {
                 print("✅ Onboarding data submitted successfully")
                 
                 await MainActor.run {
-                    // Store access token
+                    // Store access token taking access token response from the backend response
                     UserDefaults.standard.set(response.access_token, forKey: "accessToken")
                     
                     // Update drills in ViewModel

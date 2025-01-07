@@ -16,6 +16,7 @@ struct MainTabView: View {
     @State private var conversations: [Conversation] = []
     @State private var activeTab: CameraView.Tab = .messages
     @Binding var authToken: String
+    @Binding var isLoggedIn: Bool
     
     var body: some View {
         TabView {
@@ -37,7 +38,7 @@ struct MainTabView: View {
 //                    Text("Drills")
 //                }
 //            
-            SettingsView()
+            SettingsView(isLoggedIn: $isLoggedIn)
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("Profile")
@@ -49,6 +50,9 @@ struct MainTabView: View {
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
-        MainTabView(authToken: .constant("preview-token"))
+        MainTabView(
+            authToken: .constant("preview-token"),
+            isLoggedIn: .constant(true)
+        )
     }
 }

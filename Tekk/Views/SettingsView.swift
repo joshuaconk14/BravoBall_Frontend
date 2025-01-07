@@ -9,12 +9,31 @@ import SwiftUI
 
 struct SettingsView: View {
     @StateObject private var globalSettings = GlobalSettings()
+    @EnvironmentObject var stateManager: OnboardingStateManager
+    @Binding var isLoggedIn: Bool
 
-    @State private var name = "Jordan Conklin"
-    @State private var email = "jordinhoconk@gmail.com"
-    @State private var showDeleteConfirmation = false
-    @Environment(\.presentationMode) var presentationMode ////////
+    @State private var showAlert = false
+    @State private var alertType: AlertType = .none
+    @Environment(\.presentationMode) var presentationMode // ?
+    
+    enum AlertType {
+        case logout
+        case delete
+        case none
+    }
 
+    
+    private var firstName: String {
+        stateManager.onboardingData.firstName
+    }
+    private var lastName: String {
+        stateManager.onboardingData.lastName
+    }
+    private var email: String {
+        stateManager.onboardingData.email
+    }
+    
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -34,6 +53,9 @@ struct SettingsView: View {
                         customActionButton(title: "Follow our Socials", icon: "link")
                     ])
                     
+                    logoutButton
+                        .padding(.top, 50)
+                        .padding(.horizontal)
                     deleteAccountButton
                         .padding(.horizontal)
                 }
@@ -41,15 +63,35 @@ struct SettingsView: View {
                 .background(Color.white)
             }
         }
+        // the different alerts for logout or delete
         .edgesIgnoringSafeArea(.top)
-        .alert(isPresented: $showDeleteConfirmation) {
-            Alert(
-                title: Text("Delete Account"),
-                message: Text("Are you sure you want to delete your account? This action cannot be undone."),
-                primaryButton: .destructive(Text("Delete")) {
-                },
-                secondaryButton: .cancel()
-            )
+        .alert(isPresented: $showAlert) {
+            switch alertType {
+            case .logout:
+                return Alert(
+                    title: Text("Logout"),
+                    message: Text("Are you sure you want to Logout?"),
+                    primaryButton: .destructive(Text("Logout")) {
+                        UserDefaults.standard.removeObject(forKey: "accessToken")
+                        isLoggedIn = false
+                    },
+                    secondaryButton: .cancel()
+                )
+            case .delete:
+                return Alert(
+                    title: Text("Delete Account"),
+                    message: Text("Are you sure you want to delete your account? This action cannot be undone."),
+                    primaryButton: .destructive(Text("Delete")) {
+                        // Handle delete account
+                        deleteAccount()
+                        UserDefaults.standard.removeObject(forKey: "accessToken")
+                        isLoggedIn = false
+                    },
+                    secondaryButton: .cancel()
+                )
+            case .none:
+                return Alert(title: Text(""))
+            }
         }
     }
     
@@ -74,7 +116,7 @@ struct SettingsView: View {
                 .foregroundColor(globalSettings.primaryYellowColor)
             
             VStack(spacing: 0) {
-                Text(name)
+                Text("\(firstName) \(lastName)")
                     .font(.custom("Poppins-Bold", size: 18))
                 
                 Text(email)
@@ -138,11 +180,13 @@ struct SettingsView: View {
         )
     }
     
-    private var deleteAccountButton: some View {
+    private var logoutButton: some View {
         Button(action: {
-            showDeleteConfirmation = true
+            alertType = .logout
+            showAlert = true
+            
         }) {
-            Text("Delete Account")
+            Text("Logout")
                 .font(.custom("Poppins-Bold", size: 16))
                 .foregroundColor(.white)
                 .padding()
@@ -152,28 +196,125 @@ struct SettingsView: View {
         }
         .padding(.top, 20)
     }
+    
+    private var deleteAccountButton: some View {
+        Button(action: {
+            alertType = .delete
+            showAlert = true
+        }) {
+            Text("Delete Account")
+                .font(.custom("Poppins-Bold", size: 16))
+                .foregroundColor(.white)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.red)
+                .cornerRadius(10)
+        }
+        .padding(.top, 20)
+    }
+    
+    
+    
+    
+    
+    private func deleteAccount() {
+        // Create URL for the delete endpoint
+        guard let url = URL(string: "http://127.0.0.1:8000/delete-account/") else {
+            print("❌ Invalid URL")
+            return
+        }
+        
+        // Get the access token from UserDefaults storage
+        guard let accessToken = UserDefaults.standard.string(forKey: "accessToken") else {
+            print("❌ No access token found")
+            return
+        }
+        
+        // set DELETE method w/ access token stored in the request's value
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        // debug to make sure token is created
+        print("\n🔍 Request Details:")
+        print("URL: \(url)")
+        print("Method: \(request.httpMethod ?? "")")
+        
+        print("headers:")
+        // ?
+        request.allHTTPHeaderFields?.forEach { key, value in
+                print("\(key): \(value)")
+            }
+        
+        
+        // Make the network request to the backend with the created "request"
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("❌ Error deleting account: \(error)")
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    print("❌ Invalid response")
+                    return
+                }
+                
+                // Debug print the response
+                print("📥 Backend response status: \(httpResponse.statusCode)")
+                if let data = data, let responseString = String(data: data, encoding: .utf8) {
+                    print("Response: \(responseString)")
+                }
+                
+                if httpResponse.statusCode == 200 {
+                    print("✅ Account deleted successfully")
+                    // Account deletion successful - handled in the alert action
+                    // The alert action already handles logging out and removing the token
+                } else {
+                    print("❌ Failed to delete account: \(httpResponse.statusCode)")
+                    // You might want to show an error message to the user here
+                }
+            }
+        }.resume()
+    }
+    
+    
+    
+    
 }
 
 // Preview code
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            // Light mode preview
-            SettingsView()
+        let mockStateManager = OnboardingStateManager()
+        
+        // Set up mock data for preview
+        mockStateManager.updateRegister(
+            firstName: "Jordan",
+            lastName: "Conklin",
+            email: "jordinhoconk@gmail.com",
+            password: "password123"
+        )
+        
+        return Group {
+            SettingsView(isLoggedIn: .constant(true))
+                .environmentObject(mockStateManager)
                 .previewDisplayName("Light Mode")
             
-            // Dark mode preview
-            SettingsView()
+            SettingsView(isLoggedIn: .constant(true))
+                .environmentObject(mockStateManager)
                 .preferredColorScheme(.dark)
                 .previewDisplayName("Dark Mode")
             
-            // Different device sizes
-            SettingsView()
-                .previewDevice("iPhone SE (3rd generation)")
+            SettingsView(isLoggedIn: .constant(true))
+                .environmentObject(mockStateManager)
+                .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
                 .previewDisplayName("iPhone SE")
             
-            SettingsView()
-                .previewDevice("iPhone 15 Pro Max")
+            SettingsView(isLoggedIn: .constant(true))
+                .environmentObject(mockStateManager)
+                .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
                 .previewDisplayName("iPhone 15 Pro Max")
         }
     }

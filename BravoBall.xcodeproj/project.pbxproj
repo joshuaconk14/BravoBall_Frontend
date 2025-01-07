@@ -52,6 +52,7 @@
 		17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6532CD3477E008E8C24 /* ColorExtension.swift */; };
 		17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */; };
 		435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 435A70142CA7AB2600BFCC40 /* RiveRuntime */; };
+		439578CE2D2CAB4900CFCE7F /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439578CD2D2CAB4500CFCE7F /* CustomTextField.swift */; };
 		43985E3D2CB4EDD300BE2AB6 /* ChatbotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E3C2CB4EDCD00BE2AB6 /* ChatbotView.swift */; };
 		43985E3F2CB4EDE700BE2AB6 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E3E2CB4EDE300BE2AB6 /* CameraView.swift */; };
 		43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E422CB4EE6000BE2AB6 /* SettingsView.swift */; };
@@ -128,6 +129,7 @@
 		17E693212C745811006B58A3 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		17F5D6532CD3477E008E8C24 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
+		439578CD2D2CAB4500CFCE7F /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		43985E3C2CB4EDCD00BE2AB6 /* ChatbotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatbotView.swift; sourceTree = "<group>"; };
 		43985E3E2CB4EDE300BE2AB6 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		43985E422CB4EE6000BE2AB6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 		179CF9542CD7319400D07E49 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				439578CD2D2CAB4500CFCE7F /* CustomTextField.swift */,
 				179CF9552CD731B100D07E49 /* SelectionListItem.swift */,
 				179CF9592CD731E200D07E49 /* SelectionListView.swift */,
 				179CF9572CD731C400D07E49 /* DropdownMenu.swift */,
@@ -613,6 +616,7 @@
 				170217BB2C89030500DD020C /* Models.swift in Sources */,
 				176EA18D2D23487400DCA5E7 /* AvailableEquipment.swift in Sources */,
 				179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */,
+				439578CE2D2CAB4900CFCE7F /* CustomTextField.swift in Sources */,
 				17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */,
 				175049452CDD69DD0030CF3E /* SelectLevel.swift in Sources */,
 				175049432CDD69CC0030CF3E /* SelectPosition.swift in Sources */,
@@ -803,11 +807,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Tekk/Tekk.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Tekk/Preview Content\"";
-				DEVELOPMENT_TEAM = J36CXA7LCG;
+				DEVELOPMENT_TEAM = 9NT64FVZCY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tekk/Info.plist;
@@ -843,11 +848,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Tekk/Tekk.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Tekk/Preview Content\"";
-				DEVELOPMENT_TEAM = J36CXA7LCG;
+				DEVELOPMENT_TEAM = 9NT64FVZCY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tekk/Info.plist;

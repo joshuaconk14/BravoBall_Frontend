@@ -160,8 +160,8 @@ struct LoginView: View {
             if let data = data,
                let decodedResponse = try? JSONDecoder().decode(LoginResponse.self, from: data) {
                 DispatchQueue.main.async {
-                    self.authToken = decodedResponse.access_token
-                    self.isLoggedIn = true
+                    authToken = decodedResponse.access_token
+                    isLoggedIn = true
                     print("Login token: \(self.authToken)")
                     print("Login success: \(self.isLoggedIn)")
                     // TODO make this a secure key
