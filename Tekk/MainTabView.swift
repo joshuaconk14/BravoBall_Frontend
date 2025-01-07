@@ -11,6 +11,8 @@ import RiveRuntime
 
 struct MainTabView: View {
     @StateObject private var globalSettings = GlobalSettings()
+    @EnvironmentObject var stateManager: OnboardingStateManager
+    
     @State var chatMessages: [Message_Struct] = [Message_Struct(role: "system", content: "Welcome to TekkAI")]
     @State private var viewModel = ViewModel()
     @State private var conversations: [Conversation] = []
@@ -39,6 +41,7 @@ struct MainTabView: View {
 //                }
 //            
             SettingsView(isLoggedIn: $isLoggedIn)
+                .environmentObject(stateManager)
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("Profile")
@@ -50,9 +53,31 @@ struct MainTabView: View {
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
-        MainTabView(
-            authToken: .constant("preview-token"),
-            isLoggedIn: .constant(true)
+        let stateManager = OnboardingStateManager()
+        
+        // Set up mock data for preview
+        stateManager.updateRegister(
+            firstName: "Jordan",
+            lastName: "Conklin",
+            email: "jordinhoconk@gmail.com",
+            password: "password123"
         )
+        
+        return Group {
+            MainTabView(
+                authToken: .constant("preview-token"),
+                isLoggedIn: .constant(true)
+            )
+            .environmentObject(stateManager)
+            .previewDisplayName("Light Mode")
+            
+            MainTabView(
+                authToken: .constant("preview-token"),
+                isLoggedIn: .constant(true)
+            )
+            .environmentObject(stateManager)
+            .preferredColorScheme(.dark)
+            .previewDisplayName("Dark Mode")
+        }
     }
 }

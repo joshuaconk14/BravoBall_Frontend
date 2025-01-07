@@ -14,10 +14,10 @@ struct CustomTextField: View {
     let placeholder: String
     let icon: String
     @Binding var text: String
-    @State private var isTextVisible = false
     
     // not private so can place it in preview struct
     var isSecure: Bool = false // makes it so only the password has the visibility toggle
+    @State private var isTextVisible: Bool = false // this allows users to switch between states, isSecure will handle if this is applied or not
     var keyboardType: UIKeyboardType = .default
     
     
@@ -28,29 +28,29 @@ struct CustomTextField: View {
                 .foregroundColor(globalSettings.primaryYellowColor)
                 .frame(width: 20)
             
-            if isSecure {
+            if isSecure { // traits for password input
                 ZStack(alignment: .trailing) {
                     if isTextVisible {
-                        TextField(placeholder, text: $text)
-                            .font(.custom("Poppins-Regular", size: 16))
+                        TextField(placeholder, text: $text) // regular text
+                            .font(.custom("Poppins-Bold", size: 16))
                             .autocapitalization(.none)
                             .keyboardType(keyboardType)
                     } else {
-                        SecureField(placeholder, text: $text)
-                            .font(.custom("Poppins-Regular", size: 16))
+                        SecureField(placeholder, text: $text) // hidden text
+                            .font(.custom("Poppins-Bold", size: 16))
                             .autocapitalization(.none)
                             .keyboardType(keyboardType)
                     }
                     
                     // Add eye icon for password visibility toggle
                     Button(action: {
-                        isTextVisible.toggle()
+                        isTextVisible.toggle() // allows users to switch between states
                     }) {
                         Image(systemName: isTextVisible ? "eye.slash.fill" : "eye.fill")
                             .foregroundColor(globalSettings.primaryYellowColor)
                     }
                 }
-            } else {
+            } else { // all other inputs
                 TextField(placeholder, text: $text)
                     .font(.custom("Poppins-Bold", size: 16))
                     .autocapitalization(.none)

@@ -35,6 +35,8 @@ struct RegisterView: View {
     var body: some View {
         ZStack {
             
+            Color.white.edgesIgnoringSafeArea(.all)
+            
             if showLoadingView {
                 PostOnboardingLoadingView(
                     onboardingData: stateManager.onboardingData,
@@ -42,62 +44,84 @@ struct RegisterView: View {
                 )
                 
             } else {
-                ScrollView {
-                    LazyVStack {
-                        Spacer()
-                            .frame(height: 325)
-                        
-                        if currentRegisterStage >= 1 {
-                            if currentRegisterStage == 1 {
-                                Section(header: Text("Registration Form")) {
-                                    CustomTextField(placeholder: "First Name", icon: "person",text: $chosenFirstName)
-                                        .disableAutocorrection(true)
-                                    CustomTextField(placeholder: "Last Name", icon: "person",text: $chosenLastName)
-                                        .disableAutocorrection(true)
-                                }
+                LazyVStack {
+                    Spacer()
+
+                    
+                    if currentRegisterStage >= 1 {
+                        if currentRegisterStage == 1 {
+                            Section(header: Text("Registration Form")) {
+                                CustomTextField(
+                                    placeholder: "First Name",
+                                    icon: "person",
+                                    text: $chosenFirstName
+                                )
+                                .disableAutocorrection(true)
                                 
-                                Section(header: Text(" ")) {
-                                    CustomTextField(placeholder: "Email", icon: "envelope",text: $chosenEmail)
-                                        .keyboardType(.emailAddress)
-                                        .disableAutocorrection(true)
-                                        .autocapitalization(.none)
-                                    CustomTextField(placeholder: "Password", icon: "key",text: $chosenPassword)
-                                        .disableAutocorrection(true)
-                                }
+                                CustomTextField(
+                                    placeholder: "Last Name",
+                                    icon: "person",
+                                    text: $chosenLastName
+                                )
+                                .disableAutocorrection(true)
                                 
-                                if !errorMessage.isEmpty {
-                                    Text(errorMessage)
-                                        .foregroundColor(.red)
-                                }
+                                CustomTextField(
+                                    placeholder: "Email",
+                                    icon: "envelope",
+                                    text: $chosenEmail
+                                )
+                                .keyboardType(.emailAddress)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
+                                .padding(.top, 20)
                                 
-                                Button(action: {
-                                    submitDetails()
-                                    showLoadingView = true  // This will trigger the fullScreenCover
-                                }) {
-                                    Text("Submit")
-                                        .foregroundColor(.white)
-                                        .frame(maxWidth: .infinity)
-                                        .padding()
-                                        .background(isFormValid() ? globalSettings.primaryYellowColor : Color.gray)
-                                        .cornerRadius(10)
-                                }
-                                .disabled(isSubmitted)
-                                .transition(.move(edge: .trailing))
-                                .animation(.easeInOut)
-                                .offset(x: currentRegisterStage == 1 ? 0 : UIScreen.main.bounds.width)
                                 
-                                //                // "Already have an account?" section
-                                //                Section {
-                                //                    NavigationLink(destination: LoginView(isLoggedIn: $isLoggedIn, authToken: $authToken), showLoginPage: .constant(false)) {
-                                //                        Text("Already have an account? Log in here")
-                                //                            .foregroundColor(.blue)
-                                //                    }
-                                //                }
-                                
+                                CustomTextField(
+                                    placeholder: "Password",
+                                    icon: "key",
+                                    text: $chosenPassword,
+                                    isSecure: true
+                                )
+                                .disableAutocorrection(true)
                             }
+                            .font(.custom("Poppins-Bold", size: 16))
+                            .padding(.top, 10)
+                            
+                            
+                            if !errorMessage.isEmpty {
+                                Text(errorMessage)
+                                    .foregroundColor(.red)
+                            }
+                            
+                            Button(action: {
+                                submitDetails()
+                                showLoadingView = true  // This will trigger the fullScreenCover
+                            }) {
+                                Text("Submit")
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(isFormValid() ? globalSettings.primaryYellowColor : Color.gray)
+                                    .cornerRadius(10)
+                            }
+                            .disabled(isSubmitted)
+                            .padding(.top, 40)
+                            .transition(.move(edge: .trailing))
+                            .animation(.easeInOut)
+                            .offset(x: currentRegisterStage == 1 ? 0 : UIScreen.main.bounds.width)
+                            
+                            //                // "Already have an account?" section
+                            //                Section {
+                            //                    NavigationLink(destination: LoginView(isLoggedIn: $isLoggedIn, authToken: $authToken), showLoginPage: .constant(false)) {
+                            //                        Text("Already have an account? Log in here")
+                            //                            .foregroundColor(.blue)
+                            //                    }
+                            //                }
+                            
                         }
                     }
                 }
+                .padding(.top, 220)
 
                 
                 Spacer()

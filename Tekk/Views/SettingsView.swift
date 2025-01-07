@@ -23,13 +23,13 @@ struct SettingsView: View {
     }
 
     
-    private var firstName: String {
+    private var firstNameDisplay: String {
         stateManager.onboardingData.firstName
     }
-    private var lastName: String {
+    private var lastNameDisplay: String {
         stateManager.onboardingData.lastName
     }
-    private var email: String {
+    private var emailDisplay: String {
         stateManager.onboardingData.email
     }
     
@@ -116,10 +116,10 @@ struct SettingsView: View {
                 .foregroundColor(globalSettings.primaryYellowColor)
             
             VStack(spacing: 0) {
-                Text("\(firstName) \(lastName)")
+                Text("\(firstNameDisplay) \(lastNameDisplay)")
                     .font(.custom("Poppins-Bold", size: 18))
                 
-                Text(email)
+                Text(emailDisplay)
                     .font(.custom("Poppins-Regular", size: 14))
                     .foregroundColor(.gray)
             }
@@ -287,10 +287,10 @@ struct SettingsView: View {
 // Preview code
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        let mockStateManager = OnboardingStateManager()
+        let stateManager = OnboardingStateManager()
         
         // Set up mock data for preview
-        mockStateManager.updateRegister(
+        stateManager.updateRegister(
             firstName: "Jordan",
             lastName: "Conklin",
             email: "jordinhoconk@gmail.com",
@@ -299,21 +299,21 @@ struct SettingsView_Previews: PreviewProvider {
         
         return Group {
             SettingsView(isLoggedIn: .constant(true))
-                .environmentObject(mockStateManager)
+                .environmentObject(stateManager)
                 .previewDisplayName("Light Mode")
             
             SettingsView(isLoggedIn: .constant(true))
-                .environmentObject(mockStateManager)
+                .environmentObject(stateManager)
                 .preferredColorScheme(.dark)
                 .previewDisplayName("Dark Mode")
             
             SettingsView(isLoggedIn: .constant(true))
-                .environmentObject(mockStateManager)
+                .environmentObject(stateManager)
                 .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
                 .previewDisplayName("iPhone SE")
             
             SettingsView(isLoggedIn: .constant(true))
-                .environmentObject(mockStateManager)
+                .environmentObject(stateManager)
                 .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
                 .previewDisplayName("iPhone 15 Pro Max")
         }
