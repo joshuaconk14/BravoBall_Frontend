@@ -16,6 +16,7 @@ struct RegisterView: View {
     
     @State private var currentRegisterStage = 0
     @State private var textOpacity0: Double = 1.0
+    @State private var textOpacity1: Double = 1.0
     @State private var riveViewOffset: CGSize = .zero
     
     
@@ -153,6 +154,13 @@ struct RegisterView: View {
                     }
                     .padding(.top, 700)
                     
+                } else if currentRegisterStage == 1 {
+                    Text("Fill out your personal info below!")
+                        .foregroundColor(globalSettings.primaryDarkColor)
+                        .padding(.bottom, 500)
+                        .padding(.leading, 150)
+                        .font(.custom("Poppins-Bold", size: 16))
+                        .opacity(textOpacity1)
                 }
                 
             }

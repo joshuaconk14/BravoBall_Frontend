@@ -1,3 +1,4 @@
+
 //
 //  SettingsView.swift
 //  Tekk-frontend
@@ -287,10 +288,10 @@ struct SettingsView: View {
 // Preview code
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        let stateManager = OnboardingStateManager()
+        let mockStateManager = OnboardingStateManager()
         
         // Set up mock data for preview
-        stateManager.updateRegister(
+        mockStateManager.updateRegister(
             firstName: "Jordan",
             lastName: "Conklin",
             email: "jordinhoconk@gmail.com",
@@ -299,23 +300,21 @@ struct SettingsView_Previews: PreviewProvider {
         
         return Group {
             SettingsView(isLoggedIn: .constant(true))
-                .environmentObject(stateManager)
+                .environmentObject(mockStateManager)
                 .previewDisplayName("Light Mode")
             
             SettingsView(isLoggedIn: .constant(true))
-                .environmentObject(stateManager)
+                .environmentObject(mockStateManager)
                 .preferredColorScheme(.dark)
                 .previewDisplayName("Dark Mode")
             
             SettingsView(isLoggedIn: .constant(true))
-                .environmentObject(stateManager)
-                .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
-                .previewDisplayName("iPhone SE")
+                .environmentObject(mockStateManager)
+
             
             SettingsView(isLoggedIn: .constant(true))
-                .environmentObject(stateManager)
-                .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
-                .previewDisplayName("iPhone 15 Pro Max")
+                .environmentObject(mockStateManager)
+
         }
     }
 }
