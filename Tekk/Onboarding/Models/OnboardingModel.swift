@@ -19,7 +19,7 @@ class OnboardingModel: ObservableObject {
     @Published var isLoggedIn = false
     @Published var authToken = ""
     @Published var onboardingComplete = false
-    @Published var numberOfOnboardingPages = 10
+    @Published var numberOfOnboardingPages = 11
     
     // Animation scale for intro animation
     @Published var animationScale: CGFloat = 1.5
@@ -37,6 +37,10 @@ class OnboardingModel: ObservableObject {
         var skillLevel: String = ""
         var trainingDays: [String] = []
         var availableEquipment: [String] = []
+        var firstName: String = ""
+        var lastName: String = ""
+        var email: String = ""
+        var password: String = ""
     }
     
     let ageRanges = ["Youth (Under 12)", "Teen (13-16)", "Junior (17-19)", "Adult (20-29)", "Senior (30+)"]
@@ -60,6 +64,8 @@ class OnboardingModel: ObservableObject {
     let weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     let equipment = ["Ball", "Cones", "Goals", "Agility Ladder", "Resistance Bands", "Training Dummy"]
     
+
+    // Checks if youre allowed to move to next question (validates data)
     func canMoveNext() -> Bool {
         switch currentStep {
         case 0: return !onboardingData.ageRange.isEmpty
@@ -72,22 +78,28 @@ class OnboardingModel: ObservableObject {
         case 7: return !onboardingData.timeline.isEmpty
         case 8: return !onboardingData.trainingDays.isEmpty
         case 9: return !onboardingData.availableEquipment.isEmpty
+        case 10: return !onboardingData.firstName.isEmpty
         default: return false
         }
     }
     
+    //MARK: Global functions
+    
+    // Attempts to the next question
     func moveNext() {
         if canMoveNext() && currentStep < numberOfOnboardingPages {
             currentStep += 1
         }
     }
     
+    // Attempts to skip to the next question
     func skipToNext() {
         if currentStep < numberOfOnboardingPages {
             currentStep += 1
         }
     }
     
+    // Attempts to move back through back button
     func movePrevious() {
         if currentStep > 0 {
             currentStep -= 1

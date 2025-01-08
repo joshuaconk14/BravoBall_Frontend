@@ -250,6 +250,15 @@ struct OnboardingView: View {
                         options: model.equipment,
                         selections: $model.onboardingData.availableEquipment
                     )
+                case 10:
+                    OnboardingRegisterForm(
+                        model: model,
+                        title: "Enter your Registration Info below!",
+                        firstName: $model.onboardingData.firstName,
+                        lastName: $model.onboardingData.lastName,
+                        email: $model.onboardingData.email,
+                        password: $model.onboardingData.password
+                    )
                 default:
                     CompletionView(model: model)
                 }
@@ -263,7 +272,7 @@ struct OnboardingView: View {
                         model.moveNext()
                     }
                 }) {
-                    Text(model.currentStep == 9 ? "Finish" : "Next")
+                    Text(model.currentStep == 10 ? "Finish" : "Next")
                         .frame(maxWidth: .infinity)
                         .frame(height: 50)
                         .background(
