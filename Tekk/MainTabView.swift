@@ -14,7 +14,7 @@ struct MainTabView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            ProgramGeneratorView(model: model)
+            SessionGeneratorView(model: model)
                 .tabItem {
                     Image(systemName: "figure.soccer")
                     Text("Train")

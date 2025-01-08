@@ -1,13 +1,14 @@
 //
-//  ProgramGeneratorView.swift
+//  SessionGeneratorView.swift
 //  BravoBall
 //
 //  Created by Jordan on 1/7/25.
 //
 
+import Foundation
 import SwiftUI
 
-struct ProgramGeneratorView: View {
+struct SessionGeneratorView: View {
     @ObservedObject var model: OnboardingModel
     @State private var selectedSkills: Set<String> = []
     @State private var sessionDuration: Int = 60 // in minutes

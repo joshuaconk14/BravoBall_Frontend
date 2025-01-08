@@ -22,9 +22,9 @@
 		178208EB2D2DECE300246494 /* OnboardingMultiSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208EA2D2DECE300246494 /* OnboardingMultiSelectView.swift */; };
 		178208ED2D2DED0800246494 /* OnboardingBooleanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208EC2D2DED0800246494 /* OnboardingBooleanView.swift */; };
 		178208F12D2DFD6500246494 /* OnboardingPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208F02D2DFD6500246494 /* OnboardingPreview.swift */; };
-		178209062D2E09A300246494 /* ProgramGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178209052D2E09A300246494 /* ProgramGeneratorView.swift */; };
 		1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1782090B2D2E09EB00246494 /* SavedDrillsView.swift */; };
 		1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1782090D2D2E0A1100246494 /* ProfileView.swift */; };
+		178209102D2E0C6800246494 /* SessionGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1782090F2D2E0C6800246494 /* SessionGeneratorView.swift */; };
 		17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6532CD3477E008E8C24 /* ColorExtension.swift */; };
 		17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */; };
 		435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 435A70142CA7AB2600BFCC40 /* RiveRuntime */; };
@@ -71,9 +71,9 @@
 		178208EA2D2DECE300246494 /* OnboardingMultiSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingMultiSelectView.swift; sourceTree = "<group>"; };
 		178208EC2D2DED0800246494 /* OnboardingBooleanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBooleanView.swift; sourceTree = "<group>"; };
 		178208F02D2DFD6500246494 /* OnboardingPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPreview.swift; sourceTree = "<group>"; };
-		178209052D2E09A300246494 /* ProgramGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramGeneratorView.swift; sourceTree = "<group>"; };
 		1782090B2D2E09EB00246494 /* SavedDrillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedDrillsView.swift; sourceTree = "<group>"; };
 		1782090D2D2E0A1100246494 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		1782090F2D2E0C6800246494 /* SessionGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionGeneratorView.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17F5D6532CD3477E008E8C24 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
@@ -215,8 +215,8 @@
 		178208F52D2E05FE00246494 /* AppFeatures */ = {
 			isa = PBXGroup;
 			children = (
-				178209052D2E09A300246494 /* ProgramGeneratorView.swift */,
 				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
+				1782090F2D2E0C6800246494 /* SessionGeneratorView.swift */,
 				1782090D2D2E0A1100246494 /* ProfileView.swift */,
 			);
 			path = AppFeatures;
@@ -386,12 +386,12 @@
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
 				1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */,
 				1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */,
+				178209102D2E0C6800246494 /* SessionGeneratorView.swift in Sources */,
 				178208E22D2DEBB400246494 /* OnboardingView.swift in Sources */,
 				178208E42D2DEBC800246494 /* LoginView.swift in Sources */,
 				178208E92D2DEC6D00246494 /* OnboardingStepView.swift in Sources */,
 				178208D22D2D14D200246494 /* MainTabView.swift in Sources */,
 				178208ED2D2DED0800246494 /* OnboardingBooleanView.swift in Sources */,
-				178209062D2E09A300246494 /* ProgramGeneratorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
