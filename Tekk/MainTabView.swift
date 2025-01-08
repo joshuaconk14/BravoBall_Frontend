@@ -2,51 +2,40 @@
 //  MainTabView.swift
 //  BravoBall
 //
-//  Created by Jordan on 11/2/24.
+//  Created by Jordan on 1/6/25.
 //
 
 import Foundation
 import SwiftUI
-import RiveRuntime
 
 struct MainTabView: View {
-    @StateObject private var globalSettings = GlobalSettings()
-    @State var chatMessages: [Message_Struct] = [Message_Struct(role: "system", content: "Welcome to TekkAI")]
-    @State private var conversations: [Conversation] = []
-    @Binding var authToken: String
+    @StateObject private var model = OnboardingModel()
+    @State private var selectedTab = 0
     
     var body: some View {
-        TabView {
-            RecommendedDrillsView()
+        TabView(selection: $selectedTab) {
+            ProgramGeneratorView(model: model)
                 .tabItem {
-                    Image(systemName: "star.fill")
-                    Text("For You")
+                    Image(systemName: "figure.soccer")
+                    Text("Train")
                 }
+                .tag(0)
             
-            HomeProgramView()
+            SavedDrillsView()
                 .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Program")
+                    Image(systemName: "bookmark.fill")
+                    Text("Saved")
                 }
+                .tag(2)
             
-            DrillCatalogView()
-                .tabItem {
-                    Image(systemName: "book.fill")
-                    Text("Drills")
-                }
-            
-            SettingsView()
+            ProfileView()
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("Profile")
                 }
+                .tag(3)
         }
-        .accentColor(globalSettings.primaryYellowColor)
+        .accentColor(model.globalSettings.primaryYellowColor)
     }
 }
 
-struct MainTabView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainTabView(authToken: .constant("preview-token"))
-    }
-}

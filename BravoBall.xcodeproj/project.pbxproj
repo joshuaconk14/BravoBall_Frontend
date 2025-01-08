@@ -7,59 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		170217BB2C89030500DD020C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170217BA2C89030400DD020C /* Models.swift */; };
-		173B40212CD6F501003C560D /* OnboardingStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B40202CD6F501003C560D /* OnboardingStateManager.swift */; };
-		173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173B40232CD6F55A003C560D /* OnboardingData.swift */; };
 		1749361C2C3E102B001163B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749361B2C3E102B001163B9 /* ContentView.swift */; };
 		1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1749361D2C3E1031001163B9 /* Assets.xcassets */; };
 		174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 174936212C3E1031001163B9 /* Preview Assets.xcassets */; };
 		1749362C2C3E1032001163B9 /* TekkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749362B2C3E1032001163B9 /* TekkTests.swift */; };
 		174936362C3E1032001163B9 /* TekkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936352C3E1032001163B9 /* TekkUITests.swift */; };
 		174936382C3E1032001163B9 /* TekkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */; };
-		175049412CDD69B00030CF3E /* SelectAgeRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175049402CDD69B00030CF3E /* SelectAgeRange.swift */; };
-		175049432CDD69CC0030CF3E /* SelectPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175049422CDD69CC0030CF3E /* SelectPosition.swift */; };
-		175049452CDD69DD0030CF3E /* SelectLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175049442CDD69DD0030CF3E /* SelectLevel.swift */; };
-		175049472CDD6A170030CF3E /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175049462CDD6A170030CF3E /* WelcomeView.swift */; };
-		176D15012CD4799C00450F85 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15002CD4799C00450F85 /* LoginView.swift */; };
-		176D15052CD4907000450F85 /* PickGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15042CD4907000450F85 /* PickGoal.swift */; };
-		176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15072CD490E200450F85 /* YesNoTeam.swift */; };
-		176EA18D2D23487400DCA5E7 /* AvailableEquipment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EA18C2D23487400DCA5E7 /* AvailableEquipment.swift */; };
-		176EA18F2D234CC100DCA5E7 /* RecommendedDrillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EA18E2D234CC100DCA5E7 /* RecommendedDrillsView.swift */; };
-		176EA1912D234CCD00DCA5E7 /* DrillCatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EA1902D234CCD00DCA5E7 /* DrillCatalogView.swift */; };
-		176EA1952D23545300DCA5E7 /* DrillService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EA1942D23545300DCA5E7 /* DrillService.swift */; };
-		176EA1982D24EBC900DCA5E7 /* DrillModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EA1972D24EBC900DCA5E7 /* DrillModels.swift */; };
-		176EA19A2D266A3E00DCA5E7 /* DrillCatalogModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EA1992D266A3E00DCA5E7 /* DrillCatalogModels.swift */; };
-		176EA19D2D26714B00DCA5E7 /* DrillCatalogCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EA19C2D26714B00DCA5E7 /* DrillCatalogCard.swift */; };
-		176EA1A12D26736900DCA5E7 /* DrillDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EA1A02D26736900DCA5E7 /* DrillDetailView.swift */; };
-		176EA1A32D26745D00DCA5E7 /* CategoryTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EA1A22D26745D00DCA5E7 /* CategoryTab.swift */; };
-		176EA1A82D2674F200DCA5E7 /* DrillFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EA1A72D2674F200DCA5E7 /* DrillFilters.swift */; };
-		176EA1AE2D267B6000DCA5E7 /* DrillFiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EA1AD2D267B6000DCA5E7 /* DrillFiltersView.swift */; };
-		178208C12D2C7DB000246494 /* OnboardingCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208C02D2C7DB000246494 /* OnboardingCoordinatorView.swift */; };
-		178208C42D2C814B00246494 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208C32D2C814B00246494 /* OnboardingViewModel.swift */; };
-		178208CA2D2C880800246494 /* OnboardingModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208C92D2C880800246494 /* OnboardingModelTest.swift */; };
-		178208CC2D2C882C00246494 /* OnboardingPreviewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208CB2D2C882C00246494 /* OnboardingPreviewTest.swift */; };
-		178208CE2D2C883F00246494 /* OnboardingViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208CD2D2C883F00246494 /* OnboardingViewTest.swift */; };
-		179CF94F2CD7077F00D07E49 /* BravoBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF94E2CD7077F00D07E49 /* BravoBall.swift */; };
-		179CF9522CD712CA00D07E49 /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9512CD712CA00D07E49 /* OnboardingService.swift */; };
-		179CF9562CD731B100D07E49 /* SelectionListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9552CD731B100D07E49 /* SelectionListItem.swift */; };
-		179CF9582CD731C400D07E49 /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9572CD731C400D07E49 /* DropdownMenu.swift */; };
-		179CF95A2CD731E200D07E49 /* SelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9592CD731E200D07E49 /* SelectionListView.swift */; };
-		179CF9602CD7326500D07E49 /* PostOnboardingLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF95F2CD7326500D07E49 /* PostOnboardingLoadingView.swift */; };
-		179CF9622CD74EC800D07E49 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179CF9612CD74EC800D07E49 /* MainTabView.swift */; };
-		179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */; };
-		179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */; };
-		179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */; };
-		17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */; };
-		17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */; };
-		17ACC8EA2CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */; };
-		17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */; };
-		17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */; };
-		17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */; };
-		17C3A5352CD88D8800A64BC5 /* HomeProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */; };
+		178208D22D2D14D200246494 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208D12D2D14D200246494 /* MainTabView.swift */; };
+		178208E02D2DEB9C00246494 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208DF2D2DEB9C00246494 /* OnboardingModel.swift */; };
+		178208E22D2DEBB400246494 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208E12D2DEBB400246494 /* OnboardingView.swift */; };
+		178208E42D2DEBC800246494 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208E32D2DEBC800246494 /* LoginView.swift */; };
+		178208E62D2DEC2900246494 /* CompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208E52D2DEC2900246494 /* CompletionView.swift */; };
+		178208E92D2DEC6D00246494 /* OnboardingStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208E82D2DEC6D00246494 /* OnboardingStepView.swift */; };
+		178208EB2D2DECE300246494 /* OnboardingMultiSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208EA2D2DECE300246494 /* OnboardingMultiSelectView.swift */; };
+		178208ED2D2DED0800246494 /* OnboardingBooleanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208EC2D2DED0800246494 /* OnboardingBooleanView.swift */; };
+		178208F12D2DFD6500246494 /* OnboardingPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208F02D2DFD6500246494 /* OnboardingPreview.swift */; };
+		178209062D2E09A300246494 /* ProgramGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178209052D2E09A300246494 /* ProgramGeneratorView.swift */; };
+		1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1782090B2D2E09EB00246494 /* SavedDrillsView.swift */; };
+		1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1782090D2D2E0A1100246494 /* ProfileView.swift */; };
 		17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6532CD3477E008E8C24 /* ColorExtension.swift */; };
 		17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */; };
 		435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 435A70142CA7AB2600BFCC40 /* RiveRuntime */; };
-		43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E422CB4EE6000BE2AB6 /* SettingsView.swift */; };
 		43985E472CB4EFA200BE2AB6 /* BravoBall_Intro.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */; };
 		43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */; };
 		43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */; };
@@ -84,9 +52,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		170217BA2C89030400DD020C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		173B40202CD6F501003C560D /* OnboardingStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStateManager.swift; sourceTree = "<group>"; };
-		173B40232CD6F55A003C560D /* OnboardingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingData.swift; sourceTree = "<group>"; };
 		174936162C3E102B001163B9 /* BravoBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BravoBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1749361B2C3E102B001163B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1749361D2C3E1031001163B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -97,50 +62,21 @@
 		174936312C3E1032001163B9 /* BravoBallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BravoBallUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		174936352C3E1032001163B9 /* TekkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITests.swift; sourceTree = "<group>"; };
 		174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		175049402CDD69B00030CF3E /* SelectAgeRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAgeRange.swift; sourceTree = "<group>"; };
-		175049422CDD69CC0030CF3E /* SelectPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPosition.swift; sourceTree = "<group>"; };
-		175049442CDD69DD0030CF3E /* SelectLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLevel.swift; sourceTree = "<group>"; };
-		175049462CDD6A170030CF3E /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
-		176D15002CD4799C00450F85 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		176D15042CD4907000450F85 /* PickGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickGoal.swift; sourceTree = "<group>"; };
-		176D15072CD490E200450F85 /* YesNoTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesNoTeam.swift; sourceTree = "<group>"; };
-		176EA18C2D23487400DCA5E7 /* AvailableEquipment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableEquipment.swift; sourceTree = "<group>"; };
-		176EA18E2D234CC100DCA5E7 /* RecommendedDrillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedDrillsView.swift; sourceTree = "<group>"; };
-		176EA1902D234CCD00DCA5E7 /* DrillCatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillCatalogView.swift; sourceTree = "<group>"; };
-		176EA1942D23545300DCA5E7 /* DrillService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillService.swift; sourceTree = "<group>"; };
-		176EA1972D24EBC900DCA5E7 /* DrillModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillModels.swift; sourceTree = "<group>"; };
-		176EA1992D266A3E00DCA5E7 /* DrillCatalogModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillCatalogModels.swift; sourceTree = "<group>"; };
-		176EA19C2D26714B00DCA5E7 /* DrillCatalogCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillCatalogCard.swift; sourceTree = "<group>"; };
-		176EA1A02D26736900DCA5E7 /* DrillDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillDetailView.swift; sourceTree = "<group>"; };
-		176EA1A22D26745D00DCA5E7 /* CategoryTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTab.swift; sourceTree = "<group>"; };
-		176EA1A72D2674F200DCA5E7 /* DrillFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillFilters.swift; sourceTree = "<group>"; };
-		176EA1AD2D267B6000DCA5E7 /* DrillFiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillFiltersView.swift; sourceTree = "<group>"; };
-		178208C02D2C7DB000246494 /* OnboardingCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinatorView.swift; sourceTree = "<group>"; };
-		178208C32D2C814B00246494 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
-		178208C92D2C880800246494 /* OnboardingModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModelTest.swift; sourceTree = "<group>"; };
-		178208CB2D2C882C00246494 /* OnboardingPreviewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPreviewTest.swift; sourceTree = "<group>"; };
-		178208CD2D2C883F00246494 /* OnboardingViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewTest.swift; sourceTree = "<group>"; };
-		179CF94E2CD7077F00D07E49 /* BravoBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BravoBall.swift; sourceTree = "<group>"; };
-		179CF9512CD712CA00D07E49 /* OnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingService.swift; sourceTree = "<group>"; };
-		179CF9552CD731B100D07E49 /* SelectionListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListItem.swift; sourceTree = "<group>"; };
-		179CF9572CD731C400D07E49 /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
-		179CF9592CD731E200D07E49 /* SelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListView.swift; sourceTree = "<group>"; };
-		179CF95F2CD7326500D07E49 /* PostOnboardingLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOnboardingLoadingView.swift; sourceTree = "<group>"; };
-		179CF9612CD74EC800D07E49 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingLevel.swift; sourceTree = "<group>"; };
-		179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineGoal.swift; sourceTree = "<group>"; };
-		179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDays.swift; sourceTree = "<group>"; };
-		17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstQuestionnaireView.swift; sourceTree = "<group>"; };
-		17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRepresentPlaystyle.swift; sourceTree = "<group>"; };
-		17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickWeaknesses.swift; sourceTree = "<group>"; };
-		17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickStrengths.swift; sourceTree = "<group>"; };
-		17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondQuestionnaireView.swift; sourceTree = "<group>"; };
-		17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProgramView.swift; sourceTree = "<group>"; };
+		178208D12D2D14D200246494 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		178208DF2D2DEB9C00246494 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
+		178208E12D2DEBB400246494 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		178208E32D2DEBC800246494 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		178208E52D2DEC2900246494 /* CompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionView.swift; sourceTree = "<group>"; };
+		178208E82D2DEC6D00246494 /* OnboardingStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStepView.swift; sourceTree = "<group>"; };
+		178208EA2D2DECE300246494 /* OnboardingMultiSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingMultiSelectView.swift; sourceTree = "<group>"; };
+		178208EC2D2DED0800246494 /* OnboardingBooleanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBooleanView.swift; sourceTree = "<group>"; };
+		178208F02D2DFD6500246494 /* OnboardingPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPreview.swift; sourceTree = "<group>"; };
+		178209052D2E09A300246494 /* ProgramGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramGeneratorView.swift; sourceTree = "<group>"; };
+		1782090B2D2E09EB00246494 /* SavedDrillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedDrillsView.swift; sourceTree = "<group>"; };
+		1782090D2D2E0A1100246494 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17F5D6532CD3477E008E8C24 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
-		43985E422CB4EE6000BE2AB6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = BravoBall_Intro.riv; sourceTree = "<group>"; };
 		43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PottaOne-Regular.ttf"; sourceTree = "<group>"; };
@@ -173,23 +109,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		173B401F2CD6F4F6003C560D /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				173B40202CD6F501003C560D /* OnboardingStateManager.swift */,
-				178208C02D2C7DB000246494 /* OnboardingCoordinatorView.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		173B40222CD6F547003C560D /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				173B40232CD6F55A003C560D /* OnboardingData.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		1749360D2C3E102B001163B9 = {
 			isa = PBXGroup;
 			children = (
@@ -214,16 +133,12 @@
 			isa = PBXGroup;
 			children = (
 				17E693182C7435B3006B58A3 /* Info.plist */,
-				174936442C3E10C4001163B9 /* Views */,
-				170217BA2C89030400DD020C /* Models.swift */,
-				179CF94E2CD7077F00D07E49 /* BravoBall.swift */,
-				17ACC8D82CD367BA0047EE09 /* Features */,
 				17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */,
-				179CF9532CD7318600D07E49 /* Common */,
 				17F5D6532CD3477E008E8C24 /* ColorExtension.swift */,
-				179CF9612CD74EC800D07E49 /* MainTabView.swift */,
+				178208F52D2E05FE00246494 /* AppFeatures */,
+				178208D12D2D14D200246494 /* MainTabView.swift */,
+				178208DC2D2DEB7200246494 /* Onboarding */,
 				1749361B2C3E102B001163B9 /* ContentView.swift */,
-				17CBE91A2CE09F230094DC58 /* Tests */,
 				1749361D2C3E1031001163B9 /* Assets.xcassets */,
 				43985E502CB51DEC00BE2AB6 /* Font */,
 				439A72632C9FA55700B4C5AD /* RiveAssets */,
@@ -258,208 +173,53 @@
 			path = TekkUITests;
 			sourceTree = "<group>";
 		};
-		174936442C3E10C4001163B9 /* Views */ = {
+		178208DC2D2DEB7200246494 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				17C3A5342CD88D8800A64BC5 /* HomeProgramView.swift */,
-				176EA1902D234CCD00DCA5E7 /* DrillCatalogView.swift */,
-				176EA18E2D234CC100DCA5E7 /* RecommendedDrillsView.swift */,
-				176EA1A02D26736900DCA5E7 /* DrillDetailView.swift */,
-				43985E422CB4EE6000BE2AB6 /* SettingsView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		1750493F2CDD69A00030CF3E /* WelcomeQuestionnaire */ = {
-			isa = PBXGroup;
-			children = (
-				175049402CDD69B00030CF3E /* SelectAgeRange.swift */,
-				175049442CDD69DD0030CF3E /* SelectLevel.swift */,
-				175049462CDD6A170030CF3E /* WelcomeView.swift */,
-				175049422CDD69CC0030CF3E /* SelectPosition.swift */,
-			);
-			path = WelcomeQuestionnaire;
-			sourceTree = "<group>";
-		};
-		176D14FC2CD4794B00450F85 /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				176D14FD2CD4795C00450F85 /* Views */,
-			);
-			path = Login;
-			sourceTree = "<group>";
-		};
-		176D14FD2CD4795C00450F85 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				176D15002CD4799C00450F85 /* LoginView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		176EA1922D23543200DCA5E7 /* Drills */ = {
-			isa = PBXGroup;
-			children = (
-				176EA1A42D26747A00DCA5E7 /* Views */,
-				176EA19B2D26713E00DCA5E7 /* Components */,
-				176EA1962D24EBAC00DCA5E7 /* Models */,
-				176EA1932D23544200DCA5E7 /* Services */,
-			);
-			path = Drills;
-			sourceTree = "<group>";
-		};
-		176EA1932D23544200DCA5E7 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				176EA1942D23545300DCA5E7 /* DrillService.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		176EA1962D24EBAC00DCA5E7 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				176EA1972D24EBC900DCA5E7 /* DrillModels.swift */,
-				176EA1992D266A3E00DCA5E7 /* DrillCatalogModels.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		176EA19B2D26713E00DCA5E7 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				176EA19C2D26714B00DCA5E7 /* DrillCatalogCard.swift */,
-				176EA1A72D2674F200DCA5E7 /* DrillFilters.swift */,
-				176EA1A22D26745D00DCA5E7 /* CategoryTab.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		176EA1A42D26747A00DCA5E7 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				176EA1AD2D267B6000DCA5E7 /* DrillFiltersView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		179CF9502CD712B500D07E49 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				179CF9512CD712CA00D07E49 /* OnboardingService.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		179CF9532CD7318600D07E49 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				179CF9542CD7319400D07E49 /* Components */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
-		179CF9542CD7319400D07E49 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				179CF9552CD731B100D07E49 /* SelectionListItem.swift */,
-				179CF9592CD731E200D07E49 /* SelectionListView.swift */,
-				179CF9572CD731C400D07E49 /* DropdownMenu.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		17ACC8D82CD367BA0047EE09 /* Features */ = {
-			isa = PBXGroup;
-			children = (
-				176EA1922D23543200DCA5E7 /* Drills */,
-				176D14FC2CD4794B00450F85 /* Login */,
-				17ACC8E42CD369350047EE09 /* Questionnaires */,
-				17ACC8D92CD367DD0047EE09 /* Onboarding */,
-			);
-			path = Features;
-			sourceTree = "<group>";
-		};
-		17ACC8D92CD367DD0047EE09 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				179CF9502CD712B500D07E49 /* Services */,
-				173B40222CD6F547003C560D /* Models */,
-				173B401F2CD6F4F6003C560D /* ViewModels */,
-				17ACC8DA2CD368070047EE09 /* Views */,
+				178208DE2D2DEB8400246494 /* Views */,
+				178208DD2D2DEB7C00246494 /* Models */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
-		17ACC8DA2CD368070047EE09 /* Views */ = {
+		178208DD2D2DEB7C00246494 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */,
-				179CF95F2CD7326500D07E49 /* PostOnboardingLoadingView.swift */,
-				178208C32D2C814B00246494 /* OnboardingViewModel.swift */,
+				178208DF2D2DEB9C00246494 /* OnboardingModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		178208DE2D2DEB8400246494 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				178208E12D2DEBB400246494 /* OnboardingView.swift */,
+				178208F02D2DFD6500246494 /* OnboardingPreview.swift */,
+				178208E52D2DEC2900246494 /* CompletionView.swift */,
+				178208E72D2DEC5400246494 /* HelperViews */,
+				178208E32D2DEBC800246494 /* LoginView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		17ACC8E42CD369350047EE09 /* Questionnaires */ = {
+		178208E72D2DEC5400246494 /* HelperViews */ = {
 			isa = PBXGroup;
 			children = (
-				1750493F2CDD69A00030CF3E /* WelcomeQuestionnaire */,
-				17ACC8EF2CD36AEC0047EE09 /* SecondQuestionnaire */,
-				17ACC8E52CD3693D0047EE09 /* FirstQuestionnaire */,
+				178208E82D2DEC6D00246494 /* OnboardingStepView.swift */,
+				178208EA2D2DECE300246494 /* OnboardingMultiSelectView.swift */,
+				178208EC2D2DED0800246494 /* OnboardingBooleanView.swift */,
 			);
-			path = Questionnaires;
+			path = HelperViews;
 			sourceTree = "<group>";
 		};
-		17ACC8E52CD3693D0047EE09 /* FirstQuestionnaire */ = {
+		178208F52D2E05FE00246494 /* AppFeatures */ = {
 			isa = PBXGroup;
 			children = (
-				17ACC8E62CD369530047EE09 /* Views */,
+				178209052D2E09A300246494 /* ProgramGeneratorView.swift */,
+				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
+				1782090D2D2E0A1100246494 /* ProfileView.swift */,
 			);
-			path = FirstQuestionnaire;
-			sourceTree = "<group>";
-		};
-		17ACC8E62CD369530047EE09 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */,
-				17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */,
-				17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */,
-				17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		17ACC8EF2CD36AEC0047EE09 /* SecondQuestionnaire */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8F02CD36AF40047EE09 /* Views */,
-			);
-			path = SecondQuestionnaire;
-			sourceTree = "<group>";
-		};
-		17ACC8F02CD36AF40047EE09 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */,
-				176EA18C2D23487400DCA5E7 /* AvailableEquipment.swift */,
-				176D15072CD490E200450F85 /* YesNoTeam.swift */,
-				179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */,
-				179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */,
-				179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */,
-				176D15042CD4907000450F85 /* PickGoal.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		17CBE91A2CE09F230094DC58 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				178208C92D2C880800246494 /* OnboardingModelTest.swift */,
-				178208CD2D2C883F00246494 /* OnboardingViewTest.swift */,
-				178208CB2D2C882C00246494 /* OnboardingPreviewTest.swift */,
-			);
-			path = Tests;
+			path = AppFeatures;
 			sourceTree = "<group>";
 		};
 		43985E502CB51DEC00BE2AB6 /* Font */ = {
@@ -617,53 +377,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				179CF9562CD731B100D07E49 /* SelectionListItem.swift in Sources */,
-				175049412CDD69B00030CF3E /* SelectAgeRange.swift in Sources */,
-				17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */,
-				179CF9622CD74EC800D07E49 /* MainTabView.swift in Sources */,
-				179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */,
-				176EA1A12D26736900DCA5E7 /* DrillDetailView.swift in Sources */,
-				170217BB2C89030500DD020C /* Models.swift in Sources */,
-				176EA18D2D23487400DCA5E7 /* AvailableEquipment.swift in Sources */,
-				179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */,
-				17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */,
-				175049452CDD69DD0030CF3E /* SelectLevel.swift in Sources */,
-				175049432CDD69CC0030CF3E /* SelectPosition.swift in Sources */,
-				178208CE2D2C883F00246494 /* OnboardingViewTest.swift in Sources */,
-				176EA1A82D2674F200DCA5E7 /* DrillFilters.swift in Sources */,
-				176EA18F2D234CC100DCA5E7 /* RecommendedDrillsView.swift in Sources */,
-				179CF9602CD7326500D07E49 /* PostOnboardingLoadingView.swift in Sources */,
-				176EA19A2D266A3E00DCA5E7 /* DrillCatalogModels.swift in Sources */,
-				179CF9582CD731C400D07E49 /* DropdownMenu.swift in Sources */,
+				178208F12D2DFD6500246494 /* OnboardingPreview.swift in Sources */,
+				178208E62D2DEC2900246494 /* CompletionView.swift in Sources */,
+				178208EB2D2DECE300246494 /* OnboardingMultiSelectView.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
-				176EA1A32D26745D00DCA5E7 /* CategoryTab.swift in Sources */,
-				178208C42D2C814B00246494 /* OnboardingViewModel.swift in Sources */,
-				17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */,
-				173B40242CD6F55A003C560D /* OnboardingData.swift in Sources */,
-				178208C12D2C7DB000246494 /* OnboardingCoordinatorView.swift in Sources */,
-				178208CA2D2C880800246494 /* OnboardingModelTest.swift in Sources */,
-				17C3A5352CD88D8800A64BC5 /* HomeProgramView.swift in Sources */,
-				17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */,
-				176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */,
-				179CF9522CD712CA00D07E49 /* OnboardingService.swift in Sources */,
-				176D15012CD4799C00450F85 /* LoginView.swift in Sources */,
-				176EA1AE2D267B6000DCA5E7 /* DrillFiltersView.swift in Sources */,
-				43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */,
-				176D15052CD4907000450F85 /* PickGoal.swift in Sources */,
-				176EA1952D23545300DCA5E7 /* DrillService.swift in Sources */,
-				173B40212CD6F501003C560D /* OnboardingStateManager.swift in Sources */,
-				17ACC8EA2CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift in Sources */,
+				178208E02D2DEB9C00246494 /* OnboardingModel.swift in Sources */,
 				17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */,
-				176EA19D2D26714B00DCA5E7 /* DrillCatalogCard.swift in Sources */,
-				179CF94F2CD7077F00D07E49 /* BravoBall.swift in Sources */,
-				17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */,
-				179CF95A2CD731E200D07E49 /* SelectionListView.swift in Sources */,
-				175049472CDD6A170030CF3E /* WelcomeView.swift in Sources */,
-				176EA1982D24EBC900DCA5E7 /* DrillModels.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
-				179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */,
-				176EA1912D234CCD00DCA5E7 /* DrillCatalogView.swift in Sources */,
-				178208CC2D2C882C00246494 /* OnboardingPreviewTest.swift in Sources */,
+				1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */,
+				1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */,
+				178208E22D2DEBB400246494 /* OnboardingView.swift in Sources */,
+				178208E42D2DEBC800246494 /* LoginView.swift in Sources */,
+				178208E92D2DEC6D00246494 /* OnboardingStepView.swift in Sources */,
+				178208D22D2D14D200246494 /* MainTabView.swift in Sources */,
+				178208ED2D2DED0800246494 /* OnboardingBooleanView.swift in Sources */,
+				178209062D2E09A300246494 /* ProgramGeneratorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
