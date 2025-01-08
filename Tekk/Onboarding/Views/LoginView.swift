@@ -20,13 +20,12 @@ struct LoginView: View {
                 .font(.custom("PottaOne-Regular", size: 32))
                 .foregroundColor(model.globalSettings.primaryDarkColor)
             
-            RiveViewModel(fileName: "test_panting").view()
+            RiveViewModel(fileName: "Bravo_Panting").view()
                 .frame(width: 200, height: 200)
             
             VStack(spacing: 15) {
                 TextField("Email", text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .autocapitalization(.none)
                 
                 SecureField("Password", text: $password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())

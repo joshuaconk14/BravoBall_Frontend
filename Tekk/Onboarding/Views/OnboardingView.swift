@@ -46,7 +46,7 @@ struct OnboardingView: View {
             
             // Intro animation overlay
             if model.showIntroAnimation {
-                RiveViewModel(fileName: "tekk_intro").view()
+                RiveViewModel(fileName: "BravoBall_Intro").view()
                     .scaleEffect(model.animationScale)
                     .edgesIgnoringSafeArea(.all)
                     .allowsHitTesting(false)
@@ -66,7 +66,7 @@ struct OnboardingView: View {
     // Welcome view for new users
     var welcomeContent: some View {
         VStack {
-            RiveViewModel(fileName: "test_panting").view()
+            RiveViewModel(fileName: "Bravo_Panting").view()
                 .frame(width: 300, height: 300)
                 .padding(.top, 30)
                 .padding(.bottom, 10)
@@ -167,7 +167,7 @@ struct OnboardingView: View {
             .padding(.top, 8)
             
             // Mascot
-            RiveViewModel(fileName: "test_panting").view()
+            RiveViewModel(fileName: "Bravo_Panting").view()
                 .frame(width: 100, height: 100)
             
             // Step Content
