@@ -75,6 +75,7 @@ struct SettingsView: View {
                     primaryButton: .destructive(Text("Logout")) {
                         UserDefaults.standard.removeObject(forKey: "accessToken")
                         isLoggedIn = false
+//                        stateManager.resetOnboardingData() // Reset onboarding data
                     },
                     secondaryButton: .cancel()
                 )
@@ -87,6 +88,7 @@ struct SettingsView: View {
                         deleteAccount()
                         UserDefaults.standard.removeObject(forKey: "accessToken")
                         isLoggedIn = false
+//                        stateManager.resetOnboardingData() // Reset onboarding data
                     },
                     secondaryButton: .cancel()
                 )
@@ -119,10 +121,17 @@ struct SettingsView: View {
             VStack(spacing: 0) {
                 Text("\(firstNameDisplay) \(lastNameDisplay)")
                     .font(.custom("Poppins-Bold", size: 18))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5) // Ensures text is legible
+                    .padding(.bottom, 2)
+                    .foregroundColor(globalSettings.primaryDarkColor)
                 
                 Text(emailDisplay)
                     .font(.custom("Poppins-Regular", size: 14))
                     .foregroundColor(.gray)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5) // Ensures text is legible
+                    .foregroundColor(globalSettings.primaryDarkColor)
             }
         }
         .frame(maxWidth: .infinity)
@@ -176,6 +185,7 @@ struct SettingsView: View {
                 .padding()
                 .frame(maxWidth: .infinity)
                 .background(Color.white)
+                .contentShape(Rectangle()) // Increases hit target size
             }
             .buttonStyle(PlainButtonStyle())
         )
@@ -307,14 +317,6 @@ struct SettingsView_Previews: PreviewProvider {
                 .environmentObject(mockStateManager)
                 .preferredColorScheme(.dark)
                 .previewDisplayName("Dark Mode")
-            
-            SettingsView(isLoggedIn: .constant(true))
-                .environmentObject(mockStateManager)
-
-            
-            SettingsView(isLoggedIn: .constant(true))
-                .environmentObject(mockStateManager)
-
         }
     }
 }

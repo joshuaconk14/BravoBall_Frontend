@@ -13,7 +13,7 @@ class OnboardingStateManager: ObservableObject {
         print("🟡 OnboardingStateManager initialized")
         print("Initial onboardingData: \(onboardingData)")
     }
-    
+        
     // takes the structure from OnboardingData and creates an instance
     @Published var onboardingData = OnboardingData(
         firstName: "",
@@ -83,4 +83,26 @@ class OnboardingStateManager: ObservableObject {
         print("Email: \(email)")
         print("Password: \(password)")
     }
+    
+//    func resetOnboardingData() {
+//            onboardingData = OnboardingData(
+//                firstName: "",
+//                lastName: "",
+//                email: "",
+//                password: "",
+//                ageRange: "",
+//                level: "",
+//                position: "",
+//                playstyleRepresentatives: [],
+//                strengths: [],
+//                weaknesses: [],
+//                hasTeam: false,
+//                primaryGoal: "",
+//                timeline: "",
+//                skillLevel: "",
+//                trainingDays: [],
+//                availableEquipment: []
+//            )
+//            print("🟡 Onboarding data has been reset.")
+//    }
 }

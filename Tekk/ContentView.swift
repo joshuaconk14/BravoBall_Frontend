@@ -16,7 +16,11 @@ struct ContentView: View {
     
     var body: some View {
         if isLoggedIn {
-            MainTabView(authToken: $authToken, isLoggedIn: $isLoggedIn)
+            MainTabView(
+                authToken: $authToken,
+                isLoggedIn: $isLoggedIn
+            )
+            .environmentObject(stateManager)
         } else {
             OnboardingView(
                 isLoggedIn: $isLoggedIn,

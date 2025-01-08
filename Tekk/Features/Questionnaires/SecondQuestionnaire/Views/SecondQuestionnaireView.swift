@@ -252,13 +252,13 @@ struct SecondQuestionnaireView: View {
                 trainingDays: chosenDays,
                 availableEquipment: chosenEquipment
             )
-            submitOnboardingData()
+            regNavigation()
         }
 
 
     }
 
-    private func submitOnboardingData() {
+    private func regNavigation() {
         showRegisterView = true
     }
 }

@@ -96,7 +96,7 @@ struct RegisterView: View {
                             
                             Button(action: {
                                 submitDetails()
-                                showLoadingView = true  // This will trigger the fullScreenCover
+                                showLoadingView = true  // This will trigger the loading screen
                             }) {
                                 Text("Submit")
                                     .foregroundColor(.white)
