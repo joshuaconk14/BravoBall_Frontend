@@ -5,13 +5,13 @@
 //  Created by Jordan on 1/7/25.
 //
 
-import SwiftUI
-
-struct OnboardingPreview: PreviewProvider {
-    static var previews: some View {
-        OnboardingView()
-    }
-}
+//import SwiftUI
+//
+//struct OnboardingPreview: PreviewProvider {
+//    static var previews: some View {
+//        OnboardingView()
+//    }
+//}
 
 //// Sample View to present the onboarding
 //struct ContentView: View {

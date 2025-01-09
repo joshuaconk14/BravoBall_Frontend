@@ -16,8 +16,38 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "10"
             endingLineNumber = "10"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "BravoBallApp"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "4F2A7340-3795-4F67-863F-0EE5D9C23F5B - 143dcc47bf98cb91"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BravoBall.BravoBallApp.init() -&gt; BravoBall.BravoBallApp"
+                  moduleName = "BravoBall.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Joshua/Desktop/Tekk_frontend/%3Cstdin%3E"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "4F2A7340-3795-4F67-863F-0EE5D9C23F5B - 95c7381c9349d148"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "main"
+                  moduleName = "BravoBall.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Joshua/Desktop/Tekk_frontend/Tekk/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

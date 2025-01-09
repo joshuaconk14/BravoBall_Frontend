@@ -26,7 +26,8 @@ struct CompletionView: View {
             
             Button("Get Started") {
                 withAnimation {
-                    model.onboardingComplete = true
+                    model.isLoggedIn = true
+                    model.resetOnboardingData()
                 }
             }
             .padding()
@@ -35,5 +36,42 @@ struct CompletionView: View {
             .cornerRadius(25)
         }
         .padding()
+        .onAppear {
+            submitData()
+        }
+    }
+    
+    func submitData() {
+            
+        Task {
+            do {
+                print("📤 Sending onboarding data: \(model.onboardingData)")
+                
+                // Run the OnboardingService function to submit data
+                let response = try await OnboardingService.shared.submitOnboardingData(data: model.onboardingData)
+                print("✅ Onboarding data submitted successfully")
+                
+                await MainActor.run {
+                    // Store access token taking access token response from the backend response
+                    UserDefaults.standard.set(response.access_token, forKey: "accessToken")
+                    
+                    
+                }
+            } catch let error as NSError {
+                await MainActor.run {
+                    model.errorMessage = "Server Error (\(error.code)): \(error.localizedDescription)"
+                    print("❌ Detailed error: \(error)")
+                    print("❌ Error domain: \(error.domain)")
+                    print("❌ Error code: \(error.code)")
+                    print("❌ Error user info: \(error.userInfo)")
+                }
+            } catch {
+                await MainActor.run {
+                    model.errorMessage = "Error: \(error.localizedDescription)"
+                    print("❌ Error submitting onboarding data: \(error)")
+                }
+            }
+        }
     }
 }
+

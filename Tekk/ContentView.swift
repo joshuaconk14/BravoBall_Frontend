@@ -17,20 +17,14 @@ struct BravoBallApp: App {
 }
 
 struct ContentView: View {
-    @StateObject private var onboardingModel = OnboardingModel()
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
-    
+    @StateObject var onboardingModel = OnboardingModel()
+
     var body: some View {
         Group {
-            if hasCompletedOnboarding {
-                MainTabView()
-                    .environmentObject(onboardingModel)
+            if onboardingModel.isLoggedIn {
+                MainTabView(model: onboardingModel)
             } else {
-                OnboardingView()
-                    .environmentObject(onboardingModel)
-                    .onDisappear {
-                        hasCompletedOnboarding = true
-                    }
+                OnboardingView(model: onboardingModel)
             }
         }
         .preferredColorScheme(.light)

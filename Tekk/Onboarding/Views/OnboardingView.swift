@@ -10,13 +10,15 @@ import RiveRuntime
 
 // Main onboarding view
 struct OnboardingView: View {
-    @StateObject private var model = OnboardingModel()
+    @ObservedObject var model: OnboardingModel
     @Environment(\.dismiss) private var dismiss
+
     
     var body: some View {
         Group {
-            if model.onboardingComplete {
-                MainTabView()
+            // testing instead of onboarding complete
+            if model.isLoggedIn {
+                MainTabView(model: model)
             } else {
                 content
             }
@@ -46,7 +48,7 @@ struct OnboardingView: View {
             
             // Intro animation overlay
             if model.showIntroAnimation {
-                RiveViewModel(fileName: "tekk_intro").view()
+                RiveViewModel(fileName: "BravoBall_Intro").view()
                     .scaleEffect(model.animationScale)
                     .edgesIgnoringSafeArea(.all)
                     .allowsHitTesting(false)
@@ -66,7 +68,7 @@ struct OnboardingView: View {
     // Welcome view for new users
     var welcomeContent: some View {
         VStack {
-            RiveViewModel(fileName: "test_panting").view()
+            RiveViewModel(fileName: "Bravo_Panting").view()
                 .frame(width: 300, height: 300)
                 .padding(.top, 30)
                 .padding(.bottom, 10)
@@ -167,7 +169,7 @@ struct OnboardingView: View {
             .padding(.top, 8)
             
             // Mascot
-            RiveViewModel(fileName: "test_panting").view()
+            RiveViewModel(fileName: "Bravo_Panting").view()
                 .frame(width: 100, height: 100)
             
             // Step Content
@@ -250,6 +252,15 @@ struct OnboardingView: View {
                         options: model.equipment,
                         selections: $model.onboardingData.availableEquipment
                     )
+                case 10:
+                    OnboardingRegisterForm(
+                        model: model,
+                        title: "Enter your Registration Info below!",
+                        firstName: $model.onboardingData.firstName,
+                        lastName: $model.onboardingData.lastName,
+                        email: $model.onboardingData.email,
+                        password: $model.onboardingData.password
+                    )
                 default:
                     CompletionView(model: model)
                 }
@@ -263,7 +274,7 @@ struct OnboardingView: View {
                         model.moveNext()
                     }
                 }) {
-                    Text(model.currentStep == 9 ? "Finish" : "Next")
+                    Text(model.currentStep == 10 ? "Finish" : "Next")
                         .frame(maxWidth: .infinity)
                         .frame(height: 50)
                         .background(

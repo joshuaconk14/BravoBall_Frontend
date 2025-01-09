@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct MainTabView: View {
-    @StateObject private var model = OnboardingModel()
+    @ObservedObject var model: OnboardingModel
     @State private var selectedTab = 0
     
     var body: some View {
@@ -28,7 +28,7 @@ struct MainTabView: View {
                 }
                 .tag(2)
             
-            ProfileView()
+            ProfileView(model: model)
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("Profile")
