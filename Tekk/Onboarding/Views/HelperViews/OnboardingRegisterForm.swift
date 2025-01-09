@@ -20,23 +20,30 @@ struct OnboardingRegisterForm: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
+            // Title
             Text(title)
+                .padding()
                 .font(.custom("Poppins-Bold", size: 18))
                 .foregroundColor(model.globalSettings.primaryDarkColor)
             
-            
+            // Register Form
             VStack(spacing: 20) {
                 // First Name Field
                 TextField("First Name", text: $firstName)
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1)))
                     .overlay(RoundedRectangle(cornerRadius: 10).stroke(model.globalSettings.primaryYellowColor.opacity(0.3), lineWidth: 1))
+                    .keyboardType(.default)
                 
                 // Last Name Field
                 TextField("Last Name", text: $lastName)
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1)))
                     .overlay(RoundedRectangle(cornerRadius: 10).stroke(model.globalSettings.primaryYellowColor.opacity(0.3), lineWidth: 1))
+                    .keyboardType(.default)
+                
+                Spacer()
+                    .frame(height: 10)
                 
                 // Username Field
                 TextField("Email", text: $email)
@@ -51,11 +58,14 @@ struct OnboardingRegisterForm: View {
                             .padding()
                             .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1)))
                             .overlay(RoundedRectangle(cornerRadius: 10).stroke(model.globalSettings.primaryYellowColor.opacity(0.3), lineWidth: 1))
+                            .keyboardType(.default)
                     } else {
                         SecureField("Password", text: $password)
                             .padding()
                             .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1)))
                             .overlay(RoundedRectangle(cornerRadius: 10).stroke(model.globalSettings.primaryYellowColor.opacity(0.3), lineWidth: 1))
+                            .keyboardType(.default)
+                        
                     }
                     
                     // Eye icon for password visibility toggle
@@ -68,20 +78,9 @@ struct OnboardingRegisterForm: View {
                     .padding(.trailing, 10)
                 }
                 
-                // Register Button
-                Button(action: {
-                    // Handle registration logic here
-                }) {
-                    Text("Register")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(model.globalSettings.primaryYellowColor)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .font(.custom("Poppins-Bold", size: 16))
-                }
+                Spacer()
+                    .frame(height: 10)
             }
-            .padding(.horizontal)
         }
     }
 }

@@ -9,22 +9,41 @@ import Foundation
 
 class OnboardingModel: ObservableObject {
     let globalSettings = GlobalSettings()
+    
 
     @Published var currentStep = 0
     @Published var onboardingData = OnboardingData()
     
     @Published var showLoginPage = false
     @Published var showWelcome = false
-    @Published var showIntroAnimation = true
+    @Published var showIntroAnimation = false
     @Published var isLoggedIn = false
     @Published var authToken = ""
-    @Published var onboardingComplete = false
     @Published var numberOfOnboardingPages = 11
+    
+    
+    
+    // Alert types for ProfileVIew logout and delete buttons
+    @Published var showAlert = false
+    @Published var alertType: AlertType = .none
+    
+    // Case switches for ProfileVIew logout and delete buttons
+    enum AlertType {
+        case logout
+        case delete
+        case none
+    }
+    
+    // Variables for when onboarding data is being submitted
+    @Published var isLoading = true
+    @Published var errorMessage: String? = nil
+    
+    
     
     // Animation scale for intro animation
     @Published var animationScale: CGFloat = 1.5
     
-    struct OnboardingData {
+    struct OnboardingData: Codable {
         var ageRange: String = ""
         var level: String = ""
         var position: String = ""
@@ -78,7 +97,10 @@ class OnboardingModel: ObservableObject {
         case 7: return !onboardingData.timeline.isEmpty
         case 8: return !onboardingData.trainingDays.isEmpty
         case 9: return !onboardingData.availableEquipment.isEmpty
-        case 10: return !onboardingData.firstName.isEmpty
+        case 10: return !onboardingData.firstName.isEmpty &&
+                        !onboardingData.lastName.isEmpty &&
+                        !onboardingData.email.isEmpty &&
+                        !onboardingData.password.isEmpty
         default: return false
         }
     }
@@ -108,4 +130,28 @@ class OnboardingModel: ObservableObject {
             showWelcome = false
         }
     }
+    
+    func resetOnboardingData() {
+            // Reset all published properties
+            currentStep = 0
+            showLoginPage = false
+            showWelcome = false
+            showIntroAnimation = false // TODO: test this when user resets app
+            authToken = ""
+            
+            // Reset onboardingData to default values
+            onboardingData = OnboardingData()  // This creates a new instance with default values
+            
+            // Clear UserDefaults
+            UserDefaults.standard.removeObject(forKey: "accessToken")
+            
+            // Debug print
+            print("OnboardingModel reset completed")
+            print("first name: \(onboardingData.firstName)")
+            print("last name: \(onboardingData.lastName)")
+            print("email: \(onboardingData.email)")
+            print("password: \(onboardingData.password)")
+            print("Current step: \(currentStep)")
+            print("auth token: \(authToken)")
+        }
 }

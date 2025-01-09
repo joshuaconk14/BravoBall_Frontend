@@ -10,13 +10,15 @@ import RiveRuntime
 
 // Main onboarding view
 struct OnboardingView: View {
-    @StateObject private var model = OnboardingModel()
+    @ObservedObject var model: OnboardingModel
     @Environment(\.dismiss) private var dismiss
+
     
     var body: some View {
         Group {
-            if model.onboardingComplete {
-                MainTabView()
+            // testing instead of onboarding complete
+            if model.isLoggedIn {
+                MainTabView(model: model)
             } else {
                 content
             }
