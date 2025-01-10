@@ -18,13 +18,15 @@ struct BravoBallApp: App {
 
 struct ContentView: View {
     @StateObject var onboardingModel = OnboardingModel()
+    @StateObject var appModel = MainAppModel()
+    @StateObject var userInfoManager = UserManager()
 
     var body: some View {
         Group {
             if onboardingModel.isLoggedIn {
-                MainTabView(model: onboardingModel)
+                MainTabView(model: onboardingModel, mainAppModel: appModel, userManager: userInfoManager)
             } else {
-                OnboardingView(model: onboardingModel)
+                OnboardingView(model: onboardingModel, mainAppModel: appModel, userManager: userInfoManager)
             }
         }
         .preferredColorScheme(.light)

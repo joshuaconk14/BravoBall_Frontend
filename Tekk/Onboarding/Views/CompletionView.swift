@@ -10,6 +10,8 @@ import RiveRuntime
 
 struct CompletionView: View {
     @ObservedObject var model: OnboardingModel
+    @ObservedObject var userManager: UserManager
+    
     
     var body: some View {
         VStack(spacing: 20) {
@@ -24,16 +26,20 @@ struct CompletionView: View {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
             
-            Button("Get Started") {
-                withAnimation {
+            Button(action: {
+                withAnimation(.spring()) {
                     model.isLoggedIn = true
                     model.resetOnboardingData()
                 }
+            }) {
+                Text("Get Started")
+                    .frame(width: 200)
+                    .frame(height: 44)
+                    .background(model.globalSettings.primaryYellowColor)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+                    .font(.system(size: 16, weight: .semibold))
             }
-            .padding()
-            .background(model.globalSettings.primaryYellowColor)
-            .foregroundColor(.white)
-            .cornerRadius(25)
         }
         .padding()
         .onAppear {
@@ -54,6 +60,19 @@ struct CompletionView: View {
                 await MainActor.run {
                     // Store access token taking access token response from the backend response
                     UserDefaults.standard.set(response.access_token, forKey: "accessToken")
+                    
+                    // Update the decoded user info into UserManager, which will store it into Keychain
+                    userManager.updateUserKeychain(
+                        email: model.onboardingData.email,
+                        firstName: model.onboardingData.firstName,
+                        lastName: model.onboardingData.lastName
+                    )
+                    
+                    print("Data submitted")
+                    print("Access token: \(response.access_token)")
+                    print("Email: \(model.onboardingData.email)")
+                    print("First Name: \(model.onboardingData.firstName)")
+                    print("Last Name: \(model.onboardingData.lastName)")
                     
                     
                 }

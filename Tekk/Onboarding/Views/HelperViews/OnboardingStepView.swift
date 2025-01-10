@@ -22,8 +22,12 @@ struct OnboardingStepView: View {
             
             ForEach(options, id: \.self) { option in
                 Button(action: {
-                    selection = option
-                }) {
+                        if selection == option {
+                            selection = ""
+                        } else {
+                            selection = option
+                        }
+                    }) {
                     HStack {
                         Text(option)
                             .font(.custom("Poppins-Bold", size: 16))

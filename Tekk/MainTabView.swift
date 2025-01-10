@@ -10,10 +10,11 @@ import SwiftUI
 
 struct MainTabView: View {
     @ObservedObject var model: OnboardingModel
-    @State private var selectedTab = 0
+    @ObservedObject var mainAppModel: MainAppModel
+    @ObservedObject var userManager: UserManager
     
     var body: some View {
-        TabView(selection: $selectedTab) {
+        TabView(selection: $mainAppModel.mainTabSelected) {
             SessionGeneratorView(model: model)
                 .tabItem {
                     Image(systemName: "figure.soccer")
@@ -28,7 +29,7 @@ struct MainTabView: View {
                 }
                 .tag(2)
             
-            ProfileView(model: model)
+            ProfileView(model: model, mainAppModel: mainAppModel, userManager: userManager)
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("Profile")

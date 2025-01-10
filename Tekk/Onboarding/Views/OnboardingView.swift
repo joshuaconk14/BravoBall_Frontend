@@ -11,6 +11,8 @@ import RiveRuntime
 // Main onboarding view
 struct OnboardingView: View {
     @ObservedObject var model: OnboardingModel
+    @ObservedObject var mainAppModel: MainAppModel
+    @ObservedObject var userManager: UserManager
     @Environment(\.dismiss) private var dismiss
 
     
@@ -18,7 +20,7 @@ struct OnboardingView: View {
         Group {
             // testing instead of onboarding complete
             if model.isLoggedIn {
-                MainTabView(model: model)
+                MainTabView(model: model, mainAppModel: mainAppModel, userManager: userManager)
             } else {
                 content
             }
@@ -36,7 +38,7 @@ struct OnboardingView: View {
             
             // Login view with transition
             if model.showLoginPage {
-                LoginView(model: model)
+                LoginView(model: model, userManager: userManager)
                     .transition(.move(edge: .bottom))
             }
             
@@ -262,7 +264,7 @@ struct OnboardingView: View {
                         password: $model.onboardingData.password
                     )
                 default:
-                    CompletionView(model: model)
+                    CompletionView(model: model, userManager: userManager)
                 }
             }
             .padding()

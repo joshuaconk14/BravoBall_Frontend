@@ -13,12 +13,16 @@ import RiveRuntime
 struct LoginResponse: Codable {
     let access_token: String
     let token_type: String
+    let email: String
+    let first_name: String
+    let last_name: String
 }
 
 
 // Login page
 struct LoginView: View {
     @ObservedObject var model: OnboardingModel
+    @ObservedObject var userManager: UserManager
     @State private var email = ""
     @State private var password = ""
     
@@ -69,9 +73,23 @@ struct LoginView: View {
                     }
                 }
                 .padding(.horizontal)
+            
                 
+                // Error message
+                if !model.errorMessage.isEmpty {
+                    Text(model.errorMessage)
+                        .foregroundColor(.red)
+                        .font(.system(size: 14))
+                        .padding(.horizontal)
+                }
+                
+            
                 // Login button
-                Button(action: loginUser) {
+                Button(action: {
+                    withAnimation(.spring()) {
+                        loginUser()
+                    }
+                }) {
                     Text("Login")
                         .frame(maxWidth: .infinity)
                         .frame(height: 44)
@@ -81,17 +99,24 @@ struct LoginView: View {
                         .font(.system(size: 16, weight: .semibold))
                 }
                 .padding(.horizontal)
+                .padding(.top)
                 
+            
                 // Cancel button
                 Button(action: {
                     withAnimation(.spring()) {
-                        model.showLoginPage = false
+                        resetLoginInfo()
                     }
                 }) {
                     Text("Cancel")
-                        .foregroundColor(model.globalSettings.primaryDarkColor)
+                        .frame(maxWidth: .infinity)
                         .frame(height: 44)
+                        .background(.gray.opacity(0.2))
+                        .foregroundColor(model.globalSettings.primaryDarkColor)
+                        .cornerRadius(12)
+                        .font(.system(size: 16, weight: .semibold))
                 }
+                .padding(.horizontal)
                 
                 Spacer()
             }
@@ -102,12 +127,20 @@ struct LoginView: View {
         }
     
 
+    // Resets login info and error message when user cancels login page
+    func resetLoginInfo() {
+        model.showLoginPage = false
+        email = ""
+        password = ""
+        model.errorMessage = ""
+    }
 
-    // MARK: - User function
+    
+    // MARK: - Login user function
     // function for login user
     func loginUser() {
         guard !email.isEmpty, !password.isEmpty else {
-            model.errorMessage = "Please fill in all fields."
+            self.model.errorMessage = "Please fill in all fields."
             return
         }
 
@@ -126,30 +159,49 @@ struct LoginView: View {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try? JSONSerialization.data(withJSONObject: loginDetails)
 
-        // start URL session to interact with backend
+        // Start URL session to interact with backend
         URLSession.shared.dataTask(with: request) { data, response, error in
-            if let data = data,
-               let decodedResponse = try? JSONDecoder().decode(LoginResponse.self, from: data) {
-                DispatchQueue.main.async {
-                    model.authToken = decodedResponse.access_token
-                    model.isLoggedIn = true
-                    print("Login token: \(self.model.authToken)")
-                    print("Login success: \(self.model.isLoggedIn)")
-                    // TODO make this a secure key
-                    UserDefaults.standard.set(self.model.authToken, forKey: "authToken")
-
-                    // // Fetch conversations after successful login
-                    // self.fetchConversations()
+            if let httpResponse = response as? HTTPURLResponse {
+                switch httpResponse.statusCode {
+                case 200:
+                    if let data = data,
+                       let decodedResponse = try? JSONDecoder().decode(LoginResponse.self, from: data) {
+                        DispatchQueue.main.async {
+                            UserDefaults.standard.set(self.model.authToken, forKey: "authToken")
+                            model.authToken = decodedResponse.access_token
+                            model.isLoggedIn = true
+                            model.showLoginPage = false
+                            
+                            userManager.updateUserKeychain(
+                                email: decodedResponse.email,
+                                firstName: decodedResponse.first_name,
+                                lastName: decodedResponse.last_name
+                            )
+                            
+                            print("Login token: \(self.model.authToken)")
+                            print("Login success: \(self.model.isLoggedIn)")
+                            print("Email: \(decodedResponse.email)")
+                            print("First name: \(decodedResponse.first_name)")
+                            print("Last name: \(decodedResponse.last_name)")
+                        }
+                    }
+                case 401:
+                    DispatchQueue.main.async {
+                        self.model.errorMessage = "Invalid credentials, please try again."
+                        print("❌ Login failed: Invalid credentials")
+                    }
+                default:
+                    DispatchQueue.main.async {
+                        self.model.errorMessage = "Failed to login. Please try again."
+                        if let data = data, let responseString = String(data: data, encoding: .utf8) {
+                            print("Response data not fully completed: \(responseString)")
+                        }
+                    }
                 }
-            } else {
+            } else if let error = error {
                 DispatchQueue.main.async {
-                    self.model.errorMessage = "Failed to login. Please try again."
-                    if let error = error {
-                        print("Login error: \(error.localizedDescription)")
-                    }
-                    if let data = data, let responseString = String(data: data, encoding: .utf8) {
-                        print("Response data: \(responseString)")
-                    }
+                    self.model.errorMessage = "Network error. Please try again."
+                    print("Login error: \(error.localizedDescription)")
                 }
             }
         }.resume()
