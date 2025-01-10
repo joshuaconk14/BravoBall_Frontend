@@ -12,6 +12,8 @@ class OnboardingModel: ObservableObject {
     
 
     @Published var currentStep = 0
+    // For question transition when back button pressed
+    @Published var backTransition: Bool = false
     @Published var onboardingData = OnboardingData()
     
     @Published var showLoginPage = false
@@ -19,6 +21,7 @@ class OnboardingModel: ObservableObject {
     @Published var showIntroAnimation = false
     @Published var isLoggedIn = false
     @Published var authToken = ""
+    @Published var isPasswordVisible: Bool = false
     @Published var numberOfOnboardingPages = 11
     
     

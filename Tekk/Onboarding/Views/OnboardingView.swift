@@ -132,6 +132,7 @@ struct OnboardingView: View {
                 // Back Button
                 Button(action: {
                     withAnimation {
+                        model.backTransition = true
                         model.movePrevious()
                     }
                 }) {
@@ -150,7 +151,7 @@ struct OnboardingView: View {
                         
                         Rectangle()
                             .foregroundColor(model.globalSettings.primaryYellowColor)
-                            .frame(width: geometry.size.width * (CGFloat(model.currentStep) / 10.0), height: 10)
+                            .frame(width: geometry.size.width * (CGFloat(model.currentStep) / 11.0), height: 10)
                             .cornerRadius(2)
                     }
                 }
@@ -159,6 +160,7 @@ struct OnboardingView: View {
                 // Skip Button
                 Button(action: {
                     withAnimation {
+                        model.backTransition = false
                         model.skipToNext()
                     }
                 }) {
@@ -268,11 +270,13 @@ struct OnboardingView: View {
                 }
             }
             .padding()
+
             
             // Next button
             if model.currentStep < model.numberOfOnboardingPages {
                 Button(action: {
                     withAnimation {
+                        model.backTransition = false
                         model.moveNext()
                     }
                 }) {

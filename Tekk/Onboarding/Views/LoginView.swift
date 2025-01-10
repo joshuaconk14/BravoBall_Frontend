@@ -37,39 +37,43 @@ struct LoginView: View {
                     .padding()
                 
                 VStack(spacing: 15) {
-                    // Email field with better constraints
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Email")
-                            .foregroundColor(.gray)
-                            .font(.system(size: 14, weight: .medium))
-                        
-                        TextField("", text: $email)
-                            .textContentType(.emailAddress)
-                            .keyboardType(.emailAddress)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                            .frame(height: 44)
-                            .padding(.horizontal)
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
-                    }
+                    // Email Field
+                    TextField("Email", text: $email)
+                        .padding()
+                        .textContentType(.emailAddress)
+                        .keyboardType(.emailAddress)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1)))
+                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(model.globalSettings.primaryYellowColor.opacity(0.3), lineWidth: 1))
                     
-                    // Password field with better constraints
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Password")
-                            .foregroundColor(.gray)
-                            .font(.system(size: 14, weight: .medium))
+                    // Password Field
+                    ZStack(alignment: .trailing) {
+                        if model.isPasswordVisible {
+                            TextField("Password", text: $password)
+                                .padding()
+                                .autocapitalization(.none)
+                                .disableAutocorrection(true)
+                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1)))
+                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(model.globalSettings.primaryYellowColor.opacity(0.3), lineWidth: 1))
+                                .keyboardType(.default)
+                        } else {
+                            SecureField("Password", text: $password)
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1)))
+                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(model.globalSettings.primaryYellowColor.opacity(0.3), lineWidth: 1))
+                                .keyboardType(.default)
+                            
+                        }
                         
-                        SecureField("", text: $password)
-                            .textContentType(.password)
-                            .frame(height: 44)
-                            .padding(.horizontal)
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
+                        // Eye icon for password visibility toggle
+                        Button(action: {
+                            model.isPasswordVisible.toggle()
+                        }) {
+                            Image(systemName: model.isPasswordVisible ? "eye.slash.fill" : "eye.fill")
+                                .foregroundColor(model.globalSettings.primaryYellowColor)
+                        }
+                        .padding(.trailing, 10)
                     }
                 }
                 .padding(.horizontal)

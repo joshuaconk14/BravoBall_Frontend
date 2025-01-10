@@ -53,5 +53,10 @@ struct OnboardingStepView: View {
             }
         }
         .padding(.horizontal)
+//            // Ternary operator for if back button is pressed or not, questions move right or left
+//            .transition(.asymmetric(
+//                insertion: .move(edge: model.backTransition ? .leading : .trailing),
+//                removal: .move(edge: model.backTransition ? .trailing : .leading)
+//            ))
     }
 }
