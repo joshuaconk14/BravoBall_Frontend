@@ -177,7 +177,7 @@ struct OnboardingView: View {
                 .frame(width: 100, height: 100)
             
             // Step Content
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 switch model.currentStep {
                 case 0:
                     OnboardingStepView(
