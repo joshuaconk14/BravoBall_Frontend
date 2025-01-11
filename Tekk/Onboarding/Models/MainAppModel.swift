@@ -17,6 +17,13 @@ class MainAppModel: ObservableObject {
     @Published var currentProgress = 0  // Track which button should show checkmark
     @Published var addCheckMark = false
     @Published var streakIncrease: Int = 0
+    @Published var interactedDayShowGold = false
+    @Published var currentWeek = 0
+    
+    
+
+  
+
     
     
     

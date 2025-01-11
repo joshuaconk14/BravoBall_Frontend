@@ -11,26 +11,18 @@ import RiveRuntime
 struct CompletedSessionView: View {
     @ObservedObject var mainAppModel: MainAppModel
     
-    @State private var weekCounter = 0
-
-    
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 5) {
                 
                 streakDisplay
                 
-                .padding(.top, 50)
-                
-                Spacer()
-                    .frame(height: 50)
-                
                 Text("Completed drills:")
                     .font(.custom("Poppins-Bold", size: 18))
                     .padding(.bottom, 5)
                 Text("Completed exercises:")
                     .font(.custom("Poppins-Bold", size: 18))
-                    .padding(.bottom, 50)
+                    .padding(.bottom, 10)
                 
                 
                 
@@ -39,13 +31,14 @@ struct CompletedSessionView: View {
                 // test button
                 Button(action: {
                     if mainAppModel.currentProgress >= 0 {
-                            mainAppModel.currentProgress += 1
-                            mainAppModel.addCheckMark = true
-                            mainAppModel.streakIncrease += 1
+                        mainAppModel.currentProgress += 1
+                        mainAppModel.addCheckMark = true
+                        mainAppModel.streakIncrease += 1
+                        mainAppModel.interactedDayShowGold = true
                     }
                 }) {
                     Text("Test")
-                        .padding(.bottom, 20)
+                        .foregroundColor(Color.blue)
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 20)
@@ -54,36 +47,42 @@ struct CompletedSessionView: View {
                 // week changer
                 HStack {
                     Button(action: {
-                        weekCounter -= 1 // no purpose yet
+                        mainAppModel.currentWeek -= 1
                     }) {
                         Image(systemName: "chevron.left")
+                            .frame(minWidth: 44, minHeight: 44)
                     }
                     .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
                     .padding(.trailing, 10)
                     
-                    Text("Week 1")
+                    Text("Week \(mainAppModel.currentWeek + 1)")
                         .font(.custom("Poppins-Bold", size: 23))
                     
                     Button(action: {
-                        weekCounter += 1 // no purpose yet
+                        mainAppModel.currentWeek += 1
                     }) {
                         Image(systemName: "chevron.right")
+                            .frame(minWidth: 44, minHeight: 44)
                     }
                     .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
                     .padding(.leading, 10)
                 }
                 .padding(.bottom, 30)
                 
+                
+                // For each week display button:
                 VStack(spacing: 5) {
                     ForEach(0..<7) { index in
                         WeekDisplayButton(
                             mainAppModel: mainAppModel,
                             text: getDayText(for: index),
-                            showCheckmark: mainAppModel.currentProgress > index
+                            showCheckmark: mainAppModel.currentProgress > index, // boolean goes through each index / case #
+                            interactedDay: mainAppModel.currentProgress + 1 > index // boolean goes through each index / case #
                         )
                     }
                 }
                 .padding(.horizontal)
+                
                 
                 
                 
@@ -96,7 +95,9 @@ struct CompletedSessionView: View {
     private var streakDisplay: some View {
         ZStack {
             RiveViewModel(fileName: "Streak_Diamond").view()
-                .frame(width: 520, height: 350)
+                .aspectRatio(contentMode: .fit)  // For diff screen width so object does not go out screen
+                .frame(maxWidth: .infinity)
+                .padding()
             HStack {
                 Image("Streak_Flame")
                     .resizable()
@@ -108,9 +109,10 @@ struct CompletedSessionView: View {
                     .foregroundColor(.red)
             }
         }
+        .padding()
     }
     
-    
+    // returns the text for each day
     private func getDayText(for index: Int) -> String {
         switch index {
         case 0: return "Sunday"
