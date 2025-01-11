@@ -13,6 +13,7 @@ struct WeekDisplayButton: View {
     @ObservedObject var mainAppModel: MainAppModel
     
     let text: String
+    let showCheckmark: Bool
     
     
     var body: some View {
@@ -23,6 +24,14 @@ struct WeekDisplayButton: View {
                 RiveViewModel(fileName: "Week_Progress_Box").view()
                     .frame(width: 320, height: 150)
                     .clipped()
+                if showCheckmark {
+                    Image(systemName: "checkmark.circle.fill")
+                        .imageScale(.large)
+                        .font(.system(size: 30))
+                        .padding(.bottom, 130)
+                        .padding(.leading, 200)
+                        .foregroundColor(Color.green)
+                }
                 HStack {
                     Spacer()
                         .frame(width: 90)
@@ -34,4 +43,14 @@ struct WeekDisplayButton: View {
             }
         }
     }
+}
+
+#Preview {
+    let mockAppModel = MainAppModel()
+    
+    return WeekDisplayButton(
+        mainAppModel: mockAppModel,
+        text: "Monday",
+        showCheckmark: true
+    )
 }

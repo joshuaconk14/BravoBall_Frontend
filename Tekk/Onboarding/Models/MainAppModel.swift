@@ -13,9 +13,18 @@ class MainAppModel: ObservableObject {
     
     var mainTabSelected = 0
     
+    // testing
+    @Published var currentProgress = 0  // Track which button should show checkmark
+    @Published var addCheckMark = false
+    @Published var streakIncrease: Int = 0
+    
+    
+    
+    
     // Alert types for ProfileVIew logout and delete buttons
     @Published var showAlert = false
     @Published var alertType: AlertType = .none
+
     
     // Case switches for ProfileVIew logout and delete buttons
     enum AlertType {
