@@ -20,6 +20,7 @@ struct OnboardingMultiSelectView: View {
                 .font(.custom("Poppins-Bold", size: 18))
                 .foregroundColor(model.globalSettings.primaryDarkColor)
             
+            // Shows the list of all options
             ForEach(options, id: \.self) { option in
                 Button(action: {
                     if selections.contains(option) {

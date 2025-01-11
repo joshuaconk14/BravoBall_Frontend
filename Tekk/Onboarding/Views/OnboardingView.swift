@@ -63,7 +63,7 @@ struct OnboardingView: View {
         .animation(.spring(), value: model.showLoginPage)
     }
     
-    // Welcome view for new users
+    // MARK: Welcome view for new users
     var welcomeContent: some View {
         VStack {
             RiveViewModel(fileName: "test_panting").view()
@@ -120,7 +120,7 @@ struct OnboardingView: View {
         .background(.white)
     }
     
-    // Questionnaire view for onboarding new users
+    //MARK: Questionnaire view for onboarding new users
     var questionnaireContent: some View {
         VStack(spacing: 16) {
             // Top Navigation Bar
