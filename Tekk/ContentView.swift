@@ -17,9 +17,9 @@ struct BravoBallApp: App {
 }
 
 struct ContentView: View {
-    @StateObject var onboardingModel = OnboardingModel()
-    @StateObject var appModel = MainAppModel()
-    @StateObject var userInfoManager = UserManager()
+    @StateObject private var onboardingModel = OnboardingModel()
+    @StateObject private var appModel = MainAppModel()
+    @StateObject private var userInfoManager = UserManager()
 
     var body: some View {
         Group {

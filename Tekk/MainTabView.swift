@@ -21,6 +21,12 @@ struct MainTabView: View {
                     Text("Train")
                 }
                 .tag(0)
+            CompletedSessionView()
+                .tabItem {
+                    Image(systemName: "checkmark.circle.fill")
+                    Text("Sessions")
+                }
+                .tag(1)
             
             SavedDrillsView()
                 .tabItem {
@@ -37,6 +43,20 @@ struct MainTabView: View {
                 .tag(3)
         }
         .accentColor(model.globalSettings.primaryYellowColor)
+        .onAppear {
+            mainAppModel.mainTabSelected = 0
+        }
     }
 }
 
+#Preview {
+    let mockOnboardingModel = OnboardingModel()
+    let mockMainAppModel = MainAppModel()
+    let mockUserManager = UserManager()
+    
+    return MainTabView(
+        model: mockOnboardingModel,
+        mainAppModel: mockMainAppModel,
+        userManager: mockUserManager
+    )
+}

@@ -30,6 +30,7 @@
 		430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */; };
 		430FD6CD2D30648A0016D520 /* MainAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6CC2D3064850016D520 /* MainAppModel.swift */; };
 		430FD6D32D307AEC0016D520 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 430FD6D22D307AEC0016D520 /* SwiftKeychainWrapper */; };
+		430FD6E92D3206400016D520 /* CompletedSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6E82D3206390016D520 /* CompletedSessionView.swift */; };
 		435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 435A70142CA7AB2600BFCC40 /* RiveRuntime */; };
 		43985E472CB4EFA200BE2AB6 /* BravoBall_Intro.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */; };
 		43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */; };
@@ -82,6 +83,7 @@
 		17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
 		430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRegisterForm.swift; sourceTree = "<group>"; };
 		430FD6CC2D3064850016D520 /* MainAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppModel.swift; sourceTree = "<group>"; };
+		430FD6E82D3206390016D520 /* CompletedSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedSessionView.swift; sourceTree = "<group>"; };
 		43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = BravoBall_Intro.riv; sourceTree = "<group>"; };
 		43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PottaOne-Regular.ttf"; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 		178208F52D2E05FE00246494 /* AppFeatures */ = {
 			isa = PBXGroup;
 			children = (
+				430FD6E82D3206390016D520 /* CompletedSessionView.swift */,
 				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
 				1782090F2D2E0C6800246494 /* SessionGeneratorView.swift */,
 				1782090D2D2E0A1100246494 /* ProfileView.swift */,
@@ -407,6 +410,7 @@
 				1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */,
 				178209102D2E0C6800246494 /* SessionGeneratorView.swift in Sources */,
 				178208E22D2DEBB400246494 /* OnboardingView.swift in Sources */,
+				430FD6E92D3206400016D520 /* CompletedSessionView.swift in Sources */,
 				178208E42D2DEBC800246494 /* LoginView.swift in Sources */,
 				178208E92D2DEC6D00246494 /* OnboardingStepView.swift in Sources */,
 				178208D22D2D14D200246494 /* MainTabView.swift in Sources */,
