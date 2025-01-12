@@ -30,8 +30,8 @@ struct CompletedSessionView: View {
                 
                 // test button
                 Button(action: {
-                    if mainAppModel.currentProgress >= 0 {
-                        mainAppModel.currentProgress += 1
+                    if mainAppModel.currentDay >= 0 {
+                        mainAppModel.completedSessionIndicator()
                         mainAppModel.addCheckMark = true
                         mainAppModel.streakIncrease += 1
                         mainAppModel.interactedDayShowGold = true
@@ -54,6 +54,7 @@ struct CompletedSessionView: View {
                     }
                     .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
                     .padding(.trailing, 10)
+                    .disabled(mainAppModel.currentWeek == 0)
                     
                     Text("Week \(mainAppModel.currentWeek + 1)")
                         .font(.custom("Poppins-Bold", size: 23))
@@ -66,6 +67,7 @@ struct CompletedSessionView: View {
                     }
                     .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
                     .padding(.leading, 10)
+                    .disabled(mainAppModel.currentWeek == mainAppModel.completedWeeks.count)
                 }
                 .padding(.bottom, 30)
                 
@@ -76,8 +78,8 @@ struct CompletedSessionView: View {
                         WeekDisplayButton(
                             mainAppModel: mainAppModel,
                             text: getDayText(for: index),
-                            showCheckmark: mainAppModel.currentProgress > index, // boolean goes through each index / case #
-                            interactedDay: mainAppModel.currentProgress + 1 > index // boolean goes through each index / case #
+                            showCheckmark: mainAppModel.currentDay > index, // boolean goes through each index / case #
+                            interactedDay: mainAppModel.currentDay + 1 > index // boolean goes through each index / case #
                         )
                     }
                 }
