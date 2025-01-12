@@ -10,12 +10,35 @@ import RiveRuntime
 
 struct CompletedSessionView: View {
     @ObservedObject var mainAppModel: MainAppModel
+    @State private var showCalendar = false
     
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 5) {
                 
                 streakDisplay
+                
+                // Add Calendar Button
+                Button(action: {
+                    withAnimation {
+                        showCalendar.toggle()
+                    }
+                }) {
+                    HStack {
+                        Text("View Calendar")
+                            .font(.custom("Poppins-Bold", size: 16))
+                        Image(systemName: showCalendar ? "chevron.up" : "chevron.down")
+                    }
+                    .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
+                    .padding()
+                }
+                
+                // Calendar View (appears when showCalendar is true)
+                if showCalendar {
+                    CalendarView()
+                        .frame(height: 300)
+                        .transition(.move(edge: .top))
+                }
                 
                 Text("Completed drills:")
                     .font(.custom("Poppins-Bold", size: 18))
@@ -136,7 +159,23 @@ struct CompletedSessionView: View {
     }
 }
 
-
+struct CalendarView: View {
+    @Environment(\.calendar) var calendar
+    @State private var selectedDate = Date()
+    
+    var body: some View {
+        DatePicker(
+            "Select Date",
+            selection: $selectedDate,
+            displayedComponents: [.date]
+        )
+        .datePickerStyle(.graphical)
+        .padding()
+        .background(Color.white)
+        .cornerRadius(10)
+        .shadow(radius: 2)
+    }
+}
 
 #Preview {
     let mockAppModel = MainAppModel()
