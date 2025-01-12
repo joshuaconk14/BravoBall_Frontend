@@ -25,7 +25,7 @@ struct SessionGeneratorView: View {
                                 .font(.custom("Poppins-Bold", size: 20))
                             Spacer()
                             Button(action: {
-                                // Add skill action
+                                // TODO: Add skill action
                             }) {
                                 Image(systemName: "plus")
                                     .foregroundColor(model.globalSettings.primaryYellowColor)
