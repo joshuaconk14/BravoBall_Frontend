@@ -69,9 +69,10 @@ struct CompletedSessionView: View {
                     .padding(.leading, 10)
                     .disabled(mainAppModel.currentWeek == mainAppModel.completedWeeks.count)
                 }
-                .padding(.bottom, 8)
+                .padding(.bottom, 15)
                 
-                HStack {
+                
+                HStack(spacing: 32) {
                     Text("Su")
                     Text("Mo")
                     Text("Tu")
@@ -96,13 +97,7 @@ struct CompletedSessionView: View {
                         )
                     }
                 }
-                
-                
-                
-                
-
-                
-
+                .padding(.horizontal)
             }
         }
     }
