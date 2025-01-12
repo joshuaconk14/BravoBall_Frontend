@@ -69,21 +69,32 @@ struct CompletedSessionView: View {
                     .padding(.leading, 10)
                     .disabled(mainAppModel.currentWeek == mainAppModel.completedWeeks.count)
                 }
-                .padding(.bottom, 30)
+                .padding(.bottom, 8)
+                
+                HStack {
+                    Text("Su")
+                    Text("Mo")
+                    Text("Tu")
+                    Text("We")
+                    Text("Th")
+                    Text("Fr")
+                    Text("Sa")
+                }
+                .font(.custom("Poppins", size: 20))
+                .padding(.bottom, 20)
+                .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
                 
                 
                 // For each week display button:
-                VStack(spacing: 5) {
+                HStack(spacing: 0) {
                     ForEach(0..<7) { index in
                         WeekDisplayButton(
                             mainAppModel: mainAppModel,
                             text: getDayText(for: index),
-                            showCheckmark: mainAppModel.currentDay > index, // boolean goes through each index / case #
                             interactedDay: mainAppModel.currentDay + 1 > index // boolean goes through each index / case #
                         )
                     }
                 }
-                .padding(.horizontal)
                 
                 
                 
@@ -117,13 +128,13 @@ struct CompletedSessionView: View {
     // returns the text for each day
     private func getDayText(for index: Int) -> String {
         switch index {
-        case 0: return "Sunday"
-        case 1: return "Monday"
-        case 2: return "Tuesday"
-        case 3: return "Wednesday"
-        case 4: return "Thursday"
-        case 5: return "Friday"
-        case 6: return "Saturday"
+        case 0: return "1"
+        case 1: return "2"
+        case 2: return "3"
+        case 3: return "4"
+        case 4: return "5"
+        case 5: return "6"
+        case 6: return "7"
         default: return ""
         }
     }

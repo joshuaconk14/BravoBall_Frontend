@@ -31,10 +31,10 @@
 		430FD6CD2D30648A0016D520 /* MainAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6CC2D3064850016D520 /* MainAppModel.swift */; };
 		430FD6D32D307AEC0016D520 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 430FD6D22D307AEC0016D520 /* SwiftKeychainWrapper */; };
 		430FD6E92D3206400016D520 /* CompletedSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6E82D3206390016D520 /* CompletedSessionView.swift */; };
-		430FD7012D3255CF0016D520 /* Week_Progress_Box.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD7002D3255CF0016D520 /* Week_Progress_Box.riv */; };
-		430FD7032D3256720016D520 /* test.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD7022D3256720016D520 /* test.riv */; };
 		430FD7092D32674C0016D520 /* Streak_Diamond.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD7082D32674C0016D520 /* Streak_Diamond.riv */; };
-		430FD7192D32FD320016D520 /* Week_Progress_Box_Interacted.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD7182D32FD320016D520 /* Week_Progress_Box_Interacted.riv */; };
+		430FD71B2D3344910016D520 /* Drill_Card.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71A2D3344910016D520 /* Drill_Card.riv */; };
+		430FD71D2D3347DD0016D520 /* Day_High_Score.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71C2D3347DD0016D520 /* Day_High_Score.riv */; };
+		430FD71F2D334CAF0016D520 /* Day_Null.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71E2D334CAF0016D520 /* Day_Null.riv */; };
 		435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 435A70142CA7AB2600BFCC40 /* RiveRuntime */; };
 		43985E472CB4EFA200BE2AB6 /* BravoBall_Intro.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */; };
 		43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */; };
@@ -88,10 +88,10 @@
 		430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRegisterForm.swift; sourceTree = "<group>"; };
 		430FD6CC2D3064850016D520 /* MainAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppModel.swift; sourceTree = "<group>"; };
 		430FD6E82D3206390016D520 /* CompletedSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedSessionView.swift; sourceTree = "<group>"; };
-		430FD7002D3255CF0016D520 /* Week_Progress_Box.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Week_Progress_Box.riv; sourceTree = "<group>"; };
-		430FD7022D3256720016D520 /* test.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.riv; sourceTree = "<group>"; };
 		430FD7082D32674C0016D520 /* Streak_Diamond.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Streak_Diamond.riv; sourceTree = "<group>"; };
-		430FD7182D32FD320016D520 /* Week_Progress_Box_Interacted.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Week_Progress_Box_Interacted.riv; sourceTree = "<group>"; };
+		430FD71A2D3344910016D520 /* Drill_Card.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drill_Card.riv; sourceTree = "<group>"; };
+		430FD71C2D3347DD0016D520 /* Day_High_Score.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_High_Score.riv; sourceTree = "<group>"; };
+		430FD71E2D334CAF0016D520 /* Day_Null.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Null.riv; sourceTree = "<group>"; };
 		43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = BravoBall_Intro.riv; sourceTree = "<group>"; };
 		43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PottaOne-Regular.ttf"; sourceTree = "<group>"; };
@@ -260,12 +260,12 @@
 		439A72632C9FA55700B4C5AD /* RiveAssets */ = {
 			isa = PBXGroup;
 			children = (
-				430FD7002D3255CF0016D520 /* Week_Progress_Box.riv */,
 				43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */,
 				43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */,
-				430FD7022D3256720016D520 /* test.riv */,
 				430FD7082D32674C0016D520 /* Streak_Diamond.riv */,
-				430FD7182D32FD320016D520 /* Week_Progress_Box_Interacted.riv */,
+				430FD71A2D3344910016D520 /* Drill_Card.riv */,
+				430FD71C2D3347DD0016D520 /* Day_High_Score.riv */,
+				430FD71E2D334CAF0016D520 /* Day_Null.riv */,
 			);
 			path = RiveAssets;
 			sourceTree = "<group>";
@@ -382,16 +382,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				430FD7012D3255CF0016D520 /* Week_Progress_Box.riv in Resources */,
 				174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */,
-				430FD7192D32FD320016D520 /* Week_Progress_Box_Interacted.riv in Resources */,
 				1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */,
+				430FD71D2D3347DD0016D520 /* Day_High_Score.riv in Resources */,
 				430FD7092D32674C0016D520 /* Streak_Diamond.riv in Resources */,
 				43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */,
 				43985E5A2CB5B0BB00BE2AB6 /* Bravo_Panting.riv in Resources */,
 				43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */,
 				43985E472CB4EFA200BE2AB6 /* BravoBall_Intro.riv in Resources */,
-				430FD7032D3256720016D520 /* test.riv in Resources */,
+				430FD71B2D3344910016D520 /* Drill_Card.riv in Resources */,
+				430FD71F2D334CAF0016D520 /* Day_Null.riv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
