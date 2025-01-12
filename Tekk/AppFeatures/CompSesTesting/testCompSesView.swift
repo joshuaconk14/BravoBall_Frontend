@@ -1,4 +1,11 @@
 //
+//  testCompSesView.swift
+//  BravoBall
+//
+//  Created by Joshua Conklin on 1/11/25.
+//
+
+//
 //  CompletedSessionView.swift
 //  BravoBall
 //
@@ -8,15 +15,10 @@
 import SwiftUI
 import RiveRuntime
 
-struct CompletedSessionView: View {
-//    @ObservedObject var mainAppModel: MainAppModel
-//    
-//    var body: some View {
-//        Text("virginius")
-//    }
-//}
+struct testCompSesView: View {
     @ObservedObject var mainAppModel: MainAppModel
     @State private var showCalendar = false
+
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -36,20 +38,20 @@ struct CompletedSessionView: View {
                 
                 
                 
-                // test button
-                Button(action: {
-                    if mainAppModel.currentDay >= 0 {
-                        mainAppModel.completedSessionIndicator()
-                        mainAppModel.addCheckMark = true
-                        mainAppModel.streakIncrease += 1
-                        mainAppModel.interactedDayShowGreen = true
-                    }
-                }) {
-                    Text("Test")
-                        .foregroundColor(Color.blue)
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 20)
+//                // test button
+//                Button(action: {
+//                    if mainAppModel.currentDay >= 0 {
+//                        mainAppModel.completedSessionIndicator()
+//                        mainAppModel.addCheckMark = true
+//                        mainAppModel.streakIncrease += 1
+//                        mainAppModel.interactedDayShowGreen = true
+//                    }
+//                }) {
+//                    Text("Test")
+//                        .foregroundColor(Color.blue)
+//                }
+//                .padding(.horizontal)
+//                .padding(.bottom, 20)
                 
                 
                 // week changer
@@ -122,7 +124,7 @@ struct CompletedSessionView: View {
                 
                 // Calendar View (appears when showCalendar is true)
                 if showCalendar {
-                    CalendarView(mainAppModel: mainAppModel)
+                    CalendarViewTest(mainAppModel: mainAppModel)
                         .frame(height: 300)
                         .padding(.top, 35)
                         .transition(.move(edge: .top))
@@ -172,13 +174,41 @@ struct CompletedSessionView: View {
 
 // MARK: Calendar
 
-struct CalendarView: View {
+struct CalendarViewTest: View {
     @ObservedObject var mainAppModel: MainAppModel
-    @State private var selectedDate = Date()
+    @State var selectedDate = Date()
     let calendar = Calendar.current
+    
+    @State private var todayInt: Int = 0
+    
+    
     
     var body: some View {
         VStack {
+            
+            // initializing present day date as an Int
+            Spacer()
+                .onAppear {
+                    todayInt = calendar.component(.day, from: selectedDate)
+            }
+            
+            // test button
+            Button(action: {
+                if todayInt >= 0 {
+                    todayInt += 1
+                    mainAppModel.addCheckMark = true
+                    mainAppModel.streakIncrease += 1
+                    mainAppModel.interactedDayShowGreen = true
+                }
+            }) {
+                Text("Test")
+                    .foregroundColor(Color.blue)
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 20)
+            
+            
+            
             // Month and Year header
             HStack {
                 Text(monthYearString(from: selectedDate))
@@ -189,7 +219,7 @@ struct CalendarView: View {
                     Image(systemName: "chevron.left")
                 }
                 .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
-
+                
                 Button(action: { moveMonth(by: 1) }) {
                     Image(systemName: "chevron.right")
                 }
@@ -208,8 +238,8 @@ struct CalendarView: View {
             
             // Calendar grid
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 5) {
-                let days = calendar.daysInMonth(for: selectedDate)
-                let firstWeekday = calendar.firstWeekdayInMonth(for: selectedDate)
+                let days = calendar.daysInMonthTest(for: selectedDate)
+                let firstWeekday = calendar.firstWeekdayInMonthTest(for: selectedDate)
                 
                 ForEach(0..<firstWeekday-1, id: \.self) { _ in
                     Color.clear
@@ -220,8 +250,8 @@ struct CalendarView: View {
                     WeekDisplayButton(
                         mainAppModel: mainAppModel,
                         text: "\(day)",
-                        dayWithScore: false,
-                        highlightedDay: isCurrentDay(day)
+                        dayWithScore: todayInt > day,
+                        highlightedDay: /*isCurrentDay(day)*/ todayInt + 1 > day
                     )
                     .frame(height: 50)
                 }
@@ -243,6 +273,7 @@ struct CalendarView: View {
             selectedDate = newDate
         }
     }
+    
     private func isCurrentDay(_ day: Int) -> Bool {
         let today = Date()
         let dayMatches = calendar.component(.day, from: today) == day
@@ -254,11 +285,11 @@ struct CalendarView: View {
 }
 
 extension Calendar {
-    func daysInMonth(for date: Date) -> Int {
+    func daysInMonthTest(for date: Date) -> Int {
         return range(of: .day, in: .month, for: date)?.count ?? 0
     }
     
-    func firstWeekdayInMonth(for date: Date) -> Int {
+    func firstWeekdayInMonthTest(for date: Date) -> Int {
         let components = dateComponents([.year, .month], from: date)
         guard let firstDay = self.date(from: components) else { return 1 }
         return component(.weekday, from: firstDay)
@@ -269,5 +300,5 @@ extension Calendar {
 
 #Preview {
     let mockAppModel = MainAppModel()
-    return CompletedSessionView(mainAppModel: mockAppModel)
+    return testCompSesView(mainAppModel: mockAppModel)
 }
