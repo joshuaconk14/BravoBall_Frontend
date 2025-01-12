@@ -12,6 +12,8 @@ class OnboardingModel: ObservableObject {
     
 
     @Published var currentStep = 0
+    // For question transition when back button pressed
+    @Published var backTransition: Bool = false
     @Published var onboardingData = OnboardingData()
     
     @Published var showLoginPage = false
@@ -19,24 +21,15 @@ class OnboardingModel: ObservableObject {
     @Published var showIntroAnimation = false
     @Published var isLoggedIn = false
     @Published var authToken = ""
+    @Published var isPasswordVisible: Bool = false
     @Published var numberOfOnboardingPages = 11
     
     
-    
-    // Alert types for ProfileVIew logout and delete buttons
-    @Published var showAlert = false
-    @Published var alertType: AlertType = .none
-    
-    // Case switches for ProfileVIew logout and delete buttons
-    enum AlertType {
-        case logout
-        case delete
-        case none
-    }
+
     
     // Variables for when onboarding data is being submitted
     @Published var isLoading = true
-    @Published var errorMessage: String? = nil
+    @Published var errorMessage: String = ""
     
     
     
@@ -132,26 +125,23 @@ class OnboardingModel: ObservableObject {
     }
     
     func resetOnboardingData() {
-            // Reset all published properties
-            currentStep = 0
-            showLoginPage = false
-            showWelcome = false
-            showIntroAnimation = false // TODO: test this when user resets app
-            authToken = ""
-            
-            // Reset onboardingData to default values
-            onboardingData = OnboardingData()  // This creates a new instance with default values
-            
-            // Clear UserDefaults
-            UserDefaults.standard.removeObject(forKey: "accessToken")
-            
-            // Debug print
-            print("OnboardingModel reset completed")
-            print("first name: \(onboardingData.firstName)")
-            print("last name: \(onboardingData.lastName)")
-            print("email: \(onboardingData.email)")
-            print("password: \(onboardingData.password)")
-            print("Current step: \(currentStep)")
-            print("auth token: \(authToken)")
-        }
+        // Reset all published properties for onboarding
+        currentStep = 0
+        showLoginPage = false
+        showWelcome = false
+        showIntroAnimation = false // TODO: test this when user resets app
+        authToken = ""
+        
+        // Reset onboardingData to default values
+        onboardingData = OnboardingData()  // This creates a new instance with default values
+        
+        // Debug print
+        print("OnboardingModel reset completed")
+        print("first name: \(onboardingData.firstName)")
+        print("last name: \(onboardingData.lastName)")
+        print("email: \(onboardingData.email)")
+        print("password: \(onboardingData.password)")
+        print("Current step: \(currentStep)")
+        print("auth token: \(authToken)")
+    }
 }

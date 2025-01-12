@@ -6,22 +6,13 @@
 //
 
 import SwiftUI
+import SwiftKeychainWrapper
 
 struct ProfileView: View {
     @ObservedObject var model: OnboardingModel
+    @ObservedObject var mainAppModel: MainAppModel
+    @ObservedObject var userManager: UserManager
     @Environment(\.presentationMode) var presentationMode // ?
-    
-
-    
-    private var firstNameDisplay: String {
-        model.onboardingData.firstName
-    }
-    private var lastNameDisplay: String {
-        model.onboardingData.lastName
-    }
-    private var emailDisplay: String {
-        model.onboardingData.email
-    }
     
     
     var body: some View {
@@ -53,17 +44,18 @@ struct ProfileView: View {
                 .background(Color.white)
             }
         }
-        // the different alerts for logout or delete
+        // The different alerts for logout or delete
         .edgesIgnoringSafeArea(.top)
-        .alert(isPresented: $model.showAlert) {
-            switch model.alertType {
+        .alert(isPresented: $mainAppModel.showAlert) {
+            switch mainAppModel.alertType {
                 case .logout:
                     return Alert(
                         title: Text("Logout"),
                         message: Text("Are you sure you want to Logout?"),
                         primaryButton: .destructive(Text("Logout")) {
-                            model.resetOnboardingData()
-                            model.isLoggedIn = false
+                            userManager.clearUserKeychain()
+                            logOutUser()
+                            mainAppModel.mainTabSelected = 0
 
                         },
                         secondaryButton: .cancel()
@@ -74,8 +66,9 @@ struct ProfileView: View {
                         message: Text("Are you sure you want to delete your account? This action cannot be undone."),
                         primaryButton: .destructive(Text("Delete")) {
                             deleteAccount()
-                            model.resetOnboardingData()
-                            model.isLoggedIn = false
+                            userManager.clearUserKeychain()
+                            logOutUser()
+                            mainAppModel.mainTabSelected = 0
                         },
                         secondaryButton: .cancel()
                     )
@@ -93,7 +86,7 @@ struct ProfileView: View {
             HStack {
                 Image(systemName: "chevron.left")
             }
-            .foregroundColor(model.globalSettings.primaryYellowColor)
+            .foregroundColor(mainAppModel.globalSettings.primaryYellowColor)
         }
     }
     
@@ -103,22 +96,28 @@ struct ProfileView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 60, height: 60)
-                .foregroundColor(model.globalSettings.primaryYellowColor)
+                .foregroundColor(mainAppModel.globalSettings.primaryYellowColor)
             
+
             VStack(spacing: 0) {
-                Text("\(firstNameDisplay) \(lastNameDisplay)")
+                
+                let userData = userManager.getUserFromKeychain()
+                
+    
+                
+                Text("\(userData.firstName) \(userData.lastName)")
                     .font(.custom("Poppins-Bold", size: 18))
                     .lineLimit(1)
                     .minimumScaleFactor(0.5) // Ensures text is legible
                     .padding(.bottom, 2)
-                    .foregroundColor(model.globalSettings.primaryDarkColor)
+                    .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
                 
-                Text(emailDisplay)
+                Text("\(userData.email)")
                     .font(.custom("Poppins-Regular", size: 14))
                     .foregroundColor(.gray)
                     .lineLimit(1)
                     .minimumScaleFactor(0.5) // Ensures text is legible
-                    .foregroundColor(model.globalSettings.primaryDarkColor)
+                    .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
             }
         }
         .frame(maxWidth: .infinity)
@@ -130,7 +129,7 @@ struct ProfileView: View {
         VStack(alignment: .leading, spacing: 0) {
            Text(title)
                .font(.custom("Poppins-Bold", size: 20))
-               .foregroundColor(model.globalSettings.primaryDarkColor)
+               .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
                .padding(.leading)
                .padding(.bottom, 10)
             
@@ -161,13 +160,13 @@ struct ProfileView: View {
             }) {
                 HStack {
                     Image(systemName: icon)
-                        .foregroundColor(model.globalSettings.primaryYellowColor)
+                        .foregroundColor(mainAppModel.globalSettings.primaryYellowColor)
                     Text(title)
                         .font(.custom("Poppins-Regular", size: 16))
-                        .foregroundColor(model.globalSettings.primaryDarkColor)
+                        .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
                     Spacer()
                     Image(systemName: "chevron.right")
-                        .foregroundColor(model.globalSettings.primaryDarkColor.opacity(0.7))
+                        .foregroundColor(mainAppModel.globalSettings.primaryDarkColor.opacity(0.7))
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
@@ -177,11 +176,12 @@ struct ProfileView: View {
             .buttonStyle(PlainButtonStyle())
         )
     }
+
     
     private var logoutButton: some View {
         Button(action: {
-            model.alertType = .logout
-            model.showAlert = true
+            mainAppModel.alertType = .logout
+            mainAppModel.showAlert = true
             
         }) {
             Text("Logout")
@@ -197,8 +197,8 @@ struct ProfileView: View {
     
     private var deleteAccountButton: some View {
         Button(action: {
-            model.alertType = .delete
-            model.showAlert = true
+            mainAppModel.alertType = .delete
+            mainAppModel.showAlert = true
         }) {
             Text("Delete Account")
                 .font(.custom("Poppins-Bold", size: 16))
@@ -211,7 +211,15 @@ struct ProfileView: View {
         .padding(.top, 20)
     }
     
-    
+    private func logOutUser() {
+        // Reset login property
+        model.authToken = ""
+        model.errorMessage = ""
+        model.isLoggedIn = false
+        
+        // Clear UserDefaults
+        UserDefaults.standard.removeObject(forKey: "accessToken")
+    }
     
     
     
@@ -285,21 +293,22 @@ struct ProfileView: View {
 // Preview code
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        let mockStateManager = OnboardingModel()
+        let mockOnboardModel = OnboardingModel()
+        let mockMainAppModel = MainAppModel()
+        let mockUserManager = UserManager()
                 
-                // Set up mock data for preview
-                mockStateManager.onboardingData.firstName = "Jordan"
-                mockStateManager.onboardingData.lastName = "Conklin"
-                mockStateManager.onboardingData.email = "jordinhoconk@gmail.com"
-                mockStateManager.onboardingData.password = "password123"
+        // Create a User instance first
+        mockUserManager.updateUserKeychain(
+            email: "jordinhoconk@gmail.com",
+            firstName: "Jordan",
+            lastName: "Conklin"
+        )
         
         return Group {
-            ProfileView(model: mockStateManager)
-                .environmentObject(mockStateManager)
+            ProfileView(model: mockOnboardModel, mainAppModel: mockMainAppModel, userManager: mockUserManager)
                 .previewDisplayName("Light Mode")
             
-            ProfileView(model: mockStateManager)
-                .environmentObject(mockStateManager)
+            ProfileView(model: mockOnboardModel, mainAppModel: mockMainAppModel, userManager: mockUserManager)
                 .preferredColorScheme(.dark)
                 .previewDisplayName("Dark Mode")
         }

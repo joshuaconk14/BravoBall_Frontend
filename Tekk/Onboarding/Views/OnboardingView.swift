@@ -11,6 +11,8 @@ import RiveRuntime
 // Main onboarding view
 struct OnboardingView: View {
     @ObservedObject var model: OnboardingModel
+    @ObservedObject var mainAppModel: MainAppModel
+    @ObservedObject var userManager: UserManager
     @Environment(\.dismiss) private var dismiss
 
     
@@ -18,7 +20,7 @@ struct OnboardingView: View {
         Group {
             // testing instead of onboarding complete
             if model.isLoggedIn {
-                MainTabView(model: model)
+                MainTabView(model: model, mainAppModel: mainAppModel, userManager: userManager)
             } else {
                 content
             }
@@ -36,7 +38,7 @@ struct OnboardingView: View {
             
             // Login view with transition
             if model.showLoginPage {
-                LoginView(model: model)
+                LoginView(model: model, userManager: userManager)
                     .transition(.move(edge: .bottom))
             }
             
@@ -130,6 +132,7 @@ struct OnboardingView: View {
                 // Back Button
                 Button(action: {
                     withAnimation {
+                        model.backTransition = true
                         model.movePrevious()
                     }
                 }) {
@@ -148,7 +151,7 @@ struct OnboardingView: View {
                         
                         Rectangle()
                             .foregroundColor(model.globalSettings.primaryYellowColor)
-                            .frame(width: geometry.size.width * (CGFloat(model.currentStep) / 10.0), height: 10)
+                            .frame(width: geometry.size.width * (CGFloat(model.currentStep) / 11.0), height: 10)
                             .cornerRadius(2)
                     }
                 }
@@ -157,6 +160,7 @@ struct OnboardingView: View {
                 // Skip Button
                 Button(action: {
                     withAnimation {
+                        model.backTransition = false
                         model.skipToNext()
                     }
                 }) {
@@ -173,7 +177,7 @@ struct OnboardingView: View {
                 .frame(width: 100, height: 100)
             
             // Step Content
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 switch model.currentStep {
                 case 0:
                     OnboardingStepView(
@@ -262,15 +266,17 @@ struct OnboardingView: View {
                         password: $model.onboardingData.password
                     )
                 default:
-                    CompletionView(model: model)
+                    CompletionView(model: model, userManager: userManager)
                 }
             }
             .padding()
+
             
             // Next button
             if model.currentStep < model.numberOfOnboardingPages {
                 Button(action: {
                     withAnimation {
+                        model.backTransition = false
                         model.moveNext()
                     }
                 }) {

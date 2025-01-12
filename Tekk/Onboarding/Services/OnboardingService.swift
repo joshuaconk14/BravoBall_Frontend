@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 
 // Define the structure for the onboarding response
@@ -24,7 +23,7 @@ struct OnboardingResponse: Codable {
     }
 }
 
-// Submits onboarding data to the backend
+// Submits onboarding data to the backend and stores access token in OnboardingResponse
 class OnboardingService {
     static let shared = OnboardingService()
     

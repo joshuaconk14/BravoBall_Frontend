@@ -234,3 +234,47 @@ struct Drill {
     let sets: String
     let reps: String
 }
+
+#Preview {
+    let mockOnboardingModel = OnboardingModel()
+    
+    return NavigationView {
+        SessionGeneratorView(model: mockOnboardingModel)
+            .preferredColorScheme(.light)
+    }
+}
+
+//// Alternative preview showing different states
+//struct SessionGeneratorView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let mockModel = OnboardingModel()
+//        
+//        return Group {
+//            // Empty state
+//            NavigationView {
+//                SessionGeneratorView(model: mockModel)
+//            }
+//            .previewDisplayName("Empty State")
+//            
+//            // With selected skills
+//            NavigationView {
+//                let modelWithSkills = OnboardingModel()
+//                SessionGeneratorView(model: modelWithSkills)
+//                    .onAppear {
+//                        // Pre-select some skills for preview
+//                        let view = SessionGeneratorView(model: modelWithSkills)
+//                        view.selectedSkills = ["Dribbling", "Passing"]
+//                        view.selectedEquipment = ["Ball", "Cones"]
+//                    }
+//            }
+//            .previewDisplayName("With Selections")
+//            
+//            // Dark mode
+//            NavigationView {
+//                SessionGeneratorView(model: mockModel)
+//            }
+//            .preferredColorScheme(.dark)
+//            .previewDisplayName("Dark Mode")
+//        }
+//    }
+//}

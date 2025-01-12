@@ -28,6 +28,13 @@
 		17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6532CD3477E008E8C24 /* ColorExtension.swift */; };
 		17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */; };
 		430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */; };
+		430FD6CD2D30648A0016D520 /* MainAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6CC2D3064850016D520 /* MainAppModel.swift */; };
+		430FD6D32D307AEC0016D520 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 430FD6D22D307AEC0016D520 /* SwiftKeychainWrapper */; };
+		430FD6E92D3206400016D520 /* CompletedSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6E82D3206390016D520 /* CompletedSessionView.swift */; };
+		430FD7092D32674C0016D520 /* Streak_Diamond.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD7082D32674C0016D520 /* Streak_Diamond.riv */; };
+		430FD71B2D3344910016D520 /* Drill_Card.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71A2D3344910016D520 /* Drill_Card.riv */; };
+		430FD71D2D3347DD0016D520 /* Day_High_Score.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71C2D3347DD0016D520 /* Day_High_Score.riv */; };
+		430FD71F2D334CAF0016D520 /* Day_Null.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71E2D334CAF0016D520 /* Day_Null.riv */; };
 		435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 435A70142CA7AB2600BFCC40 /* RiveRuntime */; };
 		43985E472CB4EFA200BE2AB6 /* BravoBall_Intro.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */; };
 		43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */; };
@@ -79,6 +86,12 @@
 		17F5D6532CD3477E008E8C24 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
 		430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRegisterForm.swift; sourceTree = "<group>"; };
+		430FD6CC2D3064850016D520 /* MainAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppModel.swift; sourceTree = "<group>"; };
+		430FD6E82D3206390016D520 /* CompletedSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedSessionView.swift; sourceTree = "<group>"; };
+		430FD7082D32674C0016D520 /* Streak_Diamond.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Streak_Diamond.riv; sourceTree = "<group>"; };
+		430FD71A2D3344910016D520 /* Drill_Card.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drill_Card.riv; sourceTree = "<group>"; };
+		430FD71C2D3347DD0016D520 /* Day_High_Score.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_High_Score.riv; sourceTree = "<group>"; };
+		430FD71E2D334CAF0016D520 /* Day_Null.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Null.riv; sourceTree = "<group>"; };
 		43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = BravoBall_Intro.riv; sourceTree = "<group>"; };
 		43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PottaOne-Regular.ttf"; sourceTree = "<group>"; };
@@ -87,6 +100,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		430FD6BD2D2F0DE50016D520 /* Services */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Services; sourceTree = "<group>"; };
+		430FD6F82D324FD60016D520 /* HelperFeatures */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HelperFeatures; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				430FD6D32D307AEC0016D520 /* SwiftKeychainWrapper in Frameworks */,
 				435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -192,6 +207,7 @@
 		178208DD2D2DEB7C00246494 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				430FD6CC2D3064850016D520 /* MainAppModel.swift */,
 				178208DF2D2DEB9C00246494 /* OnboardingModel.swift */,
 			);
 			path = Models;
@@ -223,6 +239,8 @@
 		178208F52D2E05FE00246494 /* AppFeatures */ = {
 			isa = PBXGroup;
 			children = (
+				430FD6F82D324FD60016D520 /* HelperFeatures */,
+				430FD6E82D3206390016D520 /* CompletedSessionView.swift */,
 				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
 				1782090F2D2E0C6800246494 /* SessionGeneratorView.swift */,
 				1782090D2D2E0A1100246494 /* ProfileView.swift */,
@@ -244,6 +262,10 @@
 			children = (
 				43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */,
 				43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */,
+				430FD7082D32674C0016D520 /* Streak_Diamond.riv */,
+				430FD71A2D3344910016D520 /* Drill_Card.riv */,
+				430FD71C2D3347DD0016D520 /* Day_High_Score.riv */,
+				430FD71E2D334CAF0016D520 /* Day_Null.riv */,
 			);
 			path = RiveAssets;
 			sourceTree = "<group>";
@@ -265,6 +287,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				430FD6BD2D2F0DE50016D520 /* Services */,
+				430FD6F82D324FD60016D520 /* HelperFeatures */,
 			);
 			name = BravoBall;
 			productName = Tekk;
@@ -341,6 +364,7 @@
 			mainGroup = 1749360D2C3E102B001163B9;
 			packageReferences = (
 				430FD6B82D2E12640016D520 /* XCRemoteSwiftPackageReference "rive-ios" */,
+				430FD6D12D307AEC0016D520 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 			);
 			productRefGroup = 174936172C3E102B001163B9 /* Products */;
 			projectDirPath = "";
@@ -360,10 +384,14 @@
 			files = (
 				174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */,
 				1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */,
+				430FD71D2D3347DD0016D520 /* Day_High_Score.riv in Resources */,
+				430FD7092D32674C0016D520 /* Streak_Diamond.riv in Resources */,
 				43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */,
 				43985E5A2CB5B0BB00BE2AB6 /* Bravo_Panting.riv in Resources */,
 				43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */,
 				43985E472CB4EFA200BE2AB6 /* BravoBall_Intro.riv in Resources */,
+				430FD71B2D3344910016D520 /* Drill_Card.riv in Resources */,
+				430FD71F2D334CAF0016D520 /* Day_Null.riv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +416,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				430FD6CD2D30648A0016D520 /* MainAppModel.swift in Sources */,
 				178208F12D2DFD6500246494 /* OnboardingPreview.swift in Sources */,
 				178208E62D2DEC2900246494 /* CompletionView.swift in Sources */,
 				178208EB2D2DECE300246494 /* OnboardingMultiSelectView.swift in Sources */,
@@ -400,6 +429,7 @@
 				1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */,
 				178209102D2E0C6800246494 /* SessionGeneratorView.swift in Sources */,
 				178208E22D2DEBB400246494 /* OnboardingView.swift in Sources */,
+				430FD6E92D3206400016D520 /* CompletedSessionView.swift in Sources */,
 				178208E42D2DEBC800246494 /* LoginView.swift in Sources */,
 				178208E92D2DEC6D00246494 /* OnboardingStepView.swift in Sources */,
 				178208D22D2D14D200246494 /* MainTabView.swift in Sources */,
@@ -773,6 +803,14 @@
 				minimumVersion = 6.5.5;
 			};
 		};
+		430FD6D12D307AEC0016D520 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
+			};
+		};
 		435A70132CA7A33B00BFCC40 /* XCRemoteSwiftPackageReference "rive-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rive-app/rive-ios";
@@ -784,6 +822,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		430FD6D22D307AEC0016D520 /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 430FD6D12D307AEC0016D520 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
+		};
 		435A70142CA7AB2600BFCC40 /* RiveRuntime */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 435A70132CA7A33B00BFCC40 /* XCRemoteSwiftPackageReference "rive-ios" */;
