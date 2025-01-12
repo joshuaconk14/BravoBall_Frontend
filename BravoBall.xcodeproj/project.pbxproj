@@ -3,51 +3,43 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		170217BB2C89030500DD020C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170217BA2C89030400DD020C /* Models.swift */; };
-		1749361A2C3E102B001163B9 /* TekkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936192C3E102B001163B9 /* TekkApp.swift */; };
 		1749361C2C3E102B001163B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749361B2C3E102B001163B9 /* ContentView.swift */; };
 		1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1749361D2C3E1031001163B9 /* Assets.xcassets */; };
 		174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 174936212C3E1031001163B9 /* Preview Assets.xcassets */; };
 		1749362C2C3E1032001163B9 /* TekkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749362B2C3E1032001163B9 /* TekkTests.swift */; };
 		174936362C3E1032001163B9 /* TekkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936352C3E1032001163B9 /* TekkUITests.swift */; };
 		174936382C3E1032001163B9 /* TekkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */; };
-		176D15012CD4799C00450F85 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15002CD4799C00450F85 /* LoginView.swift */; };
-		176D15032CD4815800450F85 /* WelcomeQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15022CD4815800450F85 /* WelcomeQuestions.swift */; };
-		176D15052CD4907000450F85 /* PickGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15042CD4907000450F85 /* PickGoal.swift */; };
-		176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D15072CD490E200450F85 /* YesNoTeam.swift */; };
-		179D4FA72CD5E54000F7E4AB /* OnboardingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FA62CD5E54000F7E4AB /* OnboardingData.swift */; };
-		179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */; };
-		179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */; };
-		179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */; };
-		179D4FB12CD5E9E300F7E4AB /* SelectionListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */; };
-		179D4FB32CD5E9F200F7E4AB /* SelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */; };
-		179D4FB82CD61D6500F7E4AB /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179D4FB72CD61D6500F7E4AB /* DropdownMenu.swift */; };
-		17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */; };
-		17ACC8DE2CD3688A0047EE09 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */; };
-		17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */; };
-		17ACC8EA2CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */; };
-		17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */; };
-		17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */; };
-		17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */; };
-		17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693192C743662006B58A3 /* CameraManager.swift */; };
-		17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */; };
-		17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */; };
-		17E693222C745811006B58A3 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E693212C745811006B58A3 /* ViewModel.swift */; };
+		178208D22D2D14D200246494 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208D12D2D14D200246494 /* MainTabView.swift */; };
+		178208E02D2DEB9C00246494 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208DF2D2DEB9C00246494 /* OnboardingModel.swift */; };
+		178208E22D2DEBB400246494 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208E12D2DEBB400246494 /* OnboardingView.swift */; };
+		178208E42D2DEBC800246494 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208E32D2DEBC800246494 /* LoginView.swift */; };
+		178208E62D2DEC2900246494 /* CompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208E52D2DEC2900246494 /* CompletionView.swift */; };
+		178208E92D2DEC6D00246494 /* OnboardingStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208E82D2DEC6D00246494 /* OnboardingStepView.swift */; };
+		178208EB2D2DECE300246494 /* OnboardingMultiSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208EA2D2DECE300246494 /* OnboardingMultiSelectView.swift */; };
+		178208ED2D2DED0800246494 /* OnboardingBooleanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208EC2D2DED0800246494 /* OnboardingBooleanView.swift */; };
+		178208F12D2DFD6500246494 /* OnboardingPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208F02D2DFD6500246494 /* OnboardingPreview.swift */; };
+		1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1782090B2D2E09EB00246494 /* SavedDrillsView.swift */; };
+		1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1782090D2D2E0A1100246494 /* ProfileView.swift */; };
+		178209102D2E0C6800246494 /* SessionGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1782090F2D2E0C6800246494 /* SessionGeneratorView.swift */; };
 		17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6532CD3477E008E8C24 /* ColorExtension.swift */; };
 		17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */; };
+		430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */; };
+		430FD6CD2D30648A0016D520 /* MainAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6CC2D3064850016D520 /* MainAppModel.swift */; };
+		430FD6D32D307AEC0016D520 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 430FD6D22D307AEC0016D520 /* SwiftKeychainWrapper */; };
+		430FD6E92D3206400016D520 /* CompletedSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6E82D3206390016D520 /* CompletedSessionView.swift */; };
+		430FD7092D32674C0016D520 /* Streak_Diamond.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD7082D32674C0016D520 /* Streak_Diamond.riv */; };
+		430FD71B2D3344910016D520 /* Drill_Card.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71A2D3344910016D520 /* Drill_Card.riv */; };
+		430FD71D2D3347DD0016D520 /* Day_High_Score.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71C2D3347DD0016D520 /* Day_High_Score.riv */; };
+		430FD71F2D334CAF0016D520 /* Day_Null.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71E2D334CAF0016D520 /* Day_Null.riv */; };
 		435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 435A70142CA7AB2600BFCC40 /* RiveRuntime */; };
-		43985E3D2CB4EDD300BE2AB6 /* ChatbotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E3C2CB4EDCD00BE2AB6 /* ChatbotView.swift */; };
-		43985E3F2CB4EDE700BE2AB6 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E3E2CB4EDE300BE2AB6 /* CameraView.swift */; };
-		43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E402CB4EDF900BE2AB6 /* PlayerDetailsForm.swift */; };
-		43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43985E422CB4EE6000BE2AB6 /* SettingsView.swift */; };
-		43985E472CB4EFA200BE2AB6 /* tekk_intro.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E462CB4EFA200BE2AB6 /* tekk_intro.riv */; };
+		43985E472CB4EFA200BE2AB6 /* BravoBall_Intro.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */; };
 		43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */; };
 		43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */; };
-		43985E5A2CB5B0BB00BE2AB6 /* test_panting.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E592CB5B0BB00BE2AB6 /* test_panting.riv */; };
+		43985E5A2CB5B0BB00BE2AB6 /* Bravo_Panting.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,9 +60,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		170217BA2C89030400DD020C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		174936162C3E102B001163B9 /* BravoBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BravoBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		174936192C3E102B001163B9 /* TekkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkApp.swift; sourceTree = "<group>"; };
 		1749361B2C3E102B001163B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1749361D2C3E1031001163B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1749361F2C3E1031001163B9 /* Tekk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tekk.entitlements; sourceTree = "<group>"; };
@@ -80,46 +70,45 @@
 		174936312C3E1032001163B9 /* BravoBallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BravoBallUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		174936352C3E1032001163B9 /* TekkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITests.swift; sourceTree = "<group>"; };
 		174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		176D15002CD4799C00450F85 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		176D15022CD4815800450F85 /* WelcomeQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeQuestions.swift; sourceTree = "<group>"; };
-		176D15042CD4907000450F85 /* PickGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickGoal.swift; sourceTree = "<group>"; };
-		176D15072CD490E200450F85 /* YesNoTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesNoTeam.swift; sourceTree = "<group>"; };
-		179D4FA62CD5E54000F7E4AB /* OnboardingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingData.swift; sourceTree = "<group>"; };
-		179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingLevel.swift; sourceTree = "<group>"; };
-		179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineGoal.swift; sourceTree = "<group>"; };
-		179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDays.swift; sourceTree = "<group>"; };
-		179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListItem.swift; sourceTree = "<group>"; };
-		179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionListView.swift; sourceTree = "<group>"; };
-		179D4FB72CD61D6500F7E4AB /* DropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
-		17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
-		17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstQuestionnaireView.swift; sourceTree = "<group>"; };
-		17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRepresentPlaystyle.swift; sourceTree = "<group>"; };
-		17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickWeaknesses.swift; sourceTree = "<group>"; };
-		17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickStrengths.swift; sourceTree = "<group>"; };
-		17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondQuestionnaireView.swift; sourceTree = "<group>"; };
+		178208D12D2D14D200246494 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		178208DF2D2DEB9C00246494 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
+		178208E12D2DEBB400246494 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		178208E32D2DEBC800246494 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		178208E52D2DEC2900246494 /* CompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionView.swift; sourceTree = "<group>"; };
+		178208E82D2DEC6D00246494 /* OnboardingStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStepView.swift; sourceTree = "<group>"; };
+		178208EA2D2DECE300246494 /* OnboardingMultiSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingMultiSelectView.swift; sourceTree = "<group>"; };
+		178208EC2D2DED0800246494 /* OnboardingBooleanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBooleanView.swift; sourceTree = "<group>"; };
+		178208F02D2DFD6500246494 /* OnboardingPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPreview.swift; sourceTree = "<group>"; };
+		1782090B2D2E09EB00246494 /* SavedDrillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedDrillsView.swift; sourceTree = "<group>"; };
+		1782090D2D2E0A1100246494 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		1782090F2D2E0C6800246494 /* SessionGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionGeneratorView.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		17E693192C743662006B58A3 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
-		17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Extension.swift"; sourceTree = "<group>"; };
-		17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIImage+Extension.swift"; sourceTree = "<group>"; };
-		17E693212C745811006B58A3 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		17F5D6532CD3477E008E8C24 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
-		43985E3C2CB4EDCD00BE2AB6 /* ChatbotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatbotView.swift; sourceTree = "<group>"; };
-		43985E3E2CB4EDE300BE2AB6 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
-		43985E402CB4EDF900BE2AB6 /* PlayerDetailsForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsForm.swift; sourceTree = "<group>"; };
-		43985E422CB4EE6000BE2AB6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		43985E462CB4EFA200BE2AB6 /* tekk_intro.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = tekk_intro.riv; sourceTree = "<group>"; };
+		430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRegisterForm.swift; sourceTree = "<group>"; };
+		430FD6CC2D3064850016D520 /* MainAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppModel.swift; sourceTree = "<group>"; };
+		430FD6E82D3206390016D520 /* CompletedSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedSessionView.swift; sourceTree = "<group>"; };
+		430FD7082D32674C0016D520 /* Streak_Diamond.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Streak_Diamond.riv; sourceTree = "<group>"; };
+		430FD71A2D3344910016D520 /* Drill_Card.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drill_Card.riv; sourceTree = "<group>"; };
+		430FD71C2D3347DD0016D520 /* Day_High_Score.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_High_Score.riv; sourceTree = "<group>"; };
+		430FD71E2D334CAF0016D520 /* Day_Null.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Null.riv; sourceTree = "<group>"; };
+		43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = BravoBall_Intro.riv; sourceTree = "<group>"; };
 		43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PottaOne-Regular.ttf"; sourceTree = "<group>"; };
-		43985E592CB5B0BB00BE2AB6 /* test_panting.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = test_panting.riv; sourceTree = "<group>"; };
+		43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bravo_Panting.riv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		430FD6BD2D2F0DE50016D520 /* Services */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Services; sourceTree = "<group>"; };
+		430FD6F82D324FD60016D520 /* HelperFeatures */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HelperFeatures; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		174936132C3E102B001163B9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				430FD6D32D307AEC0016D520 /* SwiftKeychainWrapper in Frameworks */,
 				435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,14 +154,11 @@
 			isa = PBXGroup;
 			children = (
 				17E693182C7435B3006B58A3 /* Info.plist */,
-				174936442C3E10C4001163B9 /* Views */,
-				17E6931C2C743AC4006B58A3 /* Camera */,
-				174936192C3E102B001163B9 /* TekkApp.swift */,
-				170217BA2C89030400DD020C /* Models.swift */,
-				17ACC8D82CD367BA0047EE09 /* Features */,
 				17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */,
-				179D4FAE2CD5E9AC00F7E4AB /* Components */,
 				17F5D6532CD3477E008E8C24 /* ColorExtension.swift */,
+				178208F52D2E05FE00246494 /* AppFeatures */,
+				178208D12D2D14D200246494 /* MainTabView.swift */,
+				178208DC2D2DEB7200246494 /* Onboarding */,
 				1749361B2C3E102B001163B9 /* ContentView.swift */,
 				1749361D2C3E1031001163B9 /* Assets.xcassets */,
 				43985E502CB51DEC00BE2AB6 /* Font */,
@@ -208,146 +194,58 @@
 			path = TekkUITests;
 			sourceTree = "<group>";
 		};
-		174936442C3E10C4001163B9 /* Views */ = {
+		178208DC2D2DEB7200246494 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				43985E3C2CB4EDCD00BE2AB6 /* ChatbotView.swift */,
-				43985E3E2CB4EDE300BE2AB6 /* CameraView.swift */,
-				43985E422CB4EE6000BE2AB6 /* SettingsView.swift */,
-				43985E402CB4EDF900BE2AB6 /* PlayerDetailsForm.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		176D14FC2CD4794B00450F85 /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				176D14FD2CD4795C00450F85 /* Views */,
-			);
-			path = Login;
-			sourceTree = "<group>";
-		};
-		176D14FD2CD4795C00450F85 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				176D15002CD4799C00450F85 /* LoginView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		179D4FA52CD5E52F00F7E4AB /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				179D4FA62CD5E54000F7E4AB /* OnboardingData.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		179D4FAE2CD5E9AC00F7E4AB /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				179D4FB02CD5E9E300F7E4AB /* SelectionListItem.swift */,
-				179D4FB72CD61D6500F7E4AB /* DropdownMenu.swift */,
-				179D4FB22CD5E9F200F7E4AB /* SelectionListView.swift */,
-				179D4FB42CD6031700F7E4AB /* DropdownMenu.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		17ACC8D82CD367BA0047EE09 /* Features */ = {
-			isa = PBXGroup;
-			children = (
-				176D14FC2CD4794B00450F85 /* Login */,
-				17ACC8E42CD369350047EE09 /* Questionnaires */,
-				17ACC8D92CD367DD0047EE09 /* Onboarding */,
-			);
-			path = Features;
-			sourceTree = "<group>";
-		};
-		17ACC8D92CD367DD0047EE09 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				179D4FA52CD5E52F00F7E4AB /* Models */,
-				17ACC8DA2CD368070047EE09 /* Views */,
+				430FD6BD2D2F0DE50016D520 /* Services */,
+				178208DE2D2DEB8400246494 /* Views */,
+				178208DD2D2DEB7C00246494 /* Models */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
-		17ACC8DA2CD368070047EE09 /* Views */ = {
+		178208DD2D2DEB7C00246494 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				17ACC8DB2CD3681B0047EE09 /* OnboardingView.swift */,
-				176D15022CD4815800450F85 /* WelcomeQuestions.swift */,
-				17ACC8DD2CD3688A0047EE09 /* WelcomeView.swift */,
+				430FD6CC2D3064850016D520 /* MainAppModel.swift */,
+				178208DF2D2DEB9C00246494 /* OnboardingModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		178208DE2D2DEB8400246494 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				178208E12D2DEBB400246494 /* OnboardingView.swift */,
+				178208F02D2DFD6500246494 /* OnboardingPreview.swift */,
+				178208E52D2DEC2900246494 /* CompletionView.swift */,
+				178208E72D2DEC5400246494 /* HelperViews */,
+				178208E32D2DEBC800246494 /* LoginView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		17ACC8E12CD368E70047EE09 /* Components */ = {
+		178208E72D2DEC5400246494 /* HelperViews */ = {
 			isa = PBXGroup;
 			children = (
+				430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */,
+				178208E82D2DEC6D00246494 /* OnboardingStepView.swift */,
+				178208EA2D2DECE300246494 /* OnboardingMultiSelectView.swift */,
+				178208EC2D2DED0800246494 /* OnboardingBooleanView.swift */,
 			);
-			path = Components;
+			path = HelperViews;
 			sourceTree = "<group>";
 		};
-		17ACC8E42CD369350047EE09 /* Questionnaires */ = {
+		178208F52D2E05FE00246494 /* AppFeatures */ = {
 			isa = PBXGroup;
 			children = (
-				17ACC8EF2CD36AEC0047EE09 /* SecondQuestionnaire */,
-				17ACC8E52CD3693D0047EE09 /* FirstQuestionnaire */,
+				430FD6F82D324FD60016D520 /* HelperFeatures */,
+				430FD6E82D3206390016D520 /* CompletedSessionView.swift */,
+				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
+				1782090F2D2E0C6800246494 /* SessionGeneratorView.swift */,
+				1782090D2D2E0A1100246494 /* ProfileView.swift */,
 			);
-			path = Questionnaires;
-			sourceTree = "<group>";
-		};
-		17ACC8E52CD3693D0047EE09 /* FirstQuestionnaire */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8E62CD369530047EE09 /* Views */,
-			);
-			path = FirstQuestionnaire;
-			sourceTree = "<group>";
-		};
-		17ACC8E62CD369530047EE09 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8E72CD3696D0047EE09 /* FirstQuestionnaireView.swift */,
-				17ACC8E92CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift */,
-				17ACC8ED2CD36A8A0047EE09 /* PickStrengths.swift */,
-				17ACC8EB2CD36A4C0047EE09 /* PickWeaknesses.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		17ACC8EF2CD36AEC0047EE09 /* SecondQuestionnaire */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8F02CD36AF40047EE09 /* Views */,
-			);
-			path = SecondQuestionnaire;
-			sourceTree = "<group>";
-		};
-		17ACC8F02CD36AF40047EE09 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				17ACC8F12CD36B060047EE09 /* SecondQuestionnaireView.swift */,
-				176D15072CD490E200450F85 /* YesNoTeam.swift */,
-				179D4FAA2CD5E7F900F7E4AB /* TimelineGoal.swift */,
-				179D4FAC2CD5E82800F7E4AB /* TrainingDays.swift */,
-				179D4FA82CD5E7DB00F7E4AB /* TrainingLevel.swift */,
-				176D15042CD4907000450F85 /* PickGoal.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		17E6931C2C743AC4006B58A3 /* Camera */ = {
-			isa = PBXGroup;
-			children = (
-				17E693192C743662006B58A3 /* CameraManager.swift */,
-				17E6931F2C74560E006B58A3 /* CIImage+Extension.swift */,
-				17E6931D2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift */,
-				17E693212C745811006B58A3 /* ViewModel.swift */,
-			);
-			path = Camera;
+			path = AppFeatures;
 			sourceTree = "<group>";
 		};
 		43985E502CB51DEC00BE2AB6 /* Font */ = {
@@ -362,8 +260,12 @@
 		439A72632C9FA55700B4C5AD /* RiveAssets */ = {
 			isa = PBXGroup;
 			children = (
-				43985E462CB4EFA200BE2AB6 /* tekk_intro.riv */,
-				43985E592CB5B0BB00BE2AB6 /* test_panting.riv */,
+				43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */,
+				43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */,
+				430FD7082D32674C0016D520 /* Streak_Diamond.riv */,
+				430FD71A2D3344910016D520 /* Drill_Card.riv */,
+				430FD71C2D3347DD0016D520 /* Day_High_Score.riv */,
+				430FD71E2D334CAF0016D520 /* Day_Null.riv */,
 			);
 			path = RiveAssets;
 			sourceTree = "<group>";
@@ -382,6 +284,10 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				430FD6BD2D2F0DE50016D520 /* Services */,
+				430FD6F82D324FD60016D520 /* HelperFeatures */,
 			);
 			name = BravoBall;
 			productName = Tekk;
@@ -432,7 +338,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					174936152C3E102B001163B9 = {
 						CreatedOnToolsVersion = 15.4;
@@ -457,7 +363,8 @@
 			);
 			mainGroup = 1749360D2C3E102B001163B9;
 			packageReferences = (
-				179D4FB62CD6179100F7E4AB /* XCRemoteSwiftPackageReference "rive-ios" */,
+				430FD6B82D2E12640016D520 /* XCRemoteSwiftPackageReference "rive-ios" */,
+				430FD6D12D307AEC0016D520 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 			);
 			productRefGroup = 174936172C3E102B001163B9 /* Products */;
 			projectDirPath = "";
@@ -477,10 +384,14 @@
 			files = (
 				174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */,
 				1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */,
+				430FD71D2D3347DD0016D520 /* Day_High_Score.riv in Resources */,
+				430FD7092D32674C0016D520 /* Streak_Diamond.riv in Resources */,
 				43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */,
-				43985E5A2CB5B0BB00BE2AB6 /* test_panting.riv in Resources */,
+				43985E5A2CB5B0BB00BE2AB6 /* Bravo_Panting.riv in Resources */,
 				43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */,
-				43985E472CB4EFA200BE2AB6 /* tekk_intro.riv in Resources */,
+				43985E472CB4EFA200BE2AB6 /* BravoBall_Intro.riv in Resources */,
+				430FD71B2D3344910016D520 /* Drill_Card.riv in Resources */,
+				430FD71F2D334CAF0016D520 /* Day_Null.riv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,38 +416,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17E693222C745811006B58A3 /* ViewModel.swift in Sources */,
-				43985E3F2CB4EDE700BE2AB6 /* CameraView.swift in Sources */,
-				17ACC8E82CD3696D0047EE09 /* FirstQuestionnaireView.swift in Sources */,
-				179D4FAD2CD5E82800F7E4AB /* TrainingDays.swift in Sources */,
-				17E693202C74560E006B58A3 /* CIImage+Extension.swift in Sources */,
-				179D4FA72CD5E54000F7E4AB /* OnboardingData.swift in Sources */,
-				170217BB2C89030500DD020C /* Models.swift in Sources */,
-				179D4FAB2CD5E7F900F7E4AB /* TimelineGoal.swift in Sources */,
-				17ACC8DE2CD3688A0047EE09 /* WelcomeView.swift in Sources */,
-				179D4FB32CD5E9F200F7E4AB /* SelectionListView.swift in Sources */,
-				17ACC8EE2CD36A8A0047EE09 /* PickStrengths.swift in Sources */,
+				430FD6CD2D30648A0016D520 /* MainAppModel.swift in Sources */,
+				178208F12D2DFD6500246494 /* OnboardingPreview.swift in Sources */,
+				178208E62D2DEC2900246494 /* CompletionView.swift in Sources */,
+				178208EB2D2DECE300246494 /* OnboardingMultiSelectView.swift in Sources */,
+				430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
-				17ACC8DC2CD3681B0047EE09 /* OnboardingView.swift in Sources */,
-				17ACC8EC2CD36A4C0047EE09 /* PickWeaknesses.swift in Sources */,
-				179D4FB52CD6031700F7E4AB /* DropdownMenu.swift in Sources */,
-				176D15082CD490E200450F85 /* YesNoTeam.swift in Sources */,
-				1749361A2C3E102B001163B9 /* TekkApp.swift in Sources */,
-				176D15012CD4799C00450F85 /* LoginView.swift in Sources */,
-				179D4FB82CD61D6500F7E4AB /* DropdownMenu.swift in Sources */,
-				43985E432CB4EE6800BE2AB6 /* SettingsView.swift in Sources */,
-				176D15052CD4907000450F85 /* PickGoal.swift in Sources */,
-				43985E3D2CB4EDD300BE2AB6 /* ChatbotView.swift in Sources */,
-				176D15032CD4815800450F85 /* WelcomeQuestions.swift in Sources */,
-				17ACC8EA2CD369FF0047EE09 /* PlayerRepresentPlaystyle.swift in Sources */,
+				178208E02D2DEB9C00246494 /* OnboardingModel.swift in Sources */,
 				17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */,
-				17ACC8F22CD36B060047EE09 /* SecondQuestionnaireView.swift in Sources */,
-				43985E412CB4EE0200BE2AB6 /* PlayerDetailsForm.swift in Sources */,
-				17E6931E2C743ADC006B58A3 /* CMSampleBuffer+Extension.swift in Sources */,
-				17E6931A2C743662006B58A3 /* CameraManager.swift in Sources */,
-				179D4FB12CD5E9E300F7E4AB /* SelectionListItem.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
-				179D4FA92CD5E7DB00F7E4AB /* TrainingLevel.swift in Sources */,
+				1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */,
+				1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */,
+				178209102D2E0C6800246494 /* SessionGeneratorView.swift in Sources */,
+				178208E22D2DEBB400246494 /* OnboardingView.swift in Sources */,
+				430FD6E92D3206400016D520 /* CompletedSessionView.swift in Sources */,
+				178208E42D2DEBC800246494 /* LoginView.swift in Sources */,
+				178208E92D2DEC6D00246494 /* OnboardingStepView.swift in Sources */,
+				178208D22D2D14D200246494 /* MainTabView.swift in Sources */,
+				178208ED2D2DED0800246494 /* OnboardingBooleanView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -629,7 +526,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -700,7 +597,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Tekk/Preview Content\"";
-				DEVELOPMENT_TEAM = J36CXA7LCG;
+				DEVELOPMENT_TEAM = 9NT64FVZCY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tekk/Info.plist;
@@ -740,7 +637,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Tekk/Preview Content\"";
-				DEVELOPMENT_TEAM = J36CXA7LCG;
+				DEVELOPMENT_TEAM = 9NT64FVZCY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tekk/Info.plist;
@@ -898,12 +795,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		179D4FB62CD6179100F7E4AB /* XCRemoteSwiftPackageReference "rive-ios" */ = {
+		430FD6B82D2E12640016D520 /* XCRemoteSwiftPackageReference "rive-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rive-app/rive-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.3.1;
+				minimumVersion = 6.5.5;
+			};
+		};
+		430FD6D12D307AEC0016D520 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
 			};
 		};
 		435A70132CA7A33B00BFCC40 /* XCRemoteSwiftPackageReference "rive-ios" */ = {
@@ -917,6 +822,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		430FD6D22D307AEC0016D520 /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 430FD6D12D307AEC0016D520 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
+		};
 		435A70142CA7AB2600BFCC40 /* RiveRuntime */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 435A70132CA7A33B00BFCC40 /* XCRemoteSwiftPackageReference "rive-ios" */;
