@@ -91,7 +91,8 @@ struct CompletedSessionView: View {
                         WeekDisplayButton(
                             mainAppModel: mainAppModel,
                             text: getDayText(for: index),
-                            interactedDay: mainAppModel.currentDay + 1 > index // boolean goes through each index / case #
+                            dayWithScore: mainAppModel.currentDay > index, // boolean goes through each index / case #
+                            highlightedDay: mainAppModel.currentDay + 1 > index // boolean goes through each index / case #
                         )
                     }
                 }
