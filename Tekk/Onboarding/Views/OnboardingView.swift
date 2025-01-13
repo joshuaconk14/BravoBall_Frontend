@@ -178,85 +178,96 @@ struct OnboardingView: View {
             
             // Step Content
             ScrollView(showsIndicators: false) {
-                switch model.currentStep {
-                case 0:
-                    OnboardingStepView(
-                        model: model,
-                        title: "What's your age range?",
-                        options: model.ageRanges,
-                        selection: $model.onboardingData.ageRange
-                    )
-                case 1:
-                    OnboardingStepView(
-                        model: model,
-                        title: "What's your playing level?",
-                        options: model.levels,
-                        selection: $model.onboardingData.level
-                    )
-                case 2:
-                    OnboardingStepView(
-                        model: model,
-                        title: "What position do you play?",
-                        options: model.positions,
-                        selection: $model.onboardingData.position
-                    )
-                case 3:
-                    OnboardingMultiSelectView(
-                        model: model,
-                        title: "Which players do you feel represent your playstyle?",
-                        options: model.players,
-                        selections: $model.onboardingData.playstyleRepresentatives
-                    )
-                case 4:
-                    VStack(spacing: 20) {
+                if model.currentStep < model.questionTitles.count {
+                    switch model.currentStep {
+                    case 0:
+                        OnboardingStepView(
+                            model: model,
+                            title: model.questionTitles[0],
+                            options: model.questionOptions[0],
+                            selection: $model.onboardingData.primaryGoal
+                        )
+                    case 1:
+                        OnboardingStepView(
+                            model: model,
+                            title: model.questionTitles[1],
+                            options: model.questionOptions[1],
+                            selection: $model.onboardingData.biggestChallenge
+                        )
+                    case 2:
+                        OnboardingStepView(
+                            model: model,
+                            title: model.questionTitles[2],
+                            options: model.questionOptions[2],
+                            selection: $model.onboardingData.trainingExperience
+                        )
+                    case 3:
+                        OnboardingStepView(
+                            model: model,
+                            title: model.questionTitles[3],
+                            options: model.questionOptions[3],
+                            selection: $model.onboardingData.position
+                        )
+                    case 4:
+                        OnboardingStepView(
+                            model: model,
+                            title: model.questionTitles[4],
+                            options: model.questionOptions[4],
+                            selection: $model.onboardingData.playstyle
+                        )
+                    case 5:
+                        OnboardingStepView(
+                            model: model,
+                            title: model.questionTitles[5],
+                            options: model.questionOptions[5],
+                            selection: $model.onboardingData.ageRange
+                        )
+                    case 6:
                         OnboardingMultiSelectView(
                             model: model,
-                            title: "What are your biggest strengths?",
-                            options: model.skills,
+                            title: model.questionTitles[6],
+                            options: model.questionOptions[6],
                             selections: $model.onboardingData.strengths
                         )
+                    case 7:
                         OnboardingMultiSelectView(
                             model: model,
-                            title: "What would you like to work on?",
-                            options: model.skills,
-                            selections: $model.onboardingData.weaknesses
+                            title: model.questionTitles[7],
+                            options: model.questionOptions[7],
+                            selections: $model.onboardingData.areasToImprove
                         )
+                    case 8:
+                        OnboardingMultiSelectView(
+                            model: model,
+                            title: model.questionTitles[8],
+                            options: model.questionOptions[8],
+                            selections: $model.onboardingData.trainingLocation
+                        )
+                    case 9:
+                        OnboardingMultiSelectView(
+                            model: model,
+                            title: model.questionTitles[9],
+                            options: model.questionOptions[9],
+                            selections: $model.onboardingData.availableEquipment
+                        )
+                    case 10:
+                        OnboardingStepView(
+                            model: model,
+                            title: model.questionTitles[10],
+                            options: model.questionOptions[10],
+                            selection: $model.onboardingData.dailyTrainingTime
+                        )
+                    case 11:
+                        OnboardingStepView(
+                            model: model,
+                            title: model.questionTitles[11],
+                            options: model.questionOptions[11],
+                            selection: $model.onboardingData.weeklyTrainingDays
+                        )
+                    default:
+                        EmptyView()
                     }
-                case 5:
-                    OnboardingBooleanView(
-                        model: model,
-                        title: "Are you currently playing for a team?",
-                        selection: $model.onboardingData.hasTeam
-                    )
-                case 6:
-                    OnboardingStepView(
-                        model: model,
-                        title: "What is your primary goal?",
-                        options: model.goals,
-                        selection: $model.onboardingData.primaryGoal
-                    )
-                case 7:
-                    OnboardingStepView(
-                        model: model,
-                        title: "When are you looking to achieve this by?",
-                        options: model.timelines,
-                        selection: $model.onboardingData.timeline
-                    )
-                case 8:
-                    OnboardingMultiSelectView(
-                        model: model,
-                        title: "What days would you like to train?",
-                        options: model.weekdays,
-                        selections: $model.onboardingData.trainingDays
-                    )
-                case 9:
-                    OnboardingMultiSelectView(
-                        model: model,
-                        title: "What equipment do you have access to?",
-                        options: model.equipment,
-                        selections: $model.onboardingData.availableEquipment
-                    )
-                case 10:
+                } else if model.currentStep == model.questionTitles.count {
                     OnboardingRegisterForm(
                         model: model,
                         title: "Enter your Registration Info below!",
@@ -265,7 +276,7 @@ struct OnboardingView: View {
                         email: $model.onboardingData.email,
                         password: $model.onboardingData.password
                     )
-                default:
+                } else {
                     CompletionView(model: model, userManager: userManager)
                 }
             }

@@ -9,7 +9,6 @@ import Foundation
 
 class OnboardingModel: ObservableObject {
     let globalSettings = GlobalSettings()
-    
 
     @Published var currentStep = 0
     // For question transition when back button pressed
@@ -22,75 +21,86 @@ class OnboardingModel: ObservableObject {
     @Published var isLoggedIn = false
     @Published var authToken = ""
     @Published var isPasswordVisible: Bool = false
-    @Published var numberOfOnboardingPages = 11
-    
-    
-
+    @Published var numberOfOnboardingPages = 13 // Updated to include registration page
     
     // Variables for when onboarding data is being submitted
     @Published var isLoading = true
     @Published var errorMessage: String = ""
     
-    
-    
     // Animation scale for intro animation
     @Published var animationScale: CGFloat = 1.5
     
+    // Simple arrays for questions and options
+    let questionTitles = [
+        "What is your primary soccer goal?",
+        "What's your biggest challenge to achieving this goal?",
+        "How much individual training experience do you have?",
+        "What position do you play?",
+        "What player best describes your playstyle?",
+        "What age range do you fall under?",
+        "What are your strengths?",
+        "What would you like to work on?",
+        "Where do you typically train?",
+        "What equipment do you have available?",
+        "How much time do you have to train daily?",
+        "How many days per week do you want to train?"
+    ]
+    
+    let questionOptions = [
+        ["Improve my overall skill level", "Be the best player on my team", "Get scouted for college",
+         "Become a professional footballer", "Improve fitness and conditioning", "Have fun and enjoy the game"],
+        ["Lack of time", "Lack of proper training equipment", "Not knowing what to work on",
+         "Staying motivated", "Recovering from injury", "No team or structured training"],
+        ["Beginner", "Intermediate", "Advanced", "Professional"],
+        ["Goalkeeper", "Fullback", "Center-back", "Defensive Midfielder", "Center Midfielder",
+         "Attacking Midfielder", "Winger", "Striker"],
+        ["Alan Virgilus", "Harry Maguire", "Big Sean", "Big Adam", "Big Bob", "Oscar Bobb"],
+        ["Youth (Under 12)", "Teen (13-16)", "Junior (17-19)", "Adult (20-29)", "Senior (30+)"],
+        ["Passing", "Dribbling", "Shooting", "Defending", "First touch", "Fitness"],
+        ["Passing", "Dribbling", "Shooting", "Defending", "First touch", "Fitness"],
+        ["At a soccer field with goals", "At home (backyard or indoors)", "At a park or open field",
+         "At a gym or indoor court"],
+        ["Soccer ball", "Cones or markers", "Rebounder or wall", "Goals"],
+        ["Less than 15 minutes", "15-30 minutes", "30-60 minutes", "1-2 hours", "More than 2 hours"],
+        ["2-3 days (light schedule)", "4-5 days (moderate schedule)", "6-7 days (intense schedule)"]
+    ]
+    
+    // Onboarding data answers from the user
     struct OnboardingData: Codable {
-        var ageRange: String = ""
-        var level: String = ""
-        var position: String = ""
-        var playstyleRepresentatives: [String] = []
-        var strengths: [String] = []
-        var weaknesses: [String] = []
-        var hasTeam: Bool = false
         var primaryGoal: String = ""
-        var timeline: String = ""
-        var skillLevel: String = ""
-        var trainingDays: [String] = []
+        var biggestChallenge: String = ""
+        var trainingExperience: String = ""
+        var position: String = ""
+        var playstyle: String = ""
+        var ageRange: String = ""
+        var strengths: [String] = []
+        var areasToImprove: [String] = []
+        var trainingLocation: [String] = []
         var availableEquipment: [String] = []
+        var dailyTrainingTime: String = ""
+        var weeklyTrainingDays: String = ""
         var firstName: String = ""
         var lastName: String = ""
         var email: String = ""
         var password: String = ""
     }
-    
-    let ageRanges = ["Youth (Under 12)", "Teen (13-16)", "Junior (17-19)", "Adult (20-29)", "Senior (30+)"]
-    let levels = ["Beginner", "Intermediate", "Competitive", "Professional"]
-    let positions = ["Goalkeeper", "Fullback", "Centerback", "Defensive Mid", "Central Mid", "Attacking Mid"]
-    let players = ["Alan Virgilus", "Harry Maguire", "Big Sean", "Big Adam", "Big Bob", "Oscar Bobb"]
-    let skills = ["Passing", "Dribbling", "Shooting", "First Touch", "Crossing", "1v1 Defending"]
-    let goals = [
-        "I want to improve my overall skill level",
-        "I want to be the best player on my team",
-        "I want to get scouted for college",
-        "I want to become a professional soccer player"
-    ]
-    let timelines = ["Within 3 months", "Within 6 months", "Within 1 year", "Long term goal (2+ years)"]
-    let trainingIntensities = [
-        "Light (2-3 sessions/week)",
-        "Moderate (3-4 sessions/week)",
-        "Intense (4-5 sessions/week)",
-        "Professional (6+ sessions/week)"
-    ]
-    let weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    let equipment = ["Ball", "Cones", "Goals", "Agility Ladder", "Resistance Bands", "Training Dummy"]
-    
 
     // Checks if youre allowed to move to next question (validates data)
     func canMoveNext() -> Bool {
         switch currentStep {
-        case 0: return !onboardingData.ageRange.isEmpty
-        case 1: return !onboardingData.level.isEmpty
-        case 2: return !onboardingData.position.isEmpty
-        case 3: return !onboardingData.playstyleRepresentatives.isEmpty
-        case 4: return !onboardingData.strengths.isEmpty && !onboardingData.weaknesses.isEmpty
-        case 5: return true // hasTeam is always valid as it's a boolean
-        case 6: return !onboardingData.primaryGoal.isEmpty
-        case 7: return !onboardingData.timeline.isEmpty
-        case 8: return !onboardingData.trainingDays.isEmpty
+        case 0: return !onboardingData.primaryGoal.isEmpty
+        case 1: return !onboardingData.biggestChallenge.isEmpty
+        case 2: return !onboardingData.trainingExperience.isEmpty
+        case 3: return !onboardingData.position.isEmpty
+        case 4: return !onboardingData.playstyle.isEmpty
+        case 5: return !onboardingData.ageRange.isEmpty
+        case 6: return !onboardingData.strengths.isEmpty
+        case 7: return !onboardingData.areasToImprove.isEmpty
+        case 8: return !onboardingData.trainingLocation.isEmpty
         case 9: return !onboardingData.availableEquipment.isEmpty
-        case 10: return !onboardingData.firstName.isEmpty &&
+        case 10: return !onboardingData.dailyTrainingTime.isEmpty
+        case 11: return !onboardingData.weeklyTrainingDays.isEmpty
+        case 12: return !onboardingData.firstName.isEmpty &&
                         !onboardingData.lastName.isEmpty &&
                         !onboardingData.email.isEmpty &&
                         !onboardingData.password.isEmpty
