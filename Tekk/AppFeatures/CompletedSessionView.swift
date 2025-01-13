@@ -40,7 +40,6 @@ struct CompletedSessionView: View {
                 Button(action: {
                     if mainAppModel.currentDay >= 0 {
                         mainAppModel.completedSessionIndicator()
-                        mainAppModel.addCheckMark = true
                         mainAppModel.streakIncrease += 1
                         mainAppModel.interactedDayShowGreen = true
                     }

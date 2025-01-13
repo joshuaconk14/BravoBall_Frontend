@@ -15,7 +15,6 @@ class MainAppModel: ObservableObject {
     
     // for each day
     @Published var currentDay = 0  // Track which button should show checkmark
-    @Published var addCheckMark = false
     @Published var streakIncrease: Int = 0
     @Published var interactedDayShowGreen = false
     
