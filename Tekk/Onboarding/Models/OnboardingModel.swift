@@ -60,7 +60,7 @@ class OnboardingModel: ObservableObject {
         ["Passing", "Dribbling", "Shooting", "Defending", "First touch", "Fitness"],
         ["At a soccer field with goals", "At home (backyard or indoors)", "At a park or open field",
          "At a gym or indoor court"],
-        ["Soccer ball", "Cones or markers", "Rebounder or wall", "Goals"],
+        ["Soccer ball", "Cones", "Wall", "Goals"],
         ["Less than 15 minutes", "15-30 minutes", "30-60 minutes", "1-2 hours", "More than 2 hours"],
         ["2-3 days (light schedule)", "4-5 days (moderate schedule)", "6-7 days (intense schedule)"]
     ]

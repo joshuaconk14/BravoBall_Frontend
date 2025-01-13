@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RiveRuntime
 
 struct SessionGeneratorView: View {
     @ObservedObject var model: OnboardingModel
@@ -28,129 +29,134 @@ struct SessionGeneratorView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
-                // Top Bar with Controls
-                HStack(spacing: 12) {
-                    Button(action: { /* Close action */ }) {
-                        Image(systemName: "xmark")
-                            .foregroundColor(.black)
-                            .font(.system(size: 16, weight: .medium))
-                    }
-                    
-                    Spacer()
-                    
-                    Button(action: { /* More options */ }) {
-                        Image(systemName: "ellipsis")
-                            .foregroundColor(.black)
-                            .font(.system(size: 20, weight: .medium))
-                    }
-                }
-                .padding()
-                
-                // Prerequisites ScrollView
-                ScrollView(.horizontal, showsIndicators: false) {
+            ZStack(alignment: .bottom) {
+                VStack(spacing: 0) {
+                    // Top Bar with Controls
                     HStack(spacing: 12) {
-                        ForEach(PrerequisiteType.allCases, id: \.self) { type in
-                            PrerequisiteButton(
-                                type: type,
-                                isSelected: selectedPrerequisite == type,
-                                value: prerequisiteValue(for: type)
-                            ) {
-                                if selectedPrerequisite == type {
-                                    selectedPrerequisite = nil
-                                } else {
-                                    selectedPrerequisite = type
-                                }
-                            }
+                        Button(action: { /* Close action */ }) {
+                            Image(systemName: "xmark")
+                                .foregroundColor(.black)
+                                .font(.system(size: 16, weight: .medium))
                         }
-                    }
-                    .padding(.horizontal)
-                }
-                .frame(height: 60)
-                
-                // Dropdown content if prerequisite is selected
-                if let type = selectedPrerequisite {
-                    PrerequisiteDropdown(type: type, sessionModel: sessionModel) {
-                        selectedPrerequisite = nil
-                    }
-                    .transition(.move(edge: .top))
-                }
-                
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        // Skills Section
-                        VStack(alignment: .leading, spacing: 12) {
-                            HStack {
-                                Text("Skills for Today")
-                                    .font(.headline)
-                                Spacer()
-                                Button(action: { /* Add skill */ }) {
-                                    Image(systemName: "plus")
-                                        .foregroundColor(model.globalSettings.primaryYellowColor)
-                                }
-                            }
-                            
-                            // Skills Grid
-                            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                                ForEach(model.questionOptions[6], id: \.self) { skill in
-                                    SkillButton(
-                                        title: skill,
-                                        isSelected: sessionModel.selectedSkills.contains(skill),
-                                        action: {
-                                            if sessionModel.selectedSkills.contains(skill) {
-                                                sessionModel.selectedSkills.remove(skill)
-                                            } else {
-                                                sessionModel.selectedSkills.insert(skill)
-                                            }
-                                            showingDrills = !sessionModel.selectedSkills.isEmpty
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(15)
                         
-                        if showingDrills {
-                            // Generated Drills Section
-                            VStack(alignment: .leading, spacing: 16) {
+                        Spacer()
+                        
+                        Button(action: { /* More options */ }) {
+                            Image(systemName: "ellipsis")
+                                .foregroundColor(.black)
+                                .font(.system(size: 20, weight: .medium))
+                        }
+                    }
+                    .padding()
+                    
+                    // Prerequisites ScrollView
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 12) {
+                            ForEach(PrerequisiteType.allCases, id: \.self) { type in
+                                PrerequisiteButton(
+                                    type: type,
+                                    isSelected: selectedPrerequisite == type,
+                                    value: prerequisiteValue(for: type)
+                                ) {
+                                    if selectedPrerequisite == type {
+                                        selectedPrerequisite = nil
+                                    } else {
+                                        selectedPrerequisite = type
+                                    }
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    .frame(height: 60)
+                    
+                    // Dropdown content if prerequisite is selected
+                    if let type = selectedPrerequisite {
+                        PrerequisiteDropdown(type: type, sessionModel: sessionModel) {
+                            selectedPrerequisite = nil
+                        }
+                        .transition(.move(edge: .top))
+                    }
+                    
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 20) {
+                            // Skills Section
+                            VStack(alignment: .leading, spacing: 12) {
                                 HStack {
-                                    Image("BravoBallDog")
-                                        .resizable()
-                                        .frame(width: 50, height: 50)
-                                    
-                                    Text("Looks like you got \(sessionModel.selectedSkills.count) drills for today!")
+                                    Text("Skills for Today")
                                         .font(.headline)
+                                    Spacer()
+                                    Button(action: { /* Add skill */ }) {
+                                        Image(systemName: "plus")
+                                            .foregroundColor(model.globalSettings.primaryYellowColor)
+                                    }
                                 }
                                 
-                                // Drill Cards
-                                ForEach(Array(sessionModel.selectedSkills), id: \.self) { skill in
-                                    DrillCard(title: "\(skill) Drill", duration: "20min", sets: "4", reps: "2")
+                                // Skills Grid
+                                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                                    ForEach(model.questionOptions[6], id: \.self) { skill in
+                                        SkillButton(
+                                            title: skill,
+                                            isSelected: sessionModel.selectedSkills.contains(skill),
+                                            action: {
+                                                if sessionModel.selectedSkills.contains(skill) {
+                                                    sessionModel.selectedSkills.remove(skill)
+                                                } else {
+                                                    sessionModel.selectedSkills.insert(skill)
+                                                }
+                                                showingDrills = !sessionModel.selectedSkills.isEmpty
+                                            }
+                                        )
+                                    }
                                 }
-                                
-                                // Start Session Button
-                                Button(action: {
-                                    sessionModel.generateSession()
-                                }) {
-                                    Text("Start Session")
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                        .frame(maxWidth: .infinity)
-                                        .padding()
-                                        .background(model.globalSettings.primaryYellowColor)
-                                        .cornerRadius(25)
-                                }
-                                .padding(.top)
                             }
                             .padding()
                             .background(Color.white)
                             .cornerRadius(15)
+                            
+                            if showingDrills {
+                                // Generated Drills Section
+                                VStack(alignment: .leading, spacing: 16) {
+                                    HStack {
+                                        RiveViewModel(fileName: "Bravo_Panting").view()
+                                            .frame(width: 80, height: 80)
+                                        
+                                        Text("Looks like you got \(sessionModel.selectedSkills.count) drills for today!")
+                                            .font(.headline)
+                                    }
+                                    
+                                    // Drill Cards
+                                    ForEach(Array(sessionModel.selectedSkills), id: \.self) { skill in
+                                        DrillCard(title: "\(skill) Drill", duration: "20min", sets: "4", reps: "2")
+                                    }
+                                }
+                                .padding()
+                                .background(Color.white)
+                                .cornerRadius(15)
+                            }
                         }
+                        .padding()
+                        // Add bottom padding to account for the fixed Start Session button
+                        .padding(.bottom, 80)
                     }
-                    .padding()
                 }
-                .background(Color.gray.opacity(0.1))
+                
+                // Fixed Start Session Button
+                if showingDrills {
+                    Button(action: {
+                        sessionModel.generateSession()
+                    }) {
+                        Text("Start Session")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(model.globalSettings.primaryYellowColor)
+                            .cornerRadius(25)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 8) // Add padding to lift above tab bar
+                }
             }
         }
     }
