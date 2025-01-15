@@ -89,26 +89,6 @@
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //// MARK: Calendar
 //
 //
@@ -129,53 +109,7 @@
 //    @State private var inSimulationMode: Bool = true
 //    
 //    // TODO: format code in easy simulation / production switch, this is key for this page
-//    
-//    
-//    private func getCurrentDate() -> Date {
-//        return inSimulationMode ? simulatedDate: Date()
-//    }
-//    
-//    private func simulateChangeOfDay() {
-//        if let nextDay = calendar.date(byAdding: .day, value: 1, to: simulatedDate) {
-//            simulatedDate = nextDay
-//        }
-//    }
-//    
-//    
-//    
-//    private func addDrill(for date: Date) {
-//        let addedTestDrills = MainAppModel.DrillData (
-//            name: "Cone weaves",
-//            skill: "Dribbling",
-//            duration: 20,
-//            sets: 4,
-//            reps: 8,
-//            equipment: ["Ball, cones"]
-//        )
-//        
-//        mainAppModel.addCompleteSession(date: simulatedDate, drills: [addedTestDrills])
-//    }
-//    
-//    private func createFullDate(from day: Int) -> Date {
-//            var components = calendar.dateComponents([.year, .month], from: selectedDate)
-//            components.day = day
-//            return calendar.date(from: components) ?? Date()
-//        }
-//        
-//    private func getDateComponents(from date: Date) -> (day: Int, month: Int, year: Int) {
-//        let components = calendar.dateComponents([.day, .month, .year], from: date)
-//        return (
-//            day: components.day ?? 1,
-//            month: components.month ?? 1,
-//            year: components.year ?? 2024
-//        )
-//    }
-//    
-//
-//    
-//    
-//    
-//    
+//      
 //    
 //    var body: some View {
 //        VStack {
@@ -242,21 +176,7 @@
 //                        .frame(maxWidth: .infinity)
 //                }
 //            }
-//            
-//            
-//            
-//            
-//            
-//            
-//            
-//            
-//            
-//            
-//            
-//
-//            
-//            
-//            
+//       
 //            
 //            // Calendar grid
 //            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 5) {
@@ -289,18 +209,47 @@
 //    }
 //    
 //    
+//    // MARK: Calendar functions
+//    
+//    private func getCurrentDate() -> Date {
+//        return inSimulationMode ? simulatedDate: Date()
+//    }
+//    
+//    private func simulateChangeOfDay() {
+//        if let nextDay = calendar.date(byAdding: .day, value: 1, to: simulatedDate) {
+//            simulatedDate = nextDay
+//        }
+//    }
 //    
 //    
 //    
+//    private func addDrill(for date: Date) {
+//        let addedTestDrills = MainAppModel.DrillData (
+//            name: "Cone weaves",
+//            skill: "Dribbling",
+//            duration: 20,
+//            sets: 4,
+//            reps: 8,
+//            equipment: ["Ball, cones"]
+//        )
+//        
+//        mainAppModel.addCompleteSession(date: simulatedDate, drills: [addedTestDrills])
+//    }
 //    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
+//    private func createFullDate(from day: Int) -> Date {
+//            var components = calendar.dateComponents([.year, .month], from: selectedDate)
+//            components.day = day
+//            return calendar.date(from: components) ?? Date()
+//        }
+//        
+//    private func getDateComponents(from date: Date) -> (day: Int, month: Int, year: Int) {
+//        let components = calendar.dateComponents([.day, .month, .year], from: date)
+//        return (
+//            day: components.day ?? 1,
+//            month: components.month ?? 1,
+//            year: components.year ?? 2024
+//        )
+//    }
 //    
 //    private func monthYearString(from date: Date) -> String {
 //        let formatter = DateFormatter()
@@ -350,3 +299,4 @@
 //    let mockAppModel = MainAppModel()
 //    return testCompSesView(mainAppModel: mockAppModel)
 //}
+//
