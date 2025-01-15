@@ -19,7 +19,9 @@ struct WeekDisplayButton: View {
     
     var body: some View {
         Button(action: {
-            // Button action
+            if dayWithScore {
+                mainAppModel.showDrillShower = true
+            }
         }) {
             ZStack {
                 if dayWithScore {
@@ -32,11 +34,6 @@ struct WeekDisplayButton: View {
                         Text(text)
                             .font(.custom("Poppins-Bold", size: 30))
                             .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
-//                        Button(action: {
-//                            mainAppModel.showDrillShower = true
-//                        }) {
-//                            Image(systemName: "chevron.left")
-//                        }
                     }
 
                 } else {
@@ -51,7 +48,7 @@ struct WeekDisplayButton: View {
                             .foregroundColor(Color.white)
                             .background(
                                 Circle()
-                                    .fill(Color.red)
+                                    .fill(Color.gray)
                                     .frame(width: 42, height: 42)
                             )
                     } else {

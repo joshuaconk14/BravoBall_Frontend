@@ -44,7 +44,7 @@
 		43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */; };
 		43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */; };
 		43985E5A2CB5B0BB00BE2AB6 /* Bravo_Panting.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */; };
-		43D78E362D3738EE005CC222 /* DrillShower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D78E352D3738E8005CC222 /* DrillShower.swift */; };
+		43D78E382D386124005CC222 /* DrillResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D78E372D38611D005CC222 /* DrillResultsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,7 +105,7 @@
 		43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PottaOne-Regular.ttf"; sourceTree = "<group>"; };
 		43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bravo_Panting.riv; sourceTree = "<group>"; };
-		43D78E352D3738E8005CC222 /* DrillShower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillShower.swift; sourceTree = "<group>"; };
+		43D78E372D38611D005CC222 /* DrillResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillResultsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,7 +266,7 @@
 		430FD73C2D33B2F80016D520 /* HelperFeatures */ = {
 			isa = PBXGroup;
 			children = (
-				43D78E352D3738E8005CC222 /* DrillShower.swift */,
+				43D78E372D38611D005CC222 /* DrillResultsView.swift */,
 				430FD73D2D33B31F0016D520 /* WeekDisplayButton.swift */,
 			);
 			path = HelperFeatures;
@@ -461,10 +461,10 @@
 				430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
 				430FD7302D339AC50016D520 /* testCompSesView.swift in Sources */,
-				43D78E362D3738EE005CC222 /* DrillShower.swift in Sources */,
 				178208E02D2DEB9C00246494 /* OnboardingModel.swift in Sources */,
 				17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
+				43D78E382D386124005CC222 /* DrillResultsView.swift in Sources */,
 				1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */,
 				1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */,
 				178209102D2E0C6800246494 /* SessionGeneratorView.swift in Sources */,
