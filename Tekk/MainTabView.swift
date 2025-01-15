@@ -21,7 +21,7 @@ struct MainTabView: View {
                     Text("Train")
                 }
                 .tag(0)
-            CompletedSessionView(mainAppModel: mainAppModel)
+            testCompSesView(mainAppModel: mainAppModel)
                 .tabItem {
                     Image(systemName: "checkmark.circle.fill")
                     Text("Sessions")

@@ -11,26 +11,33 @@ import RiveRuntime
 
 struct WeekDisplayButton: View {
     @ObservedObject var mainAppModel: MainAppModel
-    
     let text: String
+    
+    let date: Date
     let dayWithScore: Bool
     let highlightedDay: Bool
     
-    
     var body: some View {
         Button(action: {
-            // Add your button action here
+            // Button action
         }) {
             ZStack {
                 if dayWithScore {
-                    RiveViewModel(fileName: "Day_High_Score").view()
-                        .frame(width: 60, height: 60)
-                        .aspectRatio(contentMode: .fit)
-                        .clipped()
+                    ZStack {
+                        RiveViewModel(fileName: "Day_High_Score").view()
+                            .frame(width: 60, height: 60)
+                            .aspectRatio(contentMode: .fit)
+                            .clipped()
 
-                    Text(text)
-                        .font(.custom("Poppins-Bold", size: 30))
-                        .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
+                        Text(text)
+                            .font(.custom("Poppins-Bold", size: 30))
+                            .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
+                        Button(action: {
+                            mainAppModel.showDrillShower = true
+                        }) {
+                            Image(systemName: "chevron.left")
+                        }
+                    }
 
                 } else {
                     RiveViewModel(fileName: "Day_Null").view()
@@ -64,7 +71,8 @@ struct WeekDisplayButton: View {
     return WeekDisplayButton(
         mainAppModel: mockAppModel,
         text: "34",
-        dayWithScore: false,
+        date: Date(),
+        dayWithScore: true,
         highlightedDay: true
     )
 }

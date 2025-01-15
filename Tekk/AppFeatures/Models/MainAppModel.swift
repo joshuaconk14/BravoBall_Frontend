@@ -13,6 +13,8 @@ class MainAppModel: ObservableObject {
     
     var mainTabSelected = 0
     
+    @Published var showDrillShower = false
+    
     // for each day
     @Published var currentDay = 0  // Track which button should show checkmark
     @Published var streakIncrease: Int = 0
@@ -59,5 +61,92 @@ class MainAppModel: ObservableObject {
         case logout
         case delete
         case none
+    }
+    
+    
+    
+    
+    
+    
+    
+    // Calendar structures and functions
+    
+    let calendar = Calendar.current
+    
+    struct CompletedSession: Codable {
+        let date: Date
+        let drills: [DrillData] // TODO: make drill card structure?
+        var isCompleted: Bool = true
+    }
+    
+    struct DrillData: Codable {
+        let name: String
+        let skill: String
+        let duration: Int
+        let sets: Int
+        let reps: Int
+        let equipment: [String]
+    }
+    
+    @Published var allCompletedSessions: [CompletedSession] = []
+    
+    
+    // adding completed session into allCompletedSessions array
+    func addCompleteSession(date: Date, drills: [DrillData]) {
+        let newSession = CompletedSession(
+            date: date,
+            drills: drills
+        )
+        allCompletedSessions.append(newSession)
+        
+        // Function that will save to UserDefaults
+        saveCompletedSessions()
+        
+        // Accessing the actual data instead of the type
+        print ("Session complete")
+        print ("date: \(date)")
+        for drill in drills {
+            print ("name: \(drill.name)")
+            print ("skill: \(drill.skill)")
+            print ("duration: \(drill.duration)")
+            print ("sets: \(drill.sets)")
+            print ("reps: \(drill.reps)")
+            print ("equipment: \(drill.equipment)")
+        }
+    }
+    
+    // Bool that checks if day is completed through date comparison
+    func isDayCompleted(_ date: Date) -> Bool {
+        let calendar = Calendar.current
+                let targetComponents = calendar.dateComponents([.day, .month, .year], from: date)
+                let targetDay = targetComponents.day
+                let targetMonth = targetComponents.month
+                let targetYear = targetComponents.year
+                
+                return allCompletedSessions.contains { session in
+                    let sessionComponents = calendar.dateComponents([.day, .month, .year], from: session.date)
+                    let sessionDay = sessionComponents.day
+                    let sessionMonth = sessionComponents.month
+                    let sessionYear = sessionComponents.year
+                    
+                    return sessionDay == targetDay &&
+                           sessionMonth == targetMonth &&
+                           sessionYear == targetYear
+        }
+    }
+        
+    // Save to UserDefaults
+    func saveCompletedSessions() {
+        if let encoded = try? JSONEncoder().encode(allCompletedSessions) {
+            UserDefaults.standard.set(encoded, forKey: "completedSessions")
+        }
+    }
+    
+    // Decode from UserDefaults
+    func loadCompletedSessions() {
+        if let data = UserDefaults.standard.data(forKey: "completedSessions"),
+           let decoded = try? JSONDecoder().decode([CompletedSession].self, from: data) {
+            allCompletedSessions = decoded
+        }
     }
 }
