@@ -118,20 +118,20 @@ class MainAppModel: ObservableObject {
     // Bool that checks if day is completed through date comparison
     func isDayCompleted(_ date: Date) -> Bool {
         let calendar = Calendar.current
-                let targetComponents = calendar.dateComponents([.day, .month, .year], from: date)
-                let targetDay = targetComponents.day
-                let targetMonth = targetComponents.month
-                let targetYear = targetComponents.year
-                
-                return allCompletedSessions.contains { session in
-                    let sessionComponents = calendar.dateComponents([.day, .month, .year], from: session.date)
-                    let sessionDay = sessionComponents.day
-                    let sessionMonth = sessionComponents.month
-                    let sessionYear = sessionComponents.year
-                    
-                    return sessionDay == targetDay &&
-                           sessionMonth == targetMonth &&
-                           sessionYear == targetYear
+        let targetComponents = calendar.dateComponents([.day, .month, .year], from: date)
+        let targetDay = targetComponents.day
+        let targetMonth = targetComponents.month
+        let targetYear = targetComponents.year
+        
+        return allCompletedSessions.contains { session in
+            let sessionComponents = calendar.dateComponents([.day, .month, .year], from: session.date)
+            let sessionDay = sessionComponents.day
+            let sessionMonth = sessionComponents.month
+            let sessionYear = sessionComponents.year
+            
+            return sessionDay == targetDay &&
+                   sessionMonth == targetMonth &&
+                   sessionYear == targetYear
         }
     }
         
