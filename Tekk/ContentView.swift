@@ -28,6 +28,7 @@ struct ContentView: View {
             } else {
                 OnboardingView(model: onboardingModel, mainAppModel: appModel, userManager: userInfoManager)
             }
+//              DragDropTest()
         }
         .preferredColorScheme(.light)
     }

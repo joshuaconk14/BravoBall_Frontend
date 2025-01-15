@@ -66,7 +66,7 @@ struct SessionGeneratorView: View {
                                 }
                             }
                         }
-                        .padding(.horizontal)
+                        .padding()
                     }
                     .frame(height: 60)
                     
@@ -78,56 +78,78 @@ struct SessionGeneratorView: View {
                         .transition(.move(edge: .top))
                     }
                     
-                    ScrollView {
+            ScrollView {
                         VStack(alignment: .leading, spacing: 20) {
-                            // Skills Section
-                            VStack(alignment: .leading, spacing: 12) {
-                                HStack {
-                                    Text("Skills for Today")
-                                        .font(.headline)
-                                    Spacer()
-                                    Button(action: { /* Add skill */ }) {
-                                        Image(systemName: "plus")
-                                            .foregroundColor(model.globalSettings.primaryYellowColor)
-                                    }
-                                }
-                                
-                                // Skills Grid
-                                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                                    ForEach(model.questionOptions[6], id: \.self) { skill in
-                                        SkillButton(
-                                            title: skill,
-                                            isSelected: sessionModel.selectedSkills.contains(skill),
-                                            action: {
-                                                if sessionModel.selectedSkills.contains(skill) {
-                                                    sessionModel.selectedSkills.remove(skill)
-                                                } else {
-                                                    sessionModel.selectedSkills.insert(skill)
-                                                }
-                                                showingDrills = !sessionModel.selectedSkills.isEmpty
-                                            }
-                                        )
-                                    }
-                                }
+                    // Skills Section
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            Text("Skills for Today")
+                                            .font(.custom("Poppins-Bold", size: 16))
+                            Spacer()
+                                        Button(action: { /* Add skill */ }) {
+                                Image(systemName: "plus")
+                                    .foregroundColor(model.globalSettings.primaryYellowColor)
                             }
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(15)
-                            
-                            if showingDrills {
-                                // Generated Drills Section
-                                VStack(alignment: .leading, spacing: 16) {
-                                    HStack {
-                                        RiveViewModel(fileName: "Bravo_Panting").view()
-                                            .frame(width: 80, height: 80)
+                        }
+                        
+                        // Skills Grid
+                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                            ForEach(model.questionOptions[6], id: \.self) { skill in
+                                SkillButton(
+                                    title: skill,
+                                    isSelected: sessionModel.selectedSkills.contains(skill),
+                                    action: {
+                                        if sessionModel.selectedSkills.contains(skill) {
+                                            sessionModel.selectedSkills.remove(skill)
+                                        } else {
+                                            sessionModel.selectedSkills.insert(skill)
+                                        }
+                                        showingDrills = !sessionModel.selectedSkills.isEmpty
+                                        sessionModel.updateDrills() // Update the drills when skills change
+                                    }
+                                )
+                            }
+                        }
+                    }
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(15)
+                    
+                    if showingDrills {
+                    // Generated Drills Section
+                        VStack(alignment: .leading, spacing: 16) {
+                        HStack {
+                                RiveViewModel(fileName: "Bravo_Panting").view()
+                                    .frame(width: 80, height: 80)
                                         
-                                        Text("Looks like you got \(sessionModel.selectedSkills.count) drills for today!")
-                                            .font(.headline)
+                                    Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
+                                        .font(.custom("Poppins-Bold", size: 16))
                                     }
                                     
-                                    // Drill Cards
-                                    ForEach(Array(sessionModel.selectedSkills), id: \.self) { skill in
-                                        DrillCard(title: "\(skill) Drill", duration: "20min", sets: "4", reps: "2")
+                                    // Drill Cards with drag-drop support
+                                    ForEach(sessionModel.orderedDrills) { drill in
+                                        DrillCard(drill: drill)
+                                            // Make the card draggable using the title as the transfer data
+                                            .draggable(drill.title) {
+                                                // This closure provides the visual preview while dragging
+                                                DrillCard(drill: drill)
+                                            }
+                                            // Make each card a drop destination for other cards
+                                            .dropDestination(for: String.self) { items, location in
+                                                // Get the source and destination indices for reordering
+                                                guard let sourceTitle = items.first,
+                                                      let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
+                                                      let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
+                                                    return false
+                                                }
+                                                
+                                                // Perform the reordering with animation
+                                                withAnimation(.spring()) {
+                                                    let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
+                                                    sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                                                }
+                                                return true
+                                            }
                                     }
                                 }
                                 .padding()
@@ -143,17 +165,17 @@ struct SessionGeneratorView: View {
                 
                 // Fixed Start Session Button
                 if showingDrills {
-                    Button(action: {
+                            Button(action: {
                         sessionModel.generateSession()
-                    }) {
-                        Text("Start Session")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(model.globalSettings.primaryYellowColor)
-                            .cornerRadius(25)
-                    }
+                            }) {
+                                Text("Start Session")
+                        .font(.custom("Poppins-Bold", size: 16))
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(model.globalSettings.primaryYellowColor)
+                                    .cornerRadius(25)
+                            }
                     .padding(.horizontal)
                     .padding(.bottom, 8) // Add padding to lift above tab bar
                 }
@@ -182,13 +204,13 @@ struct PrerequisiteButton: View {
         Button(action: action) {
             VStack(spacing: 4) {
                 Text(type.rawValue)
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.custom("Poppins-Medium", size: 12))
                     .foregroundColor(.gray)
                 HStack {
                     Text(value.isEmpty ? "Select" : value)
-                        .font(.system(size: 14, weight: .semibold))
+                        .font(.custom("Poppins-SemiBold", size: 14))
                     Image(systemName: "chevron.down")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.custom("Poppins-SemiBold", size: 12))
                 }
             }
             .padding(.horizontal, 12)
@@ -211,7 +233,7 @@ struct PrerequisiteDropdown: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text(type.rawValue)
-                    .font(.headline)
+                    .font(.custom("Poppins-Bold", size: 16))
                 Spacer()
                 Button(action: dismiss) {
                     Image(systemName: "xmark")
@@ -228,6 +250,7 @@ struct PrerequisiteDropdown: View {
                         }) {
                             HStack {
                                 Text(option)
+                                    .font(.custom("Poppins-Regular", size: 14))
                                     .foregroundColor(.black)
                                 Spacer()
                                 if isSelected(option) {
@@ -301,53 +324,63 @@ struct SkillButton: View {
                 Image(systemName: "figure.soccer")
                     .font(.system(size: 14))
                 Text(title)
-                    .font(.system(size: 14, weight: .medium))
+                    .font(.custom("Poppins-Medium", size: 14))
             }
             .padding()
             .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(isSelected ? Color.yellow : Color.gray.opacity(0.3), lineWidth: 2)
-            )
+                        .stroke(isSelected ? Color.yellow : Color.gray.opacity(0.3), lineWidth: 2)
+                )
         }
         .foregroundColor(isSelected ? .yellow : .gray)
     }
 }
 
 struct DrillCard: View {
-    let title: String
-    let duration: String
-    let sets: String
-    let reps: String
+    let drill: DrillModel
+    @State private var showingDetail = false
     
     var body: some View {
-        HStack {
-            Image(systemName: "figure.soccer")
-                .font(.system(size: 24))
-                .padding()
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(10)
-            
-            VStack(alignment: .leading) {
-                Text(title)
-                    .font(.headline)
-                Text("\(sets) sets - \(reps) reps - \(duration)")
-                    .font(.subheadline)
+        Button(action: { showingDetail = true }) {
+            HStack {
+                // Drag handle
+                Image(systemName: "line.3.horizontal")
                     .foregroundColor(.gray)
-            }
-            
-            Spacer()
-            
-            Button(action: { /* More options */ }) {
-                Image(systemName: "ellipsis")
+                    .font(.system(size: 14))
+                    .padding(.trailing, 8)
+                
+                Image(systemName: "figure.soccer")
+                    .font(.system(size: 24))
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+                
+                VStack(alignment: .leading) {
+                    Text(drill.title)
+                        .font(.custom("Poppins-Bold", size: 16))
+                    Text("\(drill.sets) sets - \(drill.reps) reps - \(drill.duration)")
+                        .font(.custom("Poppins-Regular", size: 14))
+                        .foregroundColor(.gray)
+                }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
                     .foregroundColor(.gray)
+                    .font(.system(size: 14, weight: .semibold))
             }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+            )
+            .contentShape(Rectangle())
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-        )
+        .buttonStyle(PlainButtonStyle())
+        .sheet(isPresented: $showingDetail) {
+            DrillDetailView(drill: drill)
+        }
     }
 }
 
@@ -361,34 +394,44 @@ class SessionGeneratorModel: ObservableObject {
     @Published var selectedLocation: String = ""
     @Published var selectedDifficulty: String = ""
     @Published var selectedSkills: Set<String> = []
+    @Published var orderedDrills: [DrillModel] = []
     
     // Prerequisite options
-    let timeOptions = [
-        "15min", "30min", "45min", "1h", "1h30", "2h+"
-    ]
+    let timeOptions = ["15min", "30min", "45min", "1h", "1h30", "2h+"]
+    let equipmentOptions = ["balls", "cones", "goals"]
+    let trainingStyleOptions = ["medium intensity", "high intensity", "game prep", "game recovery", "rest day"]
+    let locationOptions = ["field with goals", "small field", "indoor court"]
+    let difficultyOptions = ["beginner", "intermediate", "advanced"]
     
-    let equipmentOptions = [
-        "balls", "cones", "goals"
-    ]
-    
-    let trainingStyleOptions = [
-        "medium intensity",
-        "high intensity",
-        "game prep",
-        "game recovery",
-        "rest day"
-    ]
-    
-    let locationOptions = [
-        "field with goals",
-        "small field",
-        "indoor court"
-    ]
-    
-    let difficultyOptions = [
-        "beginner",
-        "intermediate",
-        "advanced"
+    // Test data for drills
+    static let testDrills: [DrillModel] = [
+        DrillModel(
+            title: "Passing Drill",
+            sets: "4",
+            reps: "10",
+            duration: "15min",
+            description: "Improve your passing accuracy with this focused drill.",
+            tips: ["Keep your head up", "Follow through", "Use inside of foot"],
+            equipment: ["Soccer ball", "Cones"]
+        ),
+        DrillModel(
+            title: "Shooting Drill",
+            sets: "3",
+            reps: "5",
+            duration: "20min",
+            description: "Perfect your shooting technique with power and accuracy.",
+            tips: ["Plant foot beside ball", "Strike with laces", "Follow through"],
+            equipment: ["Soccer ball", "Goal"]
+        ),
+        DrillModel(
+            title: "Dribbling Drill",
+            sets: "4",
+            reps: "8",
+            duration: "15min",
+            description: "Master close ball control and quick direction changes.",
+            tips: ["Keep ball close", "Use both feet", "Look up regularly"],
+            equipment: ["Soccer ball", "Cones"]
+        )
     ]
     
     // Initialize with user's onboarding data
@@ -409,10 +452,42 @@ class SessionGeneratorModel: ObservableObject {
         case "More than 2 hours": selectedTime = "2h+"
         default: selectedTime = "1h"
         }
+        
+        // Initialize with test drills
+        orderedDrills = Self.testDrills
+    }
+    
+    // Update drills when skills are selected
+    func updateDrills() {
+        // For testing, we'll keep the test drills regardless of selection
+        // In production, this would filter based on selected skills
+        if !orderedDrills.isEmpty { return }
+        orderedDrills = Self.testDrills
+    }
+    
+    // Move drill from one position to another
+    func moveDrill(from source: IndexSet, to destination: Int) {
+        orderedDrills.move(fromOffsets: source, toOffset: destination)
     }
     
     // Generate new session based on current prerequisites
     func generateSession() {
         // TODO: Implement session generation logic
+    }
+}
+
+// Update DrillModel to be identifiable
+struct DrillModel: Identifiable, Equatable {
+    let id = UUID()
+    let title: String
+    let sets: String
+    let reps: String
+    let duration: String
+    let description: String
+    let tips: [String]
+    let equipment: [String]
+    
+    static func == (lhs: DrillModel, rhs: DrillModel) -> Bool {
+        lhs.id == rhs.id
     }
 }
