@@ -11,8 +11,8 @@ import RiveRuntime
 
 struct WeekDisplayButton: View {
     @ObservedObject var mainAppModel: MainAppModel
-    let text: String
     
+    let text: String
     let date: Date
     let dayWithScore: Bool
     let highlightedDay: Bool
@@ -32,11 +32,11 @@ struct WeekDisplayButton: View {
                         Text(text)
                             .font(.custom("Poppins-Bold", size: 30))
                             .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
-                        Button(action: {
-                            mainAppModel.showDrillShower = true
-                        }) {
-                            Image(systemName: "chevron.left")
-                        }
+//                        Button(action: {
+//                            mainAppModel.showDrillShower = true
+//                        }) {
+//                            Image(systemName: "chevron.left")
+//                        }
                     }
 
                 } else {
