@@ -16,14 +16,12 @@
 //import RiveRuntime
 //
 //struct testCompSesView: View {
-//
-//    @ObservedObject var mainAppModel: MainAppModel
-//    @State private var showCalendar = false
+//    @ObservedObject var appModel: MainAppModel
 //
 //    var body: some View {
 //        content
-//            .sheet(isPresented: $mainAppModel.showDrillResults) {
-//                DrillResultsView(mainAppModel: mainAppModel)
+//            .sheet(isPresented: $appModel.showDrillResults) {
+//                DrillResultsView(appModel: appModel)
 //            }
 //    }
 //
@@ -38,25 +36,22 @@
 //                // Toggle full calendar
 //                Button(action: {
 //                    withAnimation {
-//                        showCalendar.toggle()
+//                        appModel.showCalendar.toggle()
 //                    }
 //                }) {
 //                    HStack {
-//                        Text("View Calendar")
+//                        Text(appModel.showCalendar ? "View Week" : "View Calendar")
 //                            .font(.custom("Poppins-Bold", size: 16))
-//                        Image(systemName: showCalendar ? "chevron.up" : "chevron.down")
+//                        Image(systemName: appModel.showCalendar ? "chevron.up" : "chevron.down")
 //                    }
-//                    .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
+//                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
 //                    .padding()
 //                }
+//                    
+//                // Calendar view
+//                CalendarViewTest(appModel: appModel)
+//                        
 //
-//                // Calendar View when true
-//                if showCalendar {
-//                    CalendarViewTest(mainAppModel: mainAppModel)
-//                        .frame(height: 300)
-//                        .padding(.top, 35)
-//                        .transition(.move(edge: .top))
-//                }
 //            }
 //            .padding(.horizontal)
 //        }
@@ -74,7 +69,7 @@
 //                    .resizable()
 //                    .scaledToFit()
 //                    .frame(width: 80, height: 80)
-//                Text("\(mainAppModel.streakIncrease)")
+//                Text("\(appModel.streakIncrease)")
 //                    .font(.custom("Poppins-Bold", size: 70))
 //                    .padding(.trailing, 20)
 //                    .foregroundColor(.red)
@@ -87,16 +82,17 @@
 //
 //
 //
-//
-//// MARK: Calendar
+//// MARK: Calendar View
 //
 //struct CalendarViewTest: View {
-//    @ObservedObject var mainAppModel: MainAppModel
-//    @State var selectedDate = Date() // placeholder date
+//    @ObservedObject var appModel: MainAppModel
 //    let calendar = Calendar.current
+//    
+//    // placeholder date
+//    @State var selectedDate = Date()
 //
 //    // production
-//    @State private var lastCheckedDate: Date = Date()
+//    @State private var currentDate: Date = Date()
 //
 //    // testing purposes
 //    @State private var simulatedDate: Date = Date()
@@ -113,10 +109,8 @@
 //            let today = Date()
 //            let firstWeekday = calendar.firstWeekdayInMonthTest(for: selectedDate)
 //
+//            // Determines if moveMonth button can move or not
 //            let currentMonth = calendar.component(.month, from: selectedDate)
-////            let currentYear = calendar.component(.year, from: selectedDate)
-////            let isCurrentMonth = calendar.component(.month, from: today) == currentMonth &&
-////                                calendar.component(.year, from: today) == currentYear
 //            let isCurrentOrFutureMonth = calendar.component(.month, from: today) >= currentMonth
 //
 //
@@ -124,7 +118,7 @@
 //                // test button
 //                Button(action: {
 //                    addDrill(for: simulatedDate)
-//                    mainAppModel.streakIncrease += 1
+//                    appModel.streakIncrease += 1
 //                    simulateChangeOfDay()
 //
 //                    if isLastDayOfMonth(date: simulatedDate) {
@@ -152,13 +146,13 @@
 //                Button(action: { moveMonth(by: -1) }) {
 //                    Image(systemName: "chevron.left")
 //                }
-//                .foregroundColor(isCurrentOrFutureMonth ? mainAppModel.globalSettings.primaryDarkColor.opacity(0.5) : mainAppModel.globalSettings.primaryDarkColor)
+//                .foregroundColor(isCurrentOrFutureMonth ? appModel.globalSettings.primaryDarkColor.opacity(0.5) : appModel.globalSettings.primaryDarkColor)
 //                .disabled(isCurrentOrFutureMonth)
 //
 //                Button(action: { moveMonth(by: 1) }) {
 //                    Image(systemName: "chevron.right")
 //                }
-//                .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
+//                .foregroundColor(appModel.globalSettings.primaryDarkColor)
 //            }
 //            .padding()
 //
@@ -170,35 +164,57 @@
 //                        .frame(maxWidth: .infinity)
 //                }
 //            }
+//            .padding()
 //
+//            // Calendar or week view
+//            if appModel.showCalendar {
+//                // Calendar grid
+//                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 5) {
 //
-//            // Calendar grid
-//            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 5) {
+//                    // Clear the unused days with no numbers
+//                    ForEach(0..<firstWeekday-1, id: \.self) { _ in
+//                        Color.clear
+//                            .frame(height: 50)
 //
-//                ForEach(0..<firstWeekday-1, id: \.self) { _ in
-//                    Color.clear
+//                    }
+//
+//                    
+//                    ForEach(1...days, id: \.self) { day in
+//
+//                        let fullDate = createFullDate(from: day)
+//
+//                        WeekDisplayButton(
+//                            appModel: appModel,
+//                            text: "\(day)",
+//                            date: fullDate,
+//                            dayWithScore: appModel.isDayCompleted(fullDate),
+//                            highlightedDay: /*isCurrentDay(day)*/ calendar.isDateInToday(fullDate) // works in production
+//                        )
 //                        .frame(height: 50)
 //
+//                    }
 //                }
-//
-//                ForEach(1...days, id: \.self) { day in
-//
-//                    let fullDate = createFullDate(from: day)
-//
-//                    WeekDisplayButton(
-//                        mainAppModel: mainAppModel,
-//                        text: "\(day)",
-//                        date: fullDate,
-//                        dayWithScore: mainAppModel.isDayCompleted(fullDate),
-//                        highlightedDay: isCurrentDay(day)
-//                    )
-//                    .frame(height: 50)
-//
+//                .background(Color.white)
+//                
+//            } else {
+//                // Current week only
+//                HStack(spacing: 5) {
+//                    ForEach(daysInCurrentWeek(), id: \.date) { dayInfo in
+//                        WeekDisplayButton(
+//                            appModel: appModel,
+//                            text: "\(dayInfo.dayNumber)",
+//                            date: dayInfo.date,
+//                            dayWithScore: appModel.isDayCompleted(dayInfo.date),
+//                            highlightedDay: calendar.isDateInToday(dayInfo.date) // works in production
+//                        )
+//                        .frame(width: 45)
+//                    }
 //                }
+//                .background(Color.white)
 //            }
 //        }
 //        .padding()
-//        .background(Color.white)
+////        .background(Color.white)
 //        .cornerRadius(10)
 //    }
 //
@@ -245,7 +261,7 @@
 //            equipment: ["Ball"]
 //        )
 //
-//        mainAppModel.addCompleteSession(date: simulatedDate, drills: [addedTestDrillsOne, addedTestDrillsTwo, addedTestDrillsThree])
+//        appModel.addCompleteSession(date: simulatedDate, drills: [addedTestDrillsOne, addedTestDrillsTwo, addedTestDrillsThree])
 //    }
 //
 //    private func createFullDate(from day: Int) -> Date {
@@ -283,6 +299,30 @@
 //        let lastDay = monthRange.upperBound - 1
 //        return day == lastDay
 //    }
+//    
+//    
+//    // Retrieving the current week
+//    private struct DayInfo {
+//        let date: Date
+//        let dayNumber: Int
+//    }
+//    
+//    private func daysInCurrentWeek() -> [DayInfo] {
+//        let calendar = Calendar.current
+//        
+//        // Returning the start of the week for the present date
+//        guard let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: simulatedDate)) else {
+//            return []
+//        }
+//        
+//        // Returning the days of the week to the DayInfo structure
+//        return (0...6).map { dayOffset in
+//            let date = calendar.date(byAdding: .day, value: dayOffset, to: startOfWeek) ?? simulatedDate
+//            let dayNumber = calendar.component(.day, from: date)
+//            return DayInfo(date: date, dayNumber: dayNumber)
+//        }
+//    }
+//
 //}
 //
 //extension Calendar {
@@ -301,5 +341,6 @@
 //
 //#Preview {
 //    let mockAppModel = MainAppModel()
-//    return testCompSesView(mainAppModel: mockAppModel)
+//        return testCompSesView(appModel: mockAppModel)
 //}
+//

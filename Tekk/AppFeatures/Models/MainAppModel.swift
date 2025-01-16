@@ -19,10 +19,10 @@ class MainAppModel: ObservableObject {
     
     let calendar = Calendar.current
     
-    
-    @Published var showDrillResults = false
     @Published var allCompletedSessions: [CompletedSession] = []
     @Published var selectedSession: CompletedSession?
+    @Published var showCalendar = false
+    @Published var showDrillResults = false
     @Published var streakIncrease: Int = 0
     
     
