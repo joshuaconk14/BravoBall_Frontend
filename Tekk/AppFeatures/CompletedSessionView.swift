@@ -22,20 +22,20 @@
 //
 //    var body: some View {
 //        content
-//            .sheet(isPresented: $mainAppModel.showDrillShower) {
+//            .sheet(isPresented: $mainAppModel.showDrillResults) {
 //                DrillResultsView(mainAppModel: mainAppModel)
 //            }
 //    }
-//    
+//
 //    var content: some View {
 //        ScrollView(showsIndicators: false) {
 //            VStack(spacing: 5) {
-//                
-//                streakDisplay
-//                
 //
-//                
-//                // Add Calendar Button
+//                streakDisplay
+//
+//
+//
+//                // Toggle full calendar
 //                Button(action: {
 //                    withAnimation {
 //                        showCalendar.toggle()
@@ -49,8 +49,8 @@
 //                    .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
 //                    .padding()
 //                }
-//                
-//                // Calendar View (appears when showCalendar is true)
+//
+//                // Calendar View when true
 //                if showCalendar {
 //                    CalendarViewTest(mainAppModel: mainAppModel)
 //                        .frame(height: 300)
@@ -61,13 +61,12 @@
 //            .padding(.horizontal)
 //        }
 //    }
-//    
-//    
-//    
+//
+//    // Streak display at the top
 //    private var streakDisplay: some View {
 //        ZStack {
 //            RiveViewModel(fileName: "Streak_Diamond").view()
-//                .aspectRatio(contentMode: .fit)  // For diff screen width so object does not go out screen
+//                .aspectRatio(contentMode: .fit)
 //                .frame(maxWidth: .infinity)
 //                .padding()
 //            HStack {
@@ -91,53 +90,48 @@
 //
 //// MARK: Calendar
 //
-//
-//
 //struct CalendarViewTest: View {
 //    @ObservedObject var mainAppModel: MainAppModel
 //    @State var selectedDate = Date() // placeholder date
 //    let calendar = Calendar.current
-//    
-//    @State private var todayInt: Int = 0
-//    @State private var startDate: Int = 0
-//    
+//
 //    // production
 //    @State private var lastCheckedDate: Date = Date()
-//    
+//
 //    // testing purposes
 //    @State private var simulatedDate: Date = Date()
 //    @State private var inSimulationMode: Bool = true
-//    
+//
 //    // TODO: format code in easy simulation / production switch, this is key for this page
-//      
-//    
+//
+//
 //    var body: some View {
 //        VStack {
-//            
+//
 //            // Where we returns integers of specific date values called
 //            let days = calendar.daysInMonthTest(for: selectedDate)
 //            let today = Date()
 //            let firstWeekday = calendar.firstWeekdayInMonthTest(for: selectedDate)
-//            
+//
 //            let currentMonth = calendar.component(.month, from: selectedDate)
 ////            let currentYear = calendar.component(.year, from: selectedDate)
 ////            let isCurrentMonth = calendar.component(.month, from: today) == currentMonth &&
 ////                                calendar.component(.year, from: today) == currentYear
 //            let isCurrentOrFutureMonth = calendar.component(.month, from: today) >= currentMonth
-//            
-//            
+//
+//
 //            if inSimulationMode {
 //                // test button
 //                Button(action: {
 //                    addDrill(for: simulatedDate)
 //                    mainAppModel.streakIncrease += 1
 //                    simulateChangeOfDay()
-//                    
+//
 //                    if isLastDayOfMonth(date: simulatedDate) {
 //                        moveMonth(by: 1)
 //                    }
-//                    
-//                    
+//
+//
 //                }) {
 //                    Text("Test")
 //                        .foregroundColor(Color.blue)
@@ -145,29 +139,29 @@
 //                .padding(.horizontal)
 //                .padding(.bottom, 20)
 //            }
-//            
-//            
-//            
-//            
+//
+//
+//
+//
 //            // Month and Year header
 //            HStack {
 //                Text(monthYearString(from: selectedDate))
 //                    .font(.custom("Poppins-Bold", size: 18))
 //                Spacer()
-//                
+//
 //                Button(action: { moveMonth(by: -1) }) {
 //                    Image(systemName: "chevron.left")
 //                }
 //                .foregroundColor(isCurrentOrFutureMonth ? mainAppModel.globalSettings.primaryDarkColor.opacity(0.5) : mainAppModel.globalSettings.primaryDarkColor)
 //                .disabled(isCurrentOrFutureMonth)
-//                
+//
 //                Button(action: { moveMonth(by: 1) }) {
 //                    Image(systemName: "chevron.right")
 //                }
 //                .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
 //            }
 //            .padding()
-//            
+//
 //            // Day of week headers
 //            HStack {
 //                ForEach(["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"], id: \.self) { day in
@@ -176,21 +170,21 @@
 //                        .frame(maxWidth: .infinity)
 //                }
 //            }
-//       
-//            
+//
+//
 //            // Calendar grid
 //            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 5) {
-//                
+//
 //                ForEach(0..<firstWeekday-1, id: \.self) { _ in
 //                    Color.clear
 //                        .frame(height: 50)
-//                
+//
 //                }
-//                
+//
 //                ForEach(1...days, id: \.self) { day in
 //
 //                    let fullDate = createFullDate(from: day)
-//                    
+//
 //                    WeekDisplayButton(
 //                        mainAppModel: mainAppModel,
 //                        text: "\(day)",
@@ -199,7 +193,7 @@
 //                        highlightedDay: isCurrentDay(day)
 //                    )
 //                    .frame(height: 50)
-//                        
+//
 //                }
 //            }
 //        }
@@ -207,24 +201,24 @@
 //        .background(Color.white)
 //        .cornerRadius(10)
 //    }
-//    
-//    
+//
+//
 //    // MARK: Calendar functions
-//    
+//
 //    private func getCurrentDate() -> Date {
 //        return inSimulationMode ? simulatedDate: Date()
 //    }
-//    
+//
 //    private func simulateChangeOfDay() {
 //        if let nextDay = calendar.date(byAdding: .day, value: 1, to: simulatedDate) {
 //            simulatedDate = nextDay
 //        }
 //    }
-//    
-//    
-//    
+//
+//
+//
 //    private func addDrill(for date: Date) {
-//        let addedTestDrills = MainAppModel.DrillData (
+//        let addedTestDrillsOne = MainAppModel.DrillData (
 //            name: "Cone weaves",
 //            skill: "Dribbling",
 //            duration: 20,
@@ -233,38 +227,56 @@
 //            equipment: ["Ball, cones"]
 //        )
 //        
-//        mainAppModel.addCompleteSession(date: simulatedDate, drills: [addedTestDrills])
+//        let addedTestDrillsTwo = MainAppModel.DrillData (
+//            name: "Toe-taps",
+//            skill: "Dribbling",
+//            duration: 10,
+//            sets: 3,
+//            reps: 20,
+//            equipment: ["Ball"]
+//        )
+//        
+//        let addedTestDrillsThree = MainAppModel.DrillData (
+//            name: "Ronaldinho Drill",
+//            skill: "Dribbling",
+//            duration: 15,
+//            sets: 4,
+//            reps: 3,
+//            equipment: ["Ball"]
+//        )
+//
+//        mainAppModel.addCompleteSession(date: simulatedDate, drills: [addedTestDrillsOne, addedTestDrillsTwo, addedTestDrillsThree])
 //    }
-//    
+//
 //    private func createFullDate(from day: Int) -> Date {
 //            var components = calendar.dateComponents([.year, .month], from: selectedDate)
 //            components.day = day
 //            return calendar.date(from: components) ?? Date()
 //        }
-//        
-//    
+//
+//
 //    private func monthYearString(from date: Date) -> String {
 //        let formatter = DateFormatter()
 //        formatter.dateFormat = "MMMM yyyy"
 //        return formatter.string(from: date)
 //    }
-//    
+//
 //    private func moveMonth(by months: Int) {
 //        if let newDate = calendar.date(byAdding: .month, value: months, to: selectedDate) {
 //            selectedDate = newDate
 //        }
 //    }
-//    
+//
 //    private func isCurrentDay(_ day: Int) -> Bool {
 //        let dayMatches = calendar.component(.day, from: simulatedDate) == day
 //        let monthMatches = calendar.component(.month, from: simulatedDate) == calendar.component(.month, from: selectedDate)
 //        let yearMatches = calendar.component(.year, from: simulatedDate) == calendar.component(.year, from: selectedDate)
-//        
+//
 //        return dayMatches && monthMatches && yearMatches
 //    }
-//    
-//    
-//    
+//
+//
+//
 //    private func isLastDayOfMonth(date: Date) -> Bool {
 //        let day = calendar.component(.day, from: simulatedDate)
 //        guard let monthRange = calendar.range(of: .day, in: .month, for: simulatedDate) else { return false }
@@ -277,7 +289,7 @@
 //    func daysInMonthTest(for date: Date) -> Int {
 //        return range(of: .day, in: .month, for: date)?.count ?? 0
 //    }
-//    
+//
 //    func firstWeekdayInMonthTest(for date: Date) -> Int {
 //        let components = dateComponents([.year, .month], from: date)
 //        guard let firstDay = self.date(from: components) else { return 1 }
@@ -291,4 +303,3 @@
 //    let mockAppModel = MainAppModel()
 //    return testCompSesView(mainAppModel: mockAppModel)
 //}
-//

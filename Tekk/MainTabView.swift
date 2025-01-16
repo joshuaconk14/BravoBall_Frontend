@@ -10,18 +10,18 @@ import SwiftUI
 
 struct MainTabView: View {
     @ObservedObject var model: OnboardingModel
-    @ObservedObject var mainAppModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var userManager: UserManager
     
     var body: some View {
-        TabView(selection: $mainAppModel.mainTabSelected) {
+        TabView(selection: $appModel.mainTabSelected) {
             SessionGeneratorView(model: model)
                 .tabItem {
                     Image(systemName: "figure.soccer")
                     Text("Train")
                 }
                 .tag(0)
-            testCompSesView(mainAppModel: mainAppModel)
+            testCompSesView(appModel: appModel)
                 .tabItem {
                     Image(systemName: "checkmark.circle.fill")
                     Text("Sessions")
@@ -35,7 +35,7 @@ struct MainTabView: View {
                 }
                 .tag(2)
             
-            ProfileView(model: model, mainAppModel: mainAppModel, userManager: userManager)
+            ProfileView(model: model, appModel: appModel, userManager: userManager)
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("Profile")
@@ -44,7 +44,7 @@ struct MainTabView: View {
         }
         .accentColor(model.globalSettings.primaryYellowColor)
         .onAppear {
-            mainAppModel.mainTabSelected = 0
+            appModel.mainTabSelected = 0
         UITabBar.appearance().backgroundColor = .white
         }
     }
@@ -57,7 +57,7 @@ struct MainTabView: View {
     
     return MainTabView(
         model: mockOnboardingModel,
-        mainAppModel: mockMainAppModel,
+        appModel: mockMainAppModel,
         userManager: mockUserManager
     )
 }

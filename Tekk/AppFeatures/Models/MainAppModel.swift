@@ -11,68 +11,20 @@ import Foundation
 class MainAppModel: ObservableObject {
     let globalSettings = GlobalSettings()
     
+    // Tab selected in main tab view
     var mainTabSelected = 0
-    
-    @Published var showDrillShower = false
-    @Published var selectedSession: CompletedSession?
-    
-    // for each day
-    @Published var currentDay = 0  // Track which button should show checkmark
-    @Published var streakIncrease: Int = 0
-    @Published var interactedDayShowGreen = false
-    
-    
-    
-    // for each week
-    @Published var currentWeek = 0
-    @Published var completedWeeks: [WeekData] = []
-    
-    struct WeekData {
-        let weekNumberDisplayed: Int
-        var completedDays: Int = 0
-        var isCompleted: Bool = false
-    }
-    
-    
-    func completedSessionIndicator() {
-        if currentDay == 6 {
-            // create a new week
-            let currentWeekCompleted = WeekData(weekNumberDisplayed: completedWeeks.count + 1) // + 1 since not added yet to the array
-            completedWeeks.append(currentWeekCompleted)
-            completedWeeks[currentWeek].isCompleted = true
-            currentWeek += 1
-            currentDay = 0 // reset for the new week
-        } else {
-            currentDay += 1
-        }
-    }
-  
 
     
-    
-    
-    
-    // Alert types for ProfileVIew logout and delete buttons
-    @Published var showAlert = false
-    @Published var alertType: AlertType = .none
-
-    
-    // Case switches for ProfileVIew logout and delete buttons
-    enum AlertType {
-        case logout
-        case delete
-        case none
-    }
-    
-    
-    
-    
-    
-    
-    
-    // Calendar structures and functions
+    // MARK: Calendar
     
     let calendar = Calendar.current
+    
+    
+    @Published var showDrillResults = false
+    @Published var allCompletedSessions: [CompletedSession] = []
+    @Published var selectedSession: CompletedSession?
+    @Published var streakIncrease: Int = 0
+    
     
     struct CompletedSession: Codable {
         let date: Date
@@ -89,10 +41,8 @@ class MainAppModel: ObservableObject {
         let equipment: [String]
     }
     
-    @Published var allCompletedSessions: [CompletedSession] = []
     
-    
-    // adding completed session into allCompletedSessions array
+    // Adding completed session into allCompletedSessions array
     func addCompleteSession(date: Date, drills: [DrillData]) {
         let newSession = CompletedSession(
             date: date,
@@ -103,7 +53,7 @@ class MainAppModel: ObservableObject {
         // Function that will save to UserDefaults
         saveCompletedSessions()
         
-        // Accessing the actual data instead of the type
+        // Debugging
         print ("Session complete")
         print ("date: \(date)")
         for drill in drills {
@@ -116,9 +66,9 @@ class MainAppModel: ObservableObject {
         }
     }
     
+    
     // Bool that checks if day is completed through date comparison
     func isDayCompleted(_ date: Date) -> Bool {
-        let calendar = Calendar.current
         let targetComponents = calendar.dateComponents([.day, .month, .year], from: date)
         let targetDay = targetComponents.day
         let targetMonth = targetComponents.month
@@ -144,8 +94,6 @@ class MainAppModel: ObservableObject {
         }
     }
     
-    
-    
         
     // Save to UserDefaults
     func saveCompletedSessions() {
@@ -160,5 +108,20 @@ class MainAppModel: ObservableObject {
            let decoded = try? JSONDecoder().decode([CompletedSession].self, from: data) {
             allCompletedSessions = decoded
         }
+    }
+    
+    
+    // MARK: App Settings
+    
+    // Alert types for ProfileVIew logout and delete buttons
+    @Published var showAlert = false
+    @Published var alertType: AlertType = .none
+
+    
+    // Case switches for ProfileVIew logout and delete buttons
+    enum AlertType {
+        case logout
+        case delete
+        case none
     }
 }

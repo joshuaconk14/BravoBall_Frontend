@@ -11,7 +11,7 @@ import RiveRuntime
 // Main onboarding view
 struct OnboardingView: View {
     @ObservedObject var model: OnboardingModel
-    @ObservedObject var mainAppModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var userManager: UserManager
     @Environment(\.dismiss) private var dismiss
 
@@ -20,7 +20,7 @@ struct OnboardingView: View {
         Group {
             // testing instead of onboarding complete
             if model.isLoggedIn {
-                MainTabView(model: model, mainAppModel: mainAppModel, userManager: userManager)
+                MainTabView(model: model, appModel: appModel, userManager: userManager)
             } else {
                 content
             }

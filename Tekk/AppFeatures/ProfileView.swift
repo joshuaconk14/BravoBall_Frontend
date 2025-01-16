@@ -10,7 +10,7 @@ import SwiftKeychainWrapper
 
 struct ProfileView: View {
     @ObservedObject var model: OnboardingModel
-    @ObservedObject var mainAppModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var userManager: UserManager
     @Environment(\.presentationMode) var presentationMode // ?
     
@@ -46,8 +46,8 @@ struct ProfileView: View {
         }
         // The different alerts for logout or delete
         .edgesIgnoringSafeArea(.top)
-        .alert(isPresented: $mainAppModel.showAlert) {
-            switch mainAppModel.alertType {
+        .alert(isPresented: $appModel.showAlert) {
+            switch appModel.alertType {
                 case .logout:
                     return Alert(
                         title: Text("Logout"),
@@ -55,7 +55,7 @@ struct ProfileView: View {
                         primaryButton: .destructive(Text("Logout")) {
                             userManager.clearUserKeychain()
                             logOutUser()
-                            mainAppModel.mainTabSelected = 0
+                            appModel.mainTabSelected = 0
 
                         },
                         secondaryButton: .cancel()
@@ -68,7 +68,7 @@ struct ProfileView: View {
                             deleteAccount()
                             userManager.clearUserKeychain()
                             logOutUser()
-                            mainAppModel.mainTabSelected = 0
+                            appModel.mainTabSelected = 0
                         },
                         secondaryButton: .cancel()
                     )
@@ -86,7 +86,7 @@ struct ProfileView: View {
             HStack {
                 Image(systemName: "chevron.left")
             }
-            .foregroundColor(mainAppModel.globalSettings.primaryYellowColor)
+            .foregroundColor(appModel.globalSettings.primaryYellowColor)
         }
     }
     
@@ -96,7 +96,7 @@ struct ProfileView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 60, height: 60)
-                .foregroundColor(mainAppModel.globalSettings.primaryYellowColor)
+                .foregroundColor(appModel.globalSettings.primaryYellowColor)
             
 
             VStack(spacing: 0) {
@@ -110,14 +110,14 @@ struct ProfileView: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.5) // Ensures text is legible
                     .padding(.bottom, 2)
-                    .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
                 
                 Text("\(userData.email)")
                     .font(.custom("Poppins-Regular", size: 14))
                     .foregroundColor(.gray)
                     .lineLimit(1)
                     .minimumScaleFactor(0.5) // Ensures text is legible
-                    .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
             }
         }
         .frame(maxWidth: .infinity)
@@ -129,7 +129,7 @@ struct ProfileView: View {
         VStack(alignment: .leading, spacing: 0) {
            Text(title)
                .font(.custom("Poppins-Bold", size: 20))
-               .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
+               .foregroundColor(appModel.globalSettings.primaryDarkColor)
                .padding(.leading)
                .padding(.bottom, 10)
             
@@ -160,13 +160,13 @@ struct ProfileView: View {
             }) {
                 HStack {
                     Image(systemName: icon)
-                        .foregroundColor(mainAppModel.globalSettings.primaryYellowColor)
+                        .foregroundColor(appModel.globalSettings.primaryYellowColor)
                     Text(title)
                         .font(.custom("Poppins-Regular", size: 16))
-                        .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     Spacer()
                     Image(systemName: "chevron.right")
-                        .foregroundColor(mainAppModel.globalSettings.primaryDarkColor.opacity(0.7))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor.opacity(0.7))
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
@@ -180,8 +180,8 @@ struct ProfileView: View {
     
     private var logoutButton: some View {
         Button(action: {
-            mainAppModel.alertType = .logout
-            mainAppModel.showAlert = true
+            appModel.alertType = .logout
+            appModel.showAlert = true
             
         }) {
             Text("Logout")
@@ -197,8 +197,8 @@ struct ProfileView: View {
     
     private var deleteAccountButton: some View {
         Button(action: {
-            mainAppModel.alertType = .delete
-            mainAppModel.showAlert = true
+            appModel.alertType = .delete
+            appModel.showAlert = true
         }) {
             Text("Delete Account")
                 .font(.custom("Poppins-Bold", size: 16))
@@ -305,10 +305,10 @@ struct ProfileView_Previews: PreviewProvider {
         )
         
         return Group {
-            ProfileView(model: mockOnboardModel, mainAppModel: mockMainAppModel, userManager: mockUserManager)
+            ProfileView(model: mockOnboardModel, appModel: mockMainAppModel, userManager: mockUserManager)
                 .previewDisplayName("Light Mode")
             
-            ProfileView(model: mockOnboardModel, mainAppModel: mockMainAppModel, userManager: mockUserManager)
+            ProfileView(model: mockOnboardModel, appModel: mockMainAppModel, userManager: mockUserManager)
                 .preferredColorScheme(.dark)
                 .previewDisplayName("Dark Mode")
         }

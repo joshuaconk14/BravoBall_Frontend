@@ -10,7 +10,7 @@ import RiveRuntime
 
 
 struct WeekDisplayButton: View {
-    @ObservedObject var mainAppModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     
     let text: String
     let date: Date
@@ -21,9 +21,9 @@ struct WeekDisplayButton: View {
         Button(action: {
             if dayWithScore {
                 // Retrieving session from stored data
-                if let session = mainAppModel.getSessionForDate(date) {
-                    mainAppModel.selectedSession = session
-                    mainAppModel.showDrillShower = true
+                if let session = appModel.getSessionForDate(date) {
+                    appModel.selectedSession = session
+                    appModel.showDrillResults = true
                 }
             }
         }) {
@@ -37,7 +37,7 @@ struct WeekDisplayButton: View {
 
                         Text(text)
                             .font(.custom("Poppins-Bold", size: 30))
-                            .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     }
 
                 } else {
@@ -58,7 +58,7 @@ struct WeekDisplayButton: View {
                     } else {
                         Text(text)
                             .font(.custom("Poppins-Bold", size: 30))
-                            .foregroundColor(mainAppModel.globalSettings.primaryDarkColor)
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     }
                 }
             }
@@ -70,7 +70,7 @@ struct WeekDisplayButton: View {
     let mockAppModel = MainAppModel()
     
     return WeekDisplayButton(
-        mainAppModel: mockAppModel,
+        appModel: mockAppModel,
         text: "34",
         date: Date(),
         dayWithScore: true,
