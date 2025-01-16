@@ -5,13 +5,6 @@
 //  Created by Joshua Conklin on 1/11/25.
 //
 
-//
-//  CompletedSessionView.swift
-//  BravoBall
-//
-//  Created by Joshua Conklin on 1/10/25.
-//
-
 //import SwiftUI
 //import RiveRuntime
 //
@@ -29,24 +22,8 @@
 //        ScrollView(showsIndicators: false) {
 //            VStack(spacing: 5) {
 //
+//                // Streak display
 //                streakDisplay
-//
-//
-//
-//                // Toggle full calendar
-//                Button(action: {
-//                    withAnimation {
-//                        appModel.showCalendar.toggle()
-//                    }
-//                }) {
-//                    HStack {
-//                        Text(appModel.showCalendar ? "View Week" : "View Calendar")
-//                            .font(.custom("Poppins-Bold", size: 16))
-//                        Image(systemName: appModel.showCalendar ? "chevron.up" : "chevron.down")
-//                    }
-//                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//                    .padding()
-//                }
 //                    
 //                // Calendar view
 //                CalendarViewTest(appModel: appModel)
@@ -131,7 +108,7 @@
 //                        .foregroundColor(Color.blue)
 //                }
 //                .padding(.horizontal)
-//                .padding(.bottom, 20)
+//                .padding(.bottom, 10)
 //            }
 //
 //
@@ -139,20 +116,45 @@
 //
 //            // Month and Year header
 //            HStack {
-//                Text(monthYearString(from: selectedDate))
-//                    .font(.custom("Poppins-Bold", size: 18))
+//                // Header
+//                if appModel.showCalendar {
+//                    Text(monthYearString(from: selectedDate))
+//                        .font(.custom("Poppins-Bold", size: 18))
+//                } else {
+//                    Text(monthYearString(from: simulatedDate))
+//                        .font(.custom("Poppins-Bold", size: 18))
+//                }
+//
+//                if appModel.showCalendar {
+//                    // Left button
+//                    Button(action: { moveMonth(by: -1) }) {
+//                        Image(systemName: "chevron.left")
+//                    }
+//                    .foregroundColor(isCurrentOrFutureMonth ? appModel.globalSettings.primaryDarkColor.opacity(0.5) : appModel.globalSettings.primaryDarkColor)
+//                    .disabled(isCurrentOrFutureMonth)
+//
+//                    // Right button
+//                    Button(action: { moveMonth(by: 1) }) {
+//                        Image(systemName: "chevron.right")
+//                    }
+//                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                }
+//                
 //                Spacer()
-//
-//                Button(action: { moveMonth(by: -1) }) {
-//                    Image(systemName: "chevron.left")
+//                
+//                // Toggle full calendar button
+//                Button(action: {
+//                    withAnimation {
+//                        appModel.showCalendar.toggle()
+//                    }
+//                }) {
+//                    HStack {
+//                        Text(appModel.showCalendar ? "Month" : "Week")
+//                            .font(.custom("Poppins-Bold", size: 16))
+//                        Image(systemName: appModel.showCalendar ? "chevron.up" : "chevron.down")
+//                    }
+//                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
 //                }
-//                .foregroundColor(isCurrentOrFutureMonth ? appModel.globalSettings.primaryDarkColor.opacity(0.5) : appModel.globalSettings.primaryDarkColor)
-//                .disabled(isCurrentOrFutureMonth)
-//
-//                Button(action: { moveMonth(by: 1) }) {
-//                    Image(systemName: "chevron.right")
-//                }
-//                .foregroundColor(appModel.globalSettings.primaryDarkColor)
 //            }
 //            .padding()
 //
@@ -188,7 +190,7 @@
 //                            text: "\(day)",
 //                            date: fullDate,
 //                            dayWithScore: appModel.isDayCompleted(fullDate),
-//                            highlightedDay: /*isCurrentDay(day)*/ calendar.isDateInToday(fullDate) // works in production
+//                            highlightedDay: isCurrentDay(day) /*calendar.isDateInToday(fullDate)*/ // works in production
 //                        )
 //                        .frame(height: 50)
 //
@@ -205,7 +207,7 @@
 //                            text: "\(dayInfo.dayNumber)",
 //                            date: dayInfo.date,
 //                            dayWithScore: appModel.isDayCompleted(dayInfo.date),
-//                            highlightedDay: calendar.isDateInToday(dayInfo.date) // works in production
+//                            highlightedDay: isCurrentDay(dayInfo.dayNumber) /*calendar.isDateInToday(dayInfo.date)*/ // works in production
 //                        )
 //                        .frame(width: 45)
 //                    }
@@ -301,21 +303,23 @@
 //    }
 //    
 //    
-//    // Retrieving the current week
+//    // Current week structure
 //    private struct DayInfo {
 //        let date: Date
 //        let dayNumber: Int
 //    }
 //    
+//    // Retrieving the current week
 //    private func daysInCurrentWeek() -> [DayInfo] {
 //        let calendar = Calendar.current
 //        
 //        // Returning the start of the week for the present date
-//        guard let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: simulatedDate)) else {
-//            return []
+//        guard let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: simulatedDate)
+//            ) else {
+//                return []
 //        }
 //        
-//        // Returning the days of the week to the DayInfo structure
+//        // Returning the days of the week, each day given its own DayInfo structure
 //        return (0...6).map { dayOffset in
 //            let date = calendar.date(byAdding: .day, value: dayOffset, to: startOfWeek) ?? simulatedDate
 //            let dayNumber = calendar.component(.day, from: date)
@@ -343,4 +347,3 @@
 //    let mockAppModel = MainAppModel()
 //        return testCompSesView(appModel: mockAppModel)
 //}
-//
