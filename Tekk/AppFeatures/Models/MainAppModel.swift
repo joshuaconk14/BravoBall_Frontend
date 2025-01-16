@@ -14,6 +14,7 @@ class MainAppModel: ObservableObject {
     var mainTabSelected = 0
     
     @Published var showDrillShower = false
+    @Published var selectedSession: CompletedSession?
     
     // for each day
     @Published var currentDay = 0  // Track which button should show checkmark
@@ -75,7 +76,7 @@ class MainAppModel: ObservableObject {
     
     struct CompletedSession: Codable {
         let date: Date
-        let drills: [DrillData] // TODO: make drill card structure?
+        let drills: [DrillData]
         var isCompleted: Bool = true
     }
     
@@ -134,6 +135,17 @@ class MainAppModel: ObservableObject {
                    sessionYear == targetYear
         }
     }
+    
+    // return the data in the drill results view in CompletedSession structure
+    func getSessionForDate(_ date: Date) -> CompletedSession? {
+        let calendar = Calendar.current
+        return allCompletedSessions.first { session in
+            calendar.isDate(session.date, inSameDayAs: date)
+        }
+    }
+    
+    
+    
         
     // Save to UserDefaults
     func saveCompletedSessions() {

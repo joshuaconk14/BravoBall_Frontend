@@ -20,7 +20,11 @@ struct WeekDisplayButton: View {
     var body: some View {
         Button(action: {
             if dayWithScore {
-                mainAppModel.showDrillShower = true
+                // Retrieving session from stored data
+                if let session = mainAppModel.getSessionForDate(date) {
+                    mainAppModel.selectedSession = session
+                    mainAppModel.showDrillShower = true
+                }
             }
         }) {
             ZStack {

@@ -242,14 +242,6 @@
 //            return calendar.date(from: components) ?? Date()
 //        }
 //        
-//    private func getDateComponents(from date: Date) -> (day: Int, month: Int, year: Int) {
-//        let components = calendar.dateComponents([.day, .month, .year], from: date)
-//        return (
-//            day: components.day ?? 1,
-//            month: components.month ?? 1,
-//            year: components.year ?? 2024
-//        )
-//    }
 //    
 //    private func monthYearString(from date: Date) -> String {
 //        let formatter = DateFormatter()
