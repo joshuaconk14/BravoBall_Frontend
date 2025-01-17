@@ -13,6 +13,7 @@ class MainAppModel: ObservableObject {
     
     // Tab selected in main tab view
     var mainTabSelected = 0
+    @Published var inSimulationMode: Bool = true
 
     
     // MARK: Calendar
@@ -24,7 +25,7 @@ class MainAppModel: ObservableObject {
     @Published var showCalendar = false
     @Published var showDrillResults = false
     @Published var streakIncrease: Int = 0
-    
+    @Published var highestStreak: Int = 0
     
     struct CompletedSession: Codable {
         let date: Date
@@ -72,26 +73,6 @@ class MainAppModel: ObservableObject {
         }
     }
     
-    
-    // Bool that checks if day is completed through date comparison
-    func isDayCompleted(_ date: Date) -> Bool {
-        let targetComponents = calendar.dateComponents([.day, .month, .year], from: date)
-        let targetDay = targetComponents.day
-        let targetMonth = targetComponents.month
-        let targetYear = targetComponents.year
-        
-        return allCompletedSessions.contains { session in
-            let sessionComponents = calendar.dateComponents([.day, .month, .year], from: session.date)
-            let sessionDay = sessionComponents.day
-            let sessionMonth = sessionComponents.month
-            let sessionYear = sessionComponents.year
-            
-            return sessionDay == targetDay &&
-                   sessionMonth == targetMonth &&
-                   sessionYear == targetYear
-        }
-    }
-    
     // return the data in the drill results view in CompletedSession structure
     func getSessionForDate(_ date: Date) -> CompletedSession? {
         let calendar = Calendar.current
@@ -113,6 +94,13 @@ class MainAppModel: ObservableObject {
         if let data = UserDefaults.standard.data(forKey: "completedSessions"),
            let decoded = try? JSONDecoder().decode([CompletedSession].self, from: data) {
             allCompletedSessions = decoded
+        }
+    }
+    
+    // Sets the highest streak
+    func highestStreakSetter(streak: Int) {
+        if streak > highestStreak {
+            highestStreak = streak
         }
     }
     

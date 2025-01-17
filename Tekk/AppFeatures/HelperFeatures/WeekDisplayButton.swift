@@ -14,37 +14,36 @@ struct WeekDisplayButton: View {
     
     let text: String
     let date: Date
-    let dayWithScore: Bool
     let highlightedDay: Bool
     let session: MainAppModel.CompletedSession?
     
     var body: some View {
-        Button(action: {
-            if dayWithScore {
-                // Lets DrillResultsView access session
-                appModel.selectedSession = session
-                appModel.showDrillResults = true
-            }
-        }) {
-            ZStack {
-                if let session = session {
-                    
-                    // Convert to float types, get score
-                    let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
-                    
-                    if score > 0.75 {
+        
+        ZStack {
+        
+            if let session = session {
+                
+                // Convert to float types, get score
+                let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
+                
+                Button(action: {
+                        // Lets DrillResultsView access session
+                        appModel.selectedSession = session
+                        appModel.showDrillResults = true
+                }) {
+                    if score == 1.0 {
                         ZStack {
                             // High score = green
                             RiveViewModel(fileName: "Day_High_Score").view()
                                 .frame(width: 60, height: 60)
                                 .aspectRatio(contentMode: .fit)
                                 .clipped()
-
+                            
                             Text(text)
                                 .font(.custom("Poppins-Bold", size: 30))
                                 .foregroundColor(appModel.globalSettings.primaryDarkColor)
                         }
-                    } else if score < 0.75 && score >= 0.35 {
+                    } else if score < 1 && score > 0.0 {
                         ZStack {
                             // Medium score = yellow
                             RiveViewModel(fileName: "Day_Medium_Score").view()
@@ -69,33 +68,33 @@ struct WeekDisplayButton: View {
                                 .foregroundColor(appModel.globalSettings.primaryDarkColor)
                         }
                     }
-                    
-
+                }
+                
+            } else {
+                RiveViewModel(fileName: "Day_Null").view()
+                    .frame(width: 60, height: 60)
+                    .aspectRatio(contentMode: .fit)
+                    .clipped()
+                
+                if highlightedDay {
+                    Text(text)
+                        .font(.custom("Poppins-Bold", size: 30))
+                        .foregroundColor(Color.white)
+                        .background(
+                            Circle()
+                                .fill(Color.gray)
+                                .frame(width: 42, height: 42)
+                        )
                 } else {
-                    RiveViewModel(fileName: "Day_Null").view()
-                        .frame(width: 60, height: 60)
-                        .aspectRatio(contentMode: .fit)
-                        .clipped()
-                    
-                    if highlightedDay {
-                        Text(text)
-                            .font(.custom("Poppins-Bold", size: 30))
-                            .foregroundColor(Color.white)
-                            .background(
-                                Circle()
-                                    .fill(Color.gray)
-                                    .frame(width: 42, height: 42)
-                            )
-                    } else {
-                        Text(text)
-                            .font(.custom("Poppins-Bold", size: 30))
-                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                    }
+                    Text(text)
+                        .font(.custom("Poppins-Bold", size: 30))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
                 }
             }
         }
     }
 }
+
 
 #Preview {
     let mockAppModel = MainAppModel()
@@ -134,7 +133,6 @@ struct WeekDisplayButton: View {
         appModel: mockAppModel,
         text: "34",
         date: Date(),
-        dayWithScore: true,
         highlightedDay: true,
         session: mockSession
     )

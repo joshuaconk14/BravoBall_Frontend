@@ -24,6 +24,13 @@ struct CompletedSessionView: View {
 
                 // Streak display
                 streakDisplay
+                
+                Text("Highest Streak: \(appModel.highestStreak)")
+                    .font(.custom("Poppins-Bold", size: 16))
+
+                
+                Text("Total sessions: \(appModel.allCompletedSessions.count)")
+                    .font(.custom("Poppins-Bold", size: 16))
                     
                 // Calendar view
                 CalendarViewTest(appModel: appModel)
@@ -66,16 +73,11 @@ struct CalendarViewTest: View {
     let calendar = Calendar.current
     
     // placeholder date
-    @State var selectedDate = Date()
-
+    @State private var selectedDate = Date()
     // production
     @State private var currentDate: Date = Date()
-
     // testing purposes
     @State private var simulatedDate: Date = Date()
-    @State private var inSimulationMode: Bool = true
-
-    // TODO: format code in easy simulation / production switch, this is key for this page
 
 
     var body: some View {
@@ -89,13 +91,25 @@ struct CalendarViewTest: View {
             // Determines if moveMonth button can move or not
             let currentMonth = calendar.component(.month, from: selectedDate)
             let isCurrentOrFutureMonth = calendar.component(.month, from: today) >= currentMonth
+            
 
 
-            if inSimulationMode {
+            if appModel.inSimulationMode {
                 // test button
                 Button(action: {
                     addDrill(for: simulatedDate)
-                    appModel.streakIncrease += 1
+                
+                    // Increase or restart streak
+                    if let session = appModel.getSessionForDate(simulatedDate) {
+                        let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
+                        if score <= 0.35 {
+                            appModel.streakIncrease = 0
+                        } else {
+                            appModel.streakIncrease += 1
+                        }
+                    }
+                    
+                    appModel.highestStreakSetter(streak: appModel.streakIncrease)
                     simulateChangeOfDay()
 
                     if isLastDayOfMonth(date: simulatedDate) {
@@ -119,10 +133,10 @@ struct CalendarViewTest: View {
                 // Header
                 if appModel.showCalendar {
                     Text(monthYearString(from: selectedDate))
-                        .font(.custom("Poppins-Bold", size: 18))
+                        .font(.custom("Poppins-Bold", size: 22))
                 } else {
                     Text(monthYearString(from: simulatedDate))
-                        .font(.custom("Poppins-Bold", size: 18))
+                        .font(.custom("Poppins-Bold", size: 22))
                 }
 
                 if appModel.showCalendar {
@@ -150,7 +164,7 @@ struct CalendarViewTest: View {
                 }) {
                     HStack {
                         Text(appModel.showCalendar ? "Month" : "Week")
-                            .font(.custom("Poppins-Bold", size: 16))
+                            .font(.custom("Poppins-Bold", size: 15))
                         Image(systemName: appModel.showCalendar ? "chevron.up" : "chevron.down")
                     }
                     .foregroundColor(appModel.globalSettings.primaryDarkColor)
@@ -183,13 +197,13 @@ struct CalendarViewTest: View {
                     
                     ForEach(1...days, id: \.self) { day in
 
+                        // Set dates for each day
                         let fullDate = createFullDate(from: day)
 
                         WeekDisplayButton(
                             appModel: appModel,
                             text: "\(day)",
                             date: fullDate,
-                            dayWithScore: appModel.isDayCompleted(fullDate),
                             highlightedDay: isCurrentDay(day), /*calendar.isDateInToday(fullDate)*/ // works in production
                             session: appModel.getSessionForDate(fullDate)
                         )
@@ -207,7 +221,6 @@ struct CalendarViewTest: View {
                             appModel: appModel,
                             text: "\(dayInfo.dayNumber)",
                             date: dayInfo.date,
-                            dayWithScore: appModel.isDayCompleted(dayInfo.date),
                             highlightedDay: isCurrentDay(dayInfo.dayNumber), /*calendar.isDateInToday(dayInfo.date)*/ // works in production
                             session: appModel.getSessionForDate(dayInfo.date)
                         )
@@ -225,9 +238,6 @@ struct CalendarViewTest: View {
 
     // MARK: Calendar functions
 
-    private func getCurrentDate() -> Date {
-        return inSimulationMode ? simulatedDate: Date()
-    }
 
     private func simulateChangeOfDay() {
         if let nextDay = calendar.date(byAdding: .day, value: 1, to: simulatedDate) {
@@ -283,7 +293,7 @@ struct CalendarViewTest: View {
 
     private func monthYearString(from date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM yyyy"
+        formatter.dateFormat = "MMM yyyy"
         return formatter.string(from: date)
     }
 
