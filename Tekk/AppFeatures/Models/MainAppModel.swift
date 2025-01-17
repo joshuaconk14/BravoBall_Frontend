@@ -20,7 +20,7 @@ class MainAppModel: ObservableObject {
     let calendar = Calendar.current
     
     @Published var allCompletedSessions: [CompletedSession] = []
-    @Published var selectedSession: CompletedSession?
+    @Published var selectedSession: CompletedSession? // TODO: may not want this later on
     @Published var showCalendar = false
     @Published var showDrillResults = false
     @Published var streakIncrease: Int = 0
@@ -29,7 +29,8 @@ class MainAppModel: ObservableObject {
     struct CompletedSession: Codable {
         let date: Date
         let drills: [DrillData]
-        var isCompleted: Bool = true
+        let totalCompletedDrills: Int
+        let totalDrills: Int
     }
     
     struct DrillData: Codable {
@@ -39,14 +40,17 @@ class MainAppModel: ObservableObject {
         let sets: Int
         let reps: Int
         let equipment: [String]
+        let isCompleted: Bool
     }
     
     
     // Adding completed session into allCompletedSessions array
-    func addCompleteSession(date: Date, drills: [DrillData]) {
+    func addCompletedSession(date: Date, drills: [DrillData], totalCompletedDrills: Int, totalDrills: Int) {
         let newSession = CompletedSession(
             date: date,
-            drills: drills
+            drills: drills,
+            totalCompletedDrills: totalCompletedDrills,
+            totalDrills: totalDrills
         )
         allCompletedSessions.append(newSession)
         
@@ -54,8 +58,9 @@ class MainAppModel: ObservableObject {
         saveCompletedSessions()
         
         // Debugging
-        print ("Session complete")
+        print ("Session data received")
         print ("date: \(date)")
+        print ("score: \(totalCompletedDrills) / \(totalDrills)")
         for drill in drills {
             print ("name: \(drill.name)")
             print ("skill: \(drill.skill)")
@@ -63,6 +68,7 @@ class MainAppModel: ObservableObject {
             print ("sets: \(drill.sets)")
             print ("reps: \(drill.reps)")
             print ("equipment: \(drill.equipment)")
+            print ("Session completed: \(drill.isCompleted)")
         }
     }
     

@@ -16,29 +16,60 @@ struct WeekDisplayButton: View {
     let date: Date
     let dayWithScore: Bool
     let highlightedDay: Bool
+    let session: MainAppModel.CompletedSession?
     
     var body: some View {
         Button(action: {
             if dayWithScore {
-                // Retrieving session from stored data
-                if let session = appModel.getSessionForDate(date) {
-                    appModel.selectedSession = session
-                    appModel.showDrillResults = true
-                }
+                // Lets DrillResultsView access session
+                appModel.selectedSession = session
+                appModel.showDrillResults = true
             }
         }) {
             ZStack {
-                if dayWithScore {
-                    ZStack {
-                        RiveViewModel(fileName: "Day_High_Score").view()
-                            .frame(width: 60, height: 60)
-                            .aspectRatio(contentMode: .fit)
-                            .clipped()
+                if let session = session {
+                    
+                    // Convert to float types, get score
+                    let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
+                    
+                    if score > 0.75 {
+                        ZStack {
+                            // High score = green
+                            RiveViewModel(fileName: "Day_High_Score").view()
+                                .frame(width: 60, height: 60)
+                                .aspectRatio(contentMode: .fit)
+                                .clipped()
 
-                        Text(text)
-                            .font(.custom("Poppins-Bold", size: 30))
-                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            Text(text)
+                                .font(.custom("Poppins-Bold", size: 30))
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        }
+                    } else if score < 0.75 && score >= 0.35 {
+                        ZStack {
+                            // Medium score = yellow
+                            RiveViewModel(fileName: "Day_Medium_Score").view()
+                                .frame(width: 60, height: 60)
+                                .aspectRatio(contentMode: .fit)
+                                .clipped()
+                            
+                            Text(text)
+                                .font(.custom("Poppins-Bold", size: 30))
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        }
+                    } else {
+                        ZStack {
+                            // Low score = Red
+                            RiveViewModel(fileName: "Day_Low_Score").view()
+                                .frame(width: 60, height: 60)
+                                .aspectRatio(contentMode: .fit)
+                                .clipped()
+                            
+                            Text(text)
+                                .font(.custom("Poppins-Bold", size: 30))
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        }
                     }
+                    
 
                 } else {
                     RiveViewModel(fileName: "Day_Null").view()
@@ -69,11 +100,42 @@ struct WeekDisplayButton: View {
 #Preview {
     let mockAppModel = MainAppModel()
     
+    // Create mock drills
+        let mockDrills = [
+            MainAppModel.DrillData(
+                name: "Test Drill 1",
+                skill: "Dribbling",
+                duration: 20,
+                sets: 4,
+                reps: 8,
+                equipment: ["Ball"],
+                isCompleted: true
+            ),
+            MainAppModel.DrillData(
+                name: "Test Drill 2",
+                skill: "Shooting",
+                duration: 15,
+                sets: 3,
+                reps: 10,
+                equipment: ["Ball", "Goal"],
+                isCompleted: false
+            )
+        ]
+        
+        // Create mock session
+        let mockSession = MainAppModel.CompletedSession(
+            date: Date(),
+            drills: mockDrills,
+            totalCompletedDrills: 1,  // One drill completed
+            totalDrills: 2           // Out of two total drills
+        )
+    
     return WeekDisplayButton(
         appModel: mockAppModel,
         text: "34",
         date: Date(),
         dayWithScore: true,
-        highlightedDay: true
+        highlightedDay: true,
+        session: mockSession
     )
 }
