@@ -47,7 +47,8 @@ struct SessionGeneratorView: View {
                                 .font(.system(size: 20, weight: .medium))
                         }
                     }
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.vertical, 8)
                     
                     // Prerequisites ScrollView
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -66,9 +67,9 @@ struct SessionGeneratorView: View {
                                 }
                             }
                         }
-                        .padding()
+                        .padding(.horizontal)
                     }
-                    .frame(height: 60)
+                    .frame(height: 50)
                     
                     // Dropdown content if prerequisite is selected
                     if let type = selectedPrerequisite {
@@ -78,98 +79,62 @@ struct SessionGeneratorView: View {
                         .transition(.move(edge: .top))
                     }
                     
-            ScrollView {
-                        VStack(alignment: .leading, spacing: 20) {
-                    // Skills Section
-                    VStack(alignment: .leading, spacing: 12) {
-                        HStack {
-                            Text("Skills for Today")
-                                            .font(.custom("Poppins-Bold", size: 16))
-                            Spacer()
-                                        Button(action: { /* Add skill */ }) {
-                                Image(systemName: "plus")
-                                    .foregroundColor(model.globalSettings.primaryYellowColor)
-                            }
-                        }
-                        
-                        // Skills Grid
-                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                            ForEach(model.questionOptions[6], id: \.self) { skill in
-                                SkillButton(
-                                    title: skill,
-                                    isSelected: sessionModel.selectedSkills.contains(skill),
-                                    action: {
-                                        if sessionModel.selectedSkills.contains(skill) {
-                                            sessionModel.selectedSkills.remove(skill)
-                                        } else {
-                                            sessionModel.selectedSkills.insert(skill)
-                                        }
-                                        showingDrills = !sessionModel.selectedSkills.isEmpty
-                                        sessionModel.updateDrills() // Update the drills when skills change
-                                    }
-                                )
-                            }
-                        }
-                    }
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(15)
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 12) {
+                            // Replace old skills section with new SkillSelectionView
+                            SkillSelectionView(sessionModel: sessionModel)
+                                .padding(.horizontal)
+                                .padding(.vertical, 8)
+                                .background(Color.white)
+                                .cornerRadius(15)
                     
-                    if showingDrills {
-                    // Generated Drills Section
-                        VStack(alignment: .leading, spacing: 16) {
-                        HStack {
-                                RiveViewModel(fileName: "Bravo_Panting").view()
-                                    .frame(width: 80, height: 80)
+                            if !sessionModel.orderedDrills.isEmpty {
+                                // Generated Drills Section
+                                VStack(alignment: .leading, spacing: 12) {
+                                    HStack {
+                                        RiveViewModel(fileName: "Bravo_Panting").view()
+                                            .frame(width: 60, height: 60)
                                         
-                                    Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
-                                        .font(.custom("Poppins-Bold", size: 16))
+                                        Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
+                                            .font(.custom("Poppins-Bold", size: 16))
                                     }
                                     
-                                    // Drill Cards with drag-drop support
                                     ForEach(sessionModel.orderedDrills) { drill in
                                         DrillCard(drill: drill)
-                                            // Make the card draggable using the title as the transfer data
                                             .draggable(drill.title) {
-                                                // This closure provides the visual preview while dragging
                                                 DrillCard(drill: drill)
                                             }
-                                            // Make each card a drop destination for other cards
                                             .dropDestination(for: String.self) { items, location in
-                                                // Get the source and destination indices for reordering
                                                 guard let sourceTitle = items.first,
                                                       let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
                                                       let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
                                                     return false
                                                 }
                                                 
-                                                // Perform the reordering with animation
                                                 withAnimation(.spring()) {
                                                     let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
                                                     sessionModel.orderedDrills.insert(drill, at: destinationIndex)
                                                 }
                                                 return true
-                                            }
-                                    }
-                                }
-                                .padding()
-                                .background(Color.white)
-                                .cornerRadius(15)
+                            }
+                        }
+                    }
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(15)
                             }
                         }
                         .padding()
-                        // Add bottom padding to account for the fixed Start Session button
                         .padding(.bottom, 80)
                     }
                 }
                 
-                // Fixed Start Session Button
-                if showingDrills {
+                if !sessionModel.orderedDrills.isEmpty {
                             Button(action: {
                         sessionModel.generateSession()
                             }) {
                                 Text("Start Session")
-                        .font(.custom("Poppins-Bold", size: 16))
+                            .font(.custom("Poppins-Bold", size: 16))
                                     .foregroundColor(.white)
                                     .frame(maxWidth: .infinity)
                                     .padding()
@@ -177,7 +142,7 @@ struct SessionGeneratorView: View {
                                     .cornerRadius(25)
                             }
                     .padding(.horizontal)
-                    .padding(.bottom, 8) // Add padding to lift above tab bar
+                    .padding(.bottom, 8)
                 }
             }
         }
@@ -343,37 +308,37 @@ struct DrillCard: View {
     
     var body: some View {
         Button(action: { showingDetail = true }) {
-            HStack {
+        HStack {
                 // Drag handle
                 Image(systemName: "line.3.horizontal")
                     .foregroundColor(.gray)
                     .font(.system(size: 14))
                     .padding(.trailing, 8)
                 
-                Image(systemName: "figure.soccer")
+            Image(systemName: "figure.soccer")
                     .font(.system(size: 24))
-                    .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(10)
-                
-                VStack(alignment: .leading) {
+                .padding()
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(10)
+            
+            VStack(alignment: .leading) {
                     Text(drill.title)
-                        .font(.custom("Poppins-Bold", size: 16))
+                    .font(.custom("Poppins-Bold", size: 16))
                     Text("\(drill.sets) sets - \(drill.reps) reps - \(drill.duration)")
-                        .font(.custom("Poppins-Regular", size: 14))
-                        .foregroundColor(.gray)
-                }
-                
-                Spacer()
-                
+                    .font(.custom("Poppins-Regular", size: 14))
+                    .foregroundColor(.gray)
+            }
+            
+            Spacer()
+            
                 Image(systemName: "chevron.right")
                     .foregroundColor(.gray)
                     .font(.system(size: 14, weight: .semibold))
-            }
-            .padding()
-            .background(
+        }
+        .padding()
+        .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
             )
             .contentShape(Rectangle())
         }
@@ -393,7 +358,11 @@ class SessionGeneratorModel: ObservableObject {
     @Published var selectedTrainingStyle: String = "medium intensity"
     @Published var selectedLocation: String = ""
     @Published var selectedDifficulty: String = ""
-    @Published var selectedSkills: Set<String> = []
+    @Published var selectedSkills: Set<String> = [] {
+        didSet {
+            updateDrills()
+        }
+    }
     @Published var orderedDrills: [DrillModel] = []
     
     // Prerequisite options
@@ -403,47 +372,63 @@ class SessionGeneratorModel: ObservableObject {
     let locationOptions = ["field with goals", "small field", "indoor court"]
     let difficultyOptions = ["beginner", "intermediate", "advanced"]
     
-    // Test data for drills
+    // Test data for drills with specific sub-skills
     static let testDrills: [DrillModel] = [
         DrillModel(
-            title: "Passing Drill",
+            title: "Short Passing Drill",
             sets: "4",
             reps: "10",
             duration: "15min",
-            description: "Improve your passing accuracy with this focused drill.",
-            tips: ["Keep your head up", "Follow through", "Use inside of foot"],
+            description: "Practice accurate short passes with a partner or wall.",
+            tips: ["Keep the ball on the ground", "Use inside of foot", "Follow through towards target"],
             equipment: ["Soccer ball", "Cones"]
         ),
         DrillModel(
-            title: "Shooting Drill",
+            title: "Long Passing Practice",
+            sets: "3",
+            reps: "8",
+            duration: "20min",
+            description: "Improve your long-range passing accuracy.",
+            tips: ["Lock ankle", "Follow through", "Watch ball contact"],
+            equipment: ["Soccer ball", "Cones"]
+        ),
+        DrillModel(
+            title: "Through Ball Training",
+            sets: "4",
+            reps: "6",
+            duration: "15min",
+            description: "Practice timing and weight of through passes.",
+            tips: ["Look for space", "Time the pass", "Weight it properly"],
+            equipment: ["Soccer ball", "Cones"]
+        ),
+        DrillModel(
+            title: "Power Shot Practice",
             sets: "3",
             reps: "5",
             duration: "20min",
-            description: "Perfect your shooting technique with power and accuracy.",
+            description: "Work on powerful shots on goal.",
             tips: ["Plant foot beside ball", "Strike with laces", "Follow through"],
             equipment: ["Soccer ball", "Goal"]
         ),
         DrillModel(
-            title: "Dribbling Drill",
+            title: "1v1 Dribbling Skills",
             sets: "4",
             reps: "8",
             duration: "15min",
             description: "Master close ball control and quick direction changes.",
-            tips: ["Keep ball close", "Use both feet", "Look up regularly"],
+            tips: ["Keep ball close", "Use both feet", "Change pace"],
             equipment: ["Soccer ball", "Cones"]
         )
     ]
     
     // Initialize with user's onboarding data
     init(onboardingData: OnboardingModel.OnboardingData) {
-        // Set initial values based on onboarding data
         selectedDifficulty = onboardingData.trainingExperience.lowercased()
         if let location = onboardingData.trainingLocation.first {
             selectedLocation = location
         }
         selectedEquipment = Set(onboardingData.availableEquipment)
         
-        // Convert daily training time to our format
         switch onboardingData.dailyTrainingTime {
         case "Less than 15 minutes": selectedTime = "15min"
         case "15-30 minutes": selectedTime = "30min"
@@ -452,25 +437,45 @@ class SessionGeneratorModel: ObservableObject {
         case "More than 2 hours": selectedTime = "2h+"
         default: selectedTime = "1h"
         }
-        
-        // Initialize with test drills
-        orderedDrills = Self.testDrills
     }
     
-    // Update drills when skills are selected
+    // Update drills based on selected sub-skills
     func updateDrills() {
-        // For testing, we'll keep the test drills regardless of selection
-        // In production, this would filter based on selected skills
-        if !orderedDrills.isEmpty { return }
-        orderedDrills = Self.testDrills
+        if selectedSkills.isEmpty {
+            orderedDrills = []
+            return
+        }
+        
+        // Show drills that match any of the selected sub-skills
+        orderedDrills = Self.testDrills.filter { drill in
+            // Check if any of the selected skills match the drill
+            for skill in selectedSkills {
+                // Match drills based on skill keywords
+                switch skill.lowercased() {
+                case "short passing":
+                    if drill.title.contains("Short Passing") { return true }
+                case "long passing":
+                    if drill.title.contains("Long Passing") { return true }
+                case "through balls":
+                    if drill.title.contains("Through Ball") { return true }
+                case "power shots", "finesse shots", "volleys", "one-on-one finishing", "long shots":
+                    if drill.title.contains("Shot") || drill.title.contains("Shooting") { return true }
+                case "close control", "speed dribbling", "1v1 moves", "winger skills", "ball mastery":
+                    if drill.title.contains("Dribbling") || drill.title.contains("1v1") { return true }
+                default:
+                    // For any other skills, try to match based on the first word
+                    let mainSkill = skill.split(separator: " ").first?.lowercased() ?? ""
+                    if drill.title.lowercased().contains(mainSkill) { return true }
+                }
+            }
+            return false
+        }
     }
     
-    // Move drill from one position to another
     func moveDrill(from source: IndexSet, to destination: Int) {
         orderedDrills.move(fromOffsets: source, toOffset: destination)
     }
     
-    // Generate new session based on current prerequisites
     func generateSession() {
         // TODO: Implement session generation logic
     }
@@ -489,5 +494,268 @@ struct DrillModel: Identifiable, Equatable {
     
     static func == (lhs: DrillModel, rhs: DrillModel) -> Bool {
         lhs.id == rhs.id
+    }
+}
+
+struct SkillCategory {
+    let name: String
+    let subSkills: [String]
+    let icon: String
+}
+
+extension SessionGeneratorView {
+    // Define all available skill categories and their sub-skills
+    static let skillCategories: [SkillCategory] = [
+        SkillCategory(name: "Passing", subSkills: [
+            "Short passing",
+            "Long passing",
+            "Through balls",
+            "First-time passing",
+            "Wall passing"
+        ], icon: "figure.soccer"),
+        
+        SkillCategory(name: "Shooting", subSkills: [
+            "Power shots",
+            "Finesse shots",
+            "Volleys",
+            "One-on-one finishing",
+            "Long shots"
+        ], icon: "figure.soccer"),
+        
+        SkillCategory(name: "Dribbling", subSkills: [
+            "Close control",
+            "Speed dribbling",
+            "1v1 moves",
+            "Winger skills",
+            "Ball mastery"
+        ], icon: "figure.walk"),
+        
+        SkillCategory(name: "First Touch", subSkills: [
+            "Ground control",
+            "Aerial control",
+            "Turn with ball",
+            "Receiving under pressure",
+            "One-touch control"
+        ], icon: "figure.stand"),
+        
+        SkillCategory(name: "Defending", subSkills: [
+            "1v1 defending",
+            "Tackling",
+            "Positioning",
+            "Intercepting",
+            "Pressing"
+        ], icon: "figure.soccer"),
+        
+        SkillCategory(name: "Fitness", subSkills: [
+            "Speed",
+            "Agility",
+            "Endurance",
+            "Strength",
+            "Recovery"
+        ], icon: "figure.run")
+    ]
+}
+
+struct SkillSelectionView: View {
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    @State private var showingSkillSelector = false
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Skills for Today")
+                    .font(.custom("Poppins-Bold", size: 20))
+                
+                Button(action: { showingSkillSelector = true }) {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 24))
+                        .foregroundColor(.yellow)
+                }
+            }
+            
+            // Horizontal scrolling selected skills
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
+                        if let category = SessionGeneratorView.skillCategories.first(where: { $0.subSkills.contains(skill) }) {
+                            CompactSkillButton(
+                                title: skill,
+                                icon: category.icon,
+                                isSelected: true
+                            ) { }
+                        }
+                    }
+                }
+                .padding(.horizontal, 4)
+            }
+        }
+        .sheet(isPresented: $showingSkillSelector) {
+            SkillSelectorSheet(selectedSkills: $sessionModel.selectedSkills)
+        }
+    }
+}
+
+// New compact button for selected skills
+struct CompactSkillButton: View {
+    let title: String
+    let icon: String
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.system(size: 20))
+                    .foregroundColor(.white)
+                
+                Text(title)
+                    .font(.custom("Poppins-Medium", size: 12))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.8)
+            }
+            .frame(height: 70)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 8)
+            .padding(.horizontal, 4)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.yellow)
+                    .shadow(color: Color.yellow.opacity(0.3),
+                           radius: 4, x: 0, y: 2)
+            )
+        }
+    }
+}
+
+struct SkillSelectorSheet: View {
+    @Binding var selectedSkills: Set<String>
+    @Environment(\.dismiss) private var dismiss
+    @State private var expandedCategory: String?
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    ForEach(SessionGeneratorView.skillCategories, id: \.name) { category in
+                        VStack(alignment: .leading, spacing: 0) {
+                            Button(action: {
+                                withAnimation {
+                                    if expandedCategory == category.name {
+                                        expandedCategory = nil
+                                    } else {
+                                        expandedCategory = category.name
+                                    }
+                                }
+                            }) {
+                                HStack {
+                                    Image(systemName: category.icon)
+                                        .font(.system(size: 20))
+                                    Text(category.name)
+                                        .font(.custom("Poppins-Bold", size: 18))
+                                    Spacer()
+                                    Image(systemName: expandedCategory == category.name ? "chevron.up" : "chevron.down")
+                                        .font(.system(size: 14))
+                                }
+                                .padding()
+                                .background(Color.white)
+                                .cornerRadius(12)
+                            }
+                            .foregroundColor(.black)
+                            
+                            if expandedCategory == category.name {
+                                VStack(spacing: 12) {
+                                    ForEach(category.subSkills, id: \.self) { subSkill in
+                                        Button(action: {
+                                            if selectedSkills.contains(subSkill) {
+                                                selectedSkills.remove(subSkill)
+                                            } else {
+                                                selectedSkills.insert(subSkill)
+                                            }
+                                        }) {
+                                            HStack {
+                                                Text(subSkill)
+                                                    .font(.custom("Poppins-Medium", size: 16))
+                                                Spacer()
+                                                if selectedSkills.contains(subSkill) {
+                                                    Image(systemName: "checkmark.circle.fill")
+                                                        .foregroundColor(.yellow)
+                                                }
+                                            }
+                                            .padding(.horizontal)
+                                            .padding(.vertical, 8)
+                                        }
+                                        .foregroundColor(.black)
+                                    }
+                                }
+                                .padding(.vertical)
+                                .background(Color.gray.opacity(0.05))
+                                .cornerRadius(12)
+                            }
+                        }
+                        .background(Color.white)
+                        .cornerRadius(12)
+                        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+                    }
+                }
+                .padding()
+            }
+            .navigationTitle("Select Skills")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct SkillCategoryButton: View {
+    let category: SkillCategory
+    let isSelected: Bool
+    let hasSelectedSubSkills: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 8) {
+                Image(systemName: category.icon)
+                    .font(.system(size: 28))
+                    .foregroundColor(isSelected || hasSelectedSubSkills ? .white : .black)
+                
+                Text(category.name)
+                    .font(.custom("Poppins-Bold", size: 16))
+                    .foregroundColor(isSelected || hasSelectedSubSkills ? .white : .black)
+                
+                if hasSelectedSubSkills {
+                    Text("Skills selected")
+                        .font(.custom("Poppins-Regular", size: 12))
+                        .foregroundColor(isSelected || hasSelectedSubSkills ? .white.opacity(0.9) : .gray)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 16)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(isSelected || hasSelectedSubSkills ? Color.yellow : Color.white)
+                    .shadow(color: isSelected || hasSelectedSubSkills ? 
+                           Color.yellow.opacity(0.5) : Color.black.opacity(0.1),
+                           radius: 8, x: 0, y: 4)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(isSelected || hasSelectedSubSkills ? 
+                                   Color.yellow.opacity(0.3) : Color.gray.opacity(0.15),
+                                   lineWidth: 2)
+                    )
+            )
+            .scaleEffect(isSelected || hasSelectedSubSkills ? 1.02 : 1.0)
+            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected)
+            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: hasSelectedSubSkills)
+        }
     }
 }

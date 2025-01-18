@@ -27,6 +27,7 @@
 		1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1782090B2D2E09EB00246494 /* SavedDrillsView.swift */; };
 		1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1782090D2D2E0A1100246494 /* ProfileView.swift */; };
 		17C3B5892D38277000D2471F /* DragDropTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3B5882D38276D00D2471F /* DragDropTest.swift */; };
+		17C3B58D2D38E43900D2471F /* DrillFollowAlongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3B58C2D38E41C00D2471F /* DrillFollowAlongView.swift */; };
 		17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6532CD3477E008E8C24 /* ColorExtension.swift */; };
 		17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */; };
 		17FA14272D36F8BA00EFB033 /* DraggableDrillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FA14262D36F8AF00EFB033 /* DraggableDrillsView.swift */; };
@@ -87,6 +88,7 @@
 		1782090B2D2E09EB00246494 /* SavedDrillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedDrillsView.swift; sourceTree = "<group>"; };
 		1782090D2D2E0A1100246494 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		17C3B5882D38276D00D2471F /* DragDropTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragDropTest.swift; sourceTree = "<group>"; };
+		17C3B58C2D38E41C00D2471F /* DrillFollowAlongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillFollowAlongView.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17F5D6532CD3477E008E8C24 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				174C676F2D34EB11003D02EF /* DrillDetailView.swift */,
 				174C676D2D34E9EA003D02EF /* SessionGeneratorView.swift */,
 				1782090D2D2E0A1100246494 /* ProfileView.swift */,
+				17C3B58C2D38E41C00D2471F /* DrillFollowAlongView.swift */,
 			);
 			path = AppFeatures;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				430FD6CD2D30648A0016D520 /* MainAppModel.swift in Sources */,
 				17FA14272D36F8BA00EFB033 /* DraggableDrillsView.swift in Sources */,
 				174C67702D34EB26003D02EF /* DrillDetailView.swift in Sources */,
+				17C3B58D2D38E43900D2471F /* DrillFollowAlongView.swift in Sources */,
 				178208F12D2DFD6500246494 /* OnboardingPreview.swift in Sources */,
 				178208E62D2DEC2900246494 /* CompletionView.swift in Sources */,
 				178208EB2D2DECE300246494 /* OnboardingMultiSelectView.swift in Sources */,

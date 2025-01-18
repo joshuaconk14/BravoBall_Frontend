@@ -10,110 +10,108 @@ import SwiftUI
 
 struct DrillDetailView: View {
     let drill: DrillModel
-    let globalSettings = GlobalSettings()
-    @Environment(\.dismiss) var dismiss
-    @State private var isPlaying = false
+    @Environment(\.dismiss) private var dismiss
+    @State private var showingFollowAlong = false
     
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    // Video Demo Section
+                VStack(alignment: .leading, spacing: 24) {
+                    // Video preview
                     ZStack {
-                        Color.gray.opacity(0.2)
-                            .frame(height: 200)
+                        Rectangle()
+                            .fill(Color.black.opacity(0.1))
+                            .aspectRatio(16/9, contentMode: .fit)
+                            .cornerRadius(12)
                         
-                        Button(action: { isPlaying.toggle() }) {
-                            Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
+                        Button(action: { /* Play video preview */ }) {
+                            Image(systemName: "play.circle.fill")
                                 .font(.system(size: 50))
                                 .foregroundColor(.white)
+                                .background(Circle().fill(Color.black.opacity(0.5)))
                         }
                     }
-                    .cornerRadius(12)
                     
-                    // Drill Information
+                    // Drill information
                     VStack(alignment: .leading, spacing: 16) {
                         Text(drill.title)
-                            .font(.title)
-                            .bold()
+                            .font(.custom("Poppins-Bold", size: 24))
                         
-                        HStack(spacing: 20) {
-                            InfoItem(title: "Sets", value: drill.sets)
-                            InfoItem(title: "Reps", value: drill.reps)
-                            InfoItem(title: "Duration", value: drill.duration)
+                        HStack(spacing: 16) {
+                            Label(drill.sets + " sets", systemImage: "repeat")
+                            Label(drill.reps + " reps", systemImage: "figure.run")
+                            Label(drill.duration, systemImage: "clock")
                         }
-                        
-                        // Description
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Description")
-                                .font(.headline)
-                            Text(drill.description)
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        // Tips
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Tips")
-                                .font(.headline)
-                            ForEach(drill.tips, id: \.self) { tip in
-                                HStack(alignment: .top, spacing: 8) {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(.green)
-                                    Text(tip)
-                                        .foregroundColor(.secondary)
-                                }
-                            }
-                        }
-                        
-                        // Equipment Needed
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Equipment Needed")
-                                .font(.headline)
-                            ForEach(drill.equipment, id: \.self) { item in
-                                HStack(spacing: 8) {
-                                    Image(systemName: "circle.fill")
-                                        .font(.system(size: 6))
-                                        .foregroundColor(.secondary)
-                                    Text(item)
-                                        .foregroundColor(.secondary)
-                                }
+                        .font(.custom("Poppins-Medium", size: 14))
+                        .foregroundColor(.gray)
+                    }
+                    
+                    // Description
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Description")
+                            .font(.custom("Poppins-Bold", size: 18))
+                        Text(drill.description)
+                            .font(.custom("Poppins-Regular", size: 16))
+                            .foregroundColor(.gray)
+                    }
+                    
+                    // Tips
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Tips")
+                            .font(.custom("Poppins-Bold", size: 18))
+                        ForEach(drill.tips, id: \.self) { tip in
+                            HStack(alignment: .top, spacing: 8) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.green)
+                                Text(tip)
+                                    .font(.custom("Poppins-Regular", size: 16))
+                                    .foregroundColor(.gray)
                             }
                         }
                     }
-                    .padding(.horizontal)
+                    
+                    // Equipment needed
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Equipment Needed")
+                            .font(.custom("Poppins-Bold", size: 18))
+                        ForEach(drill.equipment, id: \.self) { item in
+                            HStack(spacing: 8) {
+                                Image(systemName: "circle.fill")
+                                    .font(.system(size: 6))
+                                    .foregroundColor(.gray)
+                                Text(item)
+                                    .font(.custom("Poppins-Regular", size: 16))
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                    }
                 }
+                .padding()
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Close") {
-                        dismiss()
-                    }
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {}) {
-                        Image(systemName: "square.and.arrow.up")
+                        Image(systemName: "xmark")
+                            .foregroundColor(.black)
                     }
                 }
             }
-            
-            // Start Drill Button
             .safeAreaInset(edge: .bottom) {
-                Button(action: {
-                    // Handle start drill action
-                }) {
+                Button(action: { showingFollowAlong = true }) {
                     Text("Start Drill")
-                        .font(.headline)
+                        .font(.custom("Poppins-Bold", size: 18))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(globalSettings.primaryYellowColor)
+                        .background(Color.yellow)
                         .cornerRadius(12)
                 }
                 .padding()
-                .background(Color.white)
             }
+        }
+        .fullScreenCover(isPresented: $showingFollowAlong) {
+            DrillFollowAlongView(drill: drill)
         }
     }
 }
