@@ -1,8 +1,8 @@
 //
-//  MainAppModel.swift
-//  BravoBall
+//  MainAppModel.swift
+//  BravoBall
 //
-//  Created by Joshua Conklin on 1/9/25.
+//  Created by Joshua Conklin on 1/9/25.
 //
 // Contains other functions and variables within the main app
 
@@ -11,49 +11,107 @@ import Foundation
 class MainAppModel: ObservableObject {
     let globalSettings = GlobalSettings()
     
-    var mainTabSelected = 0
-    
-    // Properties for DrillResultsView
-    @Published var selectedSession: CompletedSession?
-    @Published var showDrillResults = false
-    
-    // for each day
-    @Published var currentDay = 0  // Track which button should show checkmark
-    @Published var addCheckMark = false
-    @Published var streakIncrease: Int = 0
-    @Published var interactedDayShowGold = false
-    
-    
-    
-    // for each week
-    @Published var currentWeek = 0
-    @Published var completedWeeks: [WeekData] = []
-    
-    struct WeekData {
-        let weekNumberDisplayed: Int
-        var completedDays: Int = 0
-        var isCompleted: Bool = false
-    }
-    
-    
-    func completedSessionIndicator() {
-        if currentDay == 6 {
-            // create a new week
-            let currentWeekCompleted = WeekData(weekNumberDisplayed: completedWeeks.count + 1) // + 1 since not added yet to the array
-            completedWeeks.append(currentWeekCompleted)
-            completedWeeks[currentWeek].isCompleted = true
-            currentWeek += 1
-            currentDay = 0 // reset for the new week
-        } else {
-            currentDay += 1
-        }
-    }
-  
+    // MARK: Main
+
+    @Published var mainTabSelected = 0
+    @Published var inSimulationMode: Bool = true
 
     
+    // MARK: Calendar
+
+    let calendar = Calendar.current
+
+    @Published var allCompletedSessions: [CompletedSession] = []
+    @Published var selectedSession: CompletedSession? // For selecting into Drill Card View
+    @Published var showCalendar = false
+    @Published var showDrillResults = false
+    @Published var currentStreak: Int = 0
+    @Published var highestStreak: Int = 0
     
+    struct CompletedSession: Codable {
+        let date: Date  
+        let drills: [DrillData]
+        let totalCompletedDrills: Int
+        let totalDrills: Int
+    }
+
+    struct DrillData: Codable { 
+        let name: String
+        let skill: String
+        let duration: Int
+        let sets: Int
+        let reps: Int
+        let equipment: [String]
+        let isCompleted: Bool
+    }
+
+
     
+    // Adding completed session into allCompletedSessions array
+    func addCompletedSession(date: Date, drills: [DrillData], totalCompletedDrills: Int, totalDrills: Int) {
+        let newSession = CompletedSession(
+            date: date,
+            drills: drills,
+            totalCompletedDrills: totalCompletedDrills,
+            totalDrills: totalDrills
+        )
+        allCompletedSessions.append(newSession)
+
+        // Function that will save to UserDefaults
+        func saveCompletedSessions() {
+            if let encoded = try? JSONEncoder().encode(allCompletedSessions) {
+                UserDefaults.standard.set(encoded, forKey: "completedSessions")
+            }
+        }
+
+        // Debugging
+        print ("Session data received")
+        print ("date: \(date)")
+        print ("score: \(totalCompletedDrills) / \(totalDrills)")
+        for drill in drills {
+            print ("name: \(drill.name)")
+            print ("skill: \(drill.skill)")
+            print ("duration: \(drill.duration)")
+            print ("sets: \(drill.sets)")
+            print ("reps: \(drill.reps)")
+            print ("equipment: \(drill.equipment)")
+            print ("Session completed: \(drill.isCompleted)")
+        }
+    }
     
+    // return the data in the drill results view in CompletedSession structure
+    func getSessionForDate(_ date: Date) -> CompletedSession? {
+        let calendar = Calendar.current
+        return allCompletedSessions.first { session in
+            calendar.isDate(session.date, inSameDayAs: date)
+        }
+    }
+
+
+    // Save to UserDefaults
+    func saveCompletedSessions() {
+        if let encoded = try? JSONEncoder().encode(allCompletedSessions) {
+            UserDefaults.standard.set(encoded, forKey: "completedSessions")
+        }
+    }
+    
+    // Decode from UserDefaults
+    func loadCompletedSessions() {
+        if let data = UserDefaults.standard.data(forKey: "completedSessions"),
+            let decoded = try? JSONDecoder().decode([CompletedSession].self, from: data) {
+            allCompletedSessions = decoded
+        }
+    }
+    
+    // Sets the highest streak
+    func highestStreakSetter(streak: Int) {
+        if streak > highestStreak {
+            highestStreak = streak
+        }
+    }
+
+    // MARK: App Settings
+
     // Alert types for ProfileVIew logout and delete buttons
     @Published var showAlert = false
     @Published var alertType: AlertType = .none
@@ -64,14 +122,5 @@ class MainAppModel: ObservableObject {
         case logout
         case delete
         case none
-    }
-    
-    // Structure for completed training sessions
-    struct CompletedSession: Identifiable {
-        let id = UUID()
-        let date: Date
-        let drills: [String]
-        let duration: String
-        let score: Int
     }
 }

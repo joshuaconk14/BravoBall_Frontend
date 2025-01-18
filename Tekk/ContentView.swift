@@ -24,9 +24,9 @@ struct ContentView: View {
     var body: some View {
         Group {
             if onboardingModel.isLoggedIn {
-                MainTabView(model: onboardingModel, mainAppModel: appModel, userManager: userInfoManager)
+                MainTabView(model: onboardingModel, appModel: appModel, userManager: userInfoManager)
             } else {
-                OnboardingView(model: onboardingModel, mainAppModel: appModel, userManager: userInfoManager)
+                OnboardingView(model: onboardingModel, appModel: appModel, userManager: userInfoManager)
             }
 //              DragDropTest()
         }

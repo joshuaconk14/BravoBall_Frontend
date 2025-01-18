@@ -15,6 +15,13 @@
 		174936382C3E1032001163B9 /* TekkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */; };
 		174C676E2D34E9EE003D02EF /* SessionGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174C676D2D34E9EA003D02EF /* SessionGeneratorView.swift */; };
 		174C67702D34EB26003D02EF /* DrillDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174C676F2D34EB11003D02EF /* DrillDetailView.swift */; };
+		17595A9F2D3B3B320015F35D /* ProgressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17595A9E2D3B3B2C0015F35D /* ProgressionView.swift */; };
+		17595AA12D3B3B520015F35D /* DrillResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17595AA02D3B3B4E0015F35D /* DrillResultsView.swift */; };
+		17595AA32D3B3B610015F35D /* WeekDisplayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17595AA22D3B3B5B0015F35D /* WeekDisplayButton.swift */; };
+		17595AA72D3B44990015F35D /* Day_Low_Score.riv in Resources */ = {isa = PBXBuildFile; fileRef = 17595AA62D3B44990015F35D /* Day_Low_Score.riv */; };
+		17595AA92D3B44E80015F35D /* Day_Medium_Score.riv in Resources */ = {isa = PBXBuildFile; fileRef = 17595AA82D3B44E80015F35D /* Day_Medium_Score.riv */; };
+		17595AAB2D3B44F40015F35D /* Drill_Card_Incomplete.riv in Resources */ = {isa = PBXBuildFile; fileRef = 17595AAA2D3B44F40015F35D /* Drill_Card_Incomplete.riv */; };
+		17595AAD2D3B44FE0015F35D /* Drill_Card_Complete.riv in Resources */ = {isa = PBXBuildFile; fileRef = 17595AAC2D3B44FE0015F35D /* Drill_Card_Complete.riv */; };
 		178208D22D2D14D200246494 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208D12D2D14D200246494 /* MainTabView.swift */; };
 		178208E02D2DEB9C00246494 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208DF2D2DEB9C00246494 /* OnboardingModel.swift */; };
 		178208E22D2DEBB400246494 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208E12D2DEBB400246494 /* OnboardingView.swift */; };
@@ -34,9 +41,7 @@
 		430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */; };
 		430FD6CD2D30648A0016D520 /* MainAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6CC2D3064850016D520 /* MainAppModel.swift */; };
 		430FD6D32D307AEC0016D520 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 430FD6D22D307AEC0016D520 /* SwiftKeychainWrapper */; };
-		430FD6E92D3206400016D520 /* CompletedSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6E82D3206390016D520 /* CompletedSessionView.swift */; };
 		430FD7092D32674C0016D520 /* Streak_Diamond.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD7082D32674C0016D520 /* Streak_Diamond.riv */; };
-		430FD71B2D3344910016D520 /* Drill_Card.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71A2D3344910016D520 /* Drill_Card.riv */; };
 		430FD71D2D3347DD0016D520 /* Day_High_Score.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71C2D3347DD0016D520 /* Day_High_Score.riv */; };
 		430FD71F2D334CAF0016D520 /* Day_Null.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71E2D334CAF0016D520 /* Day_Null.riv */; };
 		435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 435A70142CA7AB2600BFCC40 /* RiveRuntime */; };
@@ -76,6 +81,13 @@
 		174936372C3E1032001163B9 /* TekkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TekkUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		174C676D2D34E9EA003D02EF /* SessionGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionGeneratorView.swift; sourceTree = "<group>"; };
 		174C676F2D34EB11003D02EF /* DrillDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillDetailView.swift; sourceTree = "<group>"; };
+		17595A9E2D3B3B2C0015F35D /* ProgressionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionView.swift; sourceTree = "<group>"; };
+		17595AA02D3B3B4E0015F35D /* DrillResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillResultsView.swift; sourceTree = "<group>"; };
+		17595AA22D3B3B5B0015F35D /* WeekDisplayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDisplayButton.swift; sourceTree = "<group>"; };
+		17595AA62D3B44990015F35D /* Day_Low_Score.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Low_Score.riv; sourceTree = "<group>"; };
+		17595AA82D3B44E80015F35D /* Day_Medium_Score.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Medium_Score.riv; sourceTree = "<group>"; };
+		17595AAA2D3B44F40015F35D /* Drill_Card_Incomplete.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drill_Card_Incomplete.riv; sourceTree = "<group>"; };
+		17595AAC2D3B44FE0015F35D /* Drill_Card_Complete.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drill_Card_Complete.riv; sourceTree = "<group>"; };
 		178208D12D2D14D200246494 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		178208DF2D2DEB9C00246494 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
 		178208E12D2DEBB400246494 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -95,9 +107,7 @@
 		17FA14262D36F8AF00EFB033 /* DraggableDrillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableDrillsView.swift; sourceTree = "<group>"; };
 		430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRegisterForm.swift; sourceTree = "<group>"; };
 		430FD6CC2D3064850016D520 /* MainAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppModel.swift; sourceTree = "<group>"; };
-		430FD6E82D3206390016D520 /* CompletedSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedSessionView.swift; sourceTree = "<group>"; };
 		430FD7082D32674C0016D520 /* Streak_Diamond.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Streak_Diamond.riv; sourceTree = "<group>"; };
-		430FD71A2D3344910016D520 /* Drill_Card.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drill_Card.riv; sourceTree = "<group>"; };
 		430FD71C2D3347DD0016D520 /* Day_High_Score.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_High_Score.riv; sourceTree = "<group>"; };
 		430FD71E2D334CAF0016D520 /* Day_Null.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Null.riv; sourceTree = "<group>"; };
 		43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = BravoBall_Intro.riv; sourceTree = "<group>"; };
@@ -108,7 +118,6 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		430FD6BD2D2F0DE50016D520 /* Services */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Services; sourceTree = "<group>"; };
-		430FD6F82D324FD60016D520 /* HelperFeatures */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HelperFeatures; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +212,16 @@
 			path = TekkUITests;
 			sourceTree = "<group>";
 		};
+		17595A9D2D3B3B1B0015F35D /* Progression */ = {
+			isa = PBXGroup;
+			children = (
+				17595A9E2D3B3B2C0015F35D /* ProgressionView.swift */,
+				17595AA02D3B3B4E0015F35D /* DrillResultsView.swift */,
+				17595AA22D3B3B5B0015F35D /* WeekDisplayButton.swift */,
+			);
+			path = Progression;
+			sourceTree = "<group>";
+		};
 		178208DC2D2DEB7200246494 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,12 +267,11 @@
 		178208F52D2E05FE00246494 /* AppFeatures */ = {
 			isa = PBXGroup;
 			children = (
-				430FD6F82D324FD60016D520 /* HelperFeatures */,
-				430FD6E82D3206390016D520 /* CompletedSessionView.swift */,
 				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
 				174C676F2D34EB11003D02EF /* DrillDetailView.swift */,
 				174C676D2D34E9EA003D02EF /* SessionGeneratorView.swift */,
 				1782090D2D2E0A1100246494 /* ProfileView.swift */,
+				17595A9D2D3B3B1B0015F35D /* Progression */,
 				17C3B58C2D38E41C00D2471F /* DrillFollowAlongView.swift */,
 			);
 			path = AppFeatures;
@@ -283,7 +301,10 @@
 				43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */,
 				43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */,
 				430FD7082D32674C0016D520 /* Streak_Diamond.riv */,
-				430FD71A2D3344910016D520 /* Drill_Card.riv */,
+				17595AAC2D3B44FE0015F35D /* Drill_Card_Complete.riv */,
+				17595AAA2D3B44F40015F35D /* Drill_Card_Incomplete.riv */,
+				17595AA82D3B44E80015F35D /* Day_Medium_Score.riv */,
+				17595AA62D3B44990015F35D /* Day_Low_Score.riv */,
 				430FD71C2D3347DD0016D520 /* Day_High_Score.riv */,
 				430FD71E2D334CAF0016D520 /* Day_Null.riv */,
 			);
@@ -307,7 +328,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				430FD6BD2D2F0DE50016D520 /* Services */,
-				430FD6F82D324FD60016D520 /* HelperFeatures */,
 			);
 			name = BravoBall;
 			productName = Tekk;
@@ -402,15 +422,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17595AA92D3B44E80015F35D /* Day_Medium_Score.riv in Resources */,
+				17595AAB2D3B44F40015F35D /* Drill_Card_Incomplete.riv in Resources */,
+				17595AAD2D3B44FE0015F35D /* Drill_Card_Complete.riv in Resources */,
 				174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */,
 				1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */,
+				17595AA72D3B44990015F35D /* Day_Low_Score.riv in Resources */,
 				430FD71D2D3347DD0016D520 /* Day_High_Score.riv in Resources */,
 				430FD7092D32674C0016D520 /* Streak_Diamond.riv in Resources */,
 				43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */,
 				43985E5A2CB5B0BB00BE2AB6 /* Bravo_Panting.riv in Resources */,
 				43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */,
 				43985E472CB4EFA200BE2AB6 /* BravoBall_Intro.riv in Resources */,
-				430FD71B2D3344910016D520 /* Drill_Card.riv in Resources */,
 				430FD71F2D334CAF0016D520 /* Day_Null.riv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -440,6 +463,8 @@
 				17FA14272D36F8BA00EFB033 /* DraggableDrillsView.swift in Sources */,
 				174C67702D34EB26003D02EF /* DrillDetailView.swift in Sources */,
 				17C3B58D2D38E43900D2471F /* DrillFollowAlongView.swift in Sources */,
+				17595AA32D3B3B610015F35D /* WeekDisplayButton.swift in Sources */,
+				17595AA12D3B3B520015F35D /* DrillResultsView.swift in Sources */,
 				178208F12D2DFD6500246494 /* OnboardingPreview.swift in Sources */,
 				178208E62D2DEC2900246494 /* CompletionView.swift in Sources */,
 				178208EB2D2DECE300246494 /* OnboardingMultiSelectView.swift in Sources */,
@@ -452,9 +477,9 @@
 				1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */,
 				1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */,
 				178208E22D2DEBB400246494 /* OnboardingView.swift in Sources */,
-				430FD6E92D3206400016D520 /* CompletedSessionView.swift in Sources */,
 				178208E42D2DEBC800246494 /* LoginView.swift in Sources */,
 				178208E92D2DEC6D00246494 /* OnboardingStepView.swift in Sources */,
+				17595A9F2D3B3B320015F35D /* ProgressionView.swift in Sources */,
 				174C676E2D34E9EE003D02EF /* SessionGeneratorView.swift in Sources */,
 				178208D22D2D14D200246494 /* MainTabView.swift in Sources */,
 				178208ED2D2DED0800246494 /* OnboardingBooleanView.swift in Sources */,
