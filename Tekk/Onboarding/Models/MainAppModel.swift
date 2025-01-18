@@ -27,6 +27,7 @@ class MainAppModel: ObservableObject {
     @Published var showDrillResults = false
     @Published var currentStreak: Int = 0
     @Published var highestStreak: Int = 0
+    @Published var countOfFullyCompletedSessions: Int = 0
     
     struct CompletedSession: Codable {
         let date: Date  
@@ -56,6 +57,11 @@ class MainAppModel: ObservableObject {
             totalDrills: totalDrills
         )
         allCompletedSessions.append(newSession)
+        
+        // Increase count of fully complete sessions if 100% done
+        if totalCompletedDrills == totalDrills {
+            countOfFullyCompletedSessions += 1
+        }
 
         // Function that will save to UserDefaults
         func saveCompletedSessions() {

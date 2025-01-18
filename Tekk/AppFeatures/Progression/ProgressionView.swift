@@ -22,6 +22,14 @@ struct ProgressionView: View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 5) {
 
+                
+                Text("Current Streak")
+                    .font(.custom("Poppins-Bold", size: 22))
+                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    .padding(.horizontal)
+                    .padding(.top,30)
+
+                
                 // Streak display
                 streakDisplay
                     
@@ -49,7 +57,7 @@ struct ProgressionView: View {
                     .padding()
                     
                     VStack {
-                        Text("\(appModel.allCompletedSessions.count)")
+                        Text("\(appModel.countOfFullyCompletedSessions)")
                             .font(.custom("Poppins-Bold", size: 30))
                             .foregroundColor(appModel.globalSettings.primaryYellowColor)
                         Text("Sessions completed")
@@ -72,7 +80,7 @@ struct ProgressionView: View {
             RiveViewModel(fileName: "Streak_Diamond").view()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: .infinity)
-                .padding()
+                .padding(.horizontal)
             HStack {
                 Image("Streak_Flame")
                     .resizable()
