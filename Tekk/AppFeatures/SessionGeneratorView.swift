@@ -61,7 +61,7 @@ struct SessionGeneratorView: View {
                                 ) {
                                     if selectedPrerequisite == type {
                                         selectedPrerequisite = nil
-                                    } else {
+                                        } else {
                                         selectedPrerequisite = type
                                     }
                                 }
@@ -85,13 +85,13 @@ struct SessionGeneratorView: View {
                             SkillSelectionView(sessionModel: sessionModel)
                                 .padding(.horizontal)
                                 .padding(.vertical, 8)
-                                .background(Color.white)
-                                .cornerRadius(15)
+                    .background(Color.white)
+                    .cornerRadius(15)
                     
                             if !sessionModel.orderedDrills.isEmpty {
                                 // Generated Drills Section
-                                VStack(alignment: .leading, spacing: 12) {
-                                    HStack {
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
                                         RiveViewModel(fileName: "Bravo_Panting").view()
                                             .frame(width: 60, height: 60)
                                         

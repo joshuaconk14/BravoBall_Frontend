@@ -13,6 +13,10 @@ class MainAppModel: ObservableObject {
     
     var mainTabSelected = 0
     
+    // Properties for DrillResultsView
+    @Published var selectedSession: CompletedSession?
+    @Published var showDrillResults = false
+    
     // for each day
     @Published var currentDay = 0  // Track which button should show checkmark
     @Published var addCheckMark = false
@@ -60,5 +64,14 @@ class MainAppModel: ObservableObject {
         case logout
         case delete
         case none
+    }
+    
+    // Structure for completed training sessions
+    struct CompletedSession: Identifiable {
+        let id = UUID()
+        let date: Date
+        let drills: [String]
+        let duration: String
+        let score: Int
     }
 }
