@@ -29,9 +29,7 @@
 		17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */; };
 		430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */; };
 		430FD6D32D307AEC0016D520 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 430FD6D22D307AEC0016D520 /* SwiftKeychainWrapper */; };
-		430FD6E92D3206400016D520 /* CompletedSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6E82D3206390016D520 /* CompletedSessionView.swift */; };
 		430FD7092D32674C0016D520 /* Streak_Diamond.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD7082D32674C0016D520 /* Streak_Diamond.riv */; };
-		430FD71B2D3344910016D520 /* Drill_Card.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71A2D3344910016D520 /* Drill_Card.riv */; };
 		430FD71D2D3347DD0016D520 /* Day_High_Score.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71C2D3347DD0016D520 /* Day_High_Score.riv */; };
 		430FD71F2D334CAF0016D520 /* Day_Null.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71E2D334CAF0016D520 /* Day_Null.riv */; };
 		430FD7322D33ACCB0016D520 /* MainAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD7312D33ACCB0016D520 /* MainAppModel.swift */; };
@@ -46,6 +44,9 @@
 		43D78E382D386124005CC222 /* DrillResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D78E372D38611D005CC222 /* DrillResultsView.swift */; };
 		43D78E3B2D39F8E9005CC222 /* Day_Medium_Score.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43D78E3A2D39F8E9005CC222 /* Day_Medium_Score.riv */; };
 		43D78E3D2D39F8F8005CC222 /* Day_Low_Score.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43D78E3C2D39F8F8005CC222 /* Day_Low_Score.riv */; };
+		43D78E3F2D3B252F005CC222 /* Drill_Card_Complete.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43D78E3E2D3B252F005CC222 /* Drill_Card_Complete.riv */; };
+		43D78E412D3B2538005CC222 /* Drill_Card_Incomplete.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43D78E402D3B2538005CC222 /* Drill_Card_Incomplete.riv */; };
+		43D78E452D3B2890005CC222 /* ProgressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D78E442D3B288C005CC222 /* ProgressionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,9 +93,7 @@
 		17F5D6532CD3477E008E8C24 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
 		430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRegisterForm.swift; sourceTree = "<group>"; };
-		430FD6E82D3206390016D520 /* CompletedSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedSessionView.swift; sourceTree = "<group>"; };
 		430FD7082D32674C0016D520 /* Streak_Diamond.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Streak_Diamond.riv; sourceTree = "<group>"; };
-		430FD71A2D3344910016D520 /* Drill_Card.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drill_Card.riv; sourceTree = "<group>"; };
 		430FD71C2D3347DD0016D520 /* Day_High_Score.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_High_Score.riv; sourceTree = "<group>"; };
 		430FD71E2D334CAF0016D520 /* Day_Null.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Null.riv; sourceTree = "<group>"; };
 		430FD7312D33ACCB0016D520 /* MainAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppModel.swift; sourceTree = "<group>"; };
@@ -108,6 +107,9 @@
 		43D78E372D38611D005CC222 /* DrillResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillResultsView.swift; sourceTree = "<group>"; };
 		43D78E3A2D39F8E9005CC222 /* Day_Medium_Score.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Medium_Score.riv; sourceTree = "<group>"; };
 		43D78E3C2D39F8F8005CC222 /* Day_Low_Score.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Low_Score.riv; sourceTree = "<group>"; };
+		43D78E3E2D3B252F005CC222 /* Drill_Card_Complete.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drill_Card_Complete.riv; sourceTree = "<group>"; };
+		43D78E402D3B2538005CC222 /* Drill_Card_Incomplete.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drill_Card_Incomplete.riv; sourceTree = "<group>"; };
+		43D78E442D3B288C005CC222 /* ProgressionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,9 +250,9 @@
 				43D78E392D39E2AD005CC222 /* Testing */,
 				430FD7402D33B3670016D520 /* Models */,
 				430FD73C2D33B2F80016D520 /* HelperFeatures */,
-				430FD6E82D3206390016D520 /* CompletedSessionView.swift */,
-				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
 				1782090F2D2E0C6800246494 /* SessionGeneratorView.swift */,
+				43D78E442D3B288C005CC222 /* ProgressionView.swift */,
+				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
 				1782090D2D2E0A1100246494 /* ProfileView.swift */,
 			);
 			path = AppFeatures;
@@ -297,11 +299,12 @@
 				43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */,
 				43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */,
 				430FD7082D32674C0016D520 /* Streak_Diamond.riv */,
-				430FD71A2D3344910016D520 /* Drill_Card.riv */,
 				430FD71C2D3347DD0016D520 /* Day_High_Score.riv */,
 				430FD71E2D334CAF0016D520 /* Day_Null.riv */,
 				43D78E3A2D39F8E9005CC222 /* Day_Medium_Score.riv */,
 				43D78E3C2D39F8F8005CC222 /* Day_Low_Score.riv */,
+				43D78E3E2D3B252F005CC222 /* Drill_Card_Complete.riv */,
+				43D78E402D3B2538005CC222 /* Drill_Card_Incomplete.riv */,
 			);
 			path = RiveAssets;
 			sourceTree = "<group>";
@@ -422,7 +425,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */,
+				43D78E412D3B2538005CC222 /* Drill_Card_Incomplete.riv in Resources */,
 				1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */,
+				43D78E3F2D3B252F005CC222 /* Drill_Card_Complete.riv in Resources */,
 				43D78E3D2D39F8F8005CC222 /* Day_Low_Score.riv in Resources */,
 				430FD71D2D3347DD0016D520 /* Day_High_Score.riv in Resources */,
 				430FD7092D32674C0016D520 /* Streak_Diamond.riv in Resources */,
@@ -430,7 +435,6 @@
 				43985E5A2CB5B0BB00BE2AB6 /* Bravo_Panting.riv in Resources */,
 				43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */,
 				43985E472CB4EFA200BE2AB6 /* BravoBall_Intro.riv in Resources */,
-				430FD71B2D3344910016D520 /* Drill_Card.riv in Resources */,
 				430FD71F2D334CAF0016D520 /* Day_Null.riv in Resources */,
 				43D78E3B2D39F8E9005CC222 /* Day_Medium_Score.riv in Resources */,
 			);
@@ -463,6 +467,7 @@
 				178208E62D2DEC2900246494 /* CompletionView.swift in Sources */,
 				178208EB2D2DECE300246494 /* OnboardingMultiSelectView.swift in Sources */,
 				430FD7322D33ACCB0016D520 /* MainAppModel.swift in Sources */,
+				43D78E452D3B2890005CC222 /* ProgressionView.swift in Sources */,
 				430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
 				178208E02D2DEB9C00246494 /* OnboardingModel.swift in Sources */,
@@ -473,7 +478,6 @@
 				1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */,
 				178209102D2E0C6800246494 /* SessionGeneratorView.swift in Sources */,
 				178208E22D2DEBB400246494 /* OnboardingView.swift in Sources */,
-				430FD6E92D3206400016D520 /* CompletedSessionView.swift in Sources */,
 				430FD73E2D33B3250016D520 /* WeekDisplayButton.swift in Sources */,
 				178208E42D2DEBC800246494 /* LoginView.swift in Sources */,
 				178208E92D2DEC6D00246494 /* OnboardingStepView.swift in Sources */,

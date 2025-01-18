@@ -11,7 +11,8 @@ import Foundation
 class MainAppModel: ObservableObject {
     let globalSettings = GlobalSettings()
     
-    // Tab selected in main tab view
+    // MARK: Main
+    
     var mainTabSelected = 0
     @Published var inSimulationMode: Bool = true
 
@@ -21,10 +22,10 @@ class MainAppModel: ObservableObject {
     let calendar = Calendar.current
     
     @Published var allCompletedSessions: [CompletedSession] = []
-    @Published var selectedSession: CompletedSession? // TODO: may not want this later on
+    @Published var selectedSession: CompletedSession? // For selecting into Drill Card View
     @Published var showCalendar = false
     @Published var showDrillResults = false
-    @Published var streakIncrease: Int = 0
+    @Published var currentStreak: Int = 0
     @Published var highestStreak: Int = 0
     
     struct CompletedSession: Codable {

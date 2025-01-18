@@ -1,14 +1,14 @@
 //
-//  testCompSesView.swift
+//  ProgressionView.swift
 //  BravoBall
 //
-//  Created by Joshua Conklin on 1/11/25.
+//  Created by Joshua Conklin on 1/17/25.
 //
 
 import SwiftUI
 import RiveRuntime
 
-struct CompletedSessionView: View {
+struct ProgressionView: View {
     @ObservedObject var appModel: MainAppModel
 
     var body: some View {
@@ -53,7 +53,7 @@ struct CompletedSessionView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 80, height: 80)
-                Text("\(appModel.streakIncrease)")
+                Text("\(appModel.currentStreak)")
                     .font(.custom("Poppins-Bold", size: 70))
                     .padding(.trailing, 20)
                     .foregroundColor(.red)
@@ -102,14 +102,14 @@ struct CalendarViewTest: View {
                     // Increase or restart streak
                     if let session = appModel.getSessionForDate(simulatedDate) {
                         let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
-                        if score <= 0.35 {
-                            appModel.streakIncrease = 0
+                        if score == 0.0 {
+                            appModel.currentStreak = 0
                         } else {
-                            appModel.streakIncrease += 1
+                            appModel.currentStreak += 1
                         }
                     }
                     
-                    appModel.highestStreakSetter(streak: appModel.streakIncrease)
+                    appModel.highestStreakSetter(streak: appModel.currentStreak)
                     simulateChangeOfDay()
 
                     if isLastDayOfMonth(date: simulatedDate) {
@@ -197,7 +197,7 @@ struct CalendarViewTest: View {
                     
                     ForEach(1...days, id: \.self) { day in
 
-                        // Set dates for each day
+                        // Set dates for each displayed day
                         let fullDate = createFullDate(from: day)
 
                         WeekDisplayButton(
@@ -363,5 +363,5 @@ extension Calendar {
 
 #Preview {
     let mockAppModel = MainAppModel()
-    return CompletedSessionView(appModel: mockAppModel)
+    return ProgressionView(appModel: mockAppModel)
 }

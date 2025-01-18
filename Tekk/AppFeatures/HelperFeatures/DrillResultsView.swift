@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RiveRuntime
 
 
 struct DrillResultsView: View {
@@ -51,33 +52,47 @@ struct DrillResultsView: View {
                             .opacity(showScore ? 1 : 0)
                             .animation(.easeIn.delay(0.8), value: showScore)
                     }
+                    .padding()
                     .padding(.bottom, 70)
                     .onAppear {
                         showScore = true
                     }
                     
+                    Text("Drills:")
+                        .padding()
+                        .font(.custom("Poppins-Bold", size: 30))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    
 
                         ForEach(session.drills, id: \.name) { drill in
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Drill: \(drill.name)")
-                                    .font(.custom("Poppins-Bold", size: 16))
-                                Text("Skill: \(drill.skill)")
-                                    .font(.custom("Poppins-Regular", size: 14))
-                                HStack(spacing: 20) {
-                                    Text("Duration: \(drill.duration)min")
-                                    Text("Sets: \(drill.sets)")
-                                    Text("Reps: \(drill.reps)")
+                            ZStack {
+                                if drill.isCompleted {
+                                    RiveViewModel(fileName: "Drill_Card_Complete").view()
+                                        .frame(width: 330, height: 180)
+                                } else {
+                                    RiveViewModel(fileName: "Drill_Card_Incomplete").view()
+                                        .frame(width: 330, height: 180)
                                 }
-                                .font(.custom("Poppins-Regular", size: 14))
-                                Text("Equipment: \(drill.equipment.joined(separator: ", "))")
-                                    .font(.custom("Poppins-Regular", size: 14))
+                                
+                                VStack(alignment: .leading, spacing: 8) {
+                                        
+                                        Text("Drill: \(drill.name)")
+                                            .font(.custom("Poppins-Bold", size: 16))
+                                        Text("Skill: \(drill.skill)")
+                                            .font(.custom("Poppins-Regular", size: 14))
+                                        HStack(spacing: 20) {
+                                            Text("Duration: \(drill.duration)min")
+                                            Text("Sets: \(drill.sets)")
+                                            Text("Reps: \(drill.reps)")
+                                        }
+                                        .font(.custom("Poppins-Regular", size: 14))
+                                        Text("Equipment: \(drill.equipment.joined(separator: ", "))")
+                                            .font(.custom("Poppins-Regular", size: 14))
+                                }
+                                .padding()
                             }
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 2)
                         }
-                        .padding()
+                        .padding(.horizontal)
                 }
                 
                 Spacer()
