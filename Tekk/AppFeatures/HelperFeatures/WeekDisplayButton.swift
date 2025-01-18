@@ -41,7 +41,7 @@ struct WeekDisplayButton: View {
                             
                             Text(text)
                                 .font(.custom("Poppins-Bold", size: 30))
-                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
                         }
                     } else if score < 1 && score > 0.0 {
                         ZStack {
@@ -53,7 +53,7 @@ struct WeekDisplayButton: View {
                             
                             Text(text)
                                 .font(.custom("Poppins-Bold", size: 30))
-                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
                         }
                     } else {
                         ZStack {
@@ -65,7 +65,7 @@ struct WeekDisplayButton: View {
                             
                             Text(text)
                                 .font(.custom("Poppins-Bold", size: 30))
-                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
                         }
                     }
                 }
@@ -88,7 +88,7 @@ struct WeekDisplayButton: View {
                 } else {
                     Text(text)
                         .font(.custom("Poppins-Bold", size: 30))
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 }
             }
         }

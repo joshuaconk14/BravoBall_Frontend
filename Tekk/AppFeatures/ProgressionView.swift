@@ -24,16 +24,41 @@ struct ProgressionView: View {
 
                 // Streak display
                 streakDisplay
-                
-                Text("Highest Streak: \(appModel.highestStreak)")
-                    .font(.custom("Poppins-Bold", size: 16))
-
-                
-                Text("Total sessions: \(appModel.allCompletedSessions.count)")
-                    .font(.custom("Poppins-Bold", size: 16))
                     
+
                 // Calendar view
                 CalendarViewTest(appModel: appModel)
+                
+                
+                // History display
+                HStack {
+                    VStack {
+                        if appModel.highestStreak == 1 {
+                            Text("\(appModel.highestStreak)  day")
+                                .font(.custom("Poppins-Bold", size: 30))
+                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                        } else {
+                            Text("\(appModel.highestStreak)  days")
+                                .font(.custom("Poppins-Bold", size: 30))
+                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                        }
+                        Text("Highest Streak")
+                            .font(.custom("Poppins-Bold", size: 16))
+                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    }
+                    .padding()
+                    
+                    VStack {
+                        Text("\(appModel.allCompletedSessions.count)")
+                            .font(.custom("Poppins-Bold", size: 30))
+                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                        Text("Sessions completed")
+                            .font(.custom("Poppins-Bold", size: 16))
+                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    }
+                    .padding()
+                }
+
                         
 
             }
@@ -53,10 +78,17 @@ struct ProgressionView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 80, height: 80)
-                Text("\(appModel.currentStreak)")
-                    .font(.custom("Poppins-Bold", size: 70))
-                    .padding(.trailing, 20)
-                    .foregroundColor(.red)
+                if appModel.currentStreak == 0 {
+                    Text("\(appModel.currentStreak)")
+                        .font(.custom("Poppins-Bold", size: 70))
+                        .padding(.trailing, 20)
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                } else {
+                    Text("\(appModel.currentStreak)")
+                        .font(.custom("Poppins-Bold", size: 70))
+                        .padding(.trailing, 20)
+                        .foregroundColor(.red)
+                }
             }
         }
         .padding()
@@ -119,7 +151,9 @@ struct CalendarViewTest: View {
 
                 }) {
                     Text("Test")
-                        .foregroundColor(Color.blue)
+                        .foregroundColor(Color.black)
+                        .font(.custom("Poppins-Bold", size: 13))
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 10)
@@ -134,24 +168,28 @@ struct CalendarViewTest: View {
                 if appModel.showCalendar {
                     Text(monthYearString(from: selectedDate))
                         .font(.custom("Poppins-Bold", size: 22))
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 } else {
                     Text(monthYearString(from: simulatedDate))
                         .font(.custom("Poppins-Bold", size: 22))
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 }
 
                 if appModel.showCalendar {
                     // Left button
                     Button(action: { moveMonth(by: -1) }) {
                         Image(systemName: "chevron.left")
+                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
                     }
-                    .foregroundColor(isCurrentOrFutureMonth ? appModel.globalSettings.primaryDarkColor.opacity(0.5) : appModel.globalSettings.primaryDarkColor)
+                    .foregroundColor(isCurrentOrFutureMonth ? appModel.globalSettings.primaryGrayColor.opacity(0.5) : appModel.globalSettings.primaryGrayColor)
                     .disabled(isCurrentOrFutureMonth)
 
                     // Right button
                     Button(action: { moveMonth(by: 1) }) {
                         Image(systemName: "chevron.right")
+                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
                     }
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 }
                 
                 Spacer()
@@ -167,7 +205,7 @@ struct CalendarViewTest: View {
                             .font(.custom("Poppins-Bold", size: 15))
                         Image(systemName: appModel.showCalendar ? "chevron.up" : "chevron.down")
                     }
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 }
             }
             .padding()
@@ -178,6 +216,7 @@ struct CalendarViewTest: View {
                     Text(day)
                         .font(.custom("Poppins", size: 14))
                         .frame(maxWidth: .infinity)
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 }
             }
             .padding()

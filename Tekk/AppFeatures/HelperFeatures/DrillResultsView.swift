@@ -32,12 +32,12 @@ struct DrillResultsView: View {
                         .padding()
                         .padding(.top, 20)
                         .font(.custom("Poppins-Bold", size: 18))
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
 
                     Text("Score:")
                         .padding()
                         .font(.custom("Poppins-Bold", size: 30))
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                     
                     let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
                     
@@ -48,7 +48,7 @@ struct DrillResultsView: View {
                         Text("\(session.totalCompletedDrills) / \(session.totalDrills)")
                             .padding()
                             .font(.custom("Poppins-Bold", size: 40))
-                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
                             .opacity(showScore ? 1 : 0)
                             .animation(.easeIn.delay(0.8), value: showScore)
                     }
@@ -61,7 +61,7 @@ struct DrillResultsView: View {
                     Text("Drills:")
                         .padding()
                         .font(.custom("Poppins-Bold", size: 30))
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                     
 
                         ForEach(session.drills, id: \.name) { drill in
@@ -77,19 +77,18 @@ struct DrillResultsView: View {
                                 VStack(alignment: .leading, spacing: 8) {
                                         
                                         Text("Drill: \(drill.name)")
-                                            .font(.custom("Poppins-Bold", size: 16))
+                                            .font(.custom("Poppins-Bold", size: 18))
                                         Text("Skill: \(drill.skill)")
-                                            .font(.custom("Poppins-Regular", size: 14))
                                         HStack(spacing: 20) {
                                             Text("Duration: \(drill.duration)min")
                                             Text("Sets: \(drill.sets)")
                                             Text("Reps: \(drill.reps)")
                                         }
-                                        .font(.custom("Poppins-Regular", size: 14))
                                         Text("Equipment: \(drill.equipment.joined(separator: ", "))")
-                                            .font(.custom("Poppins-Regular", size: 14))
                                 }
                                 .padding()
+                                .font(.custom("Poppins-Regular", size: 14))
+                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
                             }
                         }
                         .padding(.horizontal)
@@ -107,7 +106,7 @@ struct DrillResultsView: View {
         }) {
             HStack {
                 Image(systemName: "xmark")
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
             }
         }
     }
