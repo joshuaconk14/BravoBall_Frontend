@@ -41,44 +41,48 @@ struct ProgressionView: View {
                         .padding(.bottom, 20)
                     
                     // White section content with rounded top corners
-                    VStack(spacing: 5) {
-                        CalendarViewTest(appModel: appModel)
+                    ZStack {
+                        RoundedCorner(radius: 30, corners: [.topLeft, .topRight])
+                            .fill(Color.white)
                         
-                        // History display
-                        HStack {
-                            VStack {
-                                if appModel.highestStreak == 1 {
-                                    Text("\(appModel.highestStreak)  day")
-                                        .font(.custom("Poppins-Bold", size: 30))
-                                        .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                } else {
-                                    Text("\(appModel.highestStreak)  days")
-                                        .font(.custom("Poppins-Bold", size: 30))
-                                        .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                }
-                                Text("Highest Streak")
-                                    .font(.custom("Poppins-Bold", size: 16))
-                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                            }
-                            .padding()
+                        VStack(spacing: 5) {
+                            CalendarViewTest(appModel: appModel)
                             
-                            VStack {
-                                Text("\(appModel.countOfFullyCompletedSessions)")
-                                    .font(.custom("Poppins-Bold", size: 30))
-                                    .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                Text("Sessions completed")
-                                    .font(.custom("Poppins-Bold", size: 16))
-                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                            // History display
+                            HStack {
+                                VStack {
+                                    if appModel.highestStreak == 1 {
+                                        Text("\(appModel.highestStreak)  day")
+                                            .font(.custom("Poppins-Bold", size: 30))
+                                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                                    } else {
+                                        Text("\(appModel.highestStreak)  days")
+                                            .font(.custom("Poppins-Bold", size: 30))
+                                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                                    }
+                                    Text("Highest Streak")
+                                        .font(.custom("Poppins-Bold", size: 16))
+                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                }
+                                .padding()
+                                
+                                VStack {
+                                    Text("\(appModel.countOfFullyCompletedSessions)")
+                                        .font(.custom("Poppins-Bold", size: 30))
+                                        .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                                    Text("Sessions completed")
+                                        .font(.custom("Poppins-Bold", size: 16))
+                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                }
+                                .padding()
                             }
-                            .padding()
                         }
+                        .padding(.horizontal)
+                        .padding(.bottom, 300)
                     }
-                    .padding(.horizontal)
-                    .background(Color.white)
-                    .cornerRadius(50, corners: [.topLeft, .topRight])
                 }
-            
-        }
+            }
+            .background(appModel.globalSettings.primaryYellowColor)
     }
 
     // Streak display at the top
@@ -115,8 +119,9 @@ struct CalendarViewTest: View {
     @ObservedObject var appModel: MainAppModel
     let calendar = Calendar.current
     
-    // placeholder date
-    @State private var selectedDate = Date()
+    // placeholder dates
+    @State private var firstDate = Date()
+    @State private var selectedDate = Date() // Used to move calendar month view
     // production
     @State private var currentDate: Date = Date()
     // testing purposes
@@ -128,12 +133,21 @@ struct CalendarViewTest: View {
 
             // Where we returns integers of specific date values called
             let days = calendar.daysInMonthTest(for: selectedDate)
-            let today = Date()
             let firstWeekday = calendar.firstWeekdayInMonthTest(for: selectedDate)
 
             // Determines if moveMonth button can move or not
+            // Selected date components
             let currentMonth = calendar.component(.month, from: selectedDate)
-            let isCurrentOrFutureMonth = calendar.component(.month, from: today) >= currentMonth
+            let currentYear = calendar.component(.year, from: selectedDate)
+            // Simulated date components
+            let simulatedMonth = calendar.component(.month, from: simulatedDate)
+            let simulatedYear = calendar.component(.year, from: simulatedDate)
+            // First date components
+            let firstDateMonth = calendar.component(.month, from: firstDate)
+            let firstDateYear = calendar.component(.year, from: firstDate)
+            // Determine which dates can be seen
+            let isCurrentMonth = simulatedMonth == currentMonth && simulatedYear == currentYear
+            let isPreviousMonth = currentMonth == firstDateMonth && currentYear == firstDateYear
             
             
             // Calendar header
@@ -176,8 +190,8 @@ struct CalendarViewTest: View {
                             Image(systemName: "chevron.left")
                                 .foregroundColor(appModel.globalSettings.primaryGrayColor)
                         }
-                        .foregroundColor(isCurrentOrFutureMonth ? appModel.globalSettings.primaryGrayColor.opacity(0.5) : appModel.globalSettings.primaryGrayColor)
-                        .disabled(isCurrentOrFutureMonth)
+                        .foregroundColor(isPreviousMonth ? appModel.globalSettings.primaryGrayColor.opacity(0.3) : appModel.globalSettings.primaryGrayColor)
+                        .disabled(isPreviousMonth)
                         
                         Spacer()
                         
@@ -190,8 +204,10 @@ struct CalendarViewTest: View {
                         // Right button
                         Button(action: { moveMonth(by: 1) }) {
                             Image(systemName: "chevron.right")
+                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
                         }
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                        .foregroundColor(isCurrentMonth ? appModel.globalSettings.primaryGrayColor.opacity(0.3) : appModel.globalSettings.primaryGrayColor)
+                        .disabled(isCurrentMonth)
                         
                         
                     } else {
@@ -272,8 +288,6 @@ struct CalendarViewTest: View {
             
         }
         .padding()
-//        .background(Color.white)
-        .cornerRadius(10)
     }
     
     // MARK: Test Button
@@ -288,7 +302,7 @@ struct CalendarViewTest: View {
                     // Increase or restart streak
                     if let session = appModel.getSessionForDate(simulatedDate) {
                         let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
-                        if score == 0.0 {
+                        if score < 1 {
                             appModel.currentStreak = 0
                         } else {
                             appModel.currentStreak += 1
