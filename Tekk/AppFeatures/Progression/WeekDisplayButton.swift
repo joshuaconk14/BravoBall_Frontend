@@ -39,26 +39,22 @@ struct WeekDisplayButton: View {
                         
                         if score == 1.0 {
                             // This will connect the streaks together
-                            Rectangle()
-                                .fill(appModel.globalSettings.primaryYellowColor)
-                                .frame(width: 60, height: 44)
-                                .offset(x: -30, y: 0)
                             Text(text)
-                                .font(.custom("Poppins-Bold", size: 30))
+                                .font(.custom("Poppins-Bold", size: 25))
                                 .foregroundColor(Color.white)
                                 .background(
                                     Circle()
                                         .fill(appModel.globalSettings.primaryYellowColor)
-                                        .frame(width: 44, height: 44)
+                                        .frame(width: 38, height: 38)
                                 )
                         } else {
                             Text(text)
-                                .font(.custom("Poppins-Bold", size: 30))
+                                .font(.custom("Poppins-Bold", size: 25))
                                 .foregroundColor(Color.white)
                                 .background(
                                     Circle()
                                         .fill(Color.red)
-                                        .frame(width: 44, height: 44)
+                                        .frame(width: 38, height: 38)
                                 )
                         }
                     }
@@ -72,16 +68,16 @@ struct WeekDisplayButton: View {
                 
                 if highlightedDay {
                     Text(text)
-                        .font(.custom("Poppins-Bold", size: 30))
+                        .font(.custom("Poppins-Bold", size: 25))
                         .foregroundColor(Color.white)
                         .background(
                             Circle()
                                 .fill(Color.gray)
-                                .frame(width: 44, height: 44)
+                                .frame(width: 38, height: 38)
                         )
                 } else {
                     Text(text)
-                        .font(.custom("Poppins-Bold", size: 30))
+                        .font(.custom("Poppins-Bold", size: 25))
                         .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 }
             }

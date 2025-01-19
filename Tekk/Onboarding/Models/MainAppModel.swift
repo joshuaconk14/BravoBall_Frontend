@@ -17,7 +17,7 @@ class MainAppModel: ObservableObject {
     // MARK: Main
 
     @Published var mainTabSelected = 0
-    @Published var inSimulationMode: Bool = false
+    @Published var inSimulationMode: Bool = true
 
     
     // MARK: Calendar
