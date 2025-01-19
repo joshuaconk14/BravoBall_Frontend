@@ -7,14 +7,17 @@
 // Contains other functions and variables within the main app
 
 import Foundation
+import UIKit
 
 class MainAppModel: ObservableObject {
     let globalSettings = GlobalSettings()
     
+
+    
     // MARK: Main
 
     @Published var mainTabSelected = 0
-    @Published var inSimulationMode: Bool = true
+    @Published var inSimulationMode: Bool = false
 
     
     // MARK: Calendar
@@ -128,5 +131,17 @@ class MainAppModel: ObservableObject {
         case logout
         case delete
         case none
+    }
+    
+    // Navigation bar configuration
+    func configureNavigationBarAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(globalSettings.primaryYellowColor)
+        
+        // Apply the appearance settings
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
 }

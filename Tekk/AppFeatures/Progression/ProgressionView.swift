@@ -10,94 +10,104 @@ import RiveRuntime
 
 struct ProgressionView: View {
     @ObservedObject var appModel: MainAppModel
+    
+    init(appModel: MainAppModel) {
+        self.appModel = appModel
+        appModel.configureNavigationBarAppearance()
+    }
 
     var body: some View {
-        content
-            .sheet(isPresented: $appModel.showDrillResults) {
-                DrillResultsView(appModel: appModel)
-            }
+        NavigationView {
+            content
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Text("Progress")
+                            .font(.custom("Poppins-Bold", size: 25))
+                            .foregroundColor(.white)
+                    }
+                }
+                .sheet(isPresented: $appModel.showDrillResults) {
+                    DrillResultsView(appModel: appModel)
+                }
+        }
     }
 
     var content: some View {
         ScrollView(showsIndicators: false) {
-            VStack(spacing: 5) {
-
-                
-                Text("Current Streak")
-                    .font(.custom("Poppins-Bold", size: 22))
-                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                    .padding(.horizontal)
-                    .padding(.top,30)
-
-                
-                // Streak display
-                streakDisplay
-                    
-
-                // Calendar view
-                CalendarViewTest(appModel: appModel)
-                
-                
-                // History display
-                HStack {
-                    VStack {
-                        if appModel.highestStreak == 1 {
-                            Text("\(appModel.highestStreak)  day")
-                                .font(.custom("Poppins-Bold", size: 30))
-                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                        } else {
-                            Text("\(appModel.highestStreak)  days")
-                                .font(.custom("Poppins-Bold", size: 30))
-                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                        }
-                        Text("Highest Streak")
-                            .font(.custom("Poppins-Bold", size: 16))
-                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                    }
-                    .padding()
-                    
-                    VStack {
-                        Text("\(appModel.countOfFullyCompletedSessions)")
-                            .font(.custom("Poppins-Bold", size: 30))
-                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                        Text("Sessions completed")
-                            .font(.custom("Poppins-Bold", size: 16))
-                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                    }
-                    .padding()
+            ZStack {
+                // Base background colors
+                VStack(spacing: 0) {
+                    Color(appModel.globalSettings.primaryYellowColor)
+                        .frame(height: 350)
+                    Color.white
                 }
-
+                .ignoresSafeArea()
+                
+                VStack(spacing: 5) {
+                    // Streak display
+                    streakDisplay
+                        .padding(.bottom, 30)
+                    
+                    // White background for calendar and stats
+                    VStack(spacing: 5) {
+                        // Calendar view
+                        CalendarViewTest(appModel: appModel)
                         
-
+                        // History display
+                        HStack {
+                            VStack {
+                                if appModel.highestStreak == 1 {
+                                    Text("\(appModel.highestStreak)  day")
+                                        .font(.custom("Poppins-Bold", size: 30))
+                                        .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                                } else {
+                                    Text("\(appModel.highestStreak)  days")
+                                        .font(.custom("Poppins-Bold", size: 30))
+                                        .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                                }
+                                Text("Highest Streak")
+                                    .font(.custom("Poppins-Bold", size: 16))
+                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                            }
+                            .padding()
+                            
+                            VStack {
+                                Text("\(appModel.countOfFullyCompletedSessions)")
+                                    .font(.custom("Poppins-Bold", size: 30))
+                                    .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                                Text("Sessions completed")
+                                    .font(.custom("Poppins-Bold", size: 16))
+                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                            }
+                            .padding()
+                        }
+                    }
+                    .padding(.horizontal)
+                    .background(Color.white)
+                    .cornerRadius(20, corners: [.topLeft, .topRight])
+                }
             }
-            .padding(.horizontal)
         }
     }
 
     // Streak display at the top
     private var streakDisplay: some View {
-        ZStack {
-            RiveViewModel(fileName: "Streak_Diamond").view()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal)
+        VStack {
             HStack {
                 Image("Streak_Flame")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 80, height: 80)
-                if appModel.currentStreak == 0 {
-                    Text("\(appModel.currentStreak)")
-                        .font(.custom("Poppins-Bold", size: 70))
-                        .padding(.trailing, 20)
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                } else {
-                    Text("\(appModel.currentStreak)")
-                        .font(.custom("Poppins-Bold", size: 70))
-                        .padding(.trailing, 20)
-                        .foregroundColor(.red)
-                }
+                Text("\(appModel.currentStreak)")
+                    .font(.custom("Poppins-Bold", size: 90))
+                    .padding(.trailing, 20)
+                    .foregroundColor(Color.white)
             }
+            Text("Day Streak")
+                .font(.custom("Poppins-Bold", size: 22))
+                .foregroundColor(Color.white)
+                .padding(.horizontal)
         }
         .padding()
     }
@@ -132,73 +142,12 @@ struct CalendarViewTest: View {
             let currentMonth = calendar.component(.month, from: selectedDate)
             let isCurrentOrFutureMonth = calendar.component(.month, from: today) >= currentMonth
             
-
-
-            if appModel.inSimulationMode {
-                // test button
-                Button(action: {
-                    addDrill(for: simulatedDate)
-                
-                    // Increase or restart streak
-                    if let session = appModel.getSessionForDate(simulatedDate) {
-                        let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
-                        if score == 0.0 {
-                            appModel.currentStreak = 0
-                        } else {
-                            appModel.currentStreak += 1
-                        }
-                    }
-                    
-                    appModel.highestStreakSetter(streak: appModel.currentStreak)
-                    simulateChangeOfDay()
-
-                    if isLastDayOfMonth(date: simulatedDate) {
-                        moveMonth(by: 1)
-                    }
-
-
-                }) {
-                    Text("Test")
-                        .foregroundColor(Color.black)
-                        .font(.custom("Poppins-Bold", size: 13))
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 10)
-            }
-
-
-
-
-            // Month and Year header
+            
+            // Calendar header
             HStack {
-                // Header
-                if appModel.showCalendar {
-                    Text(monthYearString(from: selectedDate))
-                        .font(.custom("Poppins-Bold", size: 22))
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                } else {
-                    Text(monthYearString(from: simulatedDate))
-                        .font(.custom("Poppins-Bold", size: 22))
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                }
-
-                if appModel.showCalendar {
-                    // Left button
-                    Button(action: { moveMonth(by: -1) }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                    }
-                    .foregroundColor(isCurrentOrFutureMonth ? appModel.globalSettings.primaryGrayColor.opacity(0.5) : appModel.globalSettings.primaryGrayColor)
-                    .disabled(isCurrentOrFutureMonth)
-
-                    // Right button
-                    Button(action: { moveMonth(by: 1) }) {
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                    }
+                Text("Streak Calendar")
+                    .font(.custom("Poppins-Bold", size: 22))
                     .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                }
                 
                 Spacer()
                 
@@ -216,10 +165,50 @@ struct CalendarViewTest: View {
                     .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 }
             }
+            .padding(.vertical, 5)
+            
+            if appModel.inSimulationMode {
+                testButton
+            }
+
+            // Month and Year header
+            HStack {
+                // Header
+                if appModel.showCalendar {
+                    // Left button
+                    Button(action: { moveMonth(by: -1) }) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    }
+                    .foregroundColor(isCurrentOrFutureMonth ? appModel.globalSettings.primaryGrayColor.opacity(0.5) : appModel.globalSettings.primaryGrayColor)
+                    .disabled(isCurrentOrFutureMonth)
+                    
+                    Spacer()
+                    
+                    Text(monthYearString(from: selectedDate))
+                        .font(.custom("Poppins-Bold", size: 22))
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    
+                    Spacer()
+                    
+                    // Right button
+                    Button(action: { moveMonth(by: 1) }) {
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    }
+                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    
+                    
+                } else {
+                    Text(monthYearString(from: simulatedDate))
+                        .font(.custom("Poppins-Bold", size: 22))
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                }
+            }
             .padding()
 
             // Day of week headers
-            HStack {
+            HStack(spacing: 25) {
                 ForEach(["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"], id: \.self) { day in
                     Text(day)
                         .font(.custom("Poppins", size: 14))
@@ -227,7 +216,7 @@ struct CalendarViewTest: View {
                         .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 }
             }
-            .padding()
+            .padding(.horizontal, 8)
 
             // Calendar or week view
             if appModel.showCalendar {
@@ -280,6 +269,44 @@ struct CalendarViewTest: View {
         .padding()
 //        .background(Color.white)
         .cornerRadius(10)
+    }
+    
+    // MARK: Test Button
+    
+    private var testButton: some View {
+        Group {
+            if appModel.inSimulationMode {
+                // test button
+                Button(action: {
+                    addDrill(for: simulatedDate)
+                
+                    // Increase or restart streak
+                    if let session = appModel.getSessionForDate(simulatedDate) {
+                        let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
+                        if score == 0.0 {
+                            appModel.currentStreak = 0
+                        } else {
+                            appModel.currentStreak += 1
+                        }
+                    }
+                    
+                    appModel.highestStreakSetter(streak: appModel.currentStreak)
+                    simulateChangeOfDay()
+
+                    if isLastDayOfMonth(date: simulatedDate) {
+                        moveMonth(by: 1)
+                    }
+
+
+                }) {
+                    Text("Test")
+                        .foregroundColor(Color.black)
+                        .font(.custom("Poppins-Bold", size: 13))
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                }
+    //            .padding(.horizontal)
+            }
+        }
     }
 
 
@@ -394,6 +421,7 @@ struct CalendarViewTest: View {
 
 }
 
+// Extensions for calendar view
 extension Calendar {
     func daysInMonthTest(for date: Date) -> Int {
         return range(of: .day, in: .month, for: date)?.count ?? 0
@@ -406,7 +434,21 @@ extension Calendar {
     }
 }
 
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape(RoundedCorner(radius: radius, corners: corners))
+    }
+}
 
+struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
+}
 
 #Preview {
     let mockAppModel = MainAppModel()

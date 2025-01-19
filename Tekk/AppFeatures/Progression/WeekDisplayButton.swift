@@ -31,41 +31,35 @@ struct WeekDisplayButton: View {
                         appModel.selectedSession = session
                         appModel.showDrillResults = true
                 }) {
-                    if score == 1.0 {
-                        ZStack {
-                            // High score = green
-                            RiveViewModel(fileName: "Day_High_Score").view()
-                                .frame(width: 60, height: 60)
-                                .aspectRatio(contentMode: .fit)
-                                .clipped()
-                            
+                    ZStack {
+                        RiveViewModel(fileName: "Day_Null").view()
+                            .frame(width: 60, height: 60)
+                            .aspectRatio(contentMode: .fit)
+                            .clipped()
+                        
+                        if score == 1.0 {
+                            // This will connect the streaks together
+                            Rectangle()
+                                .fill(appModel.globalSettings.primaryYellowColor)
+                                .frame(width: 60, height: 44)
+                                .offset(x: -30, y: 0)
                             Text(text)
                                 .font(.custom("Poppins-Bold", size: 30))
-                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                        }
-                    } else if score < 1 && score > 0.0 {
-                        ZStack {
-                            // Medium score = yellow
-                            RiveViewModel(fileName: "Day_Medium_Score").view()
-                                .frame(width: 60, height: 60)
-                                .aspectRatio(contentMode: .fit)
-                                .clipped()
-                            
+                                .foregroundColor(Color.white)
+                                .background(
+                                    Circle()
+                                        .fill(appModel.globalSettings.primaryYellowColor)
+                                        .frame(width: 44, height: 44)
+                                )
+                        } else {
                             Text(text)
                                 .font(.custom("Poppins-Bold", size: 30))
-                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                        }
-                    } else {
-                        ZStack {
-                            // Low score = Red
-                            RiveViewModel(fileName: "Day_Low_Score").view()
-                                .frame(width: 60, height: 60)
-                                .aspectRatio(contentMode: .fit)
-                                .clipped()
-                            
-                            Text(text)
-                                .font(.custom("Poppins-Bold", size: 30))
-                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                .foregroundColor(Color.white)
+                                .background(
+                                    Circle()
+                                        .fill(Color.red)
+                                        .frame(width: 44, height: 44)
+                                )
                         }
                     }
                 }
@@ -83,7 +77,7 @@ struct WeekDisplayButton: View {
                         .background(
                             Circle()
                                 .fill(Color.gray)
-                                .frame(width: 42, height: 42)
+                                .frame(width: 44, height: 44)
                         )
                 } else {
                     Text(text)
@@ -117,7 +111,7 @@ struct WeekDisplayButton: View {
                 sets: 3,
                 reps: 10,
                 equipment: ["Ball", "Goal"],
-                isCompleted: false
+                isCompleted: true
             )
         ]
         
@@ -125,7 +119,7 @@ struct WeekDisplayButton: View {
         let mockSession = MainAppModel.CompletedSession(
             date: Date(),
             drills: mockDrills,
-            totalCompletedDrills: 1,  // One drill completed
+            totalCompletedDrills: 2,  // One drill completed
             totalDrills: 2           // Out of two total drills
         )
     
@@ -133,7 +127,7 @@ struct WeekDisplayButton: View {
         appModel: mockAppModel,
         text: "34",
         date: Date(),
-        highlightedDay: true,
+        highlightedDay: false,
         session: mockSession
     )
 }

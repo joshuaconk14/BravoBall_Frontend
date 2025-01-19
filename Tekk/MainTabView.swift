@@ -24,7 +24,7 @@ struct MainTabView: View {
             ProgressionView(appModel: appModel)
                 .tabItem {
                     Image(systemName: "checkmark.circle.fill")
-                    Text("Sessions")
+                    Text("Progress")
                 }
                 .tag(1)
             
