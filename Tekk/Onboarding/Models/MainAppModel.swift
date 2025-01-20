@@ -12,18 +12,18 @@ import UIKit
 class MainAppModel: ObservableObject {
     let globalSettings = GlobalSettings()
     
-
+    
     
     // MARK: Main
-
+    
     @Published var mainTabSelected = 0
     @Published var inSimulationMode: Bool = true
-
+    
     
     // MARK: Calendar
-
+    
     let calendar = Calendar.current
-
+    
     @Published var allCompletedSessions: [CompletedSession] = []
     @Published var selectedSession: CompletedSession? // For selecting into Drill Card View
     @Published var showCalendar = false
@@ -33,13 +33,13 @@ class MainAppModel: ObservableObject {
     @Published var countOfFullyCompletedSessions: Int = 0
     
     struct CompletedSession: Codable {
-        let date: Date  
+        let date: Date
         let drills: [DrillData]
         let totalCompletedDrills: Int
         let totalDrills: Int
     }
-
-    struct DrillData: Codable { 
+    
+    struct DrillData: Codable {
         let name: String
         let skill: String
         let duration: Int
@@ -48,8 +48,8 @@ class MainAppModel: ObservableObject {
         let equipment: [String]
         let isCompleted: Bool
     }
-
-
+    
+    
     
     // Adding completed session into allCompletedSessions array
     func addCompletedSession(date: Date, drills: [DrillData], totalCompletedDrills: Int, totalDrills: Int) {
@@ -65,14 +65,14 @@ class MainAppModel: ObservableObject {
         if totalCompletedDrills == totalDrills {
             countOfFullyCompletedSessions += 1
         }
-
+        
         // Function that will save to UserDefaults
         func saveCompletedSessions() {
             if let encoded = try? JSONEncoder().encode(allCompletedSessions) {
                 UserDefaults.standard.set(encoded, forKey: "completedSessions")
             }
         }
-
+        
         // Debugging
         print ("Session data received")
         print ("date: \(date)")
@@ -95,8 +95,8 @@ class MainAppModel: ObservableObject {
             calendar.isDate(session.date, inSameDayAs: date)
         }
     }
-
-
+    
+    
     // Save to UserDefaults
     func saveCompletedSessions() {
         if let encoded = try? JSONEncoder().encode(allCompletedSessions) {
@@ -107,7 +107,7 @@ class MainAppModel: ObservableObject {
     // Decode from UserDefaults
     func loadCompletedSessions() {
         if let data = UserDefaults.standard.data(forKey: "completedSessions"),
-            let decoded = try? JSONDecoder().decode([CompletedSession].self, from: data) {
+           let decoded = try? JSONDecoder().decode([CompletedSession].self, from: data) {
             allCompletedSessions = decoded
         }
     }
@@ -118,13 +118,13 @@ class MainAppModel: ObservableObject {
             highestStreak = streak
         }
     }
-
+    
     // MARK: App Settings
-
+    
     // Alert types for ProfileVIew logout and delete buttons
     @Published var showAlert = false
     @Published var alertType: AlertType = .none
-
+    
     
     // Case switches for ProfileVIew logout and delete buttons
     enum AlertType {

@@ -43,8 +43,11 @@ struct MainTabView: View {
                 .tag(3)
         }
         .accentColor(model.globalSettings.primaryYellowColor)
+        .background(Color.white)
         .onAppear {
             appModel.mainTabSelected = 0
+            UITabBar.appearance().backgroundColor = UIColor.white
+            UITabBar.appearance().unselectedItemTintColor = UIColor.gray
         }
     }
 }

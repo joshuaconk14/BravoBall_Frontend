@@ -43,4 +43,19 @@ class MainAppModel: ObservableObject {
     
     enum AlertType {
         case logout
-        case d
+        case delete
+        case none
+    }
+    
+    // Navigation bar configuration
+    func configureNavigationBarAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(globalSettings.primaryYellowColor)
+        
+        // Apply the appearance settings
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+} 

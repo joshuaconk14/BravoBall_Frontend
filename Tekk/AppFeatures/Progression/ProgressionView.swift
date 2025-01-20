@@ -94,7 +94,7 @@ struct ProgressionView: View {
                     Image("Streak_Flame")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 80, height: 80)
+                        .frame(width: 80, height: 90)
                     Text("\(appModel.currentStreak)")
                         .font(.custom("Poppins-Bold", size: 90))
                         .padding(.trailing, 20)
@@ -190,7 +190,7 @@ struct CalendarViewTest: View {
                             Image(systemName: "chevron.left")
                                 .foregroundColor(appModel.globalSettings.primaryGrayColor)
                         }
-                        .foregroundColor(isPreviousMonth ? appModel.globalSettings.primaryGrayColor.opacity(0.3) : appModel.globalSettings.primaryGrayColor)
+                        .opacity(isPreviousMonth ? 0.5 : 1.0)
                         .disabled(isPreviousMonth)
                         
                         Spacer()
@@ -206,7 +206,7 @@ struct CalendarViewTest: View {
                             Image(systemName: "chevron.right")
                                 .foregroundColor(appModel.globalSettings.primaryGrayColor)
                         }
-                        .foregroundColor(isCurrentMonth ? appModel.globalSettings.primaryGrayColor.opacity(0.3) : appModel.globalSettings.primaryGrayColor)
+                        .opacity(isCurrentMonth ? 0.5 : 1.0)
                         .disabled(isCurrentMonth)
                         
                         
@@ -346,7 +346,7 @@ struct CalendarViewTest: View {
             sets: 4,
             reps: 8,
             equipment: ["Ball, cones"],
-            isCompleted: Bool.random()
+            isCompleted: true
         )
         
         let addedTestDrillsTwo = MainAppModel.DrillData (
@@ -356,7 +356,7 @@ struct CalendarViewTest: View {
             sets: 3,
             reps: 20,
             equipment: ["Ball"],
-            isCompleted: Bool.random()
+            isCompleted: true
         )
         
         let addedTestDrillsThree = MainAppModel.DrillData (

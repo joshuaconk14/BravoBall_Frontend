@@ -38,7 +38,6 @@ struct WeekDisplayButton: View {
                             .clipped()
                         
                         if score == 1.0 {
-                            // This will connect the streaks together
                             Text(text)
                                 .font(.custom("Poppins-Bold", size: 25))
                                 .foregroundColor(Color.white)
