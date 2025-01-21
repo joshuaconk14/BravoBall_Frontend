@@ -61,7 +61,7 @@ struct DrillFollowAlongView: View {
                 // End Drill button at bottom
                 Button(action: endSession) {
                     Text("End Drill")
-                        .font(.custom("Poppins-SemiBold", size: 16))
+                        .font(.custom("Poppins-Bold", size: 16))
                         .foregroundColor(.white)
                         .frame(height: 44)
                         .frame(maxWidth: .infinity)

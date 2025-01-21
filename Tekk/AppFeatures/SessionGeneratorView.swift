@@ -30,154 +30,173 @@ struct SessionGeneratorView: View {
         case difficulty = "Difficulty"
     }
     
-    // MARK: Main view
+    // MARK: Nav bar addition
     var body: some View {
         NavigationView {
-                ZStack(alignment: .bottom) {
-                    ScrollView {
-                        VStack(spacing: 0) {
-                            // Top Bar with Controls
-                            HStack(spacing: 12) {
-                                
-                                Spacer()
-                                
-                                HStack {
-                                    Image("Streak_Flame")
-                                        .resizable()
-                                        .scaledToFit()
+            content
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        // Top Bar with Controls
+                        HStack(spacing: 12) {
+                            Spacer()
+                            
+                            HStack {
+                                Image("Streak_Flame")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                                Text("\(appModel.currentStreak)")
+                                    .font(.custom("Poppins-Bold", size: 30))
+                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            }
+                            
+                            Button(action: { /* More options */ }) {
+                                Image(systemName: "ellipsis")
+                                    .foregroundColor(.black)
+                                    .font(.system(size: 20, weight: .medium))
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal)
+                        .padding(.vertical, 8)
+                    }
+                }
+                .toolbarBackground(appModel.globalSettings.primaryLightestGrayColor, for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
+        }
+    }
+    
+    // MARK: Main view
+    var content: some View {
+        ZStack(alignment: .bottom) {
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 0) {
+                    // Prerequisites ScrollView
+                    if sessionModel.orderedDrills.isEmpty {
+                        HStack {
+                            RiveViewModel(fileName: "Bravo_Panting").view()
+                                .frame(width: 90, height: 90)
+                            Text("Choose your skill to improve today")
+                                .font(.custom("Poppins-Bold", size: 12))
+                        }
+                        .padding()
+                    }
+//                    } else {
+//                        HStack {
+//                            RiveViewModel(fileName: "Bravo_Panting").view()
+//                                .frame(width: 90, height: 90)
+//                            Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
+//                                .font(.custom("Poppins-Bold", size: 12))
+//                    }
+                        
+                        
+                    // Scrollview for the filters
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 12) {
+                            Button(action: { /* Close action */ }) {
+                                ZStack {
+                                    Circle()
+                                        .fill(appModel.globalSettings.primaryLightGrayColor)
                                         .frame(width: 30, height: 30)
-                                    Text("\(appModel.currentStreak)")
-                                        .font(.custom("Poppins-Bold", size: 30))
-                                        .padding(.trailing, 20)
-                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                }
-                                
-                                Button(action: { /* More options */ }) {
-                                    Image(systemName: "ellipsis")
-                                        .padding()
+                                        .offset(x: 0, y: 3)
+                                    Circle()
+                                        .fill(appModel.globalSettings.primaryLightestGrayColor)
+                                        .frame(width: 30, height: 30)
+                                        
+                                    Image(systemName: "xmark")
                                         .foregroundColor(.black)
-                                        .font(.system(size: 20, weight: .medium))
+                                        .font(.system(size: 16, weight: .medium))
                                 }
                             }
-                            .padding(.horizontal)
-                            .padding(.vertical, 8)
-                            .background(Color(hex: "#f0f0f0"))
-                            
-                            // Prerequisites ScrollView
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 12) {
-                                    Button(action: { /* Close action */ }) {
-                                        ZStack {
-                                            Circle()
-                                                .fill(appModel.globalSettings.primaryGrayColor)
-                                                .frame(width: 30, height: 30)
-                                                .offset(x: 0, y: 3)
-                                            Circle()
-                                                .fill(appModel.globalSettings.primaryLightGrayColor)
-                                                .frame(width: 30, height: 30)
-                                                
-                                            Image(systemName: "xmark")
-                                                .foregroundColor(.black)
-                                                .font(.system(size: 16, weight: .medium))
-                                        }
-                                    }
-                                    ForEach(PrerequisiteType.allCases, id: \.self) { type in
-                                        PrerequisiteButton(
-                                            appModel: appModel,
-                                            type: type,
-                                            isSelected: selectedPrerequisite == type,
-                                            value: prerequisiteValue(for: type)
-                                        ) {
-                                            if selectedPrerequisite == type {
-                                                selectedPrerequisite = nil
-                                                } else {
-                                                selectedPrerequisite = type
-                                            }
-                                        }
-                                    }
-                                }
-                                .padding()
-                            }
-                            .frame(height: 50)
-                            
-                            // Dropdown content if prerequisite is selected
-                            if let type = selectedPrerequisite {
-                                PrerequisiteDropdown(type: type, sessionModel: sessionModel) {
-                                    selectedPrerequisite = nil
-                                }
-                                .transition(.move(edge: .top))
-                            }
-                            
-                             // Skills for today view
-                            VStack(alignment: .leading, spacing: 12) {
-                                // Replace old skills section with new SkillSelectionView
-                                SkillSelectionView(sessionModel: sessionModel)
-                                    .padding(.horizontal)
-                                    .padding(.vertical, 8)
-                                    .background(Color.white)
-                                    .cornerRadius(15)
-
-                            
-                                    if !sessionModel.orderedDrills.isEmpty {
-                                        // Generated Drills Section
-                            VStack(alignment: .leading, spacing: 12) {
-                                HStack {
-                                                RiveViewModel(fileName: "Bravo_Panting").view()
-                                                    .frame(width: 60, height: 60)
-                                                
-                                                Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
-                                                    .font(.custom("Poppins-Bold", size: 16))
-                                            }
-                                            
-                                            ForEach(sessionModel.orderedDrills) { drill in
-                                                DrillCard(drill: drill)
-                                                    .draggable(drill.title) {
-                                                        DrillCard(drill: drill)
-                                                    }
-                                                    .dropDestination(for: String.self) { items, location in
-                                                        guard let sourceTitle = items.first,
-                                                              let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
-                                                              let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
-                                                            return false
-                                                        }
-                                                        
-                                                        withAnimation(.spring()) {
-                                                            let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
-                                                            sessionModel.orderedDrills.insert(drill, at: destinationIndex)
-                                                        }
-                                                        return true
+                            ForEach(PrerequisiteType.allCases, id: \.self) { type in
+                                PrerequisiteButton(
+                                    appModel: appModel,
+                                    type: type,
+                                    isSelected: selectedPrerequisite == type,
+                                    value: prerequisiteValue(for: type)
+                                ) {
+                                    if selectedPrerequisite == type {
+                                        selectedPrerequisite = nil
+                                        } else {
+                                        selectedPrerequisite = type
                                     }
                                 }
                             }
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(15)
-                                    }
-                                }
-                                .padding()
-                                .padding(.bottom, 80)
-                            }
+                        }
+                        .padding()
+                    }
+                    .frame(height: 50)
+                    
+                    // Dropdown content if prerequisite is selected
+                    if let type = selectedPrerequisite {
+                        PrerequisiteDropdown(appModel: appModel, type: type, sessionModel: sessionModel) {
+                            selectedPrerequisite = nil
+                        }
+                        .transition(.move(edge: .top))
                     }
                     
-                    if !sessionModel.orderedDrills.isEmpty {
-                                Button(action: {
-                            sessionModel.generateSession()
-                                }) {
-                                    ZStack {
-                                        RiveViewModel(fileName: "Golden_Button").view()
-                                            .frame(width: 330, height: 180)
+                     // Skills for today view
+                    VStack(alignment: .leading, spacing: 12) {
+                        // Replace old skills section with new SkillSelectionView
+                        SkillSelectionView(sessionModel: sessionModel)
+                            .padding(.horizontal)
+                            .padding(.vertical, 8)
+                            .background(Color.white)
+                            .cornerRadius(15)
+
+                    
+                            if !sessionModel.orderedDrills.isEmpty {
+                                // Generated Drills Section
+                                    VStack(alignment: .leading, spacing: 12) {
                                     
-                                        Text("Start Session")
-                                            .font(.custom("Poppins-Bold", size: 22))
-                                            .foregroundColor(.white)
-                                            .frame(maxWidth: .infinity)
-                                            .padding()
-                                            .padding(.bottom, 10)
+                                    ForEach(sessionModel.orderedDrills) { drill in
+                                        DrillCard(drill: drill)
+                                            .draggable(drill.title) {
+                                                DrillCard(drill: drill)
+                                            }
+                                            .dropDestination(for: String.self) { items, location in
+                                                guard let sourceTitle = items.first,
+                                                      let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
+                                                      let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
+                                                    return false
+                                                }
+                                                
+                                                withAnimation(.spring()) {
+                                                    let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
+                                                    sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                                                }
+                                                return true
+                                        }
                                     }
                                 }
-                                .padding(.horizontal)
-                                .padding(.bottom, 20)
-                }
+                                .padding()
+                                .background(Color.white)
+                                .cornerRadius(15)
+                            }
+                        }
+                        .padding()
+                        .padding(.bottom, 80)
+                    }
+            }
+            
+            if !sessionModel.orderedDrills.isEmpty {
+                        Button(action: {
+                    sessionModel.generateSession()
+                        }) {
+                            ZStack {
+                                RiveViewModel(fileName: "Golden_Button").view()
+                                    .frame(width: 330, height: 180)
+                            
+                                Text("Start Session")
+                                    .font(.custom("Poppins-Bold", size: 22))
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .padding(.bottom, 10)
+                            }
+                        }
+                        .padding(.horizontal)
             }
         }
     }
@@ -203,24 +222,19 @@ struct PrerequisiteButton: View {
     
     var body: some View {
         Button(action: action) {
-//            VStack(spacing: 4) {
-//                Text(type.rawValue)
-//                    .font(.custom("Poppins-Medium", size: 12))
-//                    .foregroundColor(.gray)
                 HStack {
                     Text(value.isEmpty ? "Select" : value)
-                        .font(.custom("Poppins-SemiBold", size: 14))
+                        .font(.custom("Poppins-Bold", size: 14))
                         .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     Image(systemName: "chevron.down")
-                        .font(.custom("Poppins-SemiBold", size: 12))
-//                }
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(isSelected ? Color.yellow : Color.gray.opacity(0.3), lineWidth: 1)
-            )
+                        .font(.custom("Poppins-Bold", size: 12))
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(isSelected ? Color.yellow : Color.gray.opacity(0.3), lineWidth: 2)
+                )
         }
         .foregroundColor(isSelected ? .yellow : .black)
     }
@@ -228,6 +242,7 @@ struct PrerequisiteButton: View {
 
 // MARK: Prereq dropdown
 struct PrerequisiteDropdown: View {
+    let appModel: MainAppModel
     let type: SessionGeneratorView.PrerequisiteType
     @ObservedObject var sessionModel: SessionGeneratorModel
     let dismiss: () -> Void
@@ -238,6 +253,7 @@ struct PrerequisiteDropdown: View {
                 Spacer()
                 Text(type.rawValue)
                     .font(.custom("Poppins-Bold", size: 16))
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
                 Spacer()
                 Button(action: dismiss) {
                     Image(systemName: "xmark")
@@ -254,8 +270,8 @@ struct PrerequisiteDropdown: View {
                         }) {
                             HStack {
                                 Text(option)
-                                    .font(.custom("Poppins-Regular", size: 14))
-                                    .foregroundColor(.black)
+                                    .font(.custom("Poppins-Bold", size: 14))
+                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
                                 Spacer()
                                 if isSelected(option) {
                                     Image(systemName: "checkmark")
@@ -329,7 +345,7 @@ struct SkillButton: View {
                 Image(systemName: "figure.soccer")
                     .font(.system(size: 14))
                 Text(title)
-                    .font(.custom("Poppins-Medium", size: 14))
+                    .font(.custom("Poppins-Bold", size: 14))
             }
             .padding()
             .frame(maxWidth: .infinity)
@@ -372,7 +388,7 @@ struct DrillCard: View {
                             Text(drill.title)
                             .font(.custom("Poppins-Bold", size: 16))
                             Text("\(drill.sets) sets - \(drill.reps) reps - \(drill.duration)")
-                            .font(.custom("Poppins-Regular", size: 14))
+                            .font(.custom("Poppins-Bold", size: 14))
                             .foregroundColor(.gray)
                     }
                 
@@ -612,27 +628,33 @@ struct SkillSelectionView: View {
                 Text("Skills for Today")
                     .font(.custom("Poppins-Bold", size: 20))
                 
+                
                 Button(action: { showingSkillSelector = true }) {
                     Image(systemName: "plus.circle.fill")
                         .font(.system(size: 24))
                         .foregroundColor(.yellow)
                 }
+                
+                Spacer()
+                
             }
             
-            // Horizontal scrolling selected skills
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
-                        if let category = SessionGeneratorView.skillCategories.first(where: { $0.subSkills.contains(skill) }) {
-                            CompactSkillButton(
-                                title: skill,
-                                icon: category.icon,
-                                isSelected: true
-                            ) { }
+            HStack {
+                // Horizontal scrolling selected skills
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
+                            if let category = SessionGeneratorView.skillCategories.first(where: { $0.subSkills.contains(skill) }) {
+                                CompactSkillButton(
+                                    title: skill,
+                                    icon: category.icon,
+                                    isSelected: true
+                                ) { }
+                            }
                         }
                     }
+                    .padding(.horizontal, 4)
                 }
-                .padding(.horizontal, 4)
             }
         }
         .sheet(isPresented: $showingSkillSelector) {
@@ -656,7 +678,7 @@ struct CompactSkillButton: View {
                     .foregroundColor(.white)
                 
                 Text(title)
-                    .font(.custom("Poppins-Medium", size: 12))
+                    .font(.custom("Poppins-Bold", size: 12))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
@@ -723,7 +745,7 @@ struct SkillSelectorSheet: View {
                                         }) {
                                             HStack {
                                                 Text(subSkill)
-                                                    .font(.custom("Poppins-Medium", size: 16))
+                                                    .font(.custom("Poppins-Bold", size: 16))
                                                 Spacer()
                                                 if selectedSkills.contains(subSkill) {
                                                     Image(systemName: "checkmark.circle.fill")
@@ -781,7 +803,7 @@ struct SkillCategoryButton: View {
                 
                 if hasSelectedSubSkills {
                     Text("Skills selected")
-                        .font(.custom("Poppins-Regular", size: 12))
+                        .font(.custom("Poppins-Bold", size: 12))
                         .foregroundColor(isSelected || hasSelectedSubSkills ? .white.opacity(0.9) : .gray)
                 }
             }
