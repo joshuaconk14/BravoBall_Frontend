@@ -73,16 +73,22 @@
 //                            Spacer()
 //                            RiveViewModel(fileName: "Bravo_Panting").view()
 //                                .frame(width: 90, height: 90)
-//                            if sessionModel.orderedDrills.isEmpty {
-//                                Text("Choose your skill to improve today")
-//                                    .font(.custom("Poppins-Bold", size: 12))
-//                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//                                Spacer()
-//                            } else {
-//                                Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
-//                                    .font(.custom("Poppins-Bold", size: 12))
-//                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//                                Spacer()
+//                            ZStack(alignment: .leading) {
+//                                RiveViewModel(fileName: "Message_Bubble").view()
+//
+//                                if sessionModel.orderedDrills.isEmpty {
+//                                    Text("Choose your skill to improve today")
+//                                        .font(.custom("Poppins-Bold", size: 12))
+//                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                        .padding(10)
+//                                        .frame(maxWidth: .infinity)
+//                                } else {
+//                                    Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
+//                                        .font(.custom("Poppins-Bold", size: 12))
+//                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                        .padding(10)
+//                                        .frame(maxWidth: .infinity)
+//                                }
 //                            }
 //                        }
 //                        .padding(.horizontal)
@@ -230,8 +236,6 @@
 //                        }
 //                        .padding()
 //                        .padding(.bottom, 80)
-//                        
-//                        
 //                    }
 //                    
 //                    if !sessionModel.orderedDrills.isEmpty {
@@ -240,7 +244,7 @@
 //                        }) {
 //                            ZStack {
 //                                RiveViewModel(fileName: "Golden_Button").view()
-//                                    .frame(width: 330, height: 180)
+//                                    .frame(width: 320, height: 80)
 //                                
 //                                Text("Start Session")
 //                                    .font(.custom("Poppins-Bold", size: 22))
@@ -349,8 +353,11 @@
 //        .padding()
 //        .background(Color.white)
 //        .cornerRadius(15)
-//        .shadow(radius: 5)
-//        .padding()
+//        .background(
+//            RoundedRectangle(cornerRadius: 8)
+//                .fill(Color.white)
+//                .stroke(Color.gray.opacity(0.3), lineWidth: 3)
+//        )
 //    }
 //    
 //    private var optionsForType: [String] {
@@ -785,84 +792,90 @@
 //    
 //    var body: some View {
 //        NavigationView {
-//            ScrollView {
-//                VStack(alignment: .leading, spacing: 16) {
-//                    ForEach(testSesGenView.skillCategories, id: \.name) { category in
-//                        VStack(alignment: .leading, spacing: 0) {
-//                            Button(action: {
-//                                withAnimation {
-//                                    if expandedCategory == category.name {
-//                                        expandedCategory = nil
-//                                    } else {
-//                                        expandedCategory = category.name
-//                                    }
-//                                }
-//                            }) {
-//                                HStack {
-//                                    Image(systemName: category.icon)
-//                                        .font(.system(size: 20))
-//                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//                                    Text(category.name)
-//                                        .font(.custom("Poppins-Bold", size: 18))
-//                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//                                    Spacer()
-//                                    Image(systemName: expandedCategory == category.name ? "chevron.up" : "chevron.down")
-//                                        .font(.system(size: 14))
-//                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//
-//                                }
-//                                .padding()
-//                                .background(
-//                                    RoundedRectangle(cornerRadius: 12)
-//                                        .fill(Color.white)
-//                                        .stroke(Color.gray.opacity(0.3), lineWidth: 4)
-//                                )
-//                            }
-//                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//                            
-//                            if expandedCategory == category.name {
-//                                VStack(spacing: 12) {
-//                                    ForEach(category.subSkills, id: \.self) { subSkill in
-//                                        Button(action: {
-//                                            if selectedSkills.contains(subSkill) {
-//                                                selectedSkills.remove(subSkill)
-//                                            } else {
-//                                                selectedSkills.insert(subSkill)
-//                                            }
-//                                        }) {
-//                                            HStack {
-//                                                Text(subSkill)
-//                                                    .font(.custom("Poppins-Medium", size: 16))
-//                                                Spacer()
-//                                                if selectedSkills.contains(subSkill) {
-//                                                    Image(systemName: "checkmark.circle.fill")
-//                                                        .foregroundColor(appModel.globalSettings.primaryYellowColor)
-//                                                }
-//                                            }
-//                                            .padding(.horizontal)
-//                                            .padding(.vertical, 8)
-//                                        }
-//                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)                                    }
-//                                }
-//                                .padding(.vertical)
-//                                .background(Color.gray.opacity(0.05))
-//                                .cornerRadius(12)
-//                            }
-//                        }
-//                        .background(Color.white)
-//                        .cornerRadius(12)
-//                        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
-//                    }
-//                }
-//                .padding()
-//            }
-//            .navigationTitle("Select Skills")
-//            .navigationBarTitleDisplayMode(.inline)
-//            .toolbar {
-//                ToolbarItem(placement: .navigationBarTrailing) {
+//            VStack {
+//                HStack {
+//                    Spacer()
+//                    Text("Select Skills")
+//                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                        .font(.custom("Poppins-Bold", size: 16))
+//                        .padding(.leading, 70)
+//                    Spacer()
 //                    Button("Done") {
 //                        dismiss()
 //                    }
+//                    .padding()
+//                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                    .font(.custom("Poppins-Bold", size: 16))
+//                }
+//                ScrollView {
+//                    VStack(alignment: .leading, spacing: 16) {
+//                        ForEach(testSesGenView.skillCategories, id: \.name) { category in
+//                            VStack(alignment: .leading, spacing: 0) {
+//                                Button(action: {
+//                                    withAnimation {
+//                                        if expandedCategory == category.name {
+//                                            expandedCategory = nil
+//                                        } else {
+//                                            expandedCategory = category.name
+//                                        }
+//                                    }
+//                                }) {
+//                                    HStack {
+//                                        Image(systemName: category.icon)
+//                                            .font(.system(size: 20))
+//                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                        Text(category.name)
+//                                            .font(.custom("Poppins-Bold", size: 18))
+//                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                        Spacer()
+//                                        Image(systemName: expandedCategory == category.name ? "chevron.up" : "chevron.down")
+//                                            .font(.system(size: 14))
+//                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//
+//                                    }
+//                                    .padding()
+//                                    .background(
+//                                        RoundedRectangle(cornerRadius: 12)
+//                                            .fill(Color.white)
+//                                            .stroke(Color.gray.opacity(0.3), lineWidth: 4)
+//                                    )
+//                                }
+//                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                
+//                                if expandedCategory == category.name {
+//                                    VStack(spacing: 12) {
+//                                        ForEach(category.subSkills, id: \.self) { subSkill in
+//                                            Button(action: {
+//                                                if selectedSkills.contains(subSkill) {
+//                                                    selectedSkills.remove(subSkill)
+//                                                } else {
+//                                                    selectedSkills.insert(subSkill)
+//                                                }
+//                                            }) {
+//                                                HStack {
+//                                                    Text(subSkill)
+//                                                        .font(.custom("Poppins-Medium", size: 16))
+//                                                    Spacer()
+//                                                    if selectedSkills.contains(subSkill) {
+//                                                        Image(systemName: "checkmark.circle.fill")
+//                                                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
+//                                                    }
+//                                                }
+//                                                .padding(.horizontal)
+//                                                .padding(.vertical, 8)
+//                                            }
+//                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)                                    }
+//                                    }
+//                                    .padding(.vertical)
+//                                    .background(Color.gray.opacity(0.05))
+//                                    .cornerRadius(12)
+//                                }
+//                            }
+//                            .background(Color.white)
+//                            .cornerRadius(12)
+//                        }
+//                    }
+//                    .padding()
 //                }
 //            }
 //        }

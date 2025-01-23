@@ -18,8 +18,6 @@
 		17595A9F2D3B3B320015F35D /* ProgressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17595A9E2D3B3B2C0015F35D /* ProgressionView.swift */; };
 		17595AA12D3B3B520015F35D /* DrillResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17595AA02D3B3B4E0015F35D /* DrillResultsView.swift */; };
 		17595AA32D3B3B610015F35D /* WeekDisplayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17595AA22D3B3B5B0015F35D /* WeekDisplayButton.swift */; };
-		17595AA72D3B44990015F35D /* Day_Low_Score.riv in Resources */ = {isa = PBXBuildFile; fileRef = 17595AA62D3B44990015F35D /* Day_Low_Score.riv */; };
-		17595AA92D3B44E80015F35D /* Day_Medium_Score.riv in Resources */ = {isa = PBXBuildFile; fileRef = 17595AA82D3B44E80015F35D /* Day_Medium_Score.riv */; };
 		17595AAD2D3B44FE0015F35D /* Drill_Card_Complete.riv in Resources */ = {isa = PBXBuildFile; fileRef = 17595AAC2D3B44FE0015F35D /* Drill_Card_Complete.riv */; };
 		178208D22D2D14D200246494 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208D12D2D14D200246494 /* MainTabView.swift */; };
 		178208E02D2DEB9C00246494 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208DF2D2DEB9C00246494 /* OnboardingModel.swift */; };
@@ -38,8 +36,6 @@
 		430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */; };
 		430FD6CD2D30648A0016D520 /* MainAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FD6CC2D3064850016D520 /* MainAppModel.swift */; };
 		430FD6D32D307AEC0016D520 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 430FD6D22D307AEC0016D520 /* SwiftKeychainWrapper */; };
-		430FD7092D32674C0016D520 /* Streak_Diamond.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD7082D32674C0016D520 /* Streak_Diamond.riv */; };
-		430FD71D2D3347DD0016D520 /* Day_High_Score.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71C2D3347DD0016D520 /* Day_High_Score.riv */; };
 		430FD71F2D334CAF0016D520 /* Day_Null.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71E2D334CAF0016D520 /* Day_Null.riv */; };
 		435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 435A70142CA7AB2600BFCC40 /* RiveRuntime */; };
 		43985E472CB4EFA200BE2AB6 /* BravoBall_Intro.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */; };
@@ -53,6 +49,7 @@
 		43BFA9F42D40AB8A00B12A6F /* Paw_Gray.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9F32D40AB8A00B12A6F /* Paw_Gray.riv */; };
 		43BFA9F62D40ABB600B12A6F /* Paw_Yellow.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9F52D40ABB600B12A6F /* Paw_Yellow.riv */; };
 		43BFA9FE2D41D37100B12A6F /* testSesGenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BFA9FD2D41D36C00B12A6F /* testSesGenView.swift */; };
+		43BFAA0A2D4221EA00B12A6F /* Message_Bubble.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA092D4221EA00B12A6F /* Message_Bubble.riv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,8 +85,6 @@
 		17595A9E2D3B3B2C0015F35D /* ProgressionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionView.swift; sourceTree = "<group>"; };
 		17595AA02D3B3B4E0015F35D /* DrillResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillResultsView.swift; sourceTree = "<group>"; };
 		17595AA22D3B3B5B0015F35D /* WeekDisplayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDisplayButton.swift; sourceTree = "<group>"; };
-		17595AA62D3B44990015F35D /* Day_Low_Score.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Low_Score.riv; sourceTree = "<group>"; };
-		17595AA82D3B44E80015F35D /* Day_Medium_Score.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Medium_Score.riv; sourceTree = "<group>"; };
 		17595AAC2D3B44FE0015F35D /* Drill_Card_Complete.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drill_Card_Complete.riv; sourceTree = "<group>"; };
 		178208D12D2D14D200246494 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		178208DF2D2DEB9C00246494 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
@@ -108,8 +103,6 @@
 		17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
 		430FD6B92D2E8C860016D520 /* OnboardingRegisterForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRegisterForm.swift; sourceTree = "<group>"; };
 		430FD6CC2D3064850016D520 /* MainAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppModel.swift; sourceTree = "<group>"; };
-		430FD7082D32674C0016D520 /* Streak_Diamond.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Streak_Diamond.riv; sourceTree = "<group>"; };
-		430FD71C2D3347DD0016D520 /* Day_High_Score.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_High_Score.riv; sourceTree = "<group>"; };
 		430FD71E2D334CAF0016D520 /* Day_Null.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Null.riv; sourceTree = "<group>"; };
 		43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = BravoBall_Intro.riv; sourceTree = "<group>"; };
 		43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
@@ -122,6 +115,7 @@
 		43BFA9F32D40AB8A00B12A6F /* Paw_Gray.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Paw_Gray.riv; sourceTree = "<group>"; };
 		43BFA9F52D40ABB600B12A6F /* Paw_Yellow.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Paw_Yellow.riv; sourceTree = "<group>"; };
 		43BFA9FD2D41D36C00B12A6F /* testSesGenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testSesGenView.swift; sourceTree = "<group>"; };
+		43BFAA092D4221EA00B12A6F /* Message_Bubble.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Message_Bubble.riv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -301,16 +295,13 @@
 				43BFA9E72D408B8100B12A6F /* Arrow.riv */,
 				43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */,
 				43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */,
-				430FD7082D32674C0016D520 /* Streak_Diamond.riv */,
 				17595AAC2D3B44FE0015F35D /* Drill_Card_Complete.riv */,
-				17595AA82D3B44E80015F35D /* Day_Medium_Score.riv */,
-				17595AA62D3B44990015F35D /* Day_Low_Score.riv */,
-				430FD71C2D3347DD0016D520 /* Day_High_Score.riv */,
 				430FD71E2D334CAF0016D520 /* Day_Null.riv */,
 				43BFA9D52D3F38B300B12A6F /* Golden_Button.riv */,
 				43BFA9E52D40885000B12A6F /* Plus_Button.riv */,
 				43BFA9E92D40964700B12A6F /* Drill_Card_Incomplete.riv */,
 				43BFA9F52D40ABB600B12A6F /* Paw_Yellow.riv */,
+				43BFAA092D4221EA00B12A6F /* Message_Bubble.riv */,
 			);
 			path = RiveAssets;
 			sourceTree = "<group>";
@@ -434,23 +425,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17595AA92D3B44E80015F35D /* Day_Medium_Score.riv in Resources */,
 				43BFA9F42D40AB8A00B12A6F /* Paw_Gray.riv in Resources */,
 				17595AAD2D3B44FE0015F35D /* Drill_Card_Complete.riv in Resources */,
 				43BFA9E82D408B8100B12A6F /* Arrow.riv in Resources */,
 				43BFA9F62D40ABB600B12A6F /* Paw_Yellow.riv in Resources */,
 				174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */,
 				1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */,
-				17595AA72D3B44990015F35D /* Day_Low_Score.riv in Resources */,
-				430FD71D2D3347DD0016D520 /* Day_High_Score.riv in Resources */,
 				43BFA9EA2D40964700B12A6F /* Drill_Card_Incomplete.riv in Resources */,
-				430FD7092D32674C0016D520 /* Streak_Diamond.riv in Resources */,
 				43BFA9D62D3F38B300B12A6F /* Golden_Button.riv in Resources */,
 				43BFA9E62D40885000B12A6F /* Plus_Button.riv in Resources */,
 				43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */,
 				43985E5A2CB5B0BB00BE2AB6 /* Bravo_Panting.riv in Resources */,
 				43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */,
 				43985E472CB4EFA200BE2AB6 /* BravoBall_Intro.riv in Resources */,
+				43BFAA0A2D4221EA00B12A6F /* Message_Bubble.riv in Resources */,
 				430FD71F2D334CAF0016D520 /* Day_Null.riv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
