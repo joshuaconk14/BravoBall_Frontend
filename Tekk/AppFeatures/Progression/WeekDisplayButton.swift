@@ -38,23 +38,21 @@ struct WeekDisplayButton: View {
                             .clipped()
                         
                         if score == 1.0 {
-                            Text(text)
-                                .font(.custom("Poppins-Bold", size: 25))
-                                .foregroundColor(Color.white)
-                                .background(
-                                    Circle()
-                                        .fill(appModel.globalSettings.primaryYellowColor)
-                                        .frame(width: 38, height: 38)
-                                )
+                            ZStack {
+                                RiveViewModel(fileName: "Paw_Yellow").view()
+                                    .frame(width: 40, height: 40)
+                                Text(text)
+                                    .font(.custom("Poppins-Bold", size: 22))
+                                    .foregroundColor(Color.white)
+                            }
                         } else {
-                            Text(text)
-                                .font(.custom("Poppins-Bold", size: 25))
-                                .foregroundColor(Color.white)
-                                .background(
-                                    Circle()
-                                        .fill(Color.red)
-                                        .frame(width: 38, height: 38)
-                                )
+                            ZStack {
+                                RiveViewModel(fileName: "Paw_Gray").view()
+                                    .frame(width: 40, height: 40)
+                                Text(text)
+                                    .font(.custom("Poppins-Bold", size: 22))
+                                    .foregroundColor(Color.white)
+                            }
                         }
                     }
                 }
@@ -67,11 +65,11 @@ struct WeekDisplayButton: View {
                 
                 if highlightedDay {
                     Text(text)
-                        .font(.custom("Poppins-Bold", size: 25))
+                        .font(.custom("Poppins-Bold", size: 22))
                         .foregroundColor(Color.white)
                         .background(
                             Circle()
-                                .fill(Color.gray)
+                                .fill(Color.blue)
                                 .frame(width: 38, height: 38)
                         )
                 } else {

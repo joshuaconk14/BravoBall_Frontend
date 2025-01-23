@@ -50,6 +50,9 @@
 		43BFA9E62D40885000B12A6F /* Plus_Button.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9E52D40885000B12A6F /* Plus_Button.riv */; };
 		43BFA9E82D408B8100B12A6F /* Arrow.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9E72D408B8100B12A6F /* Arrow.riv */; };
 		43BFA9EA2D40964700B12A6F /* Drill_Card_Incomplete.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9E92D40964700B12A6F /* Drill_Card_Incomplete.riv */; };
+		43BFA9F42D40AB8A00B12A6F /* Paw_Gray.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9F32D40AB8A00B12A6F /* Paw_Gray.riv */; };
+		43BFA9F62D40ABB600B12A6F /* Paw_Yellow.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9F52D40ABB600B12A6F /* Paw_Yellow.riv */; };
+		43BFA9FE2D41D37100B12A6F /* testSesGenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BFA9FD2D41D36C00B12A6F /* testSesGenView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +119,9 @@
 		43BFA9E52D40885000B12A6F /* Plus_Button.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Plus_Button.riv; sourceTree = "<group>"; };
 		43BFA9E72D408B8100B12A6F /* Arrow.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Arrow.riv; sourceTree = "<group>"; };
 		43BFA9E92D40964700B12A6F /* Drill_Card_Incomplete.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drill_Card_Incomplete.riv; sourceTree = "<group>"; };
+		43BFA9F32D40AB8A00B12A6F /* Paw_Gray.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Paw_Gray.riv; sourceTree = "<group>"; };
+		43BFA9F52D40ABB600B12A6F /* Paw_Yellow.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Paw_Yellow.riv; sourceTree = "<group>"; };
+		43BFA9FD2D41D36C00B12A6F /* testSesGenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testSesGenView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -268,6 +274,7 @@
 		178208F52D2E05FE00246494 /* AppFeatures */ = {
 			isa = PBXGroup;
 			children = (
+				43BFAA042D4200A500B12A6F /* tests */,
 				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
 				174C676F2D34EB11003D02EF /* DrillDetailView.swift */,
 				174C676D2D34E9EA003D02EF /* SessionGeneratorView.swift */,
@@ -290,6 +297,7 @@
 		439A72632C9FA55700B4C5AD /* RiveAssets */ = {
 			isa = PBXGroup;
 			children = (
+				43BFA9F32D40AB8A00B12A6F /* Paw_Gray.riv */,
 				43BFA9E72D408B8100B12A6F /* Arrow.riv */,
 				43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */,
 				43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */,
@@ -302,8 +310,17 @@
 				43BFA9D52D3F38B300B12A6F /* Golden_Button.riv */,
 				43BFA9E52D40885000B12A6F /* Plus_Button.riv */,
 				43BFA9E92D40964700B12A6F /* Drill_Card_Incomplete.riv */,
+				43BFA9F52D40ABB600B12A6F /* Paw_Yellow.riv */,
 			);
 			path = RiveAssets;
+			sourceTree = "<group>";
+		};
+		43BFAA042D4200A500B12A6F /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				43BFA9FD2D41D36C00B12A6F /* testSesGenView.swift */,
+			);
+			path = tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -418,8 +435,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				17595AA92D3B44E80015F35D /* Day_Medium_Score.riv in Resources */,
+				43BFA9F42D40AB8A00B12A6F /* Paw_Gray.riv in Resources */,
 				17595AAD2D3B44FE0015F35D /* Drill_Card_Complete.riv in Resources */,
 				43BFA9E82D408B8100B12A6F /* Arrow.riv in Resources */,
+				43BFA9F62D40ABB600B12A6F /* Paw_Yellow.riv in Resources */,
 				174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */,
 				1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */,
 				17595AA72D3B44990015F35D /* Day_Low_Score.riv in Resources */,
@@ -468,6 +487,7 @@
 				430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
 				178208E02D2DEB9C00246494 /* OnboardingModel.swift in Sources */,
+				43BFA9FE2D41D37100B12A6F /* testSesGenView.swift in Sources */,
 				17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
 				1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */,
