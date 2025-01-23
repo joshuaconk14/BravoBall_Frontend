@@ -98,16 +98,17 @@
 //                                    ZStack {
 //                                        Circle()
 //                                            .fill(appModel.globalSettings.primaryLightGrayColor)
-//                                            .frame(width: 30, height: 30)
+//                                            .frame(width: 40, height: 40)
 //                                            .offset(x: 0, y: 3)
 //                                        Circle()
 //                                            .fill(Color.white)
-//                                            .frame(width: 30, height: 30)
+//                                            .frame(width: 40, height: 40)
 //                                        
-//                                        Image(systemName: "xmark")
-//                                            .foregroundColor(.black)
+//                                        Image(systemName: "heart")
+//                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
 //                                            .font(.system(size: 16, weight: .medium))
 //                                    }
+//                                    .padding()
 //                                }
 //                                
 //                                // All prereqs
@@ -124,12 +125,15 @@
 //                                            selectedPrerequisite = type
 //                                        }
 //                                    }
+//                                    .padding(.vertical)
 //                                }
+//                               
 //                            }
 //                            .padding(.horizontal)
 //                        }
 //                        .frame(height: 50)
 //                        
+//
 //                        // Dropdown content if prerequisite is selected
 //                        if let type = selectedPrerequisite {
 //                            PrerequisiteDropdown(
@@ -139,8 +143,8 @@
 //                            ){
 //                                selectedPrerequisite = nil
 //                            }
-//                            .transition(.move(edge: .top))
 //                        }
+//                       
 //                        
 //                        // Skills for today view
 //                        VStack(alignment: .leading, spacing: 12) {
@@ -152,29 +156,45 @@
 //                                .cornerRadius(15)
 //                            
 //                            // Generated Drills Section
-//                            VStack(alignment: .leading, spacing: 12) {
+//                            VStack(alignment: .center, spacing: 12) {
 //                                
 //                                HStack {
 //                                    Rectangle()
 //                                        .fill(appModel.globalSettings.primaryLightGrayColor)
 //                                        .frame(width:120, height: 2)
 //                                    
+//                                    Spacer()
+//                                    
 //                                    if sessionModel.orderedDrills.isEmpty {
 //                                        Text("Session")
 //                                            .font(.custom("Poppins-Bold", size: 20))
 //                                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+//                                    
 //                                    } else {
 //                                        Text("Session")
 //                                            .font(.custom("Poppins-Bold", size: 20))
 //                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
 //                                    }
 //                                    
+//                                    Spacer()
+//                                    
 //                                    Rectangle()
 //                                        .fill(appModel.globalSettings.primaryLightGrayColor)
 //                                        .frame(width:120, height: 2)
 //                                }
 //                                
-//                                if !sessionModel.orderedDrills.isEmpty {
+//                                if sessionModel.orderedDrills.isEmpty {
+//                                    Spacer()
+//                                    HStack {
+//                                        Image(systemName: "lock.fill")
+//                                            .frame(width: 50, height: 50)
+//                                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+//                                        Text("Choose a skill to create your session")
+//                                            .font(.custom("Poppins-Bold", size: 12))
+//                                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+//                                    }
+//                                    .padding(.horizontal, 30)
+//                                } else {
 //                                
 //                                ForEach(sessionModel.orderedDrills) { drill in
 //                                    DrillCard(
@@ -695,23 +715,23 @@
 //                    RiveViewModel(fileName: "Arrow").view()
 //                        .frame(width: 40, height: 40)
 //                }
-//            }
-//            
-//            // Horizontal scrolling selected skills
-//            ScrollView(.horizontal, showsIndicators: false) {
-//                HStack(spacing: 8) {
-//                    ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
-//                        if let category = testSesGenView.skillCategories.first(where: { $0.subSkills.contains(skill) }) {
-//                            CompactSkillButton(
-//                                appModel: appModel,
-//                                title: skill,
-//                                icon: category.icon,
-//                                isSelected: true
-//                            ) { }
+//                // Horizontal scrolling selected skills
+//                ScrollView(.horizontal, showsIndicators: false) {
+//                    HStack(spacing: 8) {
+//                        ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
+//                            if let category = testSesGenView.skillCategories.first(where: { $0.subSkills.contains(skill) }) {
+//                                CompactSkillButton(
+//                                    appModel: appModel,
+//                                    title: skill,
+//                                    icon: category.icon,
+//                                    isSelected: true
+//                                ) { }
+//                            }
 //                        }
+//                        .padding()
 //                    }
+//                    .padding(.horizontal, 4)
 //                }
-//                .padding(.horizontal, 4)
 //            }
 //        }
 //        .sheet(isPresented: $showingSkillSelector) {

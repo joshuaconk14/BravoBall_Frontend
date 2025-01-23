@@ -15,76 +15,73 @@ struct ProgressionView: View {
         self.appModel = appModel
         appModel.configureNavigationBarAppearance()
     }
+    
 
+    
     var body: some View {
         NavigationView {
-            content
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        Text("Progress")
-                            .font(.custom("Poppins-Bold", size: 25))
-                            .foregroundColor(.white)
-                    }
-                }
-                .sheet(isPresented: $appModel.showDrillResults) {
-                    DrillResultsView(appModel: appModel)
-                }
-        }
-    }
-
-    var content: some View {
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 5) {
-                    // Yellow section content
-                    streakDisplay
-                        .padding(.bottom, 20)
-                    
-                    // White section content with rounded top corners
-                    ZStack {
-                        RoundedCorner(radius: 30, corners: [.topLeft, .topRight])
-                            .fill(Color.white)
+            VStack {
+                // Progress header
+                Text("Progress")
+                    .font(.custom("Poppins-Bold", size: 25))
+                    .foregroundColor(.white)
+                
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 5) {
+                        // Yellow section content
+                        streakDisplay
+                            .padding(.bottom, 20)
                         
-                        VStack(spacing: 5) {
-                            CalendarViewTest(appModel: appModel)
+                        // White section content with rounded top corners
+                        ZStack {
+                            RoundedCorner(radius: 30, corners: [.topLeft, .topRight])
+                                .fill(Color.white)
                             
-                            // History display
-                            HStack {
-                                VStack {
-                                    if appModel.highestStreak == 1 {
-                                        Text("\(appModel.highestStreak)  day")
-                                            .font(.custom("Poppins-Bold", size: 30))
-                                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                    } else {
-                                        Text("\(appModel.highestStreak)  days")
-                                            .font(.custom("Poppins-Bold", size: 30))
-                                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                    }
-                                    Text("Highest Streak")
-                                        .font(.custom("Poppins-Bold", size: 16))
-                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                                }
-                                .padding()
+                            VStack(spacing: 5) {
+                                CalendarViewTest(appModel: appModel)
                                 
-                                VStack {
-                                    Text("\(appModel.countOfFullyCompletedSessions)")
-                                        .font(.custom("Poppins-Bold", size: 30))
-                                        .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                    Text("Sessions completed")
-                                        .font(.custom("Poppins-Bold", size: 16))
-                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                // History display
+                                HStack {
+                                    VStack {
+                                        if appModel.highestStreak == 1 {
+                                            Text("\(appModel.highestStreak)  day")
+                                                .font(.custom("Poppins-Bold", size: 30))
+                                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                                        } else {
+                                            Text("\(appModel.highestStreak)  days")
+                                                .font(.custom("Poppins-Bold", size: 30))
+                                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                                        }
+                                        Text("Highest Streak")
+                                            .font(.custom("Poppins-Bold", size: 16))
+                                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                    }
+                                    .padding()
+                                    
+                                    VStack {
+                                        Text("\(appModel.countOfFullyCompletedSessions)")
+                                            .font(.custom("Poppins-Bold", size: 30))
+                                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                                        Text("Sessions completed")
+                                            .font(.custom("Poppins-Bold", size: 16))
+                                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                    }
+                                    .padding()
                                 }
-                                .padding()
                             }
+                            .padding(.horizontal)
+                            .padding(.bottom, 300)
                         }
-                        .padding(.horizontal)
-                        .padding(.bottom, 300)
                     }
                 }
             }
             .background(appModel.globalSettings.primaryYellowColor)
+        }
+        .sheet(isPresented: $appModel.showDrillResults) {
+            DrillResultsView(appModel: appModel)
+        }
     }
-
+        
     // Streak display at the top
     private var streakDisplay: some View {
         ZStack {
@@ -108,6 +105,7 @@ struct ProgressionView: View {
             .padding()
         }
     }
+
 
 }
 
