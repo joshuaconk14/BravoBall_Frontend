@@ -27,6 +27,7 @@ struct testSesGenView: View {
         self.appModel = appModel
         _sessionModel = StateObject(wrappedValue: SessionGeneratorModel(onboardingData: model.onboardingData))
     }
+
     
     enum PrerequisiteType: String, CaseIterable {
         case time = "Time"
@@ -34,6 +35,53 @@ struct testSesGenView: View {
         case trainingStyle = "Training Style"
         case location = "Location"
         case difficulty = "Difficulty"
+    }
+    
+    
+    enum PrerequisiteIcon {
+        case time
+        case equipment
+        case trainingStyle
+        case location
+        case difficulty
+        
+        
+        @ViewBuilder
+        var view: some View {
+            switch self {
+            case .time:
+                RiveViewModel(fileName: "Prereq_Time").view()
+                    .frame(width: 30, height: 30)
+            case .equipment:
+                RiveViewModel(fileName: "Prereq_Time").view()
+                    .frame(width: 30, height: 30)
+            case .trainingStyle:
+                RiveViewModel(fileName: "Prereq_Time").view()
+                    .frame(width: 30, height: 30)
+            case .location:
+                RiveViewModel(fileName: "Prereq_Time").view()
+                    .frame(width: 30, height: 30)
+            case .difficulty:
+                RiveViewModel(fileName: "Prereq_Time").view()
+                    .frame(width: 30, height: 30)
+            }
+        }
+    }
+    
+    // Function to map PrerequisiteType to PrerequisiteIcon
+    func icon(for type: PrerequisiteType) -> PrerequisiteIcon {
+        switch type {
+        case .time:
+            return .time
+        case .equipment:
+            return .equipment
+        case .trainingStyle:
+            return .trainingStyle
+        case .location:
+            return .location
+        case .difficulty:
+            return .difficulty
+        }
     }
     
     
@@ -80,13 +128,13 @@ struct testSesGenView: View {
                                 if sessionModel.orderedDrills.isEmpty {
                                     Text("Choose your skill to improve today")
                                         .font(.custom("Poppins-Bold", size: 12))
-                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
                                         .padding(10)
                                         .frame(maxWidth: 150)
                                 } else {
                                     Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
                                         .font(.custom("Poppins-Bold", size: 12))
-                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
                                         .padding(10)
                                         .frame(maxWidth: 150)
                                 }
@@ -125,6 +173,7 @@ struct testSesGenView: View {
                                     PrerequisiteButton(
                                         appModel: appModel,
                                         type: type,
+                                        icon: icon(for: type),
                                         isSelected: selectedPrerequisite == type,
                                         value: prerequisiteValue(for: type)
                                     ) {
@@ -281,6 +330,7 @@ struct testSesGenView: View {
 struct PrerequisiteButton: View {
     let appModel: MainAppModel
     let type: testSesGenView.PrerequisiteType
+    let icon: testSesGenView.PrerequisiteIcon
     let isSelected: Bool
     let value: String
     let action: () -> Void
@@ -288,18 +338,19 @@ struct PrerequisiteButton: View {
     var body: some View {
         Button(action: action) {
             HStack {
-                Text(value.isEmpty ? "Select" : value)
-                    .font(.custom("Poppins-Bold", size: 14))
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                Image(systemName: "chevron.down")
-                    .font(.custom("Poppins-Bold", size: 12))
+                icon.view
+//                Text(value.isEmpty ? "Select" : value)
+//                    .font(.custom("Poppins-Bold", size: 14))
+//                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                Image(systemName: "chevron.down")
+//                    .font(.custom("Poppins-Bold", size: 12))
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
             .background(
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.white)
-                    .stroke(isSelected ? appModel.globalSettings.primaryYellowColor : Color.gray.opacity(0.3), lineWidth: 2)
+                    .fill(appModel.globalSettings.primaryLightGrayColor)
+                    .stroke(isSelected ? Color.blue : Color.gray.opacity(0.3), lineWidth: 2)
             )
         }
         .foregroundColor(isSelected ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryDarkColor)
@@ -403,31 +454,60 @@ struct PrerequisiteDropdown: View {
     }
 }
 
-// MARK: Old Skill button
-struct SkillButton: View {
-    let title: String
-    let isSelected: Bool
-    let action: () -> Void
+// MARK: Compact Drill card
+struct CompactDrillCard: View {
+    let appModel: MainAppModel
+    let drill: DrillModel
+    @State private var showingDetail = false
     
     var body: some View {
-        Button(action: action) {
-            HStack {
-                Image(systemName: "figure.soccer")
-                    .font(.system(size: 14))
-                Text(title)
-                    .font(.custom("Poppins-Medium", size: 14))
+        Button(action: {
+            showingDetail = true
+        }) {
+            ZStack {
+                RiveViewModel(fileName: "Drill_Card_Incomplete").view()
+                    .frame(width: 320, height: 170)
+                HStack {
+                        // Drag handle
+                        Image(systemName: "line.3.horizontal")
+                            .padding()
+                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                            .font(.system(size: 14))
+                            .padding(.trailing, 8)
+                        
+                    Image(systemName: "figure.soccer")
+                            .font(.system(size: 24))
+                        .padding()
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
+                    
+                    VStack(alignment: .leading) {
+                            Text(drill.title)
+                                .font(.custom("Poppins-Bold", size: 16))
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            Text("\(drill.sets) sets - \(drill.reps) reps - \(drill.duration)")
+                            .font(.custom("Poppins-Bold", size: 14))
+                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    }
+                
+                Spacer()
+                
+                    Image(systemName: "chevron.right")
+                        .padding()
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                        .font(.system(size: 14, weight: .semibold))
+                }
             }
             .padding()
-            .frame(maxWidth: .infinity)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                        .stroke(isSelected ? Color.yellow : Color.gray.opacity(0.3), lineWidth: 2)
-                )
         }
-        .foregroundColor(isSelected ? .yellow : .gray)
+        .buttonStyle(PlainButtonStyle())
+        .sheet(isPresented: $showingDetail) {
+            DrillDetailView(drill: drill)
+        }
     }
 }
-
+// MARK: Drill card
 struct DrillCard: View {
     let appModel: MainAppModel
     let drill: DrillModel
@@ -730,7 +810,7 @@ struct SkillSelectionView: View {
                     HStack(spacing: 8) {
                         ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
                             if let category = testSesGenView.skillCategories.first(where: { $0.subSkills.contains(skill) }) {
-                                CompactSkillButton(
+                                SkillButton(
                                     appModel: appModel,
                                     title: skill,
                                     icon: category.icon,
@@ -750,8 +830,8 @@ struct SkillSelectionView: View {
     }
 }
 
-// MARK: Compact Skill button
-struct CompactSkillButton: View {
+// MARK: Skill button
+struct SkillButton: View {
     let appModel: MainAppModel
     let title: String
     let icon: String

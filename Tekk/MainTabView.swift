@@ -16,6 +16,7 @@ struct MainTabView: View {
     @StateObject private var homeTab = RiveViewModel(fileName: "Tab_House")
     @StateObject private var progressTab = RiveViewModel(fileName: "Tab_Calendar")
     @StateObject private var savedTab = RiveViewModel(fileName: "Tab_Saved")
+    @StateObject private var profileTab = RiveViewModel(fileName: "Tab_Dude")
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -59,7 +60,7 @@ struct MainTabView: View {
                 }
                 
                 CustomTabItem(
-                    icon: AnyView(homeTab.view()),
+                    icon: AnyView(profileTab.view()),
                     isSelected: appModel.mainTabSelected == 3
                 ) {
                     appModel.mainTabSelected = 3
@@ -81,7 +82,7 @@ struct CustomTabItem: View {
             VStack(spacing: 4) {
                 icon
                     .frame(width: 30, height: 30)
-                    .scaleEffect(isSelected ? 1.2 : 1.0)
+                    .scaleEffect(isSelected ? 1.5 : 1.0)
             }
             .frame(maxWidth: .infinity)
             .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
