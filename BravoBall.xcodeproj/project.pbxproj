@@ -50,6 +50,9 @@
 		43BFA9F62D40ABB600B12A6F /* Paw_Yellow.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9F52D40ABB600B12A6F /* Paw_Yellow.riv */; };
 		43BFA9FE2D41D37100B12A6F /* testSesGenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BFA9FD2D41D36C00B12A6F /* testSesGenView.swift */; };
 		43BFAA0A2D4221EA00B12A6F /* Message_Bubble.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA092D4221EA00B12A6F /* Message_Bubble.riv */; };
+		43BFAA102D43291E00B12A6F /* Tab_House.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA0F2D43291E00B12A6F /* Tab_House.riv */; };
+		43BFAA142D43342D00B12A6F /* Tab_Calendar.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA132D43342D00B12A6F /* Tab_Calendar.riv */; };
+		43BFAA1A2D43399800B12A6F /* Tab_Saved.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA192D43399800B12A6F /* Tab_Saved.riv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +119,9 @@
 		43BFA9F52D40ABB600B12A6F /* Paw_Yellow.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Paw_Yellow.riv; sourceTree = "<group>"; };
 		43BFA9FD2D41D36C00B12A6F /* testSesGenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testSesGenView.swift; sourceTree = "<group>"; };
 		43BFAA092D4221EA00B12A6F /* Message_Bubble.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Message_Bubble.riv; sourceTree = "<group>"; };
+		43BFAA0F2D43291E00B12A6F /* Tab_House.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tab_House.riv; sourceTree = "<group>"; };
+		43BFAA132D43342D00B12A6F /* Tab_Calendar.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tab_Calendar.riv; sourceTree = "<group>"; };
+		43BFAA192D43399800B12A6F /* Tab_Saved.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tab_Saved.riv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -302,6 +308,9 @@
 				43BFA9E92D40964700B12A6F /* Drill_Card_Incomplete.riv */,
 				43BFA9F52D40ABB600B12A6F /* Paw_Yellow.riv */,
 				43BFAA092D4221EA00B12A6F /* Message_Bubble.riv */,
+				43BFAA0F2D43291E00B12A6F /* Tab_House.riv */,
+				43BFAA132D43342D00B12A6F /* Tab_Calendar.riv */,
+				43BFAA192D43399800B12A6F /* Tab_Saved.riv */,
 			);
 			path = RiveAssets;
 			sourceTree = "<group>";
@@ -431,8 +440,11 @@
 				43BFA9F62D40ABB600B12A6F /* Paw_Yellow.riv in Resources */,
 				174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */,
 				1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */,
+				43BFAA102D43291E00B12A6F /* Tab_House.riv in Resources */,
 				43BFA9EA2D40964700B12A6F /* Drill_Card_Incomplete.riv in Resources */,
 				43BFA9D62D3F38B300B12A6F /* Golden_Button.riv in Resources */,
+				43BFAA1A2D43399800B12A6F /* Tab_Saved.riv in Resources */,
+				43BFAA142D43342D00B12A6F /* Tab_Calendar.riv in Resources */,
 				43BFA9E62D40885000B12A6F /* Plus_Button.riv in Resources */,
 				43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */,
 				43985E5A2CB5B0BB00BE2AB6 /* Bravo_Panting.riv in Resources */,

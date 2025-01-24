@@ -53,7 +53,7 @@ struct testSesGenView: View {
                                 .frame(width: 30, height: 30)
                             Text("\(appModel.currentStreak)")
                                 .font(.custom("Poppins-Bold", size: 30))
-                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                .foregroundColor(Color(hex: "#ff7b24"))
                         }
                         
                         Button(action: { /* More options */ }) {
@@ -73,23 +73,26 @@ struct testSesGenView: View {
                             Spacer()
                             RiveViewModel(fileName: "Bravo_Panting").view()
                                 .frame(width: 90, height: 90)
-                            ZStack(alignment: .leading) {
+                            ZStack(alignment: .center) {
                                 RiveViewModel(fileName: "Message_Bubble").view()
+                                    .frame(width: 170, height: 90)
 
                                 if sessionModel.orderedDrills.isEmpty {
                                     Text("Choose your skill to improve today")
                                         .font(.custom("Poppins-Bold", size: 12))
-                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                                         .padding(10)
-                                        .frame(maxWidth: .infinity)
+                                        .frame(maxWidth: 150)
                                 } else {
                                     Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
                                         .font(.custom("Poppins-Bold", size: 12))
-                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                                         .padding(10)
-                                        .frame(maxWidth: .infinity)
+                                        .frame(maxWidth: 150)
                                 }
                             }
+                            
+                            Spacer()
                         }
                         .padding(.horizontal)
                         .padding(.vertical, 8)
@@ -760,7 +763,9 @@ struct CompactSkillButton: View {
             VStack(spacing: 4) {
                 Image(systemName: icon)
                     .font(.system(size: 20))
+                    .padding(.bottom, 10)
                     .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                
 
                 Text(title)
                     .font(.custom("Poppins-Medium", size: 12))
@@ -771,13 +776,8 @@ struct CompactSkillButton: View {
             }
             .frame(height: 75)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 8)
+            .padding(.vertical, 5)
             .padding(.horizontal, 4)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.white)
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 3)
-            )
         }
     }
 }
@@ -808,7 +808,7 @@ struct SkillSelectorSheet: View {
                     .font(.custom("Poppins-Bold", size: 16))
                 }
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 16) {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 40) {
                         ForEach(testSesGenView.skillCategories, id: \.name) { category in
                             VStack(alignment: .leading, spacing: 0) {
                                 Button(action: {
@@ -820,18 +820,22 @@ struct SkillSelectorSheet: View {
                                         }
                                     }
                                 }) {
-                                    HStack {
-                                        Image(systemName: category.icon)
-                                            .font(.system(size: 20))
-                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                    VStack {
                                         Text(category.name)
                                             .font(.custom("Poppins-Bold", size: 18))
                                             .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                        Spacer()
-                                        Image(systemName: expandedCategory == category.name ? "chevron.up" : "chevron.down")
-                                            .font(.system(size: 14))
-                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                        HStack {
+                                            Spacer()
+                                            
+                                            Image(systemName: category.icon)
+                                                .font(.system(size: 20))
+                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                            
+                                            Spacer()
 
+                                        }
+                                        .padding()
+                                        
                                     }
                                     .padding()
                                     .background(

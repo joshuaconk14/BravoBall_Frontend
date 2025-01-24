@@ -7,47 +7,84 @@
 
 import Foundation
 import SwiftUI
+import RiveRuntime
 
 struct MainTabView: View {
     @ObservedObject var model: OnboardingModel
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var userManager: UserManager
+    @StateObject private var homeTab = RiveViewModel(fileName: "Tab_House")
+    @StateObject private var progressTab = RiveViewModel(fileName: "Tab_Calendar")
+    @StateObject private var savedTab = RiveViewModel(fileName: "Tab_Saved")
     
     var body: some View {
-        TabView(selection: $appModel.mainTabSelected) {
-            testSesGenView(model: model, appModel: appModel)
-                .tabItem {
-                    Image(systemName: "figure.soccer")
-                    Text("Train")
+        ZStack(alignment: .bottom) {
+            // Main Content
+            ZStack {
+                switch appModel.mainTabSelected {
+                case 0:
+                    testSesGenView(model: model, appModel: appModel)
+                case 1:
+                    ProgressionView(appModel: appModel)
+                case 2:
+                    SavedDrillsView()
+                case 3:
+                    ProfileView(model: model, appModel: appModel, userManager: userManager)
+                default:
+                    testSesGenView(model: model, appModel: appModel)
                 }
-                .tag(0)
-            ProgressionView(appModel: appModel)
-                .tabItem {
-                    Image(systemName: "checkmark.circle.fill")
-                    Text("Progress")
-                }
-                .tag(1)
+            }
             
-            SavedDrillsView()
-                .tabItem {
-                    Image(systemName: "bookmark.fill")
-                    Text("Saved")
+            // Custom Tab Bar
+            HStack(spacing: 0) {
+                CustomTabItem(
+                    icon: AnyView(homeTab.view()),
+                    isSelected: appModel.mainTabSelected == 0
+                ) {
+                    appModel.mainTabSelected = 0
                 }
-                .tag(2)
-            
-            ProfileView(model: model, appModel: appModel, userManager: userManager)
-                .tabItem {
-                    Image(systemName: "person.fill")
-                    Text("Profile")
+                
+                CustomTabItem(
+                    icon: AnyView(progressTab.view()),
+                    isSelected: appModel.mainTabSelected == 1
+                ) {
+                    appModel.mainTabSelected = 1
                 }
-                .tag(3)
+                
+                CustomTabItem(
+                    icon: AnyView(savedTab.view()),
+                    isSelected: appModel.mainTabSelected == 2
+                ) {
+                    appModel.mainTabSelected = 2
+                }
+                
+                CustomTabItem(
+                    icon: AnyView(homeTab.view()),
+                    isSelected: appModel.mainTabSelected == 3
+                ) {
+                    appModel.mainTabSelected = 3
+                }
+            }
+            .padding()
+            .background(Color.white.ignoresSafeArea())
         }
-        .accentColor(model.globalSettings.primaryYellowColor)
-        .background(Color.white)
-        .onAppear {
-            appModel.mainTabSelected = 0
-            UITabBar.appearance().backgroundColor = UIColor.white
-            UITabBar.appearance().unselectedItemTintColor = UIColor.gray
+    }
+}
+
+struct CustomTabItem: View {
+    let icon: AnyView
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 4) {
+                icon
+                    .frame(width: 30, height: 30)
+                    .scaleEffect(isSelected ? 1.2 : 1.0)
+            }
+            .frame(maxWidth: .infinity)
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
         }
     }
 }
