@@ -116,7 +116,7 @@ struct testSesGenView: View {
                     // Whole screen's ScrollView
                     ScrollView {
                         
-                        // Bravo's yellow area
+                        // Bravo's area
                         HStack {
                             Spacer()
                             RiveViewModel(fileName: "Bravo_Panting").view()
@@ -146,63 +146,7 @@ struct testSesGenView: View {
                         .padding(.vertical, 8)
                         .background(Color(hex:"bef1fa"))
                         
-                        // Prerequisites ScrollView
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 12) {
-                                
-                                // X Button
-                                Button(action: { /* Close action */ }) {
-                                    ZStack {
-                                        Circle()
-                                            .fill(appModel.globalSettings.primaryLightGrayColor)
-                                            .frame(width: 40, height: 40)
-                                            .offset(x: 0, y: 3)
-                                        Circle()
-                                            .fill(Color.white)
-                                            .frame(width: 40, height: 40)
-                                        
-                                        Image(systemName: "heart")
-                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                            .font(.system(size: 16, weight: .medium))
-                                    }
-                                    .padding()
-                                }
-                                
-                                // All prereqs
-                                ForEach(PrerequisiteType.allCases, id: \.self) { type in
-                                    PrerequisiteButton(
-                                        appModel: appModel,
-                                        type: type,
-                                        icon: icon(for: type),
-                                        isSelected: selectedPrerequisite == type,
-                                        value: prerequisiteValue(for: type)
-                                    ) {
-                                        if selectedPrerequisite == type {
-                                            selectedPrerequisite = nil
-                                        } else {
-                                            selectedPrerequisite = type
-                                        }
-                                    }
-                                    .padding(.vertical)
-                                }
-                               
-                            }
-                            .padding(.horizontal)
-                        }
-                        .frame(height: 50)
                         
-
-                        // Dropdown content if prerequisite is selected
-                        if let type = selectedPrerequisite {
-                            PrerequisiteDropdown(
-                                appModel: appModel,
-                                type: type,
-                                sessionModel: sessionModel
-                            ){
-                                selectedPrerequisite = nil
-                            }
-                            .padding(.horizontal, 50)
-                        }
                        
                         
                         // Skills for today view
@@ -213,6 +157,73 @@ struct testSesGenView: View {
                                 .padding(.vertical, 8)
                                 .background(Color.white)
                                 .cornerRadius(15)
+                            
+                            
+                        // Prerequisites ScrollView
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 0)
+                                    .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 2)
+                                    .frame(height: 80)
+                            
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 12) {
+                                    
+                                    // X Button
+                                    Button(action: { /* Close action */ }) {
+                                        ZStack {
+                                            Circle()
+                                                .fill(appModel.globalSettings.primaryLightGrayColor)
+                                                .frame(width: 40, height: 40)
+                                                .offset(x: 0, y: 3)
+                                            Circle()
+                                                .fill(Color.white)
+                                                .frame(width: 40, height: 40)
+                                            
+                                            Image(systemName: "heart")
+                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                                .font(.system(size: 16, weight: .medium))
+                                        }
+                                        .padding()
+                                    }
+                                    
+                                    // All prereqs
+                                    ForEach(PrerequisiteType.allCases, id: \.self) { type in
+                                        PrerequisiteButton(
+                                            appModel: appModel,
+                                            type: type,
+                                            icon: icon(for: type),
+                                            isSelected: selectedPrerequisite == type,
+                                            value: prerequisiteValue(for: type)
+                                        ) {
+                                            if selectedPrerequisite == type {
+                                                selectedPrerequisite = nil
+                                            } else {
+                                                selectedPrerequisite = type
+                                            }
+                                        }
+                                        .padding(.vertical)
+                                    }
+                                   
+                                }
+                                .padding()
+                            }
+                            .frame(height: 50)
+                        }
+                        .frame(maxWidth: .infinity)
+                        
+                            
+
+                            // Dropdown content if prerequisite is selected
+                            if let type = selectedPrerequisite {
+                                PrerequisiteDropdown(
+                                    appModel: appModel,
+                                    type: type,
+                                    sessionModel: sessionModel
+                                ){
+                                    selectedPrerequisite = nil
+                                }
+                                .padding(.horizontal, 50)
+                            }
                             
                             // Generated Drills Section
                             VStack(alignment: .center, spacing: 12) {
@@ -287,7 +298,7 @@ struct testSesGenView: View {
                             .background(Color.white)
                             .cornerRadius(15)
                         }
-                        .padding()
+//                        .padding()
                         .padding(.bottom, 80)
                     }
                     
@@ -804,24 +815,24 @@ struct SkillSelectionView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Rectangle()
-                    .fill(appModel.globalSettings.primaryLightGrayColor)
-                    .frame(width:80, height: 2)
-                
-
-                Spacer()
-                
-                Text("Skills for Today")
-                    .font(.custom("Poppins-Bold", size: 20))
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-
-                Spacer()
-                
-                Rectangle()
-                    .fill(appModel.globalSettings.primaryLightGrayColor)
-                    .frame(width:80, height: 2)
-            }
+//            HStack {
+//                Rectangle()
+//                    .fill(appModel.globalSettings.primaryLightGrayColor)
+//                    .frame(width:80, height: 2)
+//                
+//
+//                Spacer()
+//                
+//                Text("Skills for Today")
+//                    .font(.custom("Poppins-Bold", size: 20))
+//                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//
+//                Spacer()
+//                
+//                Rectangle()
+//                    .fill(appModel.globalSettings.primaryLightGrayColor)
+//                    .frame(width:80, height: 2)
+//            }
             
             HStack {
                 Button(action: { showingSkillSelector = true }) {
