@@ -27,6 +27,7 @@
 //        self.appModel = appModel
 //        _sessionModel = StateObject(wrappedValue: SessionGeneratorModel(onboardingData: model.onboardingData))
 //    }
+//
 //    
 //    enum PrerequisiteType: String, CaseIterable {
 //        case time = "Time"
@@ -34,6 +35,53 @@
 //        case trainingStyle = "Training Style"
 //        case location = "Location"
 //        case difficulty = "Difficulty"
+//    }
+//    
+//    
+//    enum PrerequisiteIcon {
+//        case time
+//        case equipment
+//        case trainingStyle
+//        case location
+//        case difficulty
+//        
+//        
+//        @ViewBuilder
+//        var view: some View {
+//            switch self {
+//            case .time:
+//                RiveViewModel(fileName: "Prereq_Time").view()
+//                    .frame(width: 30, height: 30)
+//            case .equipment:
+//                RiveViewModel(fileName: "Prereq_Equipment").view()
+//                    .frame(width: 30, height: 30)
+//            case .trainingStyle:
+//                RiveViewModel(fileName: "Prereq_Training_Style").view()
+//                    .frame(width: 30, height: 30)
+//            case .location:
+//                RiveViewModel(fileName: "Prereq_Location").view()
+//                    .frame(width: 30, height: 30)
+//            case .difficulty:
+//                RiveViewModel(fileName: "Prereq_Difficulty").view()
+//                    .frame(width: 30, height: 30)
+//            }
+//        }
+//    }
+//    
+//    // Function to map PrerequisiteType to PrerequisiteIcon
+//    func icon(for type: PrerequisiteType) -> PrerequisiteIcon {
+//        switch type {
+//        case .time:
+//            return .time
+//        case .equipment:
+//            return .equipment
+//        case .trainingStyle:
+//            return .trainingStyle
+//        case .location:
+//            return .location
+//        case .difficulty:
+//            return .difficulty
+//        }
 //    }
 //    
 //    
@@ -53,7 +101,7 @@
 //                                .frame(width: 30, height: 30)
 //                            Text("\(appModel.currentStreak)")
 //                                .font(.custom("Poppins-Bold", size: 30))
-//                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                .foregroundColor(Color(hex: "#ff7b24"))
 //                        }
 //                        
 //                        Button(action: { /* More options */ }) {
@@ -73,27 +121,30 @@
 //                            Spacer()
 //                            RiveViewModel(fileName: "Bravo_Panting").view()
 //                                .frame(width: 90, height: 90)
-//                            ZStack(alignment: .leading) {
+//                            ZStack(alignment: .center) {
 //                                RiveViewModel(fileName: "Message_Bubble").view()
+//                                    .frame(width: 170, height: 90)
 //
 //                                if sessionModel.orderedDrills.isEmpty {
 //                                    Text("Choose your skill to improve today")
 //                                        .font(.custom("Poppins-Bold", size: 12))
 //                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
 //                                        .padding(10)
-//                                        .frame(maxWidth: .infinity)
+//                                        .frame(maxWidth: 150)
 //                                } else {
 //                                    Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
 //                                        .font(.custom("Poppins-Bold", size: 12))
 //                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
 //                                        .padding(10)
-//                                        .frame(maxWidth: .infinity)
+//                                        .frame(maxWidth: 150)
 //                                }
 //                            }
+//                            
+//                            Spacer()
 //                        }
 //                        .padding(.horizontal)
 //                        .padding(.vertical, 8)
-//                        .background(appModel.globalSettings.primaryYellowColor)
+//                        .background(Color(hex:"bef1fa"))
 //                        
 //                        // Prerequisites ScrollView
 //                        ScrollView(.horizontal, showsIndicators: false) {
@@ -122,6 +173,7 @@
 //                                    PrerequisiteButton(
 //                                        appModel: appModel,
 //                                        type: type,
+//                                        icon: icon(for: type),
 //                                        isSelected: selectedPrerequisite == type,
 //                                        value: prerequisiteValue(for: type)
 //                                    ) {
@@ -255,10 +307,11 @@
 //                            }
 //                        }
 //                        .padding(.horizontal)
+//                        .padding(.bottom, 50)
 //                    }
 //                }
 //            }
-//            .background(appModel.globalSettings.primaryLightestGrayColor.ignoresSafeArea())
+//            .background(Color.white.ignoresSafeArea())
 //        }
 //    }
 //            
@@ -278,6 +331,7 @@
 //struct PrerequisiteButton: View {
 //    let appModel: MainAppModel
 //    let type: testSesGenView.PrerequisiteType
+//    let icon: testSesGenView.PrerequisiteIcon
 //    let isSelected: Bool
 //    let value: String
 //    let action: () -> Void
@@ -285,18 +339,19 @@
 //    var body: some View {
 //        Button(action: action) {
 //            HStack {
-//                Text(value.isEmpty ? "Select" : value)
-//                    .font(.custom("Poppins-Bold", size: 14))
-//                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//                Image(systemName: "chevron.down")
-//                    .font(.custom("Poppins-Bold", size: 12))
+//                icon.view
+////                Text(value.isEmpty ? "Select" : value)
+////                    .font(.custom("Poppins-Bold", size: 14))
+////                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+////                Image(systemName: "chevron.down")
+////                    .font(.custom("Poppins-Bold", size: 12))
 //            }
 //            .padding(.horizontal, 12)
 //            .padding(.vertical, 8)
 //            .background(
 //                RoundedRectangle(cornerRadius: 8)
-//                    .fill(Color.white)
-//                    .stroke(isSelected ? appModel.globalSettings.primaryYellowColor : Color.gray.opacity(0.3), lineWidth: 2)
+//                    .fill(Color(hex:"eb9c49"))
+//                    .stroke(isSelected ? Color.blue : Color(hex:"b37636"), lineWidth: 4)
 //            )
 //        }
 //        .foregroundColor(isSelected ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryDarkColor)
@@ -400,31 +455,60 @@
 //    }
 //}
 //
-//// MARK: Old Skill button
-//struct SkillButton: View {
-//    let title: String
-//    let isSelected: Bool
-//    let action: () -> Void
+//// MARK: Compact Drill card
+//struct CompactDrillCard: View {
+//    let appModel: MainAppModel
+//    let drill: DrillModel
+//    @State private var showingDetail = false
 //    
 //    var body: some View {
-//        Button(action: action) {
-//            HStack {
-//                Image(systemName: "figure.soccer")
-//                    .font(.system(size: 14))
-//                Text(title)
-//                    .font(.custom("Poppins-Medium", size: 14))
+//        Button(action: {
+//            showingDetail = true
+//        }) {
+//            ZStack {
+//                RiveViewModel(fileName: "Drill_Card_Incomplete").view()
+//                    .frame(width: 320, height: 170)
+//                HStack {
+//                        // Drag handle
+//                        Image(systemName: "line.3.horizontal")
+//                            .padding()
+//                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+//                            .font(.system(size: 14))
+//                            .padding(.trailing, 8)
+//                        
+//                    Image(systemName: "figure.soccer")
+//                            .font(.system(size: 24))
+//                        .padding()
+//                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                        .background(Color.gray.opacity(0.1))
+//                        .cornerRadius(10)
+//                    
+//                    VStack(alignment: .leading) {
+//                            Text(drill.title)
+//                                .font(.custom("Poppins-Bold", size: 16))
+//                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                            Text("\(drill.sets) sets - \(drill.reps) reps - \(drill.duration)")
+//                            .font(.custom("Poppins-Bold", size: 14))
+//                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+//                    }
+//                
+//                Spacer()
+//                
+//                    Image(systemName: "chevron.right")
+//                        .padding()
+//                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+//                        .font(.system(size: 14, weight: .semibold))
+//                }
 //            }
 //            .padding()
-//            .frame(maxWidth: .infinity)
-//            .background(
-//                RoundedRectangle(cornerRadius: 12)
-//                        .stroke(isSelected ? Color.yellow : Color.gray.opacity(0.3), lineWidth: 2)
-//                )
 //        }
-//        .foregroundColor(isSelected ? .yellow : .gray)
+//        .buttonStyle(PlainButtonStyle())
+//        .sheet(isPresented: $showingDetail) {
+//            DrillDetailView(drill: drill)
+//        }
 //    }
 //}
-//
+//// MARK: Drill card
 //struct DrillCard: View {
 //    let appModel: MainAppModel
 //    let drill: DrillModel
@@ -727,7 +811,7 @@
 //                    HStack(spacing: 8) {
 //                        ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
 //                            if let category = testSesGenView.skillCategories.first(where: { $0.subSkills.contains(skill) }) {
-//                                CompactSkillButton(
+//                                SkillButton(
 //                                    appModel: appModel,
 //                                    title: skill,
 //                                    icon: category.icon,
@@ -747,8 +831,8 @@
 //    }
 //}
 //
-//// MARK: Compact Skill button
-//struct CompactSkillButton: View {
+//// MARK: Skill button
+//struct SkillButton: View {
 //    let appModel: MainAppModel
 //    let title: String
 //    let icon: String
@@ -760,7 +844,9 @@
 //            VStack(spacing: 4) {
 //                Image(systemName: icon)
 //                    .font(.system(size: 20))
+//                    .padding(.bottom, 10)
 //                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+//                
 //
 //                Text(title)
 //                    .font(.custom("Poppins-Medium", size: 12))
@@ -771,13 +857,8 @@
 //            }
 //            .frame(height: 75)
 //            .frame(maxWidth: .infinity)
-//            .padding(.vertical, 8)
+//            .padding(.vertical, 5)
 //            .padding(.horizontal, 4)
-//            .background(
-//                RoundedRectangle(cornerRadius: 8)
-//                    .fill(Color.white)
-//                    .stroke(Color.gray.opacity(0.3), lineWidth: 3)
-//            )
 //        }
 //    }
 //}
@@ -808,7 +889,7 @@
 //                    .font(.custom("Poppins-Bold", size: 16))
 //                }
 //                ScrollView {
-//                    VStack(alignment: .leading, spacing: 16) {
+//                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 40) {
 //                        ForEach(testSesGenView.skillCategories, id: \.name) { category in
 //                            VStack(alignment: .leading, spacing: 0) {
 //                                Button(action: {
@@ -820,18 +901,22 @@
 //                                        }
 //                                    }
 //                                }) {
-//                                    HStack {
-//                                        Image(systemName: category.icon)
-//                                            .font(.system(size: 20))
-//                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                    VStack {
 //                                        Text(category.name)
 //                                            .font(.custom("Poppins-Bold", size: 18))
 //                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//                                        Spacer()
-//                                        Image(systemName: expandedCategory == category.name ? "chevron.up" : "chevron.down")
-//                                            .font(.system(size: 14))
-//                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                        HStack {
+//                                            Spacer()
+//                                            
+//                                            Image(systemName: category.icon)
+//                                                .font(.system(size: 20))
+//                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                            
+//                                            Spacer()
 //
+//                                        }
+//                                        .padding()
+//                                        
 //                                    }
 //                                    .padding()
 //                                    .background(

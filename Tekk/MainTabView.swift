@@ -66,7 +66,7 @@ struct MainTabView: View {
                     appModel.mainTabSelected = 3
                 }
             }
-            .padding()
+            .padding(.horizontal)
             .background(Color.white.ignoresSafeArea())
         }
     }

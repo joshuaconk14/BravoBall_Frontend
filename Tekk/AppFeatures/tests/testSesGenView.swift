@@ -53,16 +53,16 @@ struct testSesGenView: View {
                 RiveViewModel(fileName: "Prereq_Time").view()
                     .frame(width: 30, height: 30)
             case .equipment:
-                RiveViewModel(fileName: "Prereq_Time").view()
+                RiveViewModel(fileName: "Prereq_Equipment").view()
                     .frame(width: 30, height: 30)
             case .trainingStyle:
-                RiveViewModel(fileName: "Prereq_Time").view()
+                RiveViewModel(fileName: "Prereq_Training_Style").view()
                     .frame(width: 30, height: 30)
             case .location:
-                RiveViewModel(fileName: "Prereq_Time").view()
+                RiveViewModel(fileName: "Prereq_Location").view()
                     .frame(width: 30, height: 30)
             case .difficulty:
-                RiveViewModel(fileName: "Prereq_Time").view()
+                RiveViewModel(fileName: "Prereq_Difficulty").view()
                     .frame(width: 30, height: 30)
             }
         }
@@ -144,7 +144,7 @@ struct testSesGenView: View {
                         }
                         .padding(.horizontal)
                         .padding(.vertical, 8)
-                        .background(appModel.globalSettings.primaryYellowColor)
+                        .background(Color(hex:"bef1fa"))
                         
                         // Prerequisites ScrollView
                         ScrollView(.horizontal, showsIndicators: false) {
@@ -201,6 +201,7 @@ struct testSesGenView: View {
                             ){
                                 selectedPrerequisite = nil
                             }
+                            .padding(.horizontal, 50)
                         }
                        
                         
@@ -307,21 +308,27 @@ struct testSesGenView: View {
                             }
                         }
                         .padding(.horizontal)
+                        .padding(.bottom, 50)
                     }
                 }
             }
-            .background(appModel.globalSettings.primaryLightestGrayColor.ignoresSafeArea())
+            .background(Color.white.ignoresSafeArea())
         }
     }
             
-    
+    // Prereq value that is selected, or if its empty
     private func prerequisiteValue(for type: PrerequisiteType) -> String {
         switch type {
-        case .time: return sessionModel.selectedTime
-        case .equipment: return "\(sessionModel.selectedEquipment.count) selected"
-        case .trainingStyle: return sessionModel.selectedTrainingStyle
-        case .location: return sessionModel.selectedLocation
-        case .difficulty: return sessionModel.selectedDifficulty
+        case .time:
+            return sessionModel.selectedTime ?? ""
+        case .equipment:
+            return sessionModel.selectedEquipment.isEmpty ? "" : "\(sessionModel.selectedEquipment.count) selected"
+        case .trainingStyle:
+            return sessionModel.selectedTrainingStyle ?? ""
+        case .location:
+            return sessionModel.selectedLocation ?? ""
+        case .difficulty:
+            return sessionModel.selectedDifficulty ?? ""
         }
     }
 }
@@ -336,24 +343,23 @@ struct PrerequisiteButton: View {
     let action: () -> Void
     
     var body: some View {
-        Button(action: action) {
-            HStack {
+        Button(action: {
+            withAnimation(.spring(dampingFraction: 0.7)) {
+                action()
+            }
+        }) {
+            VStack {
                 icon.view
-//                Text(value.isEmpty ? "Select" : value)
-//                    .font(.custom("Poppins-Bold", size: 14))
-//                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//                Image(systemName: "chevron.down")
-//                    .font(.custom("Poppins-Bold", size: 12))
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
             .background(
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(appModel.globalSettings.primaryLightGrayColor)
-                    .stroke(isSelected ? Color.blue : Color.gray.opacity(0.3), lineWidth: 2)
+                    .fill(value.isEmpty ? appModel.globalSettings.primaryLightGrayColor : Color(hex:"eb9c49"))
+                    .stroke(isSelected ? Color.blue : Color(hex:"b37636"), lineWidth: 4)
+                    .stroke(value.isEmpty ? appModel.globalSettings.primaryGrayColor : Color(hex:"b37636"), lineWidth: 4)
             )
         }
-        .foregroundColor(isSelected ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryDarkColor)
     }
 }
 
@@ -373,7 +379,11 @@ struct PrerequisiteDropdown: View {
                     .foregroundColor(appModel.globalSettings.primaryDarkColor)
 
                 Spacer()
-                Button(action: dismiss) {
+                Button(action: {
+                    withAnimation(.spring(dampingFraction: 0.7)) {
+                        dismiss()
+                    }
+                }) {
                     Image(systemName: "xmark")
                         .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 }
@@ -402,9 +412,9 @@ struct PrerequisiteDropdown: View {
                     }
                 }
             }
-            .frame(maxHeight: 200)
+            .frame(maxHeight: 150)
         }
-        .padding()
+        .padding(10)
         .background(Color.white)
         .cornerRadius(15)
         .background(
@@ -413,6 +423,7 @@ struct PrerequisiteDropdown: View {
                 .stroke(Color.gray.opacity(0.3), lineWidth: 3)
         )
     }
+    
     
     private var optionsForType: [String] {
         switch type {
@@ -437,7 +448,11 @@ struct PrerequisiteDropdown: View {
     private func selectOption(_ option: String) {
         switch type {
         case .time:
-            sessionModel.selectedTime = option
+            if sessionModel.selectedTime == option {
+                sessionModel.selectedTime = nil
+            } else {
+                sessionModel.selectedTime = option
+            }
         case .equipment:
             if sessionModel.selectedEquipment.contains(option) {
                 sessionModel.selectedEquipment.remove(option)
@@ -445,11 +460,23 @@ struct PrerequisiteDropdown: View {
                 sessionModel.selectedEquipment.insert(option)
             }
         case .trainingStyle:
-            sessionModel.selectedTrainingStyle = option
+            if sessionModel.selectedTrainingStyle == option {
+                sessionModel.selectedTrainingStyle = nil
+            } else {
+                sessionModel.selectedTrainingStyle = option
+            }
         case .location:
-            sessionModel.selectedLocation = option
+            if sessionModel.selectedLocation == option {
+                sessionModel.selectedLocation = nil
+            } else {
+                sessionModel.selectedLocation = option
+            }
         case .difficulty:
-            sessionModel.selectedDifficulty = option
+            if sessionModel.selectedDifficulty == option {
+                sessionModel.selectedDifficulty = nil
+            } else {
+                sessionModel.selectedDifficulty = option
+            }
         }
     }
 }
@@ -563,13 +590,13 @@ struct DrillCard: View {
 
 
 
-
+// Session model
 class SessionGeneratorModel: ObservableObject {
-    @Published var selectedTime: String = "1h"
+    @Published var selectedTime: String?
     @Published var selectedEquipment: Set<String> = []
-    @Published var selectedTrainingStyle: String = "medium intensity"
-    @Published var selectedLocation: String = ""
-    @Published var selectedDifficulty: String = ""
+    @Published var selectedTrainingStyle: String?
+    @Published var selectedLocation: String?
+    @Published var selectedDifficulty: String?
     @Published var selectedSkills: Set<String> = [] {
         didSet {
             updateDrills()
