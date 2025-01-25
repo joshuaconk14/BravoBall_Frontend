@@ -21,6 +21,8 @@ struct testSesGenView: View {
     @StateObject private var sessionModel: SessionGeneratorModel
     @State private var showingDrills = false
     @State private var selectedPrerequisite: PrerequisiteType?
+    @State private var showFilter: Bool = true
+    @State private var showHomePage: Bool = true
     
     init(model: OnboardingModel, appModel: MainAppModel) {
         self.model = model
@@ -89,33 +91,34 @@ struct testSesGenView: View {
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
-                VStack(spacing: 0) {
-                    // Top Bar with Controls
-                    HStack(spacing: 20) {
-                        Spacer()
-                                                    
-                        HStack {
-                            Image("Streak_Flame")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            Text("\(appModel.currentStreak)")
-                                .font(.custom("Poppins-Bold", size: 30))
-                                .foregroundColor(Color(hex: "#ff7b24"))
+                    VStack(spacing: 0) {
+                        if showHomePage {
+                        // Top Bar with Controls
+                            HStack(spacing: 20) {
+                                Spacer()
+                                                            
+                                HStack {
+                                    Image("Streak_Flame")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 30, height: 30)
+                                    Text("\(appModel.currentStreak)")
+                                        .font(.custom("Poppins-Bold", size: 30))
+                                        .foregroundColor(Color(hex: "#ff7b24"))
+                                }
+                                
+                                Button(action: { /* More options */ }) {
+                                    Image(systemName: "ellipsis")
+                                        .foregroundColor(.black)
+                                        .font(.system(size: 20, weight: .medium))
+                                }
+                            }
+                            .padding(.horizontal)
+                            .padding(.vertical, 8)
                         }
-                        
-                        Button(action: { /* More options */ }) {
-                            Image(systemName: "ellipsis")
-                                .foregroundColor(.black)
-                                .font(.system(size: 20, weight: .medium))
-                        }
-                    }
-                    .padding(.horizontal)
-                    .padding(.vertical, 8)
+                
                     
-                    // Whole screen's ScrollView
-                    ScrollView {
-                        
+
                         // Bravo's area
                         HStack {
                             Spacer()
@@ -147,70 +150,107 @@ struct testSesGenView: View {
                         .background(Color(hex:"bef1fa"))
                         
                         
-                       
+                    if showHomePage {
+                    }
                         
-                        // Skills for today view
+                        // Everything below bravo's space
                         VStack(alignment: .leading, spacing: 12) {
-                            // TODO: Replace old skills section with new SkillSelectionView
-                            SkillSelectionView(appModel: appModel, sessionModel: sessionModel)
-                                .padding(.horizontal)
-                                .padding(.vertical, 8)
-                                .background(Color.white)
-                                .cornerRadius(15)
                             
-                            
-                        // Prerequisites ScrollView
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 0)
-                                    .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 2)
-                                    .frame(height: 80)
-                            
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 12) {
+                            if showFilter {
+                                // TODO: Replace old skills section with new SkillSelectionView
+                                
+                                // Skills for today view
+                                SkillSelectionView(appModel: appModel, sessionModel: sessionModel)
+                                    .padding(.vertical, 3)
+                                
+                                
+                                // Prerequisites ScrollView
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 0)
+                                        .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 2)
+                                        .frame(height: 80)
                                     
-                                    // X Button
-                                    Button(action: { /* Close action */ }) {
-                                        ZStack {
-                                            Circle()
-                                                .fill(appModel.globalSettings.primaryLightGrayColor)
-                                                .frame(width: 40, height: 40)
-                                                .offset(x: 0, y: 3)
-                                            Circle()
-                                                .fill(Color.white)
-                                                .frame(width: 40, height: 40)
+                                    ScrollView(.horizontal, showsIndicators: false) {
+                                        HStack(spacing: 12) {
                                             
-                                            Image(systemName: "heart")
-                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                                .font(.system(size: 16, weight: .medium))
+                                            // Saved filters Button
+                                            Button(action: { /* Close action */ }) {
+                                                ZStack {
+                                                    Circle()
+                                                        .fill(appModel.globalSettings.primaryLightGrayColor)
+                                                        .frame(width: 40, height: 40)
+                                                        .offset(x: 0, y: 3)
+                                                    Circle()
+                                                        .fill(Color.white)
+                                                        .frame(width: 40, height: 40)
+                                                    
+                                                    Image(systemName: "heart")
+                                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                                        .font(.system(size: 16, weight: .medium))
+                                                }
+                                                .padding()
+                                            }
+                                            
+                                            // All prereqs
+                                            ForEach(PrerequisiteType.allCases, id: \.self) { type in
+                                                PrerequisiteButton(
+                                                    appModel: appModel,
+                                                    type: type,
+                                                    icon: icon(for: type),
+                                                    isSelected: selectedPrerequisite == type,
+                                                    value: prerequisiteValue(for: type)
+                                                ) {
+                                                    if selectedPrerequisite == type {
+                                                        selectedPrerequisite = nil
+                                                    } else {
+                                                        selectedPrerequisite = type
+                                                    }
+                                                }
+                                                .padding(.vertical)
+                                            }
+                                            
                                         }
                                         .padding()
                                     }
-                                    
-                                    // All prereqs
-                                    ForEach(PrerequisiteType.allCases, id: \.self) { type in
-                                        PrerequisiteButton(
-                                            appModel: appModel,
-                                            type: type,
-                                            icon: icon(for: type),
-                                            isSelected: selectedPrerequisite == type,
-                                            value: prerequisiteValue(for: type)
-                                        ) {
-                                            if selectedPrerequisite == type {
-                                                selectedPrerequisite = nil
-                                            } else {
-                                                selectedPrerequisite = type
-                                            }
-                                        }
-                                        .padding(.vertical)
-                                    }
-                                   
+                                    .frame(height: 50)
                                 }
-                                .padding()
+                                .frame(maxWidth: .infinity)
                             }
-                            .frame(height: 50)
-                        }
-                        .frame(maxWidth: .infinity)
-                        
+                            
+                            // TODO: fix toggle animation
+                            // Filters toggle button
+                            Button(action: {
+                                withAnimation(.spring(dampingFraction: 0.7)) {
+                                    showFilter.toggle()
+                                }
+                            }) {
+                                if showFilter {
+                                    Image(systemName: "chevron.up")
+                                        .padding(.horizontal, 3)
+                                        .padding(.vertical, 3)
+                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                        .font(.system(size: 16, weight: .medium))
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
+                                        )
+                                } else {
+                                    Image(systemName: "chevron.down")
+                                        .padding(.horizontal, 3)
+                                        .padding(.vertical, 3)
+                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                        .font(.system(size: 16, weight: .medium))
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
+                                        )
+                                }
+                                    
+                            }
+                            .padding(.top, 10)
+                            .padding(.horizontal, 15)
+                            
+
                             
 
                             // Dropdown content if prerequisite is selected
@@ -227,6 +267,7 @@ struct testSesGenView: View {
                             
                             // Generated Drills Section
                             VStack(alignment: .center, spacing: 12) {
+                                
                                 
                                 HStack {
                                     Rectangle()
@@ -253,43 +294,97 @@ struct testSesGenView: View {
                                         .frame(width:120, height: 2)
                                 }
                                 
-                                if sessionModel.orderedDrills.isEmpty {
-                                    Spacer()
-                                    HStack {
-                                        Image(systemName: "lock.fill")
-                                            .frame(width: 50, height: 50)
-                                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-                                        Text("Choose a skill to create your session")
-                                            .font(.custom("Poppins-Bold", size: 12))
-                                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                                // Buttons for session adjustment
+                                HStack {
+//                                    Button(action: {
+//                                        // Implement your action here
+//                                    }) {
+//                                        RiveViewModel(fileName: "Plus_Button").view()
+//                                            .frame(width: 30, height: 30)
+//                                    }
+//                                    Button(action: {
+//                                        // Implement your action here
+//                                    }) {
+//                                        RiveViewModel(fileName: "Plus_Button").view()
+//                                            .frame(width: 30, height: 30)
+//                                    }
+                                    Button(action: { /* Close action */ }) {
+                                        ZStack {
+                                            Circle()
+                                                .fill(appModel.globalSettings.primaryLightGrayColor)
+                                                .frame(width: 30, height: 30)
+                                                .offset(x: 0, y: 3)
+                                            Circle()
+                                                .fill(Color.white)
+                                                .frame(width: 30, height: 30)
+                                            
+                                            Image(systemName: "plus")
+                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                                .font(.system(size: 16, weight: .medium))
+                                        }
                                     }
-                                    .padding(.horizontal, 30)
-                                } else {
+                                    Button(action: { /* Close action */ }) {
+                                        ZStack {
+                                            Circle()
+                                                .fill(appModel.globalSettings.primaryLightGrayColor)
+                                                .frame(width: 30, height: 30)
+                                                .offset(x: 0, y: 3)
+                                            Circle()
+                                                .fill(Color.white)
+                                                .frame(width: 30, height: 30)
+                                            
+                                            Image(systemName: "chevron.down")
+                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                                .font(.system(size: 16, weight: .medium))
+                                        }
+                                    }
+                                    Spacer()
                                 
-                                ForEach(sessionModel.orderedDrills) { drill in
-                                    DrillCard(
-                                        appModel: appModel,
-                                        drill: drill
-                                    )
-                                        .draggable(drill.title) {
+                                }
+                                
+                                ScrollView {
+                                
+                                    if sessionModel.orderedDrills.isEmpty {
+                                        Spacer()
+                                        HStack {
+                                            Image(systemName: "lock.fill")
+                                                .frame(width: 50, height: 50)
+                                                .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                                            Text("Choose a skill to create your session")
+                                                .font(.custom("Poppins-Bold", size: 12))
+                                                .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                                        }
+                                        .padding(.horizontal, 30)
+                                        .padding(.bottom, 150)
+                                        
+                                    } else {
+                                        
+                                        ForEach(sessionModel.orderedDrills) { drill in
                                             DrillCard(
                                                 appModel: appModel,
                                                 drill: drill
                                             )
-                                        }
-                                        .dropDestination(for: String.self) { items, location in
-                                            guard let sourceTitle = items.first,
-                                                  let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
-                                                  let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
-                                                return false
+                                            .draggable(drill.title) {
+                                                DrillCard(
+                                                    appModel: appModel,
+                                                    drill: drill
+                                                )
                                             }
-                                            
-                                            withAnimation(.spring()) {
-                                                let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
-                                                sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                                            .dropDestination(for: String.self) { items, location in
+                                                guard let sourceTitle = items.first,
+                                                      let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
+                                                      let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
+                                                    return false
+                                                }
+                                                
+                                                withAnimation(.spring()) {
+                                                    let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
+                                                    sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                                                }
+                                                return true
                                             }
-                                            return true
                                         }
+                                        
                                     }
                                 }
                                 
@@ -321,7 +416,7 @@ struct testSesGenView: View {
                         .padding(.horizontal)
                         .padding(.bottom, 50)
                     }
-                }
+                
             }
             .background(Color.white.ignoresSafeArea())
         }
@@ -368,7 +463,7 @@ struct PrerequisiteButton: View {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(value.isEmpty ? appModel.globalSettings.primaryLightGrayColor : Color(hex:"eb9c49"))
                     .stroke(isSelected ? Color.blue : Color(hex:"b37636"), lineWidth: 4)
-                    .stroke(value.isEmpty ? appModel.globalSettings.primaryGrayColor : Color(hex:"b37636"), lineWidth: 4)
+                    .stroke(value.isEmpty ? Color(hex:"bababa") : Color(hex:"b37636"), lineWidth: 4)
             )
         }
     }
@@ -405,7 +500,7 @@ struct PrerequisiteDropdown: View {
                     ForEach(optionsForType, id: \.self) { option in
                         Button(action: {
                             selectOption(option)
-                            dismiss()
+//                            dismiss()
                         }) {
                             HStack {
                                 Text(option)
@@ -838,6 +933,7 @@ struct SkillSelectionView: View {
                 Button(action: { showingSkillSelector = true }) {
                     RiveViewModel(fileName: "Plus_Button").view()
                         .frame(width: 50, height: 50)
+                        .padding()
                 }
                 if sessionModel.orderedDrills.isEmpty {
                     RiveViewModel(fileName: "Arrow").view()
@@ -856,9 +952,8 @@ struct SkillSelectionView: View {
                                 ) { }
                             }
                         }
-                        .padding()
                     }
-                    .padding(.horizontal, 4)
+                    .padding(.horizontal, 5)
                 }
             }
         }

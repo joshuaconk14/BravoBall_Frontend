@@ -21,6 +21,8 @@
 //    @StateObject private var sessionModel: SessionGeneratorModel
 //    @State private var showingDrills = false
 //    @State private var selectedPrerequisite: PrerequisiteType?
+//    @State private var showFilter: Bool = true
+//    @State private var showHomePage: Bool = true
 //    
 //    init(model: OnboardingModel, appModel: MainAppModel) {
 //        self.model = model
@@ -89,34 +91,35 @@
 //    var body: some View {
 //        NavigationView {
 //            ZStack(alignment: .bottom) {
-//                VStack(spacing: 0) {
-//                    // Top Bar with Controls
-//                    HStack(spacing: 20) {
-//                        Spacer()
-//                                                    
-//                        HStack {
-//                            Image("Streak_Flame")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(width: 30, height: 30)
-//                            Text("\(appModel.currentStreak)")
-//                                .font(.custom("Poppins-Bold", size: 30))
-//                                .foregroundColor(Color(hex: "#ff7b24"))
+//                    VStack(spacing: 0) {
+//                        if showHomePage {
+//                        // Top Bar with Controls
+//                            HStack(spacing: 20) {
+//                                Spacer()
+//                                                            
+//                                HStack {
+//                                    Image("Streak_Flame")
+//                                        .resizable()
+//                                        .scaledToFit()
+//                                        .frame(width: 30, height: 30)
+//                                    Text("\(appModel.currentStreak)")
+//                                        .font(.custom("Poppins-Bold", size: 30))
+//                                        .foregroundColor(Color(hex: "#ff7b24"))
+//                                }
+//                                
+//                                Button(action: { /* More options */ }) {
+//                                    Image(systemName: "ellipsis")
+//                                        .foregroundColor(.black)
+//                                        .font(.system(size: 20, weight: .medium))
+//                                }
+//                            }
+//                            .padding(.horizontal)
+//                            .padding(.vertical, 8)
 //                        }
-//                        
-//                        Button(action: { /* More options */ }) {
-//                            Image(systemName: "ellipsis")
-//                                .foregroundColor(.black)
-//                                .font(.system(size: 20, weight: .medium))
-//                        }
-//                    }
-//                    .padding(.horizontal)
-//                    .padding(.vertical, 8)
+//                
 //                    
-//                    // Whole screen's ScrollView
-//                    ScrollView {
-//                        
-//                        // Bravo's yellow area
+//
+//                        // Bravo's area
 //                        HStack {
 //                            Spacer()
 //                            RiveViewModel(fileName: "Bravo_Panting").view()
@@ -146,75 +149,125 @@
 //                        .padding(.vertical, 8)
 //                        .background(Color(hex:"bef1fa"))
 //                        
-//                        // Prerequisites ScrollView
-//                        ScrollView(.horizontal, showsIndicators: false) {
-//                            HStack(spacing: 12) {
-//                                
-//                                // X Button
-//                                Button(action: { /* Close action */ }) {
-//                                    ZStack {
-//                                        Circle()
-//                                            .fill(appModel.globalSettings.primaryLightGrayColor)
-//                                            .frame(width: 40, height: 40)
-//                                            .offset(x: 0, y: 3)
-//                                        Circle()
-//                                            .fill(Color.white)
-//                                            .frame(width: 40, height: 40)
-//                                        
-//                                        Image(systemName: "heart")
-//                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//                                            .font(.system(size: 16, weight: .medium))
-//                                    }
-//                                    .padding()
-//                                }
-//                                
-//                                // All prereqs
-//                                ForEach(PrerequisiteType.allCases, id: \.self) { type in
-//                                    PrerequisiteButton(
-//                                        appModel: appModel,
-//                                        type: type,
-//                                        icon: icon(for: type),
-//                                        isSelected: selectedPrerequisite == type,
-//                                        value: prerequisiteValue(for: type)
-//                                    ) {
-//                                        if selectedPrerequisite == type {
-//                                            selectedPrerequisite = nil
-//                                        } else {
-//                                            selectedPrerequisite = type
-//                                        }
-//                                    }
-//                                    .padding(.vertical)
-//                                }
-//                               
-//                            }
-//                            .padding(.horizontal)
-//                        }
-//                        .frame(height: 50)
 //                        
-//
-//                        // Dropdown content if prerequisite is selected
-//                        if let type = selectedPrerequisite {
-//                            PrerequisiteDropdown(
-//                                appModel: appModel,
-//                                type: type,
-//                                sessionModel: sessionModel
-//                            ){
-//                                selectedPrerequisite = nil
-//                            }
-//                        }
-//                       
+//                    if showHomePage {
+//                    }
 //                        
-//                        // Skills for today view
+//                        // Everything below bravo's space
 //                        VStack(alignment: .leading, spacing: 12) {
-//                            // TODO: Replace old skills section with new SkillSelectionView
-//                            SkillSelectionView(appModel: appModel, sessionModel: sessionModel)
-//                                .padding(.horizontal)
-//                                .padding(.vertical, 8)
-//                                .background(Color.white)
-//                                .cornerRadius(15)
+//                            
+//                            if showFilter {
+//                                // TODO: Replace old skills section with new SkillSelectionView
+//                                
+//                                // Skills for today view
+//                                SkillSelectionView(appModel: appModel, sessionModel: sessionModel)
+//                                    .padding(.vertical, 3)
+//                                
+//                                
+//                                // Prerequisites ScrollView
+//                                ZStack {
+//                                    RoundedRectangle(cornerRadius: 0)
+//                                        .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 2)
+//                                        .frame(height: 80)
+//                                    
+//                                    ScrollView(.horizontal, showsIndicators: false) {
+//                                        HStack(spacing: 12) {
+//                                            
+//                                            // Saved filters Button
+//                                            Button(action: { /* Close action */ }) {
+//                                                ZStack {
+//                                                    Circle()
+//                                                        .fill(appModel.globalSettings.primaryLightGrayColor)
+//                                                        .frame(width: 40, height: 40)
+//                                                        .offset(x: 0, y: 3)
+//                                                    Circle()
+//                                                        .fill(Color.white)
+//                                                        .frame(width: 40, height: 40)
+//                                                    
+//                                                    Image(systemName: "heart")
+//                                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                                        .font(.system(size: 16, weight: .medium))
+//                                                }
+//                                                .padding()
+//                                            }
+//                                            
+//                                            // All prereqs
+//                                            ForEach(PrerequisiteType.allCases, id: \.self) { type in
+//                                                PrerequisiteButton(
+//                                                    appModel: appModel,
+//                                                    type: type,
+//                                                    icon: icon(for: type),
+//                                                    isSelected: selectedPrerequisite == type,
+//                                                    value: prerequisiteValue(for: type)
+//                                                ) {
+//                                                    if selectedPrerequisite == type {
+//                                                        selectedPrerequisite = nil
+//                                                    } else {
+//                                                        selectedPrerequisite = type
+//                                                    }
+//                                                }
+//                                                .padding(.vertical)
+//                                            }
+//                                            
+//                                        }
+//                                        .padding()
+//                                    }
+//                                    .frame(height: 50)
+//                                }
+//                                .frame(maxWidth: .infinity)
+//                            }
+//                            
+//                            // TODO: fix toggle animation
+//                            // Filters toggle button
+//                            Button(action: {
+//                                withAnimation(.spring(dampingFraction: 0.7)) {
+//                                    showFilter.toggle()
+//                                }
+//                            }) {
+//                                if showFilter {
+//                                    Image(systemName: "chevron.up")
+//                                        .padding(.horizontal, 3)
+//                                        .padding(.vertical, 3)
+//                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                        .font(.system(size: 16, weight: .medium))
+//                                        .background(
+//                                            RoundedRectangle(cornerRadius: 8)
+//                                                .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
+//                                        )
+//                                } else {
+//                                    Image(systemName: "chevron.down")
+//                                        .padding(.horizontal, 3)
+//                                        .padding(.vertical, 3)
+//                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                        .font(.system(size: 16, weight: .medium))
+//                                        .background(
+//                                            RoundedRectangle(cornerRadius: 8)
+//                                                .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
+//                                        )
+//                                }
+//                                    
+//                            }
+//                            .padding(.top, 10)
+//                            .padding(.horizontal, 15)
+//                            
+//
+//                            
+//
+//                            // Dropdown content if prerequisite is selected
+//                            if let type = selectedPrerequisite {
+//                                PrerequisiteDropdown(
+//                                    appModel: appModel,
+//                                    type: type,
+//                                    sessionModel: sessionModel
+//                                ){
+//                                    selectedPrerequisite = nil
+//                                }
+//                                .padding(.horizontal, 50)
+//                            }
 //                            
 //                            // Generated Drills Section
 //                            VStack(alignment: .center, spacing: 12) {
+//                                
 //                                
 //                                HStack {
 //                                    Rectangle()
@@ -241,43 +294,97 @@
 //                                        .frame(width:120, height: 2)
 //                                }
 //                                
-//                                if sessionModel.orderedDrills.isEmpty {
-//                                    Spacer()
-//                                    HStack {
-//                                        Image(systemName: "lock.fill")
-//                                            .frame(width: 50, height: 50)
-//                                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-//                                        Text("Choose a skill to create your session")
-//                                            .font(.custom("Poppins-Bold", size: 12))
-//                                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+//                                // Buttons for session adjustment
+//                                HStack {
+////                                    Button(action: {
+////                                        // Implement your action here
+////                                    }) {
+////                                        RiveViewModel(fileName: "Plus_Button").view()
+////                                            .frame(width: 30, height: 30)
+////                                    }
+////                                    Button(action: {
+////                                        // Implement your action here
+////                                    }) {
+////                                        RiveViewModel(fileName: "Plus_Button").view()
+////                                            .frame(width: 30, height: 30)
+////                                    }
+//                                    Button(action: { /* Close action */ }) {
+//                                        ZStack {
+//                                            Circle()
+//                                                .fill(appModel.globalSettings.primaryLightGrayColor)
+//                                                .frame(width: 30, height: 30)
+//                                                .offset(x: 0, y: 3)
+//                                            Circle()
+//                                                .fill(Color.white)
+//                                                .frame(width: 30, height: 30)
+//                                            
+//                                            Image(systemName: "plus")
+//                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                                .font(.system(size: 16, weight: .medium))
+//                                        }
 //                                    }
-//                                    .padding(.horizontal, 30)
-//                                } else {
+//                                    Button(action: { /* Close action */ }) {
+//                                        ZStack {
+//                                            Circle()
+//                                                .fill(appModel.globalSettings.primaryLightGrayColor)
+//                                                .frame(width: 30, height: 30)
+//                                                .offset(x: 0, y: 3)
+//                                            Circle()
+//                                                .fill(Color.white)
+//                                                .frame(width: 30, height: 30)
+//                                            
+//                                            Image(systemName: "chevron.down")
+//                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                                .font(.system(size: 16, weight: .medium))
+//                                        }
+//                                    }
+//                                    Spacer()
 //                                
-//                                ForEach(sessionModel.orderedDrills) { drill in
-//                                    DrillCard(
-//                                        appModel: appModel,
-//                                        drill: drill
-//                                    )
-//                                        .draggable(drill.title) {
+//                                }
+//                                
+//                                ScrollView {
+//                                
+//                                    if sessionModel.orderedDrills.isEmpty {
+//                                        Spacer()
+//                                        HStack {
+//                                            Image(systemName: "lock.fill")
+//                                                .frame(width: 50, height: 50)
+//                                                .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+//                                            Text("Choose a skill to create your session")
+//                                                .font(.custom("Poppins-Bold", size: 12))
+//                                                .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+//                                        }
+//                                        .padding(.horizontal, 30)
+//                                        .padding(.bottom, 150)
+//                                        
+//                                    } else {
+//                                        
+//                                        ForEach(sessionModel.orderedDrills) { drill in
 //                                            DrillCard(
 //                                                appModel: appModel,
 //                                                drill: drill
 //                                            )
-//                                        }
-//                                        .dropDestination(for: String.self) { items, location in
-//                                            guard let sourceTitle = items.first,
-//                                                  let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
-//                                                  let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
-//                                                return false
+//                                            .draggable(drill.title) {
+//                                                DrillCard(
+//                                                    appModel: appModel,
+//                                                    drill: drill
+//                                                )
 //                                            }
-//                                            
-//                                            withAnimation(.spring()) {
-//                                                let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
-//                                                sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+//                                            .dropDestination(for: String.self) { items, location in
+//                                                guard let sourceTitle = items.first,
+//                                                      let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
+//                                                      let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
+//                                                    return false
+//                                                }
+//                                                
+//                                                withAnimation(.spring()) {
+//                                                    let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
+//                                                    sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+//                                                }
+//                                                return true
 //                                            }
-//                                            return true
 //                                        }
+//                                        
 //                                    }
 //                                }
 //                                
@@ -286,7 +393,7 @@
 //                            .background(Color.white)
 //                            .cornerRadius(15)
 //                        }
-//                        .padding()
+////                        .padding()
 //                        .padding(.bottom, 80)
 //                    }
 //                    
@@ -309,20 +416,25 @@
 //                        .padding(.horizontal)
 //                        .padding(.bottom, 50)
 //                    }
-//                }
+//                
 //            }
 //            .background(Color.white.ignoresSafeArea())
 //        }
 //    }
 //            
-//    
+//    // Prereq value that is selected, or if its empty
 //    private func prerequisiteValue(for type: PrerequisiteType) -> String {
 //        switch type {
-//        case .time: return sessionModel.selectedTime
-//        case .equipment: return "\(sessionModel.selectedEquipment.count) selected"
-//        case .trainingStyle: return sessionModel.selectedTrainingStyle
-//        case .location: return sessionModel.selectedLocation
-//        case .difficulty: return sessionModel.selectedDifficulty
+//        case .time:
+//            return sessionModel.selectedTime ?? ""
+//        case .equipment:
+//            return sessionModel.selectedEquipment.isEmpty ? "" : "\(sessionModel.selectedEquipment.count) selected"
+//        case .trainingStyle:
+//            return sessionModel.selectedTrainingStyle ?? ""
+//        case .location:
+//            return sessionModel.selectedLocation ?? ""
+//        case .difficulty:
+//            return sessionModel.selectedDifficulty ?? ""
 //        }
 //    }
 //}
@@ -337,24 +449,23 @@
 //    let action: () -> Void
 //    
 //    var body: some View {
-//        Button(action: action) {
-//            HStack {
+//        Button(action: {
+//            withAnimation(.spring(dampingFraction: 0.7)) {
+//                action()
+//            }
+//        }) {
+//            VStack {
 //                icon.view
-////                Text(value.isEmpty ? "Select" : value)
-////                    .font(.custom("Poppins-Bold", size: 14))
-////                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-////                Image(systemName: "chevron.down")
-////                    .font(.custom("Poppins-Bold", size: 12))
 //            }
 //            .padding(.horizontal, 12)
 //            .padding(.vertical, 8)
 //            .background(
 //                RoundedRectangle(cornerRadius: 8)
-//                    .fill(Color(hex:"eb9c49"))
+//                    .fill(value.isEmpty ? appModel.globalSettings.primaryLightGrayColor : Color(hex:"eb9c49"))
 //                    .stroke(isSelected ? Color.blue : Color(hex:"b37636"), lineWidth: 4)
+//                    .stroke(value.isEmpty ? Color(hex:"bababa") : Color(hex:"b37636"), lineWidth: 4)
 //            )
 //        }
-//        .foregroundColor(isSelected ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryDarkColor)
 //    }
 //}
 //
@@ -374,7 +485,11 @@
 //                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
 //
 //                Spacer()
-//                Button(action: dismiss) {
+//                Button(action: {
+//                    withAnimation(.spring(dampingFraction: 0.7)) {
+//                        dismiss()
+//                    }
+//                }) {
 //                    Image(systemName: "xmark")
 //                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
 //                }
@@ -385,7 +500,7 @@
 //                    ForEach(optionsForType, id: \.self) { option in
 //                        Button(action: {
 //                            selectOption(option)
-//                            dismiss()
+////                            dismiss()
 //                        }) {
 //                            HStack {
 //                                Text(option)
@@ -403,9 +518,9 @@
 //                    }
 //                }
 //            }
-//            .frame(maxHeight: 200)
+//            .frame(maxHeight: 150)
 //        }
-//        .padding()
+//        .padding(10)
 //        .background(Color.white)
 //        .cornerRadius(15)
 //        .background(
@@ -414,6 +529,7 @@
 //                .stroke(Color.gray.opacity(0.3), lineWidth: 3)
 //        )
 //    }
+//    
 //    
 //    private var optionsForType: [String] {
 //        switch type {
@@ -438,7 +554,11 @@
 //    private func selectOption(_ option: String) {
 //        switch type {
 //        case .time:
-//            sessionModel.selectedTime = option
+//            if sessionModel.selectedTime == option {
+//                sessionModel.selectedTime = nil
+//            } else {
+//                sessionModel.selectedTime = option
+//            }
 //        case .equipment:
 //            if sessionModel.selectedEquipment.contains(option) {
 //                sessionModel.selectedEquipment.remove(option)
@@ -446,11 +566,23 @@
 //                sessionModel.selectedEquipment.insert(option)
 //            }
 //        case .trainingStyle:
-//            sessionModel.selectedTrainingStyle = option
+//            if sessionModel.selectedTrainingStyle == option {
+//                sessionModel.selectedTrainingStyle = nil
+//            } else {
+//                sessionModel.selectedTrainingStyle = option
+//            }
 //        case .location:
-//            sessionModel.selectedLocation = option
+//            if sessionModel.selectedLocation == option {
+//                sessionModel.selectedLocation = nil
+//            } else {
+//                sessionModel.selectedLocation = option
+//            }
 //        case .difficulty:
-//            sessionModel.selectedDifficulty = option
+//            if sessionModel.selectedDifficulty == option {
+//                sessionModel.selectedDifficulty = nil
+//            } else {
+//                sessionModel.selectedDifficulty = option
+//            }
 //        }
 //    }
 //}
@@ -564,13 +696,13 @@
 //
 //
 //
-//
+//// Session model
 //class SessionGeneratorModel: ObservableObject {
-//    @Published var selectedTime: String = "1h"
+//    @Published var selectedTime: String?
 //    @Published var selectedEquipment: Set<String> = []
-//    @Published var selectedTrainingStyle: String = "medium intensity"
-//    @Published var selectedLocation: String = ""
-//    @Published var selectedDifficulty: String = ""
+//    @Published var selectedTrainingStyle: String?
+//    @Published var selectedLocation: String?
+//    @Published var selectedDifficulty: String?
 //    @Published var selectedSkills: Set<String> = [] {
 //        didSet {
 //            updateDrills()
@@ -778,29 +910,30 @@
 //    
 //    var body: some View {
 //        VStack(alignment: .leading, spacing: 8) {
-//            HStack {
-//                Rectangle()
-//                    .fill(appModel.globalSettings.primaryLightGrayColor)
-//                    .frame(width:80, height: 2)
-//                
-//
-//                Spacer()
-//                
-//                Text("Skills for Today")
-//                    .font(.custom("Poppins-Bold", size: 20))
-//                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//
-//                Spacer()
-//                
-//                Rectangle()
-//                    .fill(appModel.globalSettings.primaryLightGrayColor)
-//                    .frame(width:80, height: 2)
-//            }
+////            HStack {
+////                Rectangle()
+////                    .fill(appModel.globalSettings.primaryLightGrayColor)
+////                    .frame(width:80, height: 2)
+////
+////
+////                Spacer()
+////
+////                Text("Skills for Today")
+////                    .font(.custom("Poppins-Bold", size: 20))
+////                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+////
+////                Spacer()
+////
+////                Rectangle()
+////                    .fill(appModel.globalSettings.primaryLightGrayColor)
+////                    .frame(width:80, height: 2)
+////            }
 //            
 //            HStack {
 //                Button(action: { showingSkillSelector = true }) {
 //                    RiveViewModel(fileName: "Plus_Button").view()
 //                        .frame(width: 50, height: 50)
+//                        .padding()
 //                }
 //                if sessionModel.orderedDrills.isEmpty {
 //                    RiveViewModel(fileName: "Arrow").view()
@@ -819,9 +952,8 @@
 //                                ) { }
 //                            }
 //                        }
-//                        .padding()
 //                    }
-//                    .padding(.horizontal, 4)
+//                    .padding(.horizontal, 5)
 //                }
 //            }
 //        }
@@ -1038,3 +1170,4 @@
 //    return
 //        testSesGenView(model: mockOnboardingModel, appModel: mockAppModel)
 //}
+//

@@ -59,6 +59,7 @@
 		43BFAA362D44182400B12A6F /* Prereq_Location.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA352D44182400B12A6F /* Prereq_Location.riv */; };
 		43BFAA3C2D442BEB00B12A6F /* Prereq_Difficulty.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA3B2D442BEB00B12A6F /* Prereq_Difficulty.riv */; };
 		43BFAA422D444A2C00B12A6F /* Message_Bubble.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA412D444A2C00B12A6F /* Message_Bubble.riv */; };
+		43F69CEB2D456291002143FD /* testNewElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F69CEA2D456286002143FD /* testNewElement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +135,7 @@
 		43BFAA352D44182400B12A6F /* Prereq_Location.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Prereq_Location.riv; sourceTree = "<group>"; };
 		43BFAA3B2D442BEB00B12A6F /* Prereq_Difficulty.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Prereq_Difficulty.riv; sourceTree = "<group>"; };
 		43BFAA412D444A2C00B12A6F /* Message_Bubble.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Message_Bubble.riv; sourceTree = "<group>"; };
+		43F69CEA2D456286002143FD /* testNewElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testNewElement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -336,6 +338,7 @@
 		43BFAA042D4200A500B12A6F /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				43F69CEA2D456286002143FD /* testNewElement.swift */,
 				43BFA9FD2D41D36C00B12A6F /* testSesGenView.swift */,
 			);
 			path = tests;
@@ -513,6 +516,7 @@
 				178208E02D2DEB9C00246494 /* OnboardingModel.swift in Sources */,
 				43BFA9FE2D41D37100B12A6F /* testSesGenView.swift in Sources */,
 				17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */,
+				43F69CEB2D456291002143FD /* testNewElement.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
 				1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */,
 				1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */,

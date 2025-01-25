@@ -20,6 +20,7 @@ class MainAppModel: ObservableObject {
     @Published var inSimulationMode: Bool = true
     
     
+    
     // MARK: Calendar
     
     let calendar = Calendar.current
