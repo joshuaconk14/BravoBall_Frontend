@@ -145,4 +145,5 @@ class MainAppModel: ObservableObject {
         UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
+    
 }

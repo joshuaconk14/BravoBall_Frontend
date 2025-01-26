@@ -91,36 +91,45 @@ struct testSesGenView: View {
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
-                    VStack(spacing: 0) {
-                        if showHomePage {
+                ZStack(alignment: .top) {
                         // Top Bar with Controls
-                            HStack(spacing: 20) {
-                                Spacer()
-                                                            
-                                HStack {
-                                    Image("Streak_Flame")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 30, height: 30)
-                                    Text("\(appModel.currentStreak)")
-                                        .font(.custom("Poppins-Bold", size: 30))
-                                        .foregroundColor(Color(hex: "#ff7b24"))
-                                }
-                                
-                                Button(action: { /* More options */ }) {
-                                    Image(systemName: "ellipsis")
-                                        .foregroundColor(.black)
-                                        .font(.system(size: 20, weight: .medium))
-                                }
-                            }
-                            .padding(.horizontal)
-                            .padding(.vertical, 8)
-                        }
+//                            HStack(spacing: 20) {
+//                                Spacer()
+//                                                            
+//                                HStack {
+//                                    Image("Streak_Flame")
+//                                        .resizable()
+//                                        .scaledToFit()
+//                                        .frame(width: 30, height: 30)
+//                                    Text("\(appModel.currentStreak)")
+//                                        .font(.custom("Poppins-Bold", size: 30))
+//                                        .foregroundColor(Color(hex: "#ff7b24"))
+//                                }
+//                                
+//                                Button(action: { /* More options */ }) {
+//                                    Image(systemName: "ellipsis")
+//                                        .foregroundColor(.black)
+//                                        .font(.system(size: 20, weight: .medium))
+//                                }
+//                            }
+//                            .padding(.horizontal)
+//                            .padding(.vertical, 8)
                 
                     
 
-                        // Bravo's area
+                    // Bravo's area
+                    VStack {
                         HStack {
+                            if !showHomePage {
+                                Button(action: {
+                                    withAnimation(.spring(dampingFraction: 0.7)) {
+                                        showHomePage = true
+                                    }
+                                }) {
+                                    Image(systemName: "xmark")
+                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                }
+                            }
                             Spacer()
                             RiveViewModel(fileName: "Bravo_Panting").view()
                                 .frame(width: 90, height: 90)
@@ -147,259 +156,281 @@ struct testSesGenView: View {
                         }
                         .padding(.horizontal)
                         .padding(.vertical, 8)
-                        .background(Color(hex:"bef1fa"))
                         
-                        
-                    if showHomePage {
+                        Spacer()
                     }
                         
-                        // Everything below bravo's space
-                        VStack(alignment: .leading, spacing: 12) {
+                        
+                        
+                    // Everything below bravo's space
+                    if showHomePage {
+                        
+                        // ZStack for rounded corner
+                        ZStack {
                             
-                            if showFilter {
-                                // TODO: Replace old skills section with new SkillSelectionView
-                                
-                                // Skills for today view
-                                SkillSelectionView(appModel: appModel, sessionModel: sessionModel)
-                                    .padding(.vertical, 3)
-                                
-                                
-                                // Prerequisites ScrollView
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 0)
-                                        .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 2)
-                                        .frame(height: 80)
-                                    
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack(spacing: 12) {
-                                            
-                                            // Saved filters Button
-                                            Button(action: { /* Close action */ }) {
-                                                ZStack {
-                                                    Circle()
-                                                        .fill(appModel.globalSettings.primaryLightGrayColor)
-                                                        .frame(width: 40, height: 40)
-                                                        .offset(x: 0, y: 3)
-                                                    Circle()
-                                                        .fill(Color.white)
-                                                        .frame(width: 40, height: 40)
-                                                    
-                                                    Image(systemName: "heart")
-                                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                                        .font(.system(size: 16, weight: .medium))
-                                                }
-                                                .padding()
-                                            }
-                                            
-                                            // All prereqs
-                                            ForEach(PrerequisiteType.allCases, id: \.self) { type in
-                                                PrerequisiteButton(
-                                                    appModel: appModel,
-                                                    type: type,
-                                                    icon: icon(for: type),
-                                                    isSelected: selectedPrerequisite == type,
-                                                    value: prerequisiteValue(for: type)
-                                                ) {
-                                                    if selectedPrerequisite == type {
-                                                        selectedPrerequisite = nil
-                                                    } else {
-                                                        selectedPrerequisite = type
-                                                    }
-                                                }
-                                                .padding(.vertical)
-                                            }
-                                            
-                                        }
-                                        .padding()
-                                    }
-                                    .frame(height: 50)
-                                }
-                                .frame(maxWidth: .infinity)
-                            }
+                            RoundedCorner(radius: 30, corners: [.topLeft, .topRight])
+                                .fill(Color.white)
+                                .edgesIgnoringSafeArea(.bottom)
                             
-                            // TODO: fix toggle animation
-                            // Filters toggle button
-                            Button(action: {
-                                withAnimation(.spring(dampingFraction: 0.7)) {
-                                    showFilter.toggle()
-                                }
-                            }) {
+                            
+                            VStack(alignment: .leading, spacing: 12) {
+                                
                                 if showFilter {
-                                    Image(systemName: "chevron.up")
-                                        .padding(.horizontal, 3)
+                                    // TODO: Replace old skills section with new SkillSelectionView
+                                    
+                                    // Skills for today view
+                                    SkillSelectionView(appModel: appModel, sessionModel: sessionModel)
                                         .padding(.vertical, 3)
-                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                        .font(.system(size: 16, weight: .medium))
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 8)
-                                                .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
-                                        )
-                                } else {
-                                    Image(systemName: "chevron.down")
-                                        .padding(.horizontal, 3)
-                                        .padding(.vertical, 3)
-                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                        .font(.system(size: 16, weight: .medium))
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 8)
-                                                .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
-                                        )
+                                    
+                                    
+                                    
+                                    // Prerequisites ScrollView
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 0)
+                                            .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 2)
+                                            .frame(height: 80)
+                                        
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            HStack(spacing: 12) {
+                                                
+                                                // Saved filters Button
+                                                Button(action: { /* Close action */ }) {
+                                                    ZStack {
+                                                        Circle()
+                                                            .fill(appModel.globalSettings.primaryLightGrayColor)
+                                                            .frame(width: 40, height: 40)
+                                                            .offset(x: 0, y: 3)
+                                                        Circle()
+                                                            .fill(Color.white)
+                                                            .frame(width: 40, height: 40)
+                                                        
+                                                        Image(systemName: "heart")
+                                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                                            .font(.system(size: 16, weight: .medium))
+                                                    }
+                                                    .padding()
+                                                }
+                                                
+                                                // All prereqs
+                                                ForEach(PrerequisiteType.allCases, id: \.self) { type in
+                                                    PrerequisiteButton(
+                                                        appModel: appModel,
+                                                        type: type,
+                                                        icon: icon(for: type),
+                                                        isSelected: selectedPrerequisite == type,
+                                                        value: prerequisiteValue(for: type)
+                                                    ) {
+                                                        if selectedPrerequisite == type {
+                                                            selectedPrerequisite = nil
+                                                        } else {
+                                                            selectedPrerequisite = type
+                                                        }
+                                                    }
+                                                    .padding(.vertical)
+                                                }
+                                                
+                                            }
+                                            .padding()
+                                        }
+                                        .frame(height: 50)
+                                    }
+                                    .frame(maxWidth: .infinity)
                                 }
-                                    
-                            }
-                            .padding(.top, 10)
-                            .padding(.horizontal, 15)
-                            
-
-                            
-
-                            // Dropdown content if prerequisite is selected
-                            if let type = selectedPrerequisite {
-                                PrerequisiteDropdown(
-                                    appModel: appModel,
-                                    type: type,
-                                    sessionModel: sessionModel
-                                ){
-                                    selectedPrerequisite = nil
-                                }
-                                .padding(.horizontal, 50)
-                            }
-                            
-                            // Generated Drills Section
-                            VStack(alignment: .center, spacing: 12) {
                                 
-                                
-                                HStack {
-                                    Rectangle()
-                                        .fill(appModel.globalSettings.primaryLightGrayColor)
-                                        .frame(width:120, height: 2)
-                                    
-                                    Spacer()
-                                    
-                                    if sessionModel.orderedDrills.isEmpty {
-                                        Text("Session")
-                                            .font(.custom("Poppins-Bold", size: 20))
-                                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-                                    
-                                    } else {
-                                        Text("Session")
-                                            .font(.custom("Poppins-Bold", size: 20))
+                                // TODO: fix toggle animation
+                                // Filters toggle button
+                                Button(action: {
+                                    withAnimation(.spring(dampingFraction: 0.7)) {
+                                        showFilter.toggle()
+                                    }
+                                }) {
+                                    if showFilter {
+                                        Image(systemName: "chevron.up")
+                                            .padding(.horizontal, 3)
+                                            .padding(.vertical, 3)
                                             .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                    }
-                                    
-                                    Spacer()
-                                    
-                                    Rectangle()
-                                        .fill(appModel.globalSettings.primaryLightGrayColor)
-                                        .frame(width:120, height: 2)
-                                }
-                                
-                                // Buttons for session adjustment
-                                HStack {
-//                                    Button(action: {
-//                                        // Implement your action here
-//                                    }) {
-//                                        RiveViewModel(fileName: "Plus_Button").view()
-//                                            .frame(width: 30, height: 30)
-//                                    }
-//                                    Button(action: {
-//                                        // Implement your action here
-//                                    }) {
-//                                        RiveViewModel(fileName: "Plus_Button").view()
-//                                            .frame(width: 30, height: 30)
-//                                    }
-                                    Button(action: { /* Close action */ }) {
-                                        ZStack {
-                                            Circle()
-                                                .fill(appModel.globalSettings.primaryLightGrayColor)
-                                                .frame(width: 30, height: 30)
-                                                .offset(x: 0, y: 3)
-                                            Circle()
-                                                .fill(Color.white)
-                                                .frame(width: 30, height: 30)
-                                            
-                                            Image(systemName: "plus")
-                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                                .font(.system(size: 16, weight: .medium))
-                                        }
-                                    }
-                                    Button(action: { /* Close action */ }) {
-                                        ZStack {
-                                            Circle()
-                                                .fill(appModel.globalSettings.primaryLightGrayColor)
-                                                .frame(width: 30, height: 30)
-                                                .offset(x: 0, y: 3)
-                                            Circle()
-                                                .fill(Color.white)
-                                                .frame(width: 30, height: 30)
-                                            
-                                            Image(systemName: "chevron.down")
-                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                                .font(.system(size: 16, weight: .medium))
-                                        }
-                                    }
-                                    Spacer()
-                                
-                                }
-                                
-                                ScrollView {
-                                
-                                    if sessionModel.orderedDrills.isEmpty {
-                                        Spacer()
-                                        HStack {
-                                            Image(systemName: "lock.fill")
-                                                .frame(width: 50, height: 50)
-                                                .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-                                            Text("Choose a skill to create your session")
-                                                .font(.custom("Poppins-Bold", size: 12))
-                                                .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-                                        }
-                                        .padding(.horizontal, 30)
-                                        .padding(.bottom, 150)
-                                        
-                                    } else {
-                                        
-                                        ForEach(sessionModel.orderedDrills) { drill in
-                                            DrillCard(
-                                                appModel: appModel,
-                                                drill: drill
+                                            .font(.system(size: 16, weight: .medium))
+                                            .background(
+                                                RoundedRectangle(cornerRadius: 8)
+                                                    .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
                                             )
-                                            .draggable(drill.title) {
+                                    } else {
+                                        Image(systemName: "chevron.down")
+                                            .padding(.horizontal, 3)
+                                            .padding(.vertical, 3)
+                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                            .font(.system(size: 16, weight: .medium))
+                                            .background(
+                                                RoundedRectangle(cornerRadius: 8)
+                                                    .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
+                                            )
+                                    }
+                                    
+                                }
+                                .padding(.top, 10)
+                                .padding(.horizontal, 15)
+                                
+                                
+                                
+                                
+                                // Dropdown content if prerequisite is selected
+                                if let type = selectedPrerequisite {
+                                    PrerequisiteDropdown(
+                                        appModel: appModel,
+                                        type: type,
+                                        sessionModel: sessionModel
+                                    ){
+                                        selectedPrerequisite = nil
+                                    }
+                                    .padding(.horizontal, 50)
+                                }
+                                
+                                // Generated Drills Section
+                                VStack(alignment: .center, spacing: 12) {
+                                    
+                                    
+                                    HStack {
+                                        Rectangle()
+                                            .fill(appModel.globalSettings.primaryLightGrayColor)
+                                            .frame(width:120, height: 2)
+                                        
+                                        Spacer()
+                                        
+                                        if sessionModel.orderedDrills.isEmpty {
+                                            Text("Session")
+                                                .font(.custom("Poppins-Bold", size: 20))
+                                                .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                                            
+                                        } else {
+                                            Text("Session")
+                                                .font(.custom("Poppins-Bold", size: 20))
+                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                        }
+                                        
+                                        Spacer()
+                                        
+                                        Rectangle()
+                                            .fill(appModel.globalSettings.primaryLightGrayColor)
+                                            .frame(width:120, height: 2)
+                                    }
+                                    
+                                    // Buttons for session adjustment
+                                    HStack {
+                                        //                                    Button(action: {
+                                        //                                        // Implement your action here
+                                        //                                    }) {
+                                        //                                        RiveViewModel(fileName: "Plus_Button").view()
+                                        //                                            .frame(width: 30, height: 30)
+                                        //                                    }
+                                        //                                    Button(action: {
+                                        //                                        // Implement your action here
+                                        //                                    }) {
+                                        //                                        RiveViewModel(fileName: "Plus_Button").view()
+                                        //                                            .frame(width: 30, height: 30)
+                                        //                                    }
+                                        Button(action: { /* Close action */ }) {
+                                            ZStack {
+                                                Circle()
+                                                    .fill(appModel.globalSettings.primaryLightGrayColor)
+                                                    .frame(width: 30, height: 30)
+                                                    .offset(x: 0, y: 3)
+                                                Circle()
+                                                    .fill(Color.white)
+                                                    .frame(width: 30, height: 30)
+                                                
+                                                Image(systemName: "plus")
+                                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                                    .font(.system(size: 16, weight: .medium))
+                                            }
+                                        }
+                                        Button(action: { /* Close action */ }) {
+                                            ZStack {
+                                                Circle()
+                                                    .fill(appModel.globalSettings.primaryLightGrayColor)
+                                                    .frame(width: 30, height: 30)
+                                                    .offset(x: 0, y: 3)
+                                                Circle()
+                                                    .fill(Color.white)
+                                                    .frame(width: 30, height: 30)
+                                                
+                                                Image(systemName: "chevron.down")
+                                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                                    .font(.system(size: 16, weight: .medium))
+                                            }
+                                        }
+                                        Spacer()
+                                        
+                                    }
+                                    
+                                    ScrollView {
+                                        
+                                        if sessionModel.orderedDrills.isEmpty {
+                                            Spacer()
+                                            HStack {
+                                                Image(systemName: "lock.fill")
+                                                    .frame(width: 50, height: 50)
+                                                    .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                                                Text("Choose a skill to create your session")
+                                                    .font(.custom("Poppins-Bold", size: 12))
+                                                    .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                                            }
+                                            .padding(.horizontal, 30)
+                                            .padding(.bottom, 150)
+                                            
+                                        } else {
+                                            
+                                            ForEach(sessionModel.orderedDrills) { drill in
                                                 DrillCard(
                                                     appModel: appModel,
                                                     drill: drill
                                                 )
-                                            }
-                                            .dropDestination(for: String.self) { items, location in
-                                                guard let sourceTitle = items.first,
-                                                      let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
-                                                      let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
-                                                    return false
+                                                .draggable(drill.title) {
+                                                    DrillCard(
+                                                        appModel: appModel,
+                                                        drill: drill
+                                                    )
                                                 }
-                                                
-                                                withAnimation(.spring()) {
-                                                    let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
-                                                    sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                                                .dropDestination(for: String.self) { items, location in
+                                                    guard let sourceTitle = items.first,
+                                                          let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
+                                                          let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
+                                                        return false
+                                                    }
+                                                    
+                                                    withAnimation(.spring()) {
+                                                        let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
+                                                        sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                                                    }
+                                                    return true
                                                 }
-                                                return true
                                             }
+                                            
                                         }
-                                        
                                     }
+                                    
                                 }
-                                
+                                .padding()
+                                .cornerRadius(15)
                             }
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(15)
                         }
-//                        .padding()
-                        .padding(.bottom, 80)
+                        .padding(.top, 120)
+
+
                     }
                     
-                    if !sessionModel.orderedDrills.isEmpty {
+                        
+                    }
+
+                
+                    
+                if !sessionModel.orderedDrills.isEmpty {
+                    if showHomePage {
                         Button(action: {
-                            sessionModel.generateSession()
+                            withAnimation(.spring(dampingFraction: 0.7)) {
+                                sessionModel.generateSession()
+                                showHomePage = false
+                            }
+                            
                         }) {
                             ZStack {
                                 RiveViewModel(fileName: "Golden_Button").view()
@@ -416,9 +447,10 @@ struct testSesGenView: View {
                         .padding(.horizontal)
                         .padding(.bottom, 50)
                     }
+                }
                 
             }
-            .background(Color.white.ignoresSafeArea())
+            .background(Color(hex:"bef1fa"))
         }
     }
             
@@ -1144,6 +1176,25 @@ struct SkillCategoryButton: View {
         }
     }
 }
+
+
+// MARK: Extensions
+//extension View {
+//    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+//        clipShape(RoundedCorner(radius: radius, corners: corners))
+//    }
+//}
+//
+//struct RoundedCorner: Shape {
+//    var radius: CGFloat = .infinity
+//    var corners: UIRectCorner = .allCorners
+//
+//    func path(in rect: CGRect) -> Path {
+//        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+//        return Path(path.cgPath)
+//    }
+//}
+
 
 // MARK: Preview
 #Preview {
