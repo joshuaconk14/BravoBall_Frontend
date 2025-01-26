@@ -5,6 +5,12 @@
 ////  Created by Joshua Conklin on 1/22/25.
 ////
 //
+////
+////  SessionGeneratorView.swift
+////  BravoBall
+////
+////  Created by Jordan on 1/7/25.
+////
 //
 //import SwiftUI
 //import RiveRuntime
@@ -18,6 +24,7 @@
 //    @State private var showFilter: Bool = true
 //    @State private var showHomePage: Bool = true
 //    @State private var showTextBubble: Bool = true
+//    @State private var showSmallDrillCards: Bool = false
 //    
 //    init(model: OnboardingModel, appModel: MainAppModel) {
 //        self.model = model
@@ -86,6 +93,10 @@
 //    var body: some View {
 //        NavigationView {
 //            ZStack(alignment: .bottom) {
+//                
+//                
+//                
+//                
 //                ZStack(alignment: .top) {
 //                        // Top Bar with Controls
 ////                            HStack(spacing: 20) {
@@ -118,7 +129,14 @@
 //                            if !showHomePage {
 //                                Button(action:  {
 //                                    withAnimation(.spring(dampingFraction: 0.7)) {
-//                                        showHomePage = true
+//                                        showSmallDrillCards = false
+//                                    }
+//                                    
+//                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+//                                        withAnimation(.spring(dampingFraction: 0.7)) {
+//                                            showHomePage = true
+//                                            showTextBubble = true
+//                                        }
 //                                    }
 //                                }) {
 //                                    Image(systemName: "xmark")
@@ -126,8 +144,11 @@
 //                                }
 //                            }
 //                            Spacer()
+//                            
+//
 //                            RiveViewModel(fileName: "Bravo_Panting").view()
 //                                .frame(width: 90, height: 90)
+//                            
 //                            
 //                            // Text bubble
 //                            if showTextBubble {
@@ -160,39 +181,46 @@
 //                        .padding(.vertical, 8)
 //                        
 //                        Spacer()
-//                        
-//                        ZStack {
-//                            RiveViewModel(fileName: "Grass_Field").view()
-//                                .frame(maxWidth: .infinity)
-//                                .padding(.top, 100)
-//                            
-//                            if !showHomePage {
-//                                VStack {
-//                                    ForEach(sessionModel.orderedDrills) { drill in
-//                                        SmallDrillCard(
-//                                            appModel: appModel,
-//                                            drill: drill
-//                                        )
-//                                        .dropDestination(for: String.self) { items, location in
-//                                            guard let sourceTitle = items.first,
-//                                                  let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
-//                                                  let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
-//                                                return false
+//
+//                            // When the session is activated
+//                            if showSmallDrillCards {
+//                                ZStack {
+//                                    RiveViewModel(fileName: "Grass_Field").view()
+//                                        .frame(maxWidth: .infinity)
+//                                        .padding(.top, 100)
+//                                    HStack {
+//                                        RiveViewModel(fileName: "Bravo_Panting").view()
+//                                            .frame(width: 90, height: 90)
+//                                        VStack {
+//                                            ForEach(sessionModel.orderedDrills) { drill in
+//                                                SmallDrillCard(
+//                                                    appModel: appModel,
+//                                                    drill: drill
+//                                                )
+//                                                .dropDestination(for: String.self) { items, location in
+//                                                    guard let sourceTitle = items.first,
+//                                                          let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
+//                                                          let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
+//                                                        return false
+//                                                    }
+//                                                    
+//                                                    withAnimation(.spring()) {
+//                                                        let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
+//                                                        sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+//                                                    }
+//                                                    return true
+//                                                }
 //                                            }
-//                                            
-//                                            withAnimation(.spring()) {
-//                                                let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
-//                                                sessionModel.orderedDrills.insert(drill, at: destinationIndex)
-//                                            }
-//                                            return true
 //                                        }
+//                                        .padding()
 //                                    }
+//                                    
 //                                }
-//                                .padding()
+//                                .transition(.move(edge: .bottom))
+//                                
 //                                
 //                            }
 //                            
-//                        }
 //                    }
 //                        
 //                        
@@ -221,7 +249,8 @@
 //                                    
 //                                    // Prerequisites ScrollView
 //                                    ZStack {
-//                                        RoundedRectangle(cornerRadius: 0)
+//                                        
+//                                        Rectangle()
 //                                            .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 2)
 //                                            .frame(height: 80)
 //                                        
@@ -456,6 +485,13 @@
 //                                sessionModel.generateSession()
 //                                showHomePage = false
 //                                showTextBubble = false
+//                            }
+//                            
+//                            // Delay the appearance of drill cards to match the menu's exit animation
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+//                                withAnimation(.spring(dampingFraction: 0.7)) {
+//                                    showSmallDrillCards = true
+//                                }
 //                            }
 //                            
 //                        }) {
