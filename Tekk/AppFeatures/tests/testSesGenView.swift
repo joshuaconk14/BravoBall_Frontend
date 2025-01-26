@@ -23,6 +23,7 @@ struct testSesGenView: View {
     @State private var selectedPrerequisite: PrerequisiteType?
     @State private var showFilter: Bool = true
     @State private var showHomePage: Bool = true
+    @State private var showTextBubble: Bool = true
     
     init(model: OnboardingModel, appModel: MainAppModel) {
         self.model = model
@@ -121,7 +122,7 @@ struct testSesGenView: View {
                     VStack {
                         HStack {
                             if !showHomePage {
-                                Button(action: {
+                                Button(action:  {
                                     withAnimation(.spring(dampingFraction: 0.7)) {
                                         showHomePage = true
                                     }
@@ -133,31 +134,71 @@ struct testSesGenView: View {
                             Spacer()
                             RiveViewModel(fileName: "Bravo_Panting").view()
                                 .frame(width: 90, height: 90)
-                            ZStack(alignment: .center) {
-                                RiveViewModel(fileName: "Message_Bubble").view()
-                                    .frame(width: 170, height: 90)
+                            
+                            // Text bubble
+                            if showTextBubble {
+                                ZStack(alignment: .center) {
+                                    RiveViewModel(fileName: "Message_Bubble").view()
+                                        .frame(width: 170, height: 90)
 
-                                if sessionModel.orderedDrills.isEmpty {
-                                    Text("Choose your skill to improve today")
-                                        .font(.custom("Poppins-Bold", size: 12))
-                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                        .padding(10)
-                                        .frame(maxWidth: 150)
-                                } else {
-                                    Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
-                                        .font(.custom("Poppins-Bold", size: 12))
-                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                        .padding(10)
-                                        .frame(maxWidth: 150)
+                                    if sessionModel.orderedDrills.isEmpty {
+                                        Text("Choose your skill to improve today")
+                                            .font(.custom("Poppins-Bold", size: 12))
+                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                            .padding(10)
+                                            .frame(maxWidth: 150)
+                                    } else {
+                                        
+                                        Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
+                                            .font(.custom("Poppins-Bold", size: 12))
+                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                            .padding(10)
+                                            .frame(maxWidth: 150)
+                                    }
                                 }
                             }
                             
+                            
                             Spacer()
+                            
                         }
                         .padding(.horizontal)
                         .padding(.vertical, 8)
                         
                         Spacer()
+                        
+                        ZStack {
+                            RiveViewModel(fileName: "Grass_Field").view()
+                                .frame(maxWidth: .infinity)
+                                .padding(.top, 100)
+                            
+                            if !showHomePage {
+                                VStack {
+                                    ForEach(sessionModel.orderedDrills) { drill in
+                                        SmallDrillCard(
+                                            appModel: appModel,
+                                            drill: drill
+                                        )
+                                        .dropDestination(for: String.self) { items, location in
+                                            guard let sourceTitle = items.first,
+                                                  let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
+                                                  let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
+                                                return false
+                                            }
+                                            
+                                            withAnimation(.spring()) {
+                                                let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
+                                                sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                                            }
+                                            return true
+                                        }
+                                    }
+                                }
+                                .padding()
+                                
+                            }
+                            
+                        }
                     }
                         
                         
@@ -244,27 +285,32 @@ struct testSesGenView: View {
                                         showFilter.toggle()
                                     }
                                 }) {
-                                    if showFilter {
-                                        Image(systemName: "chevron.up")
-                                            .padding(.horizontal, 3)
-                                            .padding(.vertical, 3)
-                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                            .font(.system(size: 16, weight: .medium))
-                                            .background(
-                                                RoundedRectangle(cornerRadius: 8)
-                                                    .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
-                                            )
-                                    } else {
-                                        Image(systemName: "chevron.down")
-                                            .padding(.horizontal, 3)
-                                            .padding(.vertical, 3)
-                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                            .font(.system(size: 16, weight: .medium))
-                                            .background(
-                                                RoundedRectangle(cornerRadius: 8)
-                                                    .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
-                                            )
+                                    HStack {
+                                        Image("Filter_Icon")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 20, height: 20)
+                                        if showFilter {
+                                            Image(systemName: "chevron.up")
+                                                .padding(.horizontal, 3)
+                                                .padding(.vertical, 3)
+                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                                .font(.system(size: 16, weight: .medium))
+                                                
+                                        } else {
+                                            Image(systemName: "chevron.down")
+                                                .padding(.horizontal, 3)
+                                                .padding(.vertical, 3)
+                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                                .font(.system(size: 16, weight: .medium))
+                                                
+                                        }
                                     }
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
+                                    )
+                                    
                                     
                                 }
                                 .padding(.top, 10)
@@ -296,16 +342,11 @@ struct testSesGenView: View {
                                         
                                         Spacer()
                                         
-                                        if sessionModel.orderedDrills.isEmpty {
-                                            Text("Session")
-                                                .font(.custom("Poppins-Bold", size: 20))
-                                                .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-                                            
-                                        } else {
-                                            Text("Session")
-                                                .font(.custom("Poppins-Bold", size: 20))
-                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                        }
+                                        
+                                        Text("Session")
+                                            .font(.custom("Poppins-Bold", size: 20))
+                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                        
                                         
                                         Spacer()
                                         
@@ -316,18 +357,6 @@ struct testSesGenView: View {
                                     
                                     // Buttons for session adjustment
                                     HStack {
-                                        //                                    Button(action: {
-                                        //                                        // Implement your action here
-                                        //                                    }) {
-                                        //                                        RiveViewModel(fileName: "Plus_Button").view()
-                                        //                                            .frame(width: 30, height: 30)
-                                        //                                    }
-                                        //                                    Button(action: {
-                                        //                                        // Implement your action here
-                                        //                                    }) {
-                                        //                                        RiveViewModel(fileName: "Plus_Button").view()
-                                        //                                            .frame(width: 30, height: 30)
-                                        //                                    }
                                         Button(action: { /* Close action */ }) {
                                             ZStack {
                                                 Circle()
@@ -361,6 +390,8 @@ struct testSesGenView: View {
                                         Spacer()
                                         
                                     }
+                                    
+                                    // Drills view
                                     
                                     ScrollView {
                                         
@@ -413,6 +444,7 @@ struct testSesGenView: View {
                                 .cornerRadius(15)
                             }
                         }
+                        .transition(.move(edge: .bottom))
                         .padding(.top, 120)
 
 
@@ -429,6 +461,7 @@ struct testSesGenView: View {
                             withAnimation(.spring(dampingFraction: 0.7)) {
                                 sessionModel.generateSession()
                                 showHomePage = false
+                                showTextBubble = false
                             }
                             
                         }) {
@@ -446,10 +479,12 @@ struct testSesGenView: View {
                         }
                         .padding(.horizontal)
                         .padding(.bottom, 50)
+                        .transition(.move(edge: .bottom))
                     }
                 }
                 
             }
+//            .animation(.spring(dampingFraction: 0.7), value: showHomePage)
             .background(Color(hex:"bef1fa"))
         }
     }
@@ -726,9 +761,44 @@ struct DrillCard: View {
     }
 }
 
+// MARK: Small Drill card
+struct SmallDrillCard: View {
+    let appModel: MainAppModel
+    let drill: DrillModel
+    @State private var showingDetail = false
+    
+    var body: some View {
+        Button(action: {
+            showingDetail = true
+        }) {
+            ZStack {
+                RiveViewModel(fileName: "Drill_Card_Incomplete").view()
+                    .frame(width: 100, height: 50)
+                Image(systemName: "figure.soccer")
+                        .font(.system(size: 24))
+                    .padding()
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+                
+//                VStack(alignment: .leading) {
+//                        Text(drill.title)
+//                            .font(.custom("Poppins-Bold", size: 16))
+//                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                }
+            }
+            .padding()
+        }
+        .buttonStyle(PlainButtonStyle())
+        .sheet(isPresented: $showingDetail) {
+            DrillDetailView(drill: drill)
+        }
+    }
+}
 
 
-// Session model
+
+// MARK: Session model
 class SessionGeneratorModel: ObservableObject {
     @Published var selectedTime: String?
     @Published var selectedEquipment: Set<String> = []
