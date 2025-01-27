@@ -9,34 +9,68 @@ import SwiftUI
 import RiveRuntime
 
 struct testNewElement: View {
-    @State private var showFilter: Bool = true
+    @ObservedObject var appModel: MainAppModel
+    @State private var showSavedPrereqsPrompt = false
+    @Binding var savedFiltersName: String
+    
     
     var body: some View {
-        if showFilter {
-            // Skills for today view
-            VStack(alignment: .leading, spacing: 12) {
-                // TODO: Replace old skills section with new SkillSelectionView
-                Text("Hello")
-                    .padding(.vertical, 3)
-            }
-        } else {
-            Button(action: {
-                showFilter.toggle()
-            }) {
-                Text("Show Filters")
-                    .font(.headline)
-                    .foregroundColor(.blue)
+        ZStack(alignment: .top) {
+            Rectangle()
+                .fill(Color.white)
+            
+                .frame(width: 300, height: 100)
+                .padding()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(appModel.globalSettings.primaryLightGrayColor,
+                                lineWidth: 2)
+                )
+            VStack {
+                HStack {
+                    Button(action: {
+                        showSavedPrereqsPrompt = false
+                    }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            .font(.system(size: 16, weight: .medium))
+                            .padding(.leading, 7)
+                        
+                    }
+                    
+                    Spacer()
+                    
+                    Text("Save filter")
+                        .font(.custom("Poppins-Bold", size: 12))
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    Spacer()
+                }
+                .padding()
+                
+                TextField("Name", text: $savedFiltersName)
                     .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.blue, lineWidth: 2)
-                    )
+                    .disableAutocorrection(true)
+                    .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1)))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(appModel.globalSettings.primaryYellowColor.opacity(0.3), lineWidth: 1))
+                    .keyboardType(.default)
+                Button(action: {
+                    showSavedPrereqsPrompt = false
+                }) {
+                    Text("Save")
+                        .font(.custom("Poppins-Bold", size: 12))
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    
+                }
             }
+            
         }
-        
+        .padding()
     }
 }
 
 #Preview {
-    testNewElement()
+    let mockAppModel = MainAppModel()
+    let name = Binding<String>(get: { "Virginius esque" }, set: { _ in })
+    
+    testNewElement(appModel: mockAppModel, savedFiltersName: name)
 }

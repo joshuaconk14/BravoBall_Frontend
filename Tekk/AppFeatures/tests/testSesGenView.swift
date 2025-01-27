@@ -25,6 +25,7 @@ struct testSesGenView: View {
     @State private var showHomePage: Bool = true
     @State private var showTextBubble: Bool = true
     @State private var showSmallDrillCards: Bool = false
+    @State private var showSavedPrereqsPrompt: Bool = true
     
     init(model: OnboardingModel, appModel: MainAppModel) {
         self.model = model
@@ -258,7 +259,10 @@ struct testSesGenView: View {
                                             HStack(spacing: 12) {
                                                 
                                                 // Saved filters Button
-                                                Button(action: { /* Close action */ }) {
+                                                Button(action: {
+                                                    showSavedPrereqsPrompt = true
+                                                    
+                                                }) {
                                                     ZStack {
                                                         Circle()
                                                             .fill(appModel.globalSettings.primaryLightGrayColor)
@@ -499,6 +503,60 @@ struct testSesGenView: View {
                     
                         
                     }
+                
+                // MARK: here
+                // TODO: create structure that saves saved filters
+                if showSavedPrereqsPrompt {
+//                    ZStack(alignment: .top) {
+//                        Rectangle()
+//                            .fill(Color.white)
+//                        
+//                            .frame(width: 300, height: 100)
+//                            .padding()
+//                            .overlay(
+//                                RoundedRectangle(cornerRadius: 16)
+//                                    .stroke(appModel.globalSettings.primaryLightGrayColor,
+//                                            lineWidth: 2)
+//                            )
+//                        VStack {
+//                            HStack {
+//                                Button(action: {
+//                                    showSavedPrereqsPrompt = false
+//                                }) {
+//                                    Image(systemName: "xmark")
+//                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                        .font(.system(size: 16, weight: .medium))
+//                                        .padding(.leading, 7)
+//                                    
+//                                }
+//                                
+//                                Spacer()
+//                                
+//                                Text("Save filter")
+//                                    .font(.custom("Poppins-Bold", size: 12))
+//                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+//                                Spacer()
+//                            }
+//                            .padding()
+//                            
+//                            TextField("Name", text: $savedFiltersName)
+//                                .padding()
+//                                .disableAutocorrection(true)
+//                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1)))
+//                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(appModel.globalSettings.primaryYellowColor.opacity(0.3), lineWidth: 1))
+//                                .keyboardType(.default)
+//                            Button(action: {
+//                                showSavedPrereqsPrompt = false
+//                            }) {
+//                                Text("Save")
+//                                    .font(.custom("Poppins-Bold", size: 12))
+//                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+//                                
+//                            }
+//                        }
+//                        
+//                    }
+                }
 
                 
                     
@@ -716,6 +774,39 @@ struct PrerequisiteDropdown: View {
         }
     }
 }
+
+//// MARK: Saved Prereqs Prompt
+//struct SavedPrereqsPrompt: View {
+//    let appModel: MainAppModel
+//    
+//    var body: some View {
+//        ZStack {
+//            Rectangle()
+//                .fill(Color.white)
+//                .frame(width:80, height: 60)
+//            Button(action: {
+//                showSavedPrereqsPrompt = false
+//            }) {
+//                ZStack {
+//                    Circle()
+//                        .fill(appModel.globalSettings.primaryLightGrayColor)
+//                        .frame(width: 40, height: 40)
+//                        .offset(x: 0, y: 3)
+//                    Circle()
+//                        .fill(Color.white)
+//                        .frame(width: 40, height: 40)
+//                    
+//                    Image(systemName: "xmark")
+//                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                        .font(.system(size: 16, weight: .medium))
+//                }
+//                .padding(.vertical)
+//                .padding(.trailing, 10)
+//            }
+//            
+//        }
+//    }
+//}
 
 // MARK: Compact Drill card
 struct CompactDrillCard: View {
