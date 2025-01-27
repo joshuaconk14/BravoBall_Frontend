@@ -272,9 +272,33 @@ struct testSesGenView: View {
                                                             .foregroundColor(appModel.globalSettings.primaryDarkColor)
                                                             .font(.system(size: 16, weight: .medium))
                                                     }
-                                                    .padding()
+                                                    .padding(.vertical)
                                                 }
                                                 
+
+                                                // Delete selected prereq button
+                                                Button(action: {
+                                                    clearPrereqSelection()
+                                                }) {
+                                                    ZStack {
+                                                        Circle()
+                                                            .fill(appModel.globalSettings.primaryLightGrayColor)
+                                                            .frame(width: 40, height: 40)
+                                                            .offset(x: 0, y: 3)
+                                                        Circle()
+                                                            .fill(Color.white)
+                                                            .frame(width: 40, height: 40)
+                                                        
+                                                        Image(systemName: "xmark")
+                                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                                            .font(.system(size: 16, weight: .medium))
+                                                    }
+                                                    .padding(.vertical)
+                                                    .padding(.trailing, 10)
+                                                }
+                                                
+                                                
+
                                                 // All prereqs
                                                 ForEach(PrerequisiteType.allCases, id: \.self) { type in
                                                     PrerequisiteButton(
@@ -534,6 +558,15 @@ struct testSesGenView: View {
             return sessionModel.selectedDifficulty ?? ""
         }
     }
+    
+    // Clears prereq selected options
+    private func clearPrereqSelection() {
+        sessionModel.selectedTime = nil
+        sessionModel.selectedEquipment.removeAll()
+        sessionModel.selectedTrainingStyle = nil
+        sessionModel.selectedLocation = nil
+        sessionModel.selectedDifficulty = nil
+    }
 }
 
 // MARK: Prereq button
@@ -558,9 +591,9 @@ struct PrerequisiteButton: View {
             .padding(.vertical, 8)
             .background(
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(value.isEmpty ? appModel.globalSettings.primaryLightGrayColor : Color(hex:"eb9c49"))
-                    .stroke(isSelected ? Color.blue : Color(hex:"b37636"), lineWidth: 4)
-                    .stroke(value.isEmpty ? Color(hex:"bababa") : Color(hex:"b37636"), lineWidth: 4)
+                    .fill(value.isEmpty ? Color(hex:"#f5cc9f") : Color(hex:"eb9c49"))
+//                    .stroke(isSelected ? Color.blue : Color(hex:"b37636"), lineWidth: 4)
+                    .stroke(value.isEmpty ? Color(hex:"f5cc9f") : Color(hex:"b37636"), lineWidth: 4)
             )
         }
     }
@@ -647,7 +680,7 @@ struct PrerequisiteDropdown: View {
         case .difficulty: return sessionModel.selectedDifficulty == option
         }
     }
-    
+
     private func selectOption(_ option: String) {
         switch type {
         case .time:
@@ -1276,24 +1309,6 @@ struct SkillCategoryButton: View {
         }
     }
 }
-
-
-// MARK: Extensions
-//extension View {
-//    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-//        clipShape(RoundedCorner(radius: radius, corners: corners))
-//    }
-//}
-//
-//struct RoundedCorner: Shape {
-//    var radius: CGFloat = .infinity
-//    var corners: UIRectCorner = .allCorners
-//
-//    func path(in rect: CGRect) -> Path {
-//        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-//        return Path(path.cgPath)
-//    }
-//}
 
 
 // MARK: Preview

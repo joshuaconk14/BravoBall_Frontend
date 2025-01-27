@@ -19,6 +19,9 @@ class MainAppModel: ObservableObject {
     @Published var mainTabSelected = 0
     @Published var inSimulationMode: Bool = true
     
+    // MARK: Session generator
+    
+    
     
     
     // MARK: Calendar
