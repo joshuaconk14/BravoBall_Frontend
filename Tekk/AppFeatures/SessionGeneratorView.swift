@@ -25,7 +25,9 @@
 //    @State private var showHomePage: Bool = true
 //    @State private var showTextBubble: Bool = true
 //    @State private var showSmallDrillCards: Bool = false
+//    @State private var showSavedPrereqs: Bool = false
 //    @State private var showSavedPrereqsPrompt: Bool = true
+//    @State private var savedFiltersName: String  = ""
 //    
 //    init(model: OnboardingModel, appModel: MainAppModel) {
 //        self.model = model
@@ -260,7 +262,7 @@
 //                                                
 //                                                // Saved filters Button
 //                                                Button(action: {
-//                                                    showSavedPrereqsPrompt = true
+//                                                    showSavedPrereqs = true
 //                                                    
 //                                                }) {
 //                                                    ZStack {
@@ -329,44 +331,83 @@
 //                                    .frame(maxWidth: .infinity)
 //                                }
 //                                
-//                                // TODO: fix toggle animation
-//                                // Filters toggle button
-//                                Button(action: {
-//                                    withAnimation(.spring(dampingFraction: 0.7)) {
-//                                        showFilter.toggle()
-//                                    }
-//                                }) {
-//                                    HStack {
-//                                        Image("Filter_Icon")
-//                                            .resizable()
-//                                            .scaledToFit()
-//                                            .frame(width: 20, height: 20)
-//                                        if showFilter {
-//                                            Image(systemName: "chevron.up")
-//                                                .padding(.horizontal, 3)
-//                                                .padding(.vertical, 3)
-//                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//                                                .font(.system(size: 16, weight: .medium))
-//                                                
-//                                        } else {
-//                                            Image(systemName: "chevron.down")
-//                                                .padding(.horizontal, 3)
-//                                                .padding(.vertical, 3)
-//                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//                                                .font(.system(size: 16, weight: .medium))
-//                                                
+//                                HStack {
+//                                    // TODO: fix toggle animation
+//                                    // Filters toggle button
+//                                    Button(action: {
+//                                        withAnimation(.spring(dampingFraction: 0.7)) {
+//                                            showFilter.toggle()
 //                                        }
+//                                    }) {
+//                                        HStack {
+//                                            Image("Filter_Icon")
+//                                                .resizable()
+//                                                .scaledToFit()
+//                                                .frame(width: 20, height: 20)
+//                                            if showFilter {
+//                                                Image(systemName: "chevron.up")
+//                                                    .padding(.horizontal, 3)
+//                                                    .padding(.vertical, 3)
+//                                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                                    .font(.system(size: 16, weight: .medium))
+//                                                    
+//                                            } else {
+//                                                Image(systemName: "chevron.down")
+//                                                    .padding(.horizontal, 3)
+//                                                    .padding(.vertical, 3)
+//                                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                                    .font(.system(size: 16, weight: .medium))
+//                                                    
+//                                            }
+//                                        }
+//                                        .background(
+//                                            RoundedRectangle(cornerRadius: 8)
+//                                                .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
+//                                        )
+//                                        
+//                                        
 //                                    }
-//                                    .background(
-//                                        RoundedRectangle(cornerRadius: 8)
-//                                            .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
-//                                    )
+//                                    .padding(.top, 10)
+//                                    .padding(.horizontal, 15)
+//                                    
+//                                    Spacer()
+//                                    
+//                                    
+//                                    // TODO: Add more features here
+//                                    Button(action: {
+//                                        withAnimation(.spring(dampingFraction: 0.7)) {
+//                                            showSavedPrereqsPrompt = true
+//                                        }
+//                                    }) {
+//                                        VStack {
+//                                            Image(systemName: "ellipsis")
+//                                                .font(.system(size: 14))
+//                                                .foregroundColor(.primary)
+//                                                .padding()
+//                                            
+//                                        }
+//                                        .background(
+//                                            RoundedRectangle(cornerRadius: 8)
+//                                                .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
+//                                        )
+//                                        
+//                                        
+//                                    }
+//                                    .padding(.top, 10)
+//                                    .padding(.horizontal, 15)
 //                                    
 //                                    
 //                                }
-//                                .padding(.top, 10)
-//                                .padding(.horizontal, 15)
 //                                
+//                                // Dropdown content for saved filters
+//                                if showSavedPrereqs {
+//                                    DisplaySavedFilters(
+//                                        appModel: appModel,
+//                                        sessionModel: sessionModel,
+//                                        dismiss: { showSavedPrereqs = false }
+//                                    )
+//                                    .padding(.vertical, 3)
+//                                }
 //                                
 //                                
 //                                
@@ -505,57 +546,57 @@
 //                    }
 //                
 //                // MARK: here
-//                // TODO: create structure that saves saved filters
 //                if showSavedPrereqsPrompt {
-////                    ZStack(alignment: .top) {
-////                        Rectangle()
-////                            .fill(Color.white)
-////
-////                            .frame(width: 300, height: 100)
-////                            .padding()
-////                            .overlay(
-////                                RoundedRectangle(cornerRadius: 16)
-////                                    .stroke(appModel.globalSettings.primaryLightGrayColor,
-////                                            lineWidth: 2)
-////                            )
-////                        VStack {
-////                            HStack {
-////                                Button(action: {
-////                                    showSavedPrereqsPrompt = false
-////                                }) {
-////                                    Image(systemName: "xmark")
-////                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-////                                        .font(.system(size: 16, weight: .medium))
-////                                        .padding(.leading, 7)
-////
-////                                }
-////
-////                                Spacer()
-////
-////                                Text("Save filter")
-////                                    .font(.custom("Poppins-Bold", size: 12))
-////                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
-////                                Spacer()
-////                            }
-////                            .padding()
-////
-////                            TextField("Name", text: $savedFiltersName)
-////                                .padding()
-////                                .disableAutocorrection(true)
-////                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1)))
-////                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(appModel.globalSettings.primaryYellowColor.opacity(0.3), lineWidth: 1))
-////                                .keyboardType(.default)
-////                            Button(action: {
-////                                showSavedPrereqsPrompt = false
-////                            }) {
-////                                Text("Save")
-////                                    .font(.custom("Poppins-Bold", size: 12))
-////                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
-////
-////                            }
-////                        }
-////
-////                    }
+//                    ZStack(alignment: .top) {
+//                        Rectangle()
+//                            .fill(Color.white)
+//                        
+//                            .frame(width: 300, height: 100)
+//                            .padding()
+//                            .overlay(
+//                                RoundedRectangle(cornerRadius: 16)
+//                                    .stroke(appModel.globalSettings.primaryLightGrayColor,
+//                                            lineWidth: 2)
+//                            )
+//                        VStack {
+//                            HStack {
+//                                Button(action: {
+//                                    showSavedPrereqsPrompt = false
+//                                }) {
+//                                    Image(systemName: "xmark")
+//                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                                        .font(.system(size: 16, weight: .medium))
+//                                        .padding(.leading, 7)
+//                                    
+//                                }
+//                                
+//                                Spacer()
+//                                
+//                                Text("Save filter")
+//                                    .font(.custom("Poppins-Bold", size: 12))
+//                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+//                                Spacer()
+//                            }
+//                            .padding()
+//                            
+//                            TextField("Name", text: $savedFiltersName)
+//                                .padding()
+//                                .disableAutocorrection(true)
+//                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1)))
+//                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(appModel.globalSettings.primaryYellowColor.opacity(0.3), lineWidth: 1))
+//                                .keyboardType(.default)
+//                            Button(action: {
+//                                saveFiltersInGroup(name: savedFiltersName)
+//                                showSavedPrereqsPrompt = false
+//                            }) {
+//                                Text("Save")
+//                                    .font(.custom("Poppins-Bold", size: 12))
+//                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+//                                
+//                            }
+//                        }
+//                        
+//                    }
 //                }
 //
 //                
@@ -625,6 +666,23 @@
 //        sessionModel.selectedLocation = nil
 //        sessionModel.selectedDifficulty = nil
 //    }
+//    
+//    // structure for
+//    // Save prerequisites
+//    
+//    private func saveFiltersInGroup(name: String) {
+//        let savedFilters = savedFiltersModel(
+//            name: name,
+//            savedTime: sessionModel.selectedTime,
+//            savedEquipment: sessionModel.selectedEquipment,
+//            savedTrainingStyle: sessionModel.selectedTrainingStyle,
+//            savedLocation: sessionModel.selectedLocation,
+//            savedDifficulty: sessionModel.selectedDifficulty
+//        )
+//        
+//        sessionModel.allSavedFilters.append(savedFilters)
+//    }
+//    
 //}
 //
 //// MARK: Prereq button
@@ -775,38 +833,75 @@
 //    }
 //}
 //
-////// MARK: Saved Prereqs Prompt
-////struct SavedPrereqsPrompt: View {
-////    let appModel: MainAppModel
-////
-////    var body: some View {
-////        ZStack {
-////            Rectangle()
-////                .fill(Color.white)
-////                .frame(width:80, height: 60)
-////            Button(action: {
-////                showSavedPrereqsPrompt = false
-////            }) {
-////                ZStack {
-////                    Circle()
-////                        .fill(appModel.globalSettings.primaryLightGrayColor)
-////                        .frame(width: 40, height: 40)
-////                        .offset(x: 0, y: 3)
-////                    Circle()
-////                        .fill(Color.white)
-////                        .frame(width: 40, height: 40)
-////
-////                    Image(systemName: "xmark")
-////                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-////                        .font(.system(size: 16, weight: .medium))
-////                }
-////                .padding(.vertical)
-////                .padding(.trailing, 10)
-////            }
-////
-////        }
-////    }
-////}
+//// MARK: Display Saved Filters
+//
+//struct DisplaySavedFilters: View {
+//    let appModel: MainAppModel
+//    
+//    @ObservedObject var sessionModel: SessionGeneratorModel
+//    let dismiss: () -> Void
+//    
+//    var body: some View {
+//        VStack(alignment: .leading, spacing: 12) {
+//            HStack {
+//                Spacer()
+//                Text("Saved Filters")
+//                    .font(.custom("Poppins-Bold", size: 16))
+//                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+//                
+//                Spacer()
+//                Button(action: {
+//                    withAnimation(.spring(dampingFraction: 0.7)) {
+//                        dismiss()
+//                    }
+//                }) {
+//                    Image(systemName: "xmark")
+//                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+//                }
+//            }
+//            
+//            ScrollView {
+//                VStack(alignment: .leading, spacing: 8) {
+//                    ForEach(sessionModel.allSavedFilters, id: \.name) { filter in
+//                        Button(action: {
+//                            loadFilter(filter)
+//                        }) {
+//                            HStack {
+//                                Text(filter.name)
+//                                    .font(.custom("Poppins-Regular", size: 14))
+//                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+//                                Spacer()
+//                            }
+//                            .padding(.vertical, 8)
+//                        }
+//                        Divider()
+//                    }
+//                }
+//            }
+//            .frame(maxHeight: 150)
+//        }
+//        .padding(10)
+//        .background(Color.white)
+//        .cornerRadius(15)
+//        .background(
+//            RoundedRectangle(cornerRadius: 8)
+//                .fill(Color.white)
+//                .stroke(Color.gray.opacity(0.3), lineWidth: 3)
+//        )
+//    }
+//    
+//    // Load filter after clicking the name of saved filter
+//    private func loadFilter(_ filter: savedFiltersModel) {
+//            sessionModel.selectedTime = filter.savedTime
+//            sessionModel.selectedEquipment = filter.savedEquipment
+//            sessionModel.selectedTrainingStyle = filter.savedTrainingStyle
+//            sessionModel.selectedLocation = filter.savedLocation
+//            sessionModel.selectedDifficulty = filter.savedDifficulty
+//        }
+//}
+//    
+//
+//
 //
 //// MARK: Compact Drill card
 //struct CompactDrillCard: View {
@@ -964,7 +1059,11 @@
 //            updateDrills()
 //        }
 //    }
+//    // Drill storage
 //    @Published var orderedDrills: [DrillModel] = []
+//    
+//    // Saved filters storage
+//    @Published var allSavedFilters: [savedFiltersModel] = []
 //    
 //    // Prerequisite options
 //    let timeOptions = ["15min", "30min", "45min", "1h", "1h30", "2h+"]
@@ -1102,6 +1201,15 @@
 //    let name: String
 //    let subSkills: [String]
 //    let icon: String
+//}
+//
+//struct savedFiltersModel: Codable {
+//    let name: String
+//    let savedTime: String?
+//    let savedEquipment: Set<String>
+//    let savedTrainingStyle: String?
+//    let savedLocation: String?
+//    let savedDifficulty: String?
 //}
 //
 //extension testSesGenView {
@@ -1424,6 +1532,19 @@
 //        email: "john@example.com",
 //        password: "password123"
 //    )
-//    return
-//        testSesGenView(model: mockOnboardingModel, appModel: mockAppModel)
+//    
+//    let name = "The Virginius"
+//    
+////    let savedFilters = savedFiltersModel(
+////        name: name,
+////        savedTime: "15min",
+////        savedEquipment: ["cones", "goals"],
+////        savedTrainingStyle: ["medium intensity"],
+////        savedLocation: ["small field"],
+////        savedDifficulty: ["advanced"]
+////    )
+//    
+//    
+//    
+//    return testSesGenView(model: mockOnboardingModel, appModel: mockAppModel)
 //}
