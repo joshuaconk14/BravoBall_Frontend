@@ -24,7 +24,7 @@ struct MainTabView: View {
             ZStack {
                 switch appModel.mainTabSelected {
                 case 0:
-                    testSesGenView(model: model, appModel: appModel)
+                    SessionGeneratorView(model: model, appModel: appModel)
                 case 1:
                     ProgressionView(appModel: appModel)
                 case 2:
@@ -32,7 +32,7 @@ struct MainTabView: View {
                 case 3:
                     ProfileView(model: model, appModel: appModel, userManager: userManager)
                 default:
-                    testSesGenView(model: model, appModel: appModel)
+                    SessionGeneratorView(model: model, appModel: appModel)
                 }
             }
             
@@ -67,7 +67,16 @@ struct MainTabView: View {
                 }
             }
             .padding(.horizontal)
-            .background(Color.white.ignoresSafeArea())
+            .padding(.top, 18)
+            .background(
+                VStack(spacing: 0) {
+                    Divider()
+                        .frame(height: 3)
+                        .background(Color.gray.opacity(0.3))
+                    Color.white
+                }
+                .ignoresSafeArea()
+            )
         }
     }
 }
