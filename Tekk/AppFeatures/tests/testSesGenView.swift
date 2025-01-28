@@ -26,7 +26,7 @@ struct testSesGenView: View {
     @State private var showTextBubble: Bool = true
     @State private var showSmallDrillCards: Bool = false
     @State private var showSavedPrereqs: Bool = false
-    @State private var showSavedPrereqsPrompt: Bool = true
+    @State private var showSavedPrereqsPrompt: Bool = false
     @State private var savedFiltersName: String  = ""
     
     init(model: OnboardingModel, appModel: MainAppModel) {
@@ -96,35 +96,7 @@ struct testSesGenView: View {
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
-                
-                
-                
-                
                 ZStack(alignment: .top) {
-                        // Top Bar with Controls
-//                            HStack(spacing: 20) {
-//                                Spacer()
-//                                                            
-//                                HStack {
-//                                    Image("Streak_Flame")
-//                                        .resizable()
-//                                        .scaledToFit()
-//                                        .frame(width: 30, height: 30)
-//                                    Text("\(appModel.currentStreak)")
-//                                        .font(.custom("Poppins-Bold", size: 30))
-//                                        .foregroundColor(Color(hex: "#ff7b24"))
-//                                }
-//                                
-//                                Button(action: { /* More options */ }) {
-//                                    Image(systemName: "ellipsis")
-//                                        .foregroundColor(.black)
-//                                        .font(.system(size: 20, weight: .medium))
-//                                }
-//                            }
-//                            .padding(.horizontal)
-//                            .padding(.vertical, 8)
-                
-                    
 
                     // Bravo's area
                     VStack {
@@ -249,7 +221,7 @@ struct testSesGenView: View {
                                         .padding(.vertical, 3)
                                     
                                     
-                                    
+                                    // TODO: make rect in background not zstack
                                     // Prerequisites ScrollView
                                     ZStack {
                                         
@@ -261,9 +233,13 @@ struct testSesGenView: View {
                                             HStack(spacing: 12) {
                                                 
                                                 // Saved filters Button
-                                                Button(action: {
-                                                    showSavedPrereqs = true
-                                                    
+                                                Button(action: { withAnimation(.spring(dampingFraction: 0.7)) {
+                                                    if showSavedPrereqs == true {
+                                                        showSavedPrereqs = false
+                                                    } else {
+                                                        showSavedPrereqs = true
+                                                    }
+                                                    }
                                                 }) {
                                                     ZStack {
                                                         Circle()
@@ -374,8 +350,10 @@ struct testSesGenView: View {
                                     
                                     
                                     // TODO: Add more features here
-                                    Button(action: {
-                                        withAnimation(.spring(dampingFraction: 0.7)) {
+                                    Button(action:  {
+                                        if showSavedPrereqsPrompt == true {
+                                            showSavedPrereqsPrompt = false
+                                        } else {
                                             showSavedPrereqsPrompt = true
                                         }
                                     }) {
@@ -545,29 +523,26 @@ struct testSesGenView: View {
                         
                     }
                 
-                // MARK: here
+                
+                // Prereq prompt
                 if showSavedPrereqsPrompt {
-                    ZStack(alignment: .top) {
-                        Rectangle()
-                            .fill(Color.white)
+                    ZStack {
+                        Color.black.opacity(0.3)
+                            .ignoresSafeArea()
+                            .onTapGesture {
+                                showSavedPrereqsPrompt = false
+                            }
                         
-                            .frame(width: 300, height: 100)
-                            .padding()
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .stroke(appModel.globalSettings.primaryLightGrayColor,
-                                            lineWidth: 2)
-                            )
                         VStack {
                             HStack {
                                 Button(action: {
-                                    showSavedPrereqsPrompt = false
+                                    withAnimation {
+                                        showSavedPrereqsPrompt = false
+                                    }
                                 }) {
                                     Image(systemName: "xmark")
                                         .foregroundColor(appModel.globalSettings.primaryDarkColor)
                                         .font(.system(size: 16, weight: .medium))
-                                        .padding(.leading, 7)
-                                    
                                 }
                                 
                                 Spacer()
@@ -577,29 +552,39 @@ struct testSesGenView: View {
                                     .foregroundColor(appModel.globalSettings.primaryGrayColor)
                                 Spacer()
                             }
-                            .padding()
+                            .padding(.horizontal, 16)
+                            .padding(.top, 8)
                             
                             TextField("Name", text: $savedFiltersName)
-                                .padding()
-                                .disableAutocorrection(true)
-                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1)))
-                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(appModel.globalSettings.primaryYellowColor.opacity(0.3), lineWidth: 1))
-                                .keyboardType(.default)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .padding(.horizontal, 16)
+                                .padding(.top, 8)
+                            
                             Button(action: {
-                                saveFiltersInGroup(name: savedFiltersName)
-                                showSavedPrereqsPrompt = false
+                                withAnimation {
+                                    saveFiltersInGroup(name: savedFiltersName)
+                                    showSavedPrereqsPrompt = false
+                                }
                             }) {
                                 Text("Save")
                                     .font(.custom("Poppins-Bold", size: 12))
-                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                                
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 8)
+                                    .background(appModel.globalSettings.primaryYellowColor)
+                                    .cornerRadius(8)
                             }
+                            .disabled(savedFiltersName.isEmpty)
+                            .padding(.top, 16)
                         }
-                        
+                        .padding()
+                        .frame(width: 300, height: 170)
+                        .background(Color.white)
+                        .cornerRadius(15)
                     }
                 }
 
-                
+                // Golden button
                     
                 if !sessionModel.orderedDrills.isEmpty {
                     if showHomePage {
