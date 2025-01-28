@@ -11,11 +11,7 @@ import RiveRuntime
 struct ProgressionView: View {
     @ObservedObject var appModel: MainAppModel
     
-    init(appModel: MainAppModel) {
-        self.appModel = appModel
-        appModel.configureNavigationBarAppearance()
-    }
-    
+
 
     
     var body: some View {

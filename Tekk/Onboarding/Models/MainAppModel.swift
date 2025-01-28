@@ -21,6 +21,17 @@ class MainAppModel: ObservableObject {
     
     // MARK: Session generator
     
+    // View state
+    struct ViewState: Codable {
+        var showingDrills = false
+        var showFilter: Bool = true
+        var showHomePage: Bool = true
+        var showTextBubble: Bool = true
+        var showSmallDrillCards: Bool = false
+        var showSavedPrereqs: Bool = false
+        var showSavedPrereqsPrompt: Bool = false
+    }
+    
     
     
     
@@ -135,18 +146,6 @@ class MainAppModel: ObservableObject {
         case logout
         case delete
         case none
-    }
-    
-    // Navigation bar configuration
-    func configureNavigationBarAppearance() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(globalSettings.primaryYellowColor)
-        
-        // Apply the appearance settings
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
     
 }
