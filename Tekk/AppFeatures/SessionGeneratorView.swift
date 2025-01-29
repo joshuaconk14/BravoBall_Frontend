@@ -86,7 +86,7 @@ struct SessionGeneratorView: View {
         NavigationView {
             ZStack(alignment: .bottom) {
                 
-                mainContent
+                homePage
                 
                 
                 // Prereq prompt
@@ -99,47 +99,18 @@ struct SessionGeneratorView: View {
                     
                 if !sessionModel.orderedDrills.isEmpty {
                     if viewState.showHomePage {
-                        Button(action: {
-                            withAnimation(.spring(dampingFraction: 0.7)) {
-                                sessionModel.generateSession()
-                                viewState.showHomePage = false
-                                viewState.showTextBubble = false
-                            }
-                            
-                            // Delay the appearance of drill cards to match the menu's exit animation
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                withAnimation(.spring(dampingFraction: 0.7)) {
-                                    viewState.showSmallDrillCards = true
-                                }
-                            }
-                            
-                        }) {
-                            ZStack {
-                                RiveViewModel(fileName: "Golden_Button").view()
-                                    .frame(width: 320, height: 80)
-                                
-                                Text("Start Session")
-                                    .font(.custom("Poppins-Bold", size: 22))
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity)
-                                    .padding()
-                                    .padding(.bottom, 10)
-                            }
-                        }
-                        .padding(.horizontal)
-                        .padding(.bottom, 46)
-                        .transition(.move(edge: .bottom))
+                        
+                        goldenButton
                     }
                 }
                 
             }
-//            .animation(.spring(dampingFraction: 0.7), value: showHomePage)
             .background(Color(hex:"bef1fa"))
         }
     }
     
-    // MARK: Main Content
-    private var mainContent: some View {
+    // MARK: Home page
+    private var homePage: some View {
         ZStack(alignment: .top) {
 
             // Whole area behind the home page
@@ -630,6 +601,40 @@ struct SessionGeneratorView: View {
             .background(Color.white)
             .cornerRadius(15)
         }
+    }
+    
+    // MARK: Golden Button
+    private var goldenButton: some View {
+        Button(action: {
+            withAnimation(.spring(dampingFraction: 0.7)) {
+                sessionModel.generateSession()
+                viewState.showHomePage = false
+                viewState.showTextBubble = false
+            }
+            
+            // Delay the appearance of drill cards to match the menu's exit animation
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                withAnimation(.spring(dampingFraction: 0.7)) {
+                    viewState.showSmallDrillCards = true
+                }
+            }
+            
+        }) {
+            ZStack {
+                RiveViewModel(fileName: "Golden_Button").view()
+                    .frame(width: 320, height: 80)
+                
+                Text("Start Session")
+                    .font(.custom("Poppins-Bold", size: 22))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .padding(.bottom, 10)
+            }
+        }
+        .padding(.horizontal)
+        .padding(.bottom, 46)
+        .transition(.move(edge: .bottom))
     }
             
     // Prereq value that is selected, or if its empty
