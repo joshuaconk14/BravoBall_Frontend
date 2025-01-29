@@ -109,128 +109,61 @@ struct SessionGeneratorView: View {
         }
     }
     
+    
     // MARK: Home page
     private var homePage: some View {
         ZStack(alignment: .top) {
 
-            // Whole area behind the home page
-            VStack {
-                HStack {
-                    // back button to go back to home page
-                    if !viewState.showHomePage {
-                        Button(action:  {
-                            withAnimation(.spring(dampingFraction: 0.7)) {
-                                viewState.showSmallDrillCards = false
-                            }
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                withAnimation(.spring(dampingFraction: 0.7)) {
-                                    viewState.showHomePage = true
-                                    viewState.showTextBubble = true
-                                }
-                            }
-                        }) {
-                            Image(systemName: "xmark")
-                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        }
-                    }
-                    Spacer()
-                    
-
-                    RiveViewModel(fileName: "Bravo_Panting").view()
-                        .frame(width: 90, height: 90)
-                    
-                    
-                    // Text bubble
-                    if viewState.showTextBubble {
+            // Where session begins, behind home page
+            areaBehindHomePage
+                
+                
+                
+            // Home page
+            if viewState.showHomePage {
+                VStack {
+                    HStack {
+                        // Bravo
+                        RiveViewModel(fileName: "Bravo_Panting").view()
+                            .frame(width: 90, height: 90)
+                        
+                        // Bravo's message bubble
                         ZStack(alignment: .center) {
                             RiveViewModel(fileName: "Message_Bubble").view()
                                 .frame(width: 170, height: 90)
 
-                            if sessionModel.orderedDrills.isEmpty {
-                                Text("Choose your skill to improve today")
-                                    .font(.custom("Poppins-Bold", size: 12))
-                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                    .padding(10)
-                                    .frame(maxWidth: 150)
-                            } else {
-                                
-                                Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
-                                    .font(.custom("Poppins-Bold", size: 12))
-                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                    .padding(10)
-                                    .frame(maxWidth: 150)
-                            }
-                        }
-                    }
-                    
-                    
-                    Spacer()
-                    
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 8)
-                
-                Spacer()
-
-                    // When the session is activated
-                if viewState.showSmallDrillCards {
-                        ZStack {
-                            RiveViewModel(fileName: "Grass_Field").view()
-                                .frame(maxWidth: .infinity)
-                                .padding(.top, 100)
-                            HStack {
-                                RiveViewModel(fileName: "Bravo_Panting").view()
-                                    .frame(width: 90, height: 90)
-                                VStack {
-                                    ForEach(sessionModel.orderedDrills) { drill in
-                                        SmallDrillCard(
-                                            appModel: appModel,
-                                            drill: drill
-                                        )
-                                        .dropDestination(for: String.self) { items, location in
-                                            guard let sourceTitle = items.first,
-                                                  let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
-                                                  let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
-                                                return false
-                                            }
-                                            
-                                            withAnimation(.spring()) {
-                                                let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
-                                                sessionModel.orderedDrills.insert(drill, at: destinationIndex)
-                                            }
-                                            return true
-                                        }
-                                    }
+                            if viewState.showTextBubble {
+                                if sessionModel.orderedDrills.isEmpty {
+                                    Text("Choose your skill to improve today")
+                                        .font(.custom("Poppins-Bold", size: 12))
+                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                        .padding(10)
+                                        .frame(maxWidth: 150)
+                                } else {
+                                    
+                                    Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
+                                        .font(.custom("Poppins-Bold", size: 12))
+                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                        .padding(10)
+                                        .frame(maxWidth: 150)
                                 }
-                                .padding()
                             }
-                            
                         }
-                        .transition(.move(edge: .bottom))
-                        
-                        
                     }
                     
-            }
-                
-                
-                
-            // Everything below bravo's space
-            if viewState.showHomePage {
-                
                 // ZStack for rounded corner
                 ZStack {
                     
+                    // Rounded corner
                     RoundedCorner(radius: 30, corners: [.topLeft, .topRight])
                         .fill(Color.white)
                         .edgesIgnoringSafeArea(.bottom)
                     
-                    
+                    // Home page
                     VStack(alignment: .leading, spacing: 12) {
                         
                         HStack {
-                            // TODO: fix toggle animation
+
                             // Filters toggle button
                             Button(action: {
                                 withAnimation(.spring(dampingFraction: 0.7)) {
@@ -248,14 +181,14 @@ struct SessionGeneratorView: View {
                                             .padding(.vertical, 3)
                                             .foregroundColor(appModel.globalSettings.primaryDarkColor)
                                             .font(.system(size: 16, weight: .medium))
-                                            
+                                        
                                     } else {
                                         Image(systemName: "chevron.down")
                                             .padding(.horizontal, 3)
                                             .padding(.vertical, 3)
                                             .foregroundColor(appModel.globalSettings.primaryDarkColor)
                                             .font(.system(size: 16, weight: .medium))
-                                            
+                                        
                                     }
                                 }
                                 .background(
@@ -327,7 +260,7 @@ struct SessionGeneratorView: View {
                                             } else {
                                                 viewState.showSavedPrereqs = true
                                             }
-                                            }
+                                        }
                                         }) {
                                             ZStack {
                                                 Circle()
@@ -345,7 +278,7 @@ struct SessionGeneratorView: View {
                                             .padding(.vertical)
                                         }
                                         
-
+                                        
                                         // Delete selected prereq button
                                         Button(action: {
                                             clearPrereqSelection()
@@ -368,7 +301,7 @@ struct SessionGeneratorView: View {
                                         }
                                         
                                         
-
+                                        
                                         // All prereqs
                                         ForEach(PrerequisiteType.allCases, id: \.self) { type in
                                             PrerequisiteButton(
@@ -533,14 +466,88 @@ struct SessionGeneratorView: View {
                         .cornerRadius(15)
                     }
                 }
-                .transition(.move(edge: .bottom))
-                .padding(.top, 120)
-
+            }
+            .transition(.move(edge: .bottom))
+            .padding(.top, 20)
 
             }
             
                 
             }
+    }
+    
+    // MARK: Area behind home page
+    private var areaBehindHomePage: some View {
+        // Whole area behind the home page
+        VStack {
+            HStack {
+                // back button to go back to home page
+                if !viewState.showHomePage {
+                    Button(action:  {
+                        withAnimation(.spring(dampingFraction: 0.7)) {
+                            viewState.showSmallDrillCards = false
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                            withAnimation(.spring(dampingFraction: 0.7)) {
+                                viewState.showHomePage = true
+                                viewState.showTextBubble = true
+                            }
+                        }
+                    }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    }
+                }
+                Spacer()
+
+                
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+            
+            Spacer()
+
+                // When the session is activated
+            if viewState.showSmallDrillCards {
+                    ZStack {
+                        RiveViewModel(fileName: "Grass_Field").view()
+                            .frame(maxWidth: .infinity)
+                            .padding(.top, 100)
+                        HStack {
+                            RiveViewModel(fileName: "Bravo_Panting").view()
+                                .frame(width: 90, height: 90)
+                            VStack {
+                                ForEach(sessionModel.orderedDrills) { drill in
+                                    SmallDrillCard(
+                                        appModel: appModel,
+                                        drill: drill
+                                    )
+                                    .dropDestination(for: String.self) { items, location in
+                                        guard let sourceTitle = items.first,
+                                              let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
+                                              let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
+                                            return false
+                                        }
+                                        
+                                        withAnimation(.spring()) {
+                                            let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
+                                            sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                                        }
+                                        return true
+                                    }
+                                }
+                            }
+                            .padding()
+                        }
+                        
+                    }
+                    .transition(.move(edge: .bottom))
+                    
+                    
+                }
+                
+        }
     }
     
     // MARK: prereq prompt
@@ -610,6 +617,7 @@ struct SessionGeneratorView: View {
                 sessionModel.generateSession()
                 viewState.showHomePage = false
                 viewState.showTextBubble = false
+                
             }
             
             // Delay the appearance of drill cards to match the menu's exit animation
