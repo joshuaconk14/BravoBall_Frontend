@@ -18,7 +18,7 @@ class OnboardingModel: ObservableObject {
     @Published var showLoginPage = false
     @Published var showWelcome = false
     @Published var showIntroAnimation = true
-    @Published var isLoggedIn = true
+    @Published var isLoggedIn = false
     @Published var authToken = ""
     @Published var isPasswordVisible: Bool = false
     @Published var numberOfOnboardingPages = 13 // Updated to include registration page

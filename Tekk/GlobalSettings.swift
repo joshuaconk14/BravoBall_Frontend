@@ -12,9 +12,10 @@ import Foundation
 class GlobalSettings: ObservableObject {
     @Published var primaryYellowColor: Color = Color(hex: "F6C356")
     @Published var secondaryYellowColor: Color = Color(hex: "C8A369")
-    @Published var primaryDarkColor: Color = Color(hex:"1E272E")
-    @Published var primaryGrayColor: Color = Color(hex:"4F4F4F")
-    
+    @Published var primaryDarkColor: Color = Color(hex:"4F4F4F")
+    @Published var primaryGrayColor: Color = Color(hex:"858585")
+    @Published var primaryLightGrayColor: Color = Color(hex:"d6d6d6")
+    @Published var primaryLightestGrayColor: Color = Color(hex:"f0f0f0")
 }
 
 // settings for services, dont need ObservableObject annotation

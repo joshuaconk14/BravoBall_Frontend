@@ -91,7 +91,9 @@ struct DrillDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {}) {
+                    Button(action: {
+                        
+                    }) {
                         Image(systemName: "xmark")
                             .foregroundColor(.black)
                     }

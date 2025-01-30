@@ -32,12 +32,12 @@ struct DrillResultsView: View {
                         .padding()
                         .padding(.top, 20)
                         .font(.custom("Poppins-Bold", size: 18))
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
 
                     Text("Score:")
                         .padding()
                         .font(.custom("Poppins-Bold", size: 30))
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     
                     let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
                     
@@ -48,7 +48,7 @@ struct DrillResultsView: View {
                         Text("\(session.totalCompletedDrills) / \(session.totalDrills)")
                             .padding()
                             .font(.custom("Poppins-Bold", size: 40))
-                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
                             .opacity(showScore ? 1 : 0)
                             .animation(.easeIn.delay(0.8), value: showScore)
                     }
@@ -61,7 +61,7 @@ struct DrillResultsView: View {
                     Text("Drills:")
                         .padding()
                         .font(.custom("Poppins-Bold", size: 30))
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     
 
                         ForEach(session.drills, id: \.name) { drill in
@@ -88,7 +88,7 @@ struct DrillResultsView: View {
                                 }
                                 .padding()
                                 .font(.custom("Poppins-Regular", size: 14))
-                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
                             }
                         }
                         .padding(.horizontal)
@@ -106,7 +106,7 @@ struct DrillResultsView: View {
         }) {
             HStack {
                 Image(systemName: "xmark")
-                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
             }
         }
     }

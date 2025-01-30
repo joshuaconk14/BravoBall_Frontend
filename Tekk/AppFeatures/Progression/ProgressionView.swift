@@ -10,89 +10,98 @@ import RiveRuntime
 
 struct ProgressionView: View {
     @ObservedObject var appModel: MainAppModel
+    
 
+
+    
     var body: some View {
-        content
-            .sheet(isPresented: $appModel.showDrillResults) {
-                DrillResultsView(appModel: appModel)
-            }
-    }
-
-    var content: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: 5) {
-
-                // Streak display
-                streakDisplay
-                    
-
-                // Calendar view
-                CalendarViewTest(appModel: appModel)
+        NavigationView {
+            VStack {
+                // Progress header
+                Text("Progress")
+                    .font(.custom("Poppins-Bold", size: 25))
+                    .foregroundColor(.white)
                 
-                
-                // History display
-                HStack {
-                    VStack {
-                        if appModel.highestStreak == 1 {
-                            Text("\(appModel.highestStreak)  day")
-                                .font(.custom("Poppins-Bold", size: 30))
-                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                        } else {
-                            Text("\(appModel.highestStreak)  days")
-                                .font(.custom("Poppins-Bold", size: 30))
-                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                        }
-                        Text("Highest Streak")
-                            .font(.custom("Poppins-Bold", size: 16))
-                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                    }
-                    .padding()
-                    
-                    VStack {
-                        Text("\(appModel.allCompletedSessions.count)")
-                            .font(.custom("Poppins-Bold", size: 30))
-                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                        Text("Sessions completed")
-                            .font(.custom("Poppins-Bold", size: 16))
-                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                    }
-                    .padding()
-                }
-
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 5) {
+                        // Yellow section content
+                        streakDisplay
+                            .padding(.bottom, 20)
                         
-
+                        // White section content with rounded top corners
+                        ZStack {
+                            RoundedCorner(radius: 30, corners: [.topLeft, .topRight])
+                                .fill(Color.white)
+                            
+                            VStack(spacing: 5) {
+                                CalendarViewTest(appModel: appModel)
+                                
+                                // History display
+                                HStack {
+                                    VStack {
+                                        if appModel.highestStreak == 1 {
+                                            Text("\(appModel.highestStreak)  day")
+                                                .font(.custom("Poppins-Bold", size: 30))
+                                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                                        } else {
+                                            Text("\(appModel.highestStreak)  days")
+                                                .font(.custom("Poppins-Bold", size: 30))
+                                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                                        }
+                                        Text("Highest Streak")
+                                            .font(.custom("Poppins-Bold", size: 16))
+                                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                    }
+                                    .padding()
+                                    
+                                    VStack {
+                                        Text("\(appModel.countOfFullyCompletedSessions)")
+                                            .font(.custom("Poppins-Bold", size: 30))
+                                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                                        Text("Sessions completed")
+                                            .font(.custom("Poppins-Bold", size: 16))
+                                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                    }
+                                    .padding()
+                                }
+                            }
+                            .padding(.horizontal)
+                            .padding(.bottom, 300) // TODO: fix bottom
+                        }
+                    }
+                }
             }
-            .padding(.horizontal)
+            .background(appModel.globalSettings.primaryYellowColor)
+        }
+        .sheet(isPresented: $appModel.showDrillResults) {
+            DrillResultsView(appModel: appModel)
         }
     }
-
+        
     // Streak display at the top
     private var streakDisplay: some View {
         ZStack {
-            RiveViewModel(fileName: "Streak_Diamond").view()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity)
-                .padding()
-            HStack {
-                Image("Streak_Flame")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 80)
-                if appModel.currentStreak == 0 {
+            Color(appModel.globalSettings.primaryYellowColor)
+            VStack {
+                HStack {
+                    Image("Streak_Flame")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 90)
                     Text("\(appModel.currentStreak)")
-                        .font(.custom("Poppins-Bold", size: 70))
+                        .font(.custom("Poppins-Bold", size: 90))
                         .padding(.trailing, 20)
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                } else {
-                    Text("\(appModel.currentStreak)")
-                        .font(.custom("Poppins-Bold", size: 70))
-                        .padding(.trailing, 20)
-                        .foregroundColor(.red)
+                        .foregroundColor(Color.white)
                 }
+                Text("Day Streak")
+                    .font(.custom("Poppins-Bold", size: 22))
+                    .foregroundColor(Color.white)
+                    .padding(.horizontal)
             }
+            .padding()
         }
-        .padding()
     }
+
 
 }
 
@@ -104,8 +113,9 @@ struct CalendarViewTest: View {
     @ObservedObject var appModel: MainAppModel
     let calendar = Calendar.current
     
-    // placeholder date
-    @State private var selectedDate = Date()
+    // placeholder dates
+    @State private var firstDate = Date()
+    @State private var selectedDate = Date() // Used to move calendar month view
     // production
     @State private var currentDate: Date = Date()
     // testing purposes
@@ -117,15 +127,167 @@ struct CalendarViewTest: View {
 
             // Where we returns integers of specific date values called
             let days = calendar.daysInMonthTest(for: selectedDate)
-            let today = Date()
             let firstWeekday = calendar.firstWeekdayInMonthTest(for: selectedDate)
 
             // Determines if moveMonth button can move or not
+            // Selected date components
             let currentMonth = calendar.component(.month, from: selectedDate)
-            let isCurrentOrFutureMonth = calendar.component(.month, from: today) >= currentMonth
+            let currentYear = calendar.component(.year, from: selectedDate)
+            // Simulated date components
+            let simulatedMonth = calendar.component(.month, from: simulatedDate)
+            let simulatedYear = calendar.component(.year, from: simulatedDate)
+            // First date components
+            let firstDateMonth = calendar.component(.month, from: firstDate)
+            let firstDateYear = calendar.component(.year, from: firstDate)
+            // Determine which dates can be seen
+            let isCurrentMonth = simulatedMonth == currentMonth && simulatedYear == currentYear
+            let isPreviousMonth = currentMonth == firstDateMonth && currentYear == firstDateYear
             
+            
+            // Calendar header
+            HStack {
+                Text("Streak Calendar")
+                    .font(.custom("Poppins-Bold", size: 22))
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                
+                Spacer()
+                
+                // Toggle full calendar button
+                Button(action: {
+                    withAnimation {
+                        appModel.showCalendar.toggle()
+                    }
+                }) {
+                    HStack {
+                        Text(appModel.showCalendar ? "Month" : "Week")
+                            .font(.custom("Poppins-Bold", size: 15))
+                        Image(systemName: appModel.showCalendar ? "chevron.up" : "chevron.down")
+                    }
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                }
+            }
+            .padding(.vertical, 5)
+            
+            if appModel.inSimulationMode {
+                testButton
+                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+            }
 
+            // Full calendar
+            VStack {
+                // Month and Year header
+                HStack {
+                    // Header
+                    if appModel.showCalendar {
+                        // Left button
+                        Button(action: { moveMonth(by: -1) }) {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                        }
+                        .opacity(isPreviousMonth ? 0.5 : 1.0)
+                        .disabled(isPreviousMonth)
+                        
+                        Spacer()
+                        
+                        Text(monthYearString(from: selectedDate))
+                            .font(.custom("Poppins-Bold", size: 22))
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        
+                        Spacer()
+                        
+                        // Right button
+                        Button(action: { moveMonth(by: 1) }) {
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                        }
+                        .opacity(isCurrentMonth ? 0.5 : 1.0)
+                        .disabled(isCurrentMonth)
+                        
+                        
+                    } else {
+                        Text(monthYearString(from: simulatedDate))
+                            .font(.custom("Poppins-Bold", size: 22))
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    }
+                }
+                .padding()
 
+                // Day of week headers
+                HStack(spacing: 25) {
+                    ForEach(["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"], id: \.self) { day in
+                        Text(day)
+                            .font(.custom("Poppins", size: 14))
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    }
+                }
+                .padding(.horizontal, 8)
+
+                // Calendar or week view
+                if appModel.showCalendar {
+                    // Calendar grid
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 5) {
+
+                        // Clear the unused days with no numbers
+                        ForEach(0..<firstWeekday-1, id: \.self) { _ in
+                            Color.clear
+                                .frame(height: 50)
+
+                        }
+
+                        
+                        ForEach(1...days, id: \.self) { day in
+
+                            // Set dates for each displayed day
+                            let fullDate = createFullDate(from: day)
+
+                            WeekDisplayButton(
+                                appModel: appModel,
+                                text: "\(day)",
+                                date: fullDate,
+                                highlightedDay: isCurrentDay(day), /*calendar.isDateInToday(fullDate)*/ // works in production
+                                session: appModel.getSessionForDate(fullDate)
+                            )
+                            .frame(height: 50)
+
+                        }
+                    }
+                    .frame(width: 330)
+                    .background(Color.white)
+                    
+                } else {
+                    // Current week only
+                    HStack(spacing: 5) {
+                        ForEach(daysInCurrentWeek(), id: \.date) { dayInfo in
+                            WeekDisplayButton(
+                                appModel: appModel,
+                                text: "\(dayInfo.dayNumber)",
+                                date: dayInfo.date,
+                                highlightedDay: isCurrentDay(dayInfo.dayNumber), /*calendar.isDateInToday(dayInfo.date)*/ // works in production
+                                session: appModel.getSessionForDate(dayInfo.date)
+                            )
+                            .frame(width: 43)
+                        }
+                    }
+                    .frame(width: 330)
+                    .background(Color.white)
+                }
+            }
+            .padding()
+            .cornerRadius(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(appModel.globalSettings.primaryLightGrayColor, lineWidth: 2)
+            )
+            
+        }
+        .padding()
+    }
+    
+    // MARK: Test Button
+    
+    private var testButton: some View {
+        Group {
             if appModel.inSimulationMode {
                 // test button
                 Button(action: {
@@ -134,7 +296,7 @@ struct CalendarViewTest: View {
                     // Increase or restart streak
                     if let session = appModel.getSessionForDate(simulatedDate) {
                         let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
-                        if score == 0.0 {
+                        if score < 1 {
                             appModel.currentStreak = 0
                         } else {
                             appModel.currentStreak += 1
@@ -151,127 +313,11 @@ struct CalendarViewTest: View {
 
                 }) {
                     Text("Test")
-                        .foregroundColor(Color.black)
                         .font(.custom("Poppins-Bold", size: 13))
                         .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 }
-                .padding(.horizontal)
-                .padding(.bottom, 10)
-            }
-
-
-
-
-            // Month and Year header
-            HStack {
-                // Header
-                if appModel.showCalendar {
-                    Text(monthYearString(from: selectedDate))
-                        .font(.custom("Poppins-Bold", size: 22))
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                } else {
-                    Text(monthYearString(from: simulatedDate))
-                        .font(.custom("Poppins-Bold", size: 22))
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                }
-
-                if appModel.showCalendar {
-                    // Left button
-                    Button(action: { moveMonth(by: -1) }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                    }
-                    .foregroundColor(isCurrentOrFutureMonth ? appModel.globalSettings.primaryGrayColor.opacity(0.5) : appModel.globalSettings.primaryGrayColor)
-                    .disabled(isCurrentOrFutureMonth)
-
-                    // Right button
-                    Button(action: { moveMonth(by: 1) }) {
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                    }
-                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                }
-                
-                Spacer()
-                
-                // Toggle full calendar button
-                Button(action: {
-                    withAnimation {
-                        appModel.showCalendar.toggle()
-                    }
-                }) {
-                    HStack {
-                        Text(appModel.showCalendar ? "Month" : "Week")
-                            .font(.custom("Poppins-Bold", size: 15))
-                        Image(systemName: appModel.showCalendar ? "chevron.up" : "chevron.down")
-                    }
-                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                }
-            }
-            .padding()
-
-            // Day of week headers
-            HStack {
-                ForEach(["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"], id: \.self) { day in
-                    Text(day)
-                        .font(.custom("Poppins", size: 14))
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                }
-            }
-            .padding()
-
-            // Calendar or week view
-            if appModel.showCalendar {
-                // Calendar grid
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 5) {
-
-                    // Clear the unused days with no numbers
-                    ForEach(0..<firstWeekday-1, id: \.self) { _ in
-                        Color.clear
-                            .frame(height: 50)
-
-                    }
-
-                    
-                    ForEach(1...days, id: \.self) { day in
-
-                        // Set dates for each displayed day
-                        let fullDate = createFullDate(from: day)
-
-                        WeekDisplayButton(
-                            appModel: appModel,
-                            text: "\(day)",
-                            date: fullDate,
-                            highlightedDay: isCurrentDay(day), /*calendar.isDateInToday(fullDate)*/ // works in production
-                            session: appModel.getSessionForDate(fullDate)
-                        )
-                        .frame(height: 50)
-
-                    }
-                }
-                .background(Color.white)
-                
-            } else {
-                // Current week only
-                HStack(spacing: 5) {
-                    ForEach(daysInCurrentWeek(), id: \.date) { dayInfo in
-                        WeekDisplayButton(
-                            appModel: appModel,
-                            text: "\(dayInfo.dayNumber)",
-                            date: dayInfo.date,
-                            highlightedDay: isCurrentDay(dayInfo.dayNumber), /*calendar.isDateInToday(dayInfo.date)*/ // works in production
-                            session: appModel.getSessionForDate(dayInfo.date)
-                        )
-                        .frame(width: 45)
-                    }
-                }
-                .background(Color.white)
             }
         }
-        .padding()
-//        .background(Color.white)
-        .cornerRadius(10)
     }
 
 
@@ -294,7 +340,7 @@ struct CalendarViewTest: View {
             sets: 4,
             reps: 8,
             equipment: ["Ball, cones"],
-            isCompleted: Bool.random()
+            isCompleted: true
         )
         
         let addedTestDrillsTwo = MainAppModel.DrillData (
@@ -304,7 +350,7 @@ struct CalendarViewTest: View {
             sets: 3,
             reps: 20,
             equipment: ["Ball"],
-            isCompleted: Bool.random()
+            isCompleted: true
         )
         
         let addedTestDrillsThree = MainAppModel.DrillData (
@@ -386,6 +432,7 @@ struct CalendarViewTest: View {
 
 }
 
+// Extensions for calendar view
 extension Calendar {
     func daysInMonthTest(for date: Date) -> Int {
         return range(of: .day, in: .month, for: date)?.count ?? 0
@@ -398,7 +445,21 @@ extension Calendar {
     }
 }
 
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape(RoundedCorner(radius: radius, corners: corners))
+    }
+}
 
+struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
+}
 
 #Preview {
     let mockAppModel = MainAppModel()

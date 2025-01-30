@@ -1,3 +1,6 @@
+import Foundation
+import UIKit
+
 class MainAppModel: ObservableObject {
     let globalSettings = GlobalSettings()
     
@@ -42,5 +45,17 @@ class MainAppModel: ObservableObject {
         case logout
         case delete
         case none
+    }
+    
+    // Navigation bar configuration
+    func configureNavigationBarAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(globalSettings.primaryYellowColor)
+        
+        // Apply the appearance settings
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
 } 
