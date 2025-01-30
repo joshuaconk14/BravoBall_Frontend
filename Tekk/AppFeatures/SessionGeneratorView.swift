@@ -87,11 +87,20 @@ struct SessionGeneratorView: View {
                 
                 homePage
                 
-                
                 // Prereq prompt
                 if viewState.showSavedPrereqsPrompt {
                     
                     prereqPrompt
+                }
+
+
+                // Golden button
+                    
+                if !sessionModel.orderedDrills.isEmpty {
+                    if viewState.showHomePage {
+                        
+                        goldenButton
+                    }
                 }
                 
                 // Dropdown content if prerequisite is selected
@@ -102,15 +111,6 @@ struct SessionGeneratorView: View {
                         sessionModel: sessionModel
                     ){
                         selectedPrerequisite = nil
-                    }
-                }
-
-                // Golden button
-                    
-                if !sessionModel.orderedDrills.isEmpty {
-                    if viewState.showHomePage {
-                        
-                        goldenButton
                     }
                 }
                 
