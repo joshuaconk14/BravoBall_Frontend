@@ -93,6 +93,17 @@ struct SessionGeneratorView: View {
                     
                     prereqPrompt
                 }
+                
+                // Dropdown content if prerequisite is selected
+                if let type = selectedPrerequisite {
+                    PrerequisiteDropdown(
+                        appModel: appModel,
+                        type: type,
+                        sessionModel: sessionModel
+                    ){
+                        selectedPrerequisite = nil
+                    }
+                }
 
                 // Golden button
                     
@@ -198,19 +209,7 @@ struct SessionGeneratorView: View {
                             .padding(.vertical, 3)
                         }
                         
-                        
-                        
-                        // Dropdown content if prerequisite is selected
-                        if let type = selectedPrerequisite {
-                            PrerequisiteDropdown(
-                                appModel: appModel,
-                                type: type,
-                                sessionModel: sessionModel
-                            ){
-                                selectedPrerequisite = nil
-                            }
-                            .padding(.horizontal, 50)
-                        }
+
                         
                         // Generated Drills Section
                         
@@ -750,57 +749,64 @@ struct PrerequisiteDropdown: View {
     let dismiss: () -> Void
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Spacer()
-                Text(type.rawValue)
-                    .font(.custom("Poppins-Bold", size: 16))
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-
-                Spacer()
-                Button(action: {
-                    withAnimation(.spring(dampingFraction: 0.7)) {
-                        dismiss()
-                    }
-                }) {
-                    Image(systemName: "xmark")
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+        ZStack {
+            Color.black.opacity(0.3)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    dismiss()
                 }
-            }
-            
-            ScrollView {
-                VStack(alignment: .leading, spacing: 8) {
-                    ForEach(optionsForType, id: \.self) { option in
-                        Button(action: {
-                            selectOption(option)
-//                            dismiss()
-                        }) {
-                            HStack {
-                                Text(option)
-                                    .font(.custom("Poppins-Regular", size: 14))
-                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                                Spacer()
-                                if isSelected(option) {
-                                    Image(systemName: "checkmark")
-                                        .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                }
-                            }
-                            .padding(.vertical, 8)
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Spacer()
+                    Text(type.rawValue)
+                        .font(.custom("Poppins-Bold", size: 16))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    
+                    Spacer()
+                    Button(action: {
+                        withAnimation(.spring(dampingFraction: 0.7)) {
+                            dismiss()
                         }
-                        Divider()
+                    }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
                     }
                 }
+                
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 8) {
+                        ForEach(optionsForType, id: \.self) { option in
+                            Button(action: {
+                                selectOption(option)
+                                //                            dismiss()
+                            }) {
+                                HStack {
+                                    Text(option)
+                                        .font(.custom("Poppins-Regular", size: 14))
+                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                    Spacer()
+                                    if isSelected(option) {
+                                        Image(systemName: "checkmark")
+                                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
+                                    }
+                                }
+                                .padding(.vertical, 8)
+                            }
+                            Divider()
+                        }
+                    }
+                }
+                .frame(maxHeight: 150)
             }
-            .frame(maxHeight: 150)
+            .padding(10)
+            .background(Color.white)
+            .cornerRadius(15)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.white)
+                    .stroke(Color.gray.opacity(0.3), lineWidth: 3)
+            )
         }
-        .padding(10)
-        .background(Color.white)
-        .cornerRadius(15)
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color.white)
-                .stroke(Color.gray.opacity(0.3), lineWidth: 3)
-        )
     }
     
     
