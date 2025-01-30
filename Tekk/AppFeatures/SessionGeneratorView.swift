@@ -12,10 +12,9 @@ struct SessionGeneratorView: View {
     @ObservedObject var model: OnboardingModel
     @ObservedObject var appModel: MainAppModel
     @StateObject private var sessionModel: SessionGeneratorModel
+    @State private var viewState = MainAppModel.ViewState()
     @State private var selectedPrerequisite: PrerequisiteType?
     
-    // View States
-    @State private var viewState = MainAppModel.ViewState()
     @State private var savedFiltersName: String  = ""
     
     init(model: OnboardingModel, appModel: MainAppModel) {
@@ -164,70 +163,13 @@ struct SessionGeneratorView: View {
                         
                         HStack {
 
-                            // Filters toggle button
-                            Button(action: {
-                                withAnimation(.spring(dampingFraction: 0.7)) {
-                                    viewState.showFilter.toggle()
-                                }
-                            }) {
-                                HStack {
-                                    Image("Filter_Icon")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 20, height: 20)
-                                    if viewState.showFilter {
-                                        Image(systemName: "chevron.up")
-                                            .padding(.horizontal, 3)
-                                            .padding(.vertical, 3)
-                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                            .font(.system(size: 16, weight: .medium))
-                                        
-                                    } else {
-                                        Image(systemName: "chevron.down")
-                                            .padding(.horizontal, 3)
-                                            .padding(.vertical, 3)
-                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                            .font(.system(size: 16, weight: .medium))
-                                        
-                                    }
-                                }
-                                .background(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
-                                )
-                                
-                                
-                            }
-                            .padding(.top, 10)
-                            .padding(.horizontal, 15)
+                            filtersToggleButton
                             
                             Spacer()
                             
                             
                             // TODO: Add more features here
-                            Button(action:  {
-                                if viewState.showSavedPrereqsPrompt == true {
-                                    viewState.showSavedPrereqsPrompt = false
-                                } else {
-                                    viewState.showSavedPrereqsPrompt = true
-                                }
-                            }) {
-                                VStack {
-                                    Image(systemName: "ellipsis")
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.primary)
-                                        .padding()
-                                    
-                                }
-                                .background(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
-                                )
-                                
-                                
-                            }
-                            .padding(.top, 10)
-                            .padding(.horizontal, 15)
+                            ellipsesButton
                             
                             
                         }
@@ -242,90 +184,7 @@ struct SessionGeneratorView: View {
                                 .padding(.vertical, 3)
                             
                             
-                            // TODO: make rect in background not zstack
-                            // Prerequisites ScrollView
-                            ZStack {
-                                
-                                Rectangle()
-                                    .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 2)
-                                    .frame(height: 80)
-                                
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 12) {
-                                        
-                                        // Saved filters Button
-                                        Button(action: { withAnimation(.spring(dampingFraction: 0.7)) {
-                                            if viewState.showSavedPrereqs == true {
-                                                viewState.showSavedPrereqs = false
-                                            } else {
-                                                viewState.showSavedPrereqs = true
-                                            }
-                                        }
-                                        }) {
-                                            ZStack {
-                                                Circle()
-                                                    .fill(appModel.globalSettings.primaryLightGrayColor)
-                                                    .frame(width: 40, height: 40)
-                                                    .offset(x: 0, y: 3)
-                                                Circle()
-                                                    .fill(Color.white)
-                                                    .frame(width: 40, height: 40)
-                                                
-                                                Image(systemName: "heart")
-                                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                                    .font(.system(size: 16, weight: .medium))
-                                            }
-                                            .padding(.vertical)
-                                        }
-                                        
-                                        
-                                        // Delete selected prereq button
-                                        Button(action: {
-                                            clearPrereqSelection()
-                                        }) {
-                                            ZStack {
-                                                Circle()
-                                                    .fill(appModel.globalSettings.primaryLightGrayColor)
-                                                    .frame(width: 40, height: 40)
-                                                    .offset(x: 0, y: 3)
-                                                Circle()
-                                                    .fill(Color.white)
-                                                    .frame(width: 40, height: 40)
-                                                
-                                                Image(systemName: "xmark")
-                                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                                    .font(.system(size: 16, weight: .medium))
-                                            }
-                                            .padding(.vertical)
-                                            .padding(.trailing, 10)
-                                        }
-                                        
-                                        
-                                        
-                                        // All prereqs
-                                        ForEach(PrerequisiteType.allCases, id: \.self) { type in
-                                            PrerequisiteButton(
-                                                appModel: appModel,
-                                                type: type,
-                                                icon: icon(for: type),
-                                                isSelected: selectedPrerequisite == type,
-                                                value: prerequisiteValue(for: type)
-                                            ) {
-                                                if selectedPrerequisite == type {
-                                                    selectedPrerequisite = nil
-                                                } else {
-                                                    selectedPrerequisite = type
-                                                }
-                                            }
-                                            .padding(.vertical)
-                                        }
-                                        
-                                    }
-                                    .padding()
-                                }
-                                .frame(height: 50)
-                            }
-                            .frame(maxWidth: .infinity)
+                            prerequisiteScrollView
                         }
                         
                         
@@ -354,116 +213,8 @@ struct SessionGeneratorView: View {
                         }
                         
                         // Generated Drills Section
-                        VStack(alignment: .center, spacing: 12) {
-                            
-                            
-                            HStack {
-                                Rectangle()
-                                    .fill(appModel.globalSettings.primaryLightGrayColor)
-                                    .frame(width:120, height: 2)
-                                
-                                Spacer()
-                                
-                                
-                                Text("Session")
-                                    .font(.custom("Poppins-Bold", size: 20))
-                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                
-                                
-                                Spacer()
-                                
-                                Rectangle()
-                                    .fill(appModel.globalSettings.primaryLightGrayColor)
-                                    .frame(width:120, height: 2)
-                            }
-                            
-                            // Buttons for session adjustment
-                            HStack {
-                                Button(action: { /* Close action */ }) {
-                                    ZStack {
-                                        Circle()
-                                            .fill(appModel.globalSettings.primaryLightGrayColor)
-                                            .frame(width: 30, height: 30)
-                                            .offset(x: 0, y: 3)
-                                        Circle()
-                                            .fill(Color.white)
-                                            .frame(width: 30, height: 30)
-                                        
-                                        Image(systemName: "plus")
-                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                            .font(.system(size: 16, weight: .medium))
-                                    }
-                                }
-                                Button(action: { /* Close action */ }) {
-                                    ZStack {
-                                        Circle()
-                                            .fill(appModel.globalSettings.primaryLightGrayColor)
-                                            .frame(width: 30, height: 30)
-                                            .offset(x: 0, y: 3)
-                                        Circle()
-                                            .fill(Color.white)
-                                            .frame(width: 30, height: 30)
-                                        
-                                        Image(systemName: "chevron.down")
-                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                            .font(.system(size: 16, weight: .medium))
-                                    }
-                                }
-                                Spacer()
-                                
-                            }
-                            
-                            // Drills view
-                            
-                            ScrollView {
-                                
-                                if sessionModel.orderedDrills.isEmpty {
-                                    Spacer()
-                                    HStack {
-                                        Image(systemName: "lock.fill")
-                                            .frame(width: 50, height: 50)
-                                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-                                        Text("Choose a skill to create your session")
-                                            .font(.custom("Poppins-Bold", size: 12))
-                                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-                                    }
-                                    .padding(.horizontal, 30)
-                                    .padding(.bottom, 150)
-                                    
-                                } else {
-                                    
-                                    ForEach(sessionModel.orderedDrills) { drill in
-                                        DrillCard(
-                                            appModel: appModel,
-                                            drill: drill
-                                        )
-                                        .draggable(drill.title) {
-                                            DrillCard(
-                                                appModel: appModel,
-                                                drill: drill
-                                            )
-                                        }
-                                        .dropDestination(for: String.self) { items, location in
-                                            guard let sourceTitle = items.first,
-                                                  let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
-                                                  let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
-                                                return false
-                                            }
-                                            
-                                            withAnimation(.spring()) {
-                                                let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
-                                                sessionModel.orderedDrills.insert(drill, at: destinationIndex)
-                                            }
-                                            return true
-                                        }
-                                    }
-                                    
-                                }
-                            }
-                            
-                        }
-                        .padding()
-                        .cornerRadius(15)
+                        
+                        generatedDrillsSection
                     }
                 }
             }
@@ -548,6 +299,274 @@ struct SessionGeneratorView: View {
                 }
                 
         }
+    }
+    
+    
+    // MARK: Filter toggler
+    private var filtersToggleButton: some View {
+        Button(action: {
+            withAnimation(.spring(dampingFraction: 0.7)) {
+                viewState.showFilter.toggle()
+            }
+        }) {
+            HStack {
+                Image("Filter_Icon")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20, height: 20)
+                if viewState.showFilter {
+                    Image(systemName: "chevron.up")
+                        .padding(.horizontal, 3)
+                        .padding(.vertical, 3)
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .font(.system(size: 16, weight: .medium))
+                    
+                } else {
+                    Image(systemName: "chevron.down")
+                        .padding(.horizontal, 3)
+                        .padding(.vertical, 3)
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .font(.system(size: 16, weight: .medium))
+                    
+                }
+            }
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
+            )
+            
+            
+        }
+        .padding(.top, 10)
+        .padding(.horizontal, 15)
+    }
+    
+    // MARK: Ellipses button
+    private var ellipsesButton: some View {
+        Button(action:  {
+            if viewState.showSavedPrereqsPrompt == true {
+                viewState.showSavedPrereqsPrompt = false
+            } else {
+                viewState.showSavedPrereqsPrompt = true
+            }
+        }) {
+            VStack {
+                Image(systemName: "ellipsis")
+                    .font(.system(size: 14))
+                    .foregroundColor(.primary)
+                    .padding()
+                
+            }
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(appModel.globalSettings.primaryGrayColor, lineWidth: 2)
+            )
+            
+            
+        }
+        .padding(.top, 10)
+        .padding(.horizontal, 15)
+    }
+    
+    // MARK: Prerequisite Scroll View
+    private var prerequisiteScrollView: some View{
+        ZStack {
+            
+            Rectangle()
+                .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 2)
+                .frame(height: 80)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    
+                    // Saved filters Button
+                    Button(action: { withAnimation(.spring(dampingFraction: 0.7)) {
+                        if viewState.showSavedPrereqs == true {
+                            viewState.showSavedPrereqs = false
+                        } else {
+                            viewState.showSavedPrereqs = true
+                        }
+                    }
+                    }) {
+                        ZStack {
+                            Circle()
+                                .fill(appModel.globalSettings.primaryLightGrayColor)
+                                .frame(width: 40, height: 40)
+                                .offset(x: 0, y: 3)
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 40, height: 40)
+                            
+                            Image(systemName: "heart")
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                .font(.system(size: 16, weight: .medium))
+                        }
+                        .padding(.vertical)
+                    }
+                    
+                    
+                    // Delete selected prereq button
+                    Button(action: {
+                        clearPrereqSelection()
+                    }) {
+                        ZStack {
+                            Circle()
+                                .fill(appModel.globalSettings.primaryLightGrayColor)
+                                .frame(width: 40, height: 40)
+                                .offset(x: 0, y: 3)
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 40, height: 40)
+                            
+                            Image(systemName: "xmark")
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                .font(.system(size: 16, weight: .medium))
+                        }
+                        .padding(.vertical)
+                        .padding(.trailing, 10)
+                    }
+                    
+                    
+                    
+                    // All prereqs
+                    ForEach(PrerequisiteType.allCases, id: \.self) { type in
+                        PrerequisiteButton(
+                            appModel: appModel,
+                            type: type,
+                            icon: icon(for: type),
+                            isSelected: selectedPrerequisite == type,
+                            value: prerequisiteValue(for: type)
+                        ) {
+                            if selectedPrerequisite == type {
+                                selectedPrerequisite = nil
+                            } else {
+                                selectedPrerequisite = type
+                            }
+                        }
+                        .padding(.vertical)
+                    }
+                    
+                }
+                .padding()
+                
+            }
+            .frame(height: 50)
+        }
+        .frame(maxWidth: .infinity)
+
+    }
+    
+    //MARK: Generated Drills Section
+    private var generatedDrillsSection: some View {
+        VStack(alignment: .center, spacing: 12) {
+            HStack {
+                Rectangle()
+                    .fill(appModel.globalSettings.primaryLightGrayColor)
+                    .frame(width:120, height: 2)
+                
+                Spacer()
+                
+                
+                Text("Session")
+                    .font(.custom("Poppins-Bold", size: 20))
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                
+                
+                Spacer()
+                
+                Rectangle()
+                    .fill(appModel.globalSettings.primaryLightGrayColor)
+                    .frame(width:120, height: 2)
+            }
+            
+            // Buttons for session adjustment
+            HStack {
+                Button(action: { /* Close action */ }) {
+                    ZStack {
+                        Circle()
+                            .fill(appModel.globalSettings.primaryLightGrayColor)
+                            .frame(width: 30, height: 30)
+                            .offset(x: 0, y: 3)
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 30, height: 30)
+                        
+                        Image(systemName: "plus")
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            .font(.system(size: 16, weight: .medium))
+                    }
+                }
+                Button(action: { /* Close action */ }) {
+                    ZStack {
+                        Circle()
+                            .fill(appModel.globalSettings.primaryLightGrayColor)
+                            .frame(width: 30, height: 30)
+                            .offset(x: 0, y: 3)
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 30, height: 30)
+                        
+                        Image(systemName: "chevron.down")
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            .font(.system(size: 16, weight: .medium))
+                    }
+                }
+                Spacer()
+                
+            }
+            
+            // Drills view
+            
+            ScrollView {
+                
+                if sessionModel.orderedDrills.isEmpty {
+                    Spacer()
+                    HStack {
+                        Image(systemName: "lock.fill")
+                            .frame(width: 50, height: 50)
+                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                        Text("Choose a skill to create your session")
+                            .font(.custom("Poppins-Bold", size: 12))
+                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                    }
+                    .padding(.horizontal, 30)
+                    .padding(.bottom, 150)
+                    
+                } else {
+                    
+                    ForEach(sessionModel.orderedDrills) { drill in
+                        DrillCard(
+                            appModel: appModel,
+                            drill: drill
+                        )
+                        .draggable(drill.title) {
+                            DrillCard(
+                                appModel: appModel,
+                                drill: drill
+                            )
+                        }
+                        .dropDestination(for: String.self) { items, location in
+                            guard let sourceTitle = items.first,
+                                  let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
+                                  let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
+                                return false
+                            }
+                            
+                            withAnimation(.spring()) {
+                                let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
+                                sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                            }
+                            return true
+                        }
+                    }
+                    
+                }
+            }
+            
+        }
+        .padding()
+        .cornerRadius(15)
+
     }
     
     // MARK: prereq prompt
