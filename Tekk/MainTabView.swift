@@ -13,6 +13,7 @@ struct MainTabView: View {
     @ObservedObject var model: OnboardingModel
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var userManager: UserManager
+    @ObservedObject var sessionModel: SessionGeneratorModel
     @StateObject private var homeTab = RiveViewModel(fileName: "Tab_House")
     @StateObject private var progressTab = RiveViewModel(fileName: "Tab_Calendar")
     @StateObject private var savedTab = RiveViewModel(fileName: "Tab_Saved")
@@ -28,7 +29,7 @@ struct MainTabView: View {
                 case 1:
                     ProgressionView(appModel: appModel)
                 case 2:
-                    SavedDrillsView()
+                    SavedDrillsView(appModel: appModel, sessionModel: sessionModel)
                 case 3:
                     ProfileView(model: model, appModel: appModel, userManager: userManager)
                 default:
@@ -103,10 +104,12 @@ struct CustomTabItem: View {
     let mockOnboardingModel = OnboardingModel()
     let mockMainAppModel = MainAppModel()
     let mockUserManager = UserManager()
+    let mockSesGenModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
     
     return MainTabView(
         model: mockOnboardingModel,
         appModel: mockMainAppModel,
-        userManager: mockUserManager
+        userManager: mockUserManager,
+        sessionModel: mockSesGenModel
     )
 }

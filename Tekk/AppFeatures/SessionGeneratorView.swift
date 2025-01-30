@@ -86,13 +86,6 @@ struct SessionGeneratorView: View {
             ZStack(alignment: .bottom) {
                 
                 homePage
-                
-                // Prereq prompt
-                if viewState.showSavedPrereqsPrompt {
-                    
-                    prereqPrompt
-                }
-
 
                 // Golden button
                     
@@ -101,6 +94,12 @@ struct SessionGeneratorView: View {
                         
                         goldenButton
                     }
+                }
+                
+                // Prompt to save filter
+                if viewState.showSavedPrereqsPrompt {
+                    
+                    prereqPrompt
                 }
                 
                 // Dropdown content if prerequisite is selected
@@ -170,7 +169,7 @@ struct SessionGeneratorView: View {
                         .edgesIgnoringSafeArea(.bottom)
                     
                     // Home page
-                    VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 5) {
                         
                         HStack {
 
@@ -373,7 +372,7 @@ struct SessionGeneratorView: View {
             
             Rectangle()
                 .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 2)
-                .frame(height: 80)
+                .frame(height: 70)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
@@ -452,6 +451,7 @@ struct SessionGeneratorView: View {
             .frame(height: 50)
         }
         .frame(maxWidth: .infinity)
+        .padding(.bottom, 18)
 
     }
     
@@ -729,8 +729,8 @@ struct PrerequisiteButton: View {
             VStack {
                 icon.view
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
+            .padding(.horizontal, 22)
+            .padding(.vertical, 5)
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(value.isEmpty ? Color(hex:"#f5cc9f") : Color(hex:"eb9c49"))
@@ -1382,6 +1382,8 @@ struct SkillSelectorSheet: View {
     @Environment(\.dismiss) private var dismiss
     @State private var expandedCategory: String?
     
+
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -1433,7 +1435,7 @@ struct SkillSelectorSheet: View {
                                     .background(
                                         RoundedRectangle(cornerRadius: 12)
                                             .fill(Color.white)
-                                            .stroke(Color.gray.opacity(0.3), lineWidth: 4)
+                                            .stroke(isCategorySelected(category) ? appModel.globalSettings.primaryYellowColor : Color.gray.opacity(0.3), lineWidth: 4)
                                     )
                                 }
                                 .foregroundColor(appModel.globalSettings.primaryDarkColor)
@@ -1475,6 +1477,16 @@ struct SkillSelectorSheet: View {
                 }
             }
         }
+    }
+    // TODO: move this somewhere else?
+    // Highlight category if sub skill selected
+    func isCategorySelected(_ category: SkillCategory) -> Bool {
+        for skill in category.subSkills {
+            if selectedSkills.contains(skill) {
+                return true
+            }
+        }
+        return false
     }
 }
 
@@ -1547,18 +1559,6 @@ struct SkillCategoryButton: View {
         email: "john@example.com",
         password: "password123"
     )
-    
-//    let name = "The Virginius"
-    
-//    let savedFilters = savedFiltersModel(
-//        name: name,
-//        savedTime: "15min",
-//        savedEquipment: ["cones", "goals"],
-//        savedTrainingStyle: ["medium intensity"],
-//        savedLocation: ["small field"],
-//        savedDifficulty: ["advanced"]
-//    )
-    
     
     
     return SessionGeneratorView(model: mockOnboardingModel, appModel: mockAppModel)

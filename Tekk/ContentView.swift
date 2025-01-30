@@ -20,13 +20,14 @@ struct ContentView: View {
     @StateObject private var onboardingModel = OnboardingModel()
     @StateObject private var appModel = MainAppModel()
     @StateObject private var userInfoManager = UserManager()
+    @StateObject private var sessionGenModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
 
     var body: some View {
         Group {
             if onboardingModel.isLoggedIn {
-                MainTabView(model: onboardingModel, appModel: appModel, userManager: userInfoManager)
+                MainTabView(model: onboardingModel, appModel: appModel, userManager: userInfoManager, sessionModel: sessionGenModel)
             } else {
-                OnboardingView(model: onboardingModel, appModel: appModel, userManager: userInfoManager)
+                OnboardingView(model: onboardingModel, appModel: appModel, userManager: userInfoManager, sessionModel: sessionGenModel)
             }
 //              DragDropTest()
         }
