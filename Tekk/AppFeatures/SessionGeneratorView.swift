@@ -212,7 +212,7 @@ struct SessionGeneratorView: View {
                         
                         // Generated Drills Section
                         
-                        generatedDrillsSection
+                        GeneratedDrillsSection(appModel: appModel, sessionModel: sessionModel)
                     }
                 }
             }
@@ -455,118 +455,6 @@ struct SessionGeneratorView: View {
 
     }
     
-    //MARK: Generated Drills Section
-    private var generatedDrillsSection: some View {
-        VStack(alignment: .center, spacing: 12) {
-            HStack {
-                Rectangle()
-                    .fill(appModel.globalSettings.primaryLightGrayColor)
-                    .frame(width:120, height: 2)
-                
-                Spacer()
-                
-                
-                Text("Session")
-                    .font(.custom("Poppins-Bold", size: 20))
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                
-                
-                Spacer()
-                
-                Rectangle()
-                    .fill(appModel.globalSettings.primaryLightGrayColor)
-                    .frame(width:120, height: 2)
-            }
-            
-            // Buttons for session adjustment
-            HStack {
-                Button(action: { /* Close action */ }) {
-                    ZStack {
-                        Circle()
-                            .fill(appModel.globalSettings.primaryLightGrayColor)
-                            .frame(width: 30, height: 30)
-                            .offset(x: 0, y: 3)
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 30, height: 30)
-                        
-                        Image(systemName: "plus")
-                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                            .font(.system(size: 16, weight: .medium))
-                    }
-                }
-                Button(action: { /* Close action */ }) {
-                    ZStack {
-                        Circle()
-                            .fill(appModel.globalSettings.primaryLightGrayColor)
-                            .frame(width: 30, height: 30)
-                            .offset(x: 0, y: 3)
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 30, height: 30)
-                        
-                        Image(systemName: "chevron.down")
-                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                            .font(.system(size: 16, weight: .medium))
-                    }
-                }
-                Spacer()
-                
-            }
-            
-            // Drills view
-            
-            ScrollView {
-                
-                if sessionModel.orderedDrills.isEmpty {
-                    Spacer()
-                    HStack {
-                        Image(systemName: "lock.fill")
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-                        Text("Choose a skill to create your session")
-                            .font(.custom("Poppins-Bold", size: 12))
-                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-                    }
-                    .padding(.horizontal, 30)
-                    .padding(.bottom, 150)
-                    
-                } else {
-                    
-                    ForEach(sessionModel.orderedDrills) { drill in
-                        DrillCard(
-                            appModel: appModel,
-                            drill: drill
-                        )
-                        .draggable(drill.title) {
-                            DrillCard(
-                                appModel: appModel,
-                                drill: drill
-                            )
-                        }
-                        .dropDestination(for: String.self) { items, location in
-                            guard let sourceTitle = items.first,
-                                  let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
-                                  let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
-                                return false
-                            }
-                            
-                            withAnimation(.spring()) {
-                                let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
-                                sessionModel.orderedDrills.insert(drill, at: destinationIndex)
-                            }
-                            return true
-                        }
-                    }
-                    
-                }
-            }
-            
-        }
-        .padding()
-        .cornerRadius(15)
-
-    }
     
     // MARK: prereq prompt
     private var prereqPrompt: some View {
@@ -695,7 +583,7 @@ struct SessionGeneratorView: View {
         
         guard !name.isEmpty else { return }
         
-        let savedFilters = savedFiltersModel(
+        let savedFilters = SavedFiltersModel(
             name: name,
             savedTime: sessionModel.selectedTime,
             savedEquipment: sessionModel.selectedEquipment,
@@ -924,7 +812,7 @@ struct DisplaySavedFilters: View {
     }
     
     // Load filter after clicking the name of saved filter
-    private func loadFilter(_ filter: savedFiltersModel) {
+    private func loadFilter(_ filter: SavedFiltersModel) {
             sessionModel.selectedTime = filter.savedTime
             sessionModel.selectedEquipment = filter.savedEquipment
             sessionModel.selectedTrainingStyle = filter.savedTrainingStyle
@@ -950,12 +838,13 @@ struct CompactDrillCard: View {
                 RiveViewModel(fileName: "Drill_Card_Incomplete").view()
                     .frame(width: 320, height: 170)
                 HStack {
-                        // Drag handle
-                        Image(systemName: "line.3.horizontal")
-                            .padding()
-                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                            .font(.system(size: 14))
-                            .padding(.trailing, 8)
+                    
+                    // Drag handle
+                    Image(systemName: "line.3.horizontal")
+                        .padding()
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                        .font(.system(size: 14))
+                        .padding(.trailing, 8)
                         
                     Image(systemName: "figure.soccer")
                             .font(.system(size: 24))
@@ -985,7 +874,7 @@ struct CompactDrillCard: View {
         }
         .buttonStyle(PlainButtonStyle())
         .sheet(isPresented: $showingDetail) {
-            DrillDetailView(drill: drill)
+            DrillDetailView(appModel: appModel, drill: drill)
         }
     }
 }
@@ -1038,7 +927,7 @@ struct DrillCard: View {
         }
         .buttonStyle(PlainButtonStyle())
         .sheet(isPresented: $showingDetail) {
-            DrillDetailView(drill: drill)
+            DrillDetailView(appModel: appModel, drill: drill)
         }
     }
 }
@@ -1073,10 +962,11 @@ struct SmallDrillCard: View {
         }
         .buttonStyle(PlainButtonStyle())
         .sheet(isPresented: $showingDetail) {
-            DrillDetailView(drill: drill)
+            DrillDetailView(appModel: appModel, drill: drill)
         }
     }
 }
+
 
 
 
@@ -1095,8 +985,12 @@ class SessionGeneratorModel: ObservableObject {
     // Drill storage
     @Published var orderedDrills: [DrillModel] = []
     
+    // Drill storage
+    @Published var savedDrills: [SavedDrillsGroup] = []
+    
+    // TODO: make new class for filters
     // Saved filters storage
-    @Published var allSavedFilters: [savedFiltersModel] = []
+    @Published var allSavedFilters: [SavedFiltersModel] = []
     
     // Prerequisite options
     let timeOptions = ["15min", "30min", "45min", "1h", "1h30", "2h+"]
@@ -1236,7 +1130,7 @@ struct SkillCategory {
     let icon: String
 }
 
-struct savedFiltersModel: Codable {
+struct SavedFiltersModel: Codable {
     let name: String
     let savedTime: String?
     let savedEquipment: Set<String>
@@ -1244,6 +1138,13 @@ struct savedFiltersModel: Codable {
     let savedLocation: String?
     let savedDifficulty: String?
 }
+
+struct SavedDrillsGroup {
+    let name: String
+    let description: String
+    let drills: [DrillModel]
+}
+
 
 extension SessionGeneratorView {
     // Define all available skill categories and their sub-skills
@@ -1536,6 +1437,160 @@ struct SkillCategoryButton: View {
     }
 }
 
+// MARK: Generated Drills Section
+
+struct GeneratedDrillsSection: View {
+    let appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    @State private var searchDrillsToAdd: Bool = false
+    
+    var body: some View {
+        VStack(alignment: .center, spacing: 12) {
+            HStack {
+                Rectangle()
+                    .fill(appModel.globalSettings.primaryLightGrayColor)
+                    .frame(width:120, height: 2)
+                
+                Spacer()
+                
+                
+                Text("Session")
+                    .font(.custom("Poppins-Bold", size: 20))
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                
+                
+                Spacer()
+                
+                Rectangle()
+                    .fill(appModel.globalSettings.primaryLightGrayColor)
+                    .frame(width:120, height: 2)
+            }
+            
+            // Buttons for session adjustment
+            HStack {
+                Button(action: {
+                    searchDrillsToAdd = true
+                }) {
+                    ZStack {
+                        Circle()
+                            .fill(appModel.globalSettings.primaryLightGrayColor)
+                            .frame(width: 30, height: 30)
+                            .offset(x: 0, y: 3)
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 30, height: 30)
+                        
+                        Image(systemName: "plus")
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            .font(.system(size: 16, weight: .medium))
+                    }
+                }
+                Button(action: { /* Close action */ }) {
+                    ZStack {
+                        Circle()
+                            .fill(appModel.globalSettings.primaryLightGrayColor)
+                            .frame(width: 30, height: 30)
+                            .offset(x: 0, y: 3)
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 30, height: 30)
+                        
+                        Image(systemName: "chevron.down")
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            .font(.system(size: 16, weight: .medium))
+                    }
+                }
+                Spacer()
+                
+            }
+            
+            // Drills view
+            
+            ScrollView {
+                
+                if sessionModel.orderedDrills.isEmpty {
+                    Spacer()
+                    HStack {
+                        Image(systemName: "lock.fill")
+                            .frame(width: 50, height: 50)
+                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                        Text("Choose a skill to create your session")
+                            .font(.custom("Poppins-Bold", size: 12))
+                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                    }
+                    .padding(.horizontal, 30)
+                    .padding(.bottom, 150)
+                    
+                } else {
+                    
+                    ForEach(sessionModel.orderedDrills) { drill in
+                        DrillCard(
+                            appModel: appModel,
+                            drill: drill
+                        )
+                        .draggable(drill.title) {
+                            DrillCard(
+                                appModel: appModel,
+                                drill: drill
+                            )
+                        }
+                        .dropDestination(for: String.self) { items, location in
+                            guard let sourceTitle = items.first,
+                                  let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
+                                  let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
+                                return false
+                            }
+                            
+                            withAnimation(.spring()) {
+                                let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
+                                sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                            }
+                            return true
+                        }
+                    }
+                    
+                }
+            }
+            
+        }
+        .padding()
+        .cornerRadius(15)
+        .sheet(isPresented: $searchDrillsToAdd) {
+            SearchDrillsSheet(appModel: appModel, dismiss: { searchDrillsToAdd = false })
+        }
+    }
+}
+
+// MARK: Search Drills Sheet
+
+struct SearchDrillsSheet: View {
+    let appModel: MainAppModel
+    let dismiss: () -> Void
+    
+    var body: some View {
+        NavigationView {
+            VStack {
+                HStack {
+                    Spacer()
+                    Text("Search Drills")
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .font(.custom("Poppins-Bold", size: 16))
+                        .padding(.leading, 70)
+                    Spacer()
+                    Button("Done") {
+                        dismiss()
+                    }
+                    .padding()
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    .font(.custom("Poppins-Bold", size: 16))
+                }
+                ScrollView {
+                    Text("Hello")
+                }
+            }
+        }
+    }
+}
 
 // MARK: Preview
 #Preview {

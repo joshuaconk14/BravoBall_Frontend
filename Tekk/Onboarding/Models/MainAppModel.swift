@@ -11,13 +11,13 @@ import UIKit
 
 class MainAppModel: ObservableObject {
     let globalSettings = GlobalSettings()
-    
-    
+
     
     // MARK: Main
     
     @Published var mainTabSelected = 0
     @Published var inSimulationMode: Bool = true
+    
     
     // MARK: Session generator
     
@@ -30,9 +30,14 @@ class MainAppModel: ObservableObject {
         var showSmallDrillCards: Bool = false
         var showSavedPrereqs: Bool = false
         var showSavedPrereqsPrompt: Bool = false
+        var showSearchDrills: Bool = false
     }
     
+        // MARK: Drill Detail View
     
+    func saveDrill() {
+        // after user saves it in a group
+    }
     
     
     // MARK: Calendar

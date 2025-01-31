@@ -22,11 +22,14 @@ struct SavedDrillsView: View {
                     HStack {
                         Spacer()
                         
+                        Spacer()
+                        
                         // Progress header
                         Text("Saved Drills")
                             .font(.custom("Poppins-Bold", size: 18))
                             .foregroundColor(.black)
                             .padding()
+                        
                         Spacer()
                         
                         Button(action: {
@@ -53,7 +56,7 @@ struct SavedDrillsView: View {
         }
     }
     
-    // MARK: Create group
+    // MARK: Create group prompt
     private var createGroup: some View {
         ZStack {
             Color.black.opacity(0.3)
