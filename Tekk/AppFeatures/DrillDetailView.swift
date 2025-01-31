@@ -11,8 +11,9 @@ import SwiftUI
 struct DrillDetailView: View {
     
     @ObservedObject var appModel: MainAppModel
-    
+    @ObservedObject var sessionModel: SessionGeneratorModel
     let drill: DrillModel
+    
     @Environment(\.dismiss) private var dismiss
     @State private var showingFollowAlong = false
     @State private var showSaveDrill: Bool = false
@@ -130,7 +131,7 @@ struct DrillDetailView: View {
                 }
                 
                 if showSaveDrill {
-                    findGroupToSaveTo
+                    findGroupToSaveToView
                 }
                 
             }
@@ -140,7 +141,7 @@ struct DrillDetailView: View {
         }
     }
     
-    private var findGroupToSaveTo: some View {
+    private var findGroupToSaveToView: some View {
         ZStack {
             Color.black.opacity(0.3)
                 .ignoresSafeArea()
@@ -170,9 +171,21 @@ struct DrillDetailView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
 
+                // Groups Display
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
+                        ForEach(sessionModel.savedDrills) { group in
+                            GroupCard(group: group)
+//                                    .onTapGesture {
+//                                        selectedGroup = group
+//                                    }
+                        }
+                    }
+                    .padding()
+                }
             }
             .padding()
-            .frame(width: 300, height: 170)
+            .frame(width: 300, height: 470)
             .background(Color.white)
             .cornerRadius(15)
         }
@@ -232,6 +245,8 @@ struct InfoItem: View {
 
 #Preview {
     let mockAppModel = MainAppModel()
+    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+
     
     let mockDrill = DrillModel(
         title: "Shooting Drill",
@@ -251,5 +266,17 @@ struct InfoItem: View {
             "Goal"
         ]
     )
-    return DrillDetailView(appModel: mockAppModel, drill: mockDrill)
+    
+    // Create a mock group with the drill
+    let mockGroup = GroupModel(
+        name: "My First Group",
+        description: "Collection of passing drills",
+        drills: [mockDrill]
+    )
+    
+    // Add the mock group to savedDrills
+    mockSessionModel.savedDrills = [mockGroup]
+    
+    
+    return DrillDetailView(appModel: mockAppModel, sessionModel: mockSessionModel, drill: mockDrill)
 }

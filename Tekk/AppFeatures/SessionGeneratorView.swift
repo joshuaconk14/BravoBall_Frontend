@@ -270,6 +270,7 @@ struct SessionGeneratorView: View {
                                 ForEach(sessionModel.orderedDrills) { drill in
                                     SmallDrillCard(
                                         appModel: appModel,
+                                        sessionModel: sessionModel,
                                         drill: drill
                                     )
                                     .dropDestination(for: String.self) { items, location in
@@ -827,6 +828,7 @@ struct DisplaySavedFilters: View {
 // MARK: Compact Drill card
 struct CompactDrillCard: View {
     let appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
     let drill: DrillModel
     @State private var showingDetail = false
     
@@ -874,13 +876,14 @@ struct CompactDrillCard: View {
         }
         .buttonStyle(PlainButtonStyle())
         .sheet(isPresented: $showingDetail) {
-            DrillDetailView(appModel: appModel, drill: drill)
+            DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: drill)
         }
     }
 }
 // MARK: Drill card
 struct DrillCard: View {
     let appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
     let drill: DrillModel
     @State private var showingDetail = false
     
@@ -927,7 +930,7 @@ struct DrillCard: View {
         }
         .buttonStyle(PlainButtonStyle())
         .sheet(isPresented: $showingDetail) {
-            DrillDetailView(appModel: appModel, drill: drill)
+            DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: drill)
         }
     }
 }
@@ -935,6 +938,7 @@ struct DrillCard: View {
 // MARK: Small Drill card
 struct SmallDrillCard: View {
     let appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
     let drill: DrillModel
     @State private var showingDetail = false
     
@@ -962,7 +966,7 @@ struct SmallDrillCard: View {
         }
         .buttonStyle(PlainButtonStyle())
         .sheet(isPresented: $showingDetail) {
-            DrillDetailView(appModel: appModel, drill: drill)
+            DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: drill)
         }
     }
 }
@@ -986,7 +990,7 @@ class SessionGeneratorModel: ObservableObject {
     @Published var orderedDrills: [DrillModel] = []
     
     // Drill storage
-    @Published var savedDrills: [SavedDrillsGroup] = []
+    @Published var savedDrills: [GroupModel] = []
     
     // TODO: make new class for filters
     // Saved filters storage
@@ -1047,6 +1051,7 @@ class SessionGeneratorModel: ObservableObject {
             equipment: ["Soccer ball", "Cones"]
         )
     ]
+    
     
     // Initialize with user's onboarding data
     init(onboardingData: OnboardingModel.OnboardingData) {
@@ -1124,6 +1129,14 @@ struct DrillModel: Identifiable, Equatable {
     }
 }
 
+// TODO: class for this later
+struct GroupModel: Identifiable {
+    let id = UUID()
+    let name: String
+    let description: String
+    let drills: [DrillModel]
+}
+
 struct SkillCategory {
     let name: String
     let subSkills: [String]
@@ -1137,12 +1150,6 @@ struct SavedFiltersModel: Codable {
     let savedTrainingStyle: String?
     let savedLocation: String?
     let savedDifficulty: String?
-}
-
-struct SavedDrillsGroup {
-    let name: String
-    let description: String
-    let drills: [DrillModel]
 }
 
 
@@ -1526,11 +1533,13 @@ struct GeneratedDrillsSection: View {
                     ForEach(sessionModel.orderedDrills) { drill in
                         DrillCard(
                             appModel: appModel,
+                            sessionModel: sessionModel,
                             drill: drill
                         )
                         .draggable(drill.title) {
                             DrillCard(
                                 appModel: appModel,
+                                sessionModel: sessionModel,
                                 drill: drill
                             )
                         }
