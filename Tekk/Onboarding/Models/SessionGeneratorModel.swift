@@ -142,25 +142,12 @@ class SessionGeneratorModel: ObservableObject {
         orderedDrills.move(fromOffsets: source, toOffset: destination)
     }
     
-    // MARK: redo this
-//    func addDrillToGroup(drill: DrillModel, group: GroupModel) {
-//            // Find the index of the group
-//            if let index = savedDrills.firstIndex(where: { $0.id == group.id }) {
-//                // Check if drill already exists in group
-//                let drillExists = savedDrills[index].drills.contains { $0.id == drill.id }
-//                
-//                // Only add if drill doesn't exist
-//                if !drillExists {
-//                    // Create a new array with the added drill
-//                    savedDrills[index].drills.append(drill)
-//                    
-//                    // Optional: Add feedback or logging
-//                    print("Added drill '\(drill.title)' to group '\(group.name)'")
-//                } else {
-//                    print("Drill already exists in this group")
-//                }
-//            }
-//        }
+    func addDrillToGroup(drill: DrillModel, groupId: UUID) {
+        if let index = savedDrills.firstIndex(where: { $0.id == groupId }) {
+            // Modify the drills array of the group at the found index
+            savedDrills[index].drills.append(drill)
+        }
+    }
     
     func generateSession() {
         // TODO: Implement session generation logic
@@ -188,7 +175,7 @@ struct GroupModel: Identifiable {
     let id = UUID()
     let name: String
     let description: String
-    let drills: [DrillModel]
+    var drills: [DrillModel] // Variable since actively changing it
 }
 
 struct SkillCategory {

@@ -176,7 +176,7 @@ struct DrillDetailView: View {
                             GroupCard(group: group)
                                     .onTapGesture {
                                         // MARK: here
-//                                        sessionModel.addDrillToGroup(drill: drill, group: group.id)
+                                        sessionModel.addDrillToGroup(drill: drill, groupId: group.id)
                                     }
                         }
                     }
