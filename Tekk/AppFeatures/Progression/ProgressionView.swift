@@ -15,7 +15,6 @@ struct ProgressionView: View {
 
     
     var body: some View {
-        NavigationView {
             VStack {
                 // Progress header
                 Text("Progress")
@@ -72,9 +71,8 @@ struct ProgressionView: View {
                 }
             }
             .background(appModel.globalSettings.primaryYellowColor)
-        }
-        .sheet(isPresented: $appModel.showDrillResults) {
-            DrillResultsView(appModel: appModel)
+            .sheet(isPresented: $appModel.showDrillResults) {
+                DrillResultsView(appModel: appModel)
         }
     }
         

@@ -20,7 +20,6 @@ struct DrillDetailView: View {
     
     
     var body: some View {
-        NavigationView {
             ZStack {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
@@ -135,9 +134,8 @@ struct DrillDetailView: View {
                 }
                 
             }
-        }
-        .fullScreenCover(isPresented: $showingFollowAlong) {
-            DrillFollowAlongView(drill: drill)
+            .fullScreenCover(isPresented: $showingFollowAlong) {
+                DrillFollowAlongView(drill: drill)
         }
     }
     
@@ -176,9 +174,10 @@ struct DrillDetailView: View {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
                         ForEach(sessionModel.savedDrills) { group in
                             GroupCard(group: group)
-//                                    .onTapGesture {
-//                                        selectedGroup = group
-//                                    }
+                                    .onTapGesture {
+                                        // MARK: here
+//                                        sessionModel.addDrillToGroup(drill: drill, group: group.id)
+                                    }
                         }
                     }
                     .padding()

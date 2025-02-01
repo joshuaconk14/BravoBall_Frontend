@@ -19,7 +19,6 @@ struct SavedDrillsView: View {
     
     // MARK: Main view
     var body: some View {
-        NavigationView {
             ZStack {
                 VStack {
                     HStack {
@@ -68,7 +67,6 @@ struct SavedDrillsView: View {
             .sheet(item: $selectedGroup) { group in
                 GroupDetailView(group: group)
             }
-        }
     }
     
     // MARK: Create group prompt
@@ -193,7 +191,6 @@ struct GroupDetailView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        NavigationView {
             VStack {
                 HStack {
                     Spacer()
@@ -231,7 +228,6 @@ struct GroupDetailView: View {
                     }
                 }
             }
-        }
     }
 }
 
