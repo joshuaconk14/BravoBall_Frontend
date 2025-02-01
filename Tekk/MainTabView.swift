@@ -14,10 +14,7 @@ struct MainTabView: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var userManager: UserManager
     @ObservedObject var sessionModel: SessionGeneratorModel
-    @StateObject private var homeTab = RiveViewModel(fileName: "Tab_House")
-    @StateObject private var progressTab = RiveViewModel(fileName: "Tab_Calendar")
-    @StateObject private var savedTab = RiveViewModel(fileName: "Tab_Saved")
-    @StateObject private var profileTab = RiveViewModel(fileName: "Tab_Dude")
+
     
     var body: some View {
         NavigationView {
@@ -41,28 +38,28 @@ struct MainTabView: View {
                 // Custom Tab Bar
                 HStack(spacing: 0) {
                     CustomTabItem(
-                        icon: AnyView(homeTab.view()),
+                        icon: AnyView(appModel.homeTab.view()),
                         isSelected: appModel.mainTabSelected == 0
                     ) {
                         appModel.mainTabSelected = 0
                     }
                     
                     CustomTabItem(
-                        icon: AnyView(progressTab.view()),
+                        icon: AnyView(appModel.progressTab.view()),
                         isSelected: appModel.mainTabSelected == 1
                     ) {
                         appModel.mainTabSelected = 1
                     }
                     
                     CustomTabItem(
-                        icon: AnyView(savedTab.view()),
+                        icon: AnyView(appModel.savedTab.view()),
                         isSelected: appModel.mainTabSelected == 2
                     ) {
                         appModel.mainTabSelected = 2
                     }
                     
                     CustomTabItem(
-                        icon: AnyView(profileTab.view()),
+                        icon: AnyView(appModel.profileTab.view()),
                         isSelected: appModel.mainTabSelected == 3
                     ) {
                         appModel.mainTabSelected = 3

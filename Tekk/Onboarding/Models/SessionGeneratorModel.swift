@@ -19,11 +19,15 @@ class SessionGeneratorModel: ObservableObject {
             updateDrills()
         }
     }
+    
     // Drill storage
     @Published var orderedDrills: [DrillModel] = []
     
     // Drill storage
     @Published var savedDrills: [GroupModel] = []
+    
+    // Liked drills
+    @Published var likedDrills: Set<UUID> = []
     
     // TODO: make new class for filters
     // Saved filters storage
@@ -149,6 +153,28 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
+    func createGroup(name: String, description: String) {
+        let groupModel = GroupModel(
+            name: name,
+            description: description,
+            drills: []
+        )
+        
+        savedDrills.append(groupModel)
+    }
+    
+    func toggleDrillLike(drillId: UUID) {
+        if likedDrills.contains(drillId) {
+            likedDrills.remove(drillId)
+        } else {
+            likedDrills.insert(drillId)
+        }
+    }
+    
+    func isDrillLiked(_ drillId: UUID) -> Bool {
+        likedDrills.contains(drillId)
+    }
+    
     func generateSession() {
         // TODO: Implement session generation logic
     }
@@ -157,6 +183,7 @@ class SessionGeneratorModel: ObservableObject {
 // Update DrillModel to be identifiable
 struct DrillModel: Identifiable, Equatable {
     let id = UUID()
+    var isLiked: Bool = false
     let title: String
     let sets: String
     let reps: String
@@ -175,7 +202,7 @@ struct GroupModel: Identifiable {
     let id = UUID()
     let name: String
     let description: String
-    var drills: [DrillModel] // Variable since actively changing it
+    var drills: [DrillModel]
 }
 
 struct SkillCategory {

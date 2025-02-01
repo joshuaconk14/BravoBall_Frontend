@@ -44,10 +44,12 @@ struct SavedDrillsView: View {
                         .padding()
                     }
                     
-                    
                     // Groups Display
                     ScrollView(showsIndicators: false) {
                         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
+                            
+                            LikedGroupCard(sessionModel: sessionModel)
+                            
                             ForEach(sessionModel.savedDrills) { group in
                                 GroupCard(group: group)
                                     .onTapGesture {
@@ -116,7 +118,7 @@ struct SavedDrillsView: View {
                 
                 Button(action: {
                     withAnimation {
-                        createGroup(
+                        sessionModel.createGroup(
                             name: savedGroupName,
                             description: savedGroupDescription
                         )
@@ -140,16 +142,7 @@ struct SavedDrillsView: View {
             .cornerRadius(15)
         }
     }
-    
-    func createGroup(name: String, description: String) {
-        let groupModel = GroupModel(
-            name: name,
-            description: description,
-            drills: []
-        )
-        
-        sessionModel.savedDrills.append(groupModel)
-    }
+
 }
 
 // MARK: - Group Card
@@ -178,7 +171,7 @@ struct GroupCard: View {
                 .foregroundColor(.gray)
         }
         .padding()
-        .frame(height: 160)
+        .frame(width: 150, height: 170)
         .background(Color.white)
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.1), radius: 5)
@@ -230,6 +223,35 @@ struct GroupDetailView: View {
             }
     }
 }
+
+// MARK: - Liked Group Card
+struct LikedGroupCard: View {
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    
+    var body: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "heart")
+                .font(.system(size: 30))
+                .foregroundColor(.black)
+            
+            Text("Liked Drills")
+                .font(.custom("Poppins-Bold", size: 16))
+                .foregroundColor(.black)
+                .lineLimit(1)
+            
+            
+            Text("\(sessionModel.likedDrills.count) drills")
+                .font(.custom("Poppins-Medium", size: 12))
+                .foregroundColor(.gray)
+        }
+        .padding()
+        .frame(width: 150, height: 170)
+        .background(Color.white)
+        .cornerRadius(12)
+        .shadow(color: Color.black.opacity(0.1), radius: 5)
+    }
+}
+
 
 // MARK: - Drill Row
 struct DrillRow: View {

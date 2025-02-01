@@ -34,6 +34,16 @@ struct DrillDetailView: View {
                             Spacer()
                             
                             Button(action: {
+                                sessionModel.toggleDrillLike(drillId: drill.id)
+                            }) {
+                                Image(systemName: "heart.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(sessionModel.isDrillLiked(drill.id) ? Color.red : Color.black)
+                                    .frame(width: 30, height: 30)
+                            }
+                            
+                            Button(action: {
                                 showSaveDrill = true
                             }) {
                                 Image(systemName: "square.and.arrow.down")
