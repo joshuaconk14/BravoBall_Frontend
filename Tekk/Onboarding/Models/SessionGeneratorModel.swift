@@ -184,7 +184,7 @@ class SessionGeneratorModel: ObservableObject {
     }
 }
 
-// Update DrillModel to be identifiable
+// Drill model
 struct DrillModel: Identifiable, Equatable {
     let id = UUID()
     var isLiked: Bool = false
@@ -201,7 +201,7 @@ struct DrillModel: Identifiable, Equatable {
     }
 }
 
-// TODO: class for this later
+// Group model
 struct GroupModel: Identifiable {
     let id = UUID()
     let name: String

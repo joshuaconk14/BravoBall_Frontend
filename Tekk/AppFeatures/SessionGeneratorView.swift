@@ -1328,7 +1328,7 @@ struct GeneratedDrillsSection: View {
         .padding()
         .cornerRadius(15)
         .sheet(isPresented: $searchDrillsToAdd) {
-            SearchDrillsSheet(appModel: appModel, dismiss: { searchDrillsToAdd = false })
+            SearchDrillsSheet(appModel: appModel, sessionModel: sessionModel, dismiss: { searchDrillsToAdd = false })
         }
     }
 }
@@ -1337,28 +1337,123 @@ struct GeneratedDrillsSection: View {
 
 struct SearchDrillsSheet: View {
     let appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
     let dismiss: () -> Void
+    @State private var selectedTab: SearchDrillsTab = .all
+    
+    enum SearchDrillsTab {
+        case all, byType, groups
+    }
     
     var body: some View {
-            VStack {
-                HStack {
-                    Spacer()
-                    Text("Search Drills")
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        .font(.custom("Poppins-Bold", size: 16))
-                        .padding(.leading, 70)
-                    Spacer()
-                    Button("Done") {
-                        dismiss()
-                    }
-                    .padding()
+        VStack {
+            HStack {
+                Spacer()
+                Text("Search Drills")
                     .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     .font(.custom("Poppins-Bold", size: 16))
+                    .padding(.leading, 70)
+                Spacer()
+                Button("Done") {
+                    dismiss()
                 }
-                ScrollView {
-                    Text("Hello")
+                .padding()
+                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                .font(.custom("Poppins-Bold", size: 16))
+            }
+            
+            // Tab buttons
+            HStack(spacing: 20) {
+                TabButton(title: "All", isSelected: selectedTab == .all) {
+                    selectedTab = .all
+                }
+                
+                TabButton(title: "By Type", isSelected: selectedTab == .byType) {
+                    selectedTab = .byType
+                }
+                
+                TabButton(title: "Groups", isSelected: selectedTab == .groups) {
+                    selectedTab = .groups
                 }
             }
+            .padding(.horizontal)
+            
+            switch selectedTab {
+            case .all:
+                AllDrillsView(appModel: appModel, sessionModel: sessionModel)
+            case .byType:
+                ByTypeView(appModel: appModel, sessionModel: sessionModel)
+            case .groups:
+                GroupsView(appModel: appModel, sessionModel: sessionModel)
+            }
+
+        }
+    }
+}
+
+// MARK: Tab Button
+struct TabButton: View {
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.custom("Poppins-Medium", size: 14))
+                .foregroundColor(isSelected ? .white : .gray)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(isSelected ? Color.yellow : Color.clear)
+                .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(isSelected ? Color.yellow : Color.gray, lineWidth: 1)
+                )
+        }
+    }
+}
+
+//MARK: AllDrillsView
+struct AllDrillsView: View {
+    let appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    
+    var body: some View {
+        ScrollView {
+            ForEach(SessionGeneratorModel.testDrills) { drill in
+                DrillRow(drill: drill)
+                    .padding(.horizontal)
+                    Divider()
+                    }
+            }
+            
+        
+    }
+}
+
+//MARK: ByTypeView
+struct ByTypeView: View {
+    let appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    
+    // TODO: this needs to be a enum for the drill types
+//    enum
+    
+    var body: some View {
+        Text("By Type")
+        Spacer()
+    }
+}
+
+//MARK: GroupsView
+struct GroupsView: View {
+    let appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    
+    var body: some View {
+        Text("Groups")
+        Spacer()
     }
 }
 
