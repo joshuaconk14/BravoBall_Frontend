@@ -49,6 +49,9 @@ struct SavedDrillsView: View {
                         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
                             
                             LikedGroupCard(sessionModel: sessionModel)
+                                .onTapGesture {
+                                    selectedGroup = sessionModel.likedDrillsGroup
+                                }
                             
                             ForEach(sessionModel.savedDrills) { group in
                                 GroupCard(group: group)
@@ -234,13 +237,13 @@ struct LikedGroupCard: View {
                 .font(.system(size: 30))
                 .foregroundColor(.black)
             
-            Text("Liked Drills")
+            Text("\(sessionModel.likedDrillsGroup.name)")
                 .font(.custom("Poppins-Bold", size: 16))
                 .foregroundColor(.black)
                 .lineLimit(1)
             
             
-            Text("\(sessionModel.likedDrills.count) drills")
+            Text("\(sessionModel.likedDrillsGroup.drills.count) drills")
                 .font(.custom("Poppins-Medium", size: 12))
                 .foregroundColor(.gray)
         }

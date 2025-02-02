@@ -20,14 +20,18 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
-    // Drill storage
+    // Drill for Sesison storage
     @Published var orderedDrills: [DrillModel] = []
     
-    // Drill storage
+    // Saved Drill storage
     @Published var savedDrills: [GroupModel] = []
     
-    // Liked drills
-    @Published var likedDrills: Set<UUID> = []
+    // Liked drills storage
+    @Published var likedDrillsGroup: GroupModel = GroupModel(
+        name: "Liked Drills",
+        description: "Your favorite drills",
+        drills: []
+    )
     
     // TODO: make new class for filters
     // Saved filters storage
@@ -163,16 +167,16 @@ class SessionGeneratorModel: ObservableObject {
         savedDrills.append(groupModel)
     }
     
-    func toggleDrillLike(drillId: UUID) {
-        if likedDrills.contains(drillId) {
-            likedDrills.remove(drillId)
+    func toggleDrillLike(drillId: UUID, drill: DrillModel) {
+        if likedDrillsGroup.drills.contains(drill) {
+            likedDrillsGroup.drills.removeAll(where: { $0.id == drillId })
         } else {
-            likedDrills.insert(drillId)
+            likedDrillsGroup.drills.append(drill)
         }
     }
     
-    func isDrillLiked(_ drillId: UUID) -> Bool {
-        likedDrills.contains(drillId)
+    func isDrillLiked(_ drill: DrillModel) -> Bool {
+        likedDrillsGroup.drills.contains(drill)
     }
     
     func generateSession() {

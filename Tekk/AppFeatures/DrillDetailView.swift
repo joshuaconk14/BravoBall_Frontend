@@ -34,12 +34,12 @@ struct DrillDetailView: View {
                             Spacer()
                             
                             Button(action: {
-                                sessionModel.toggleDrillLike(drillId: drill.id)
+                                sessionModel.toggleDrillLike(drillId: drill.id, drill: drill)
                             }) {
                                 Image(systemName: "heart.fill")
                                     .resizable()
                                     .scaledToFit()
-                                    .foregroundColor(sessionModel.isDrillLiked(drill.id) ? Color.red : Color.black)
+                                    .foregroundColor(sessionModel.isDrillLiked(drill) ? Color.red : Color.black)
                                     .frame(width: 30, height: 30)
                             }
                             
