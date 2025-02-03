@@ -1212,7 +1212,7 @@ struct SkillCategoryButton: View {
 struct GeneratedDrillsSection: View {
     let appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
-    @State private var searchDrillsToAdd: Bool = false
+    @State private var viewState = MainAppModel.ViewState()
     
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
@@ -1239,7 +1239,7 @@ struct GeneratedDrillsSection: View {
             // Buttons for session adjustment
             HStack {
                 Button(action: {
-                    searchDrillsToAdd = true
+                    viewState.showSearchDrills = true
                 }) {
                     ZStack {
                         Circle()
@@ -1327,8 +1327,8 @@ struct GeneratedDrillsSection: View {
         }
         .padding()
         .cornerRadius(15)
-        .sheet(isPresented: $searchDrillsToAdd) {
-            SearchDrillsSheet(appModel: appModel, sessionModel: sessionModel, dismiss: { searchDrillsToAdd = false })
+        .sheet(isPresented: $viewState.showSearchDrills) {
+            SearchDrillsSheet(appModel: appModel, sessionModel: sessionModel, dismiss: { viewState.showSearchDrills = false })
         }
     }
 }
@@ -1418,17 +1418,56 @@ struct TabButton: View {
 struct AllDrillsView: View {
     let appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
+    @State private var searchText: String = ""
+    
+    // Filtered drills based on search text
+    var filteredDrills: [DrillModel] {
+        if searchText.isEmpty {
+            return SessionGeneratorModel.testDrills
+        } else {
+            return SessionGeneratorModel.testDrills.filter { drill in
+                drill.title.lowercased().contains(searchText.lowercased())
+            }
+        }
+    }
     
     var body: some View {
-        ScrollView {
-            ForEach(SessionGeneratorModel.testDrills) { drill in
-                DrillRow(drill: drill)
-                    .padding(.horizontal)
-                    Divider()
+        VStack {
+            // Search bar
+            HStack {
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(.gray)
+                
+                TextField("Search drills...", text: $searchText)
+                    .textFieldStyle(PlainTextFieldStyle())
+                
+                if !searchText.isEmpty {
+                    Button(action: {
+                        searchText = ""
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.gray)
                     }
+                }
             }
+            .padding(8)
+            .background(Color(.systemGray6))
+            .cornerRadius(10)
+            .padding()
             
-        
+            // Drills list
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    ForEach(filteredDrills) { drill in
+                        DrillRow(
+                            drill: drill
+                        )
+                        .padding(.horizontal)
+                        Divider()
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -35,7 +35,7 @@ class MainAppModel: ObservableObject {
         var showSmallDrillCards: Bool = false
         var showSavedPrereqs: Bool = false
         var showSavedPrereqsPrompt: Bool = false
-        var showSearchDrills: Bool = false
+        var showSearchDrills: Bool = true
     }
     
         // MARK: Drill Detail View

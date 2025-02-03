@@ -223,6 +223,7 @@ struct GroupDetailView: View {
                         }
                     }
                 }
+                Spacer()
             }
     }
 }
