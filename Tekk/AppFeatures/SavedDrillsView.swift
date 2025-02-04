@@ -320,6 +320,7 @@ struct DrillRow: View {
     // Create a mock drill
         let mockDrill = DrillModel(
             title: "Quick Passing",
+            type: "Passing",
             sets: "3",
             reps: "5",
             duration: "15 minutes",

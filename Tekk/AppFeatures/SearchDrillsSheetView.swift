@@ -12,9 +12,9 @@ struct SearchDrillsSheetView: View {
     let appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     let dismiss: () -> Void
-    @State private var selectedTab: SearchDrillsTab = .all
+    @State private var selectedTab: searchDrillsTab = .all
     
-    enum SearchDrillsTab {
+    enum searchDrillsTab {
         case all, byType, groups
     }
     
@@ -148,15 +148,145 @@ struct AllDrillsView: View {
 struct ByTypeView: View {
     let appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
+    @State private var selectedButton: skillType = .none
     
-    // TODO: this needs to be a enum for the drill types
-//    enum
+    enum skillType {
+        case passing
+        case dribbling
+        case shooting
+        case firstTouch
+        case crossing
+        case defending
+        case goalkeeping
+        case none
+    }
+    
     
     var body: some View {
-        Text("By Type")
-        Spacer()
+        ZStack {
+            VStack {
+                Text("Skill")
+                    .padding()
+                VStack(spacing: 10) {
+                        SelectionButton(title: "Passing", isSelected: selectedButton == .passing) {
+                            selectedButton = .passing
+                        }
+                        SelectionButton(title: "Dribbling", isSelected: selectedButton == .dribbling) {
+                            selectedButton = .dribbling
+                        }
+                        SelectionButton(title: "Shooting", isSelected: selectedButton == .shooting) {
+                            selectedButton = .shooting
+                        }
+                        SelectionButton(title: "First Touch", isSelected: selectedButton == .firstTouch) {
+                            selectedButton = .firstTouch
+                        }
+                        SelectionButton(title: "Crossing", isSelected: selectedButton == .crossing) {
+                            selectedButton = .crossing
+                        }
+                        SelectionButton(title: "Defending", isSelected: selectedButton == .defending) {
+                            selectedButton = .defending
+                        }
+                        SelectionButton(title: "Goalkeeping", isSelected: selectedButton == .goalkeeping) {
+                            selectedButton = .goalkeeping
+                        }
+                    }
+                    Spacer()
+            }
+            .padding(.top, 30)
+            
+            switch selectedButton {
+            case .passing:
+                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "Passing", dismiss: {selectedButton = .none})
+            case .dribbling:
+                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "Dribbling", dismiss: {selectedButton = .none})
+            case .shooting:
+                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "Shooting", dismiss: {selectedButton = .none})
+            case .firstTouch:
+                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "First Touch", dismiss: {selectedButton = .none})
+            case .crossing:
+                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "Crossing", dismiss: {selectedButton = .none})
+            case .defending:
+                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "Defending", dismiss: {selectedButton = .none})
+            case .goalkeeping:
+                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "Goalkeeping", dismiss: {selectedButton = .none})
+            case .none:
+                EmptyView()
+            }
+        }
     }
 }
+
+// MARK: Specific Drills View
+struct SpecificDrillsView: View {
+    let appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    let skillType: String
+    let dismiss: () -> Void
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Button(action: {
+                    dismiss()
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20, weight: .semibold))
+                        Text("Back")  // Optional: include text
+                            .font(.custom("Poppins-Bold", size: 16))
+                    }
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    .padding()
+                }
+                Spacer()
+            }
+            
+            // Drills list
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    ForEach(specificDrills) { drill in
+                        DrillRow(appModel: appModel, sessionModel: sessionModel,
+                            drill: drill
+                        )
+                        .padding(.horizontal)
+                        Divider()
+                    }
+                }
+            }
+        }
+        .background(Color.white)
+    }
+    var specificDrills: [DrillModel] {
+        return SessionGeneratorModel.testDrills.filter { drill in
+            drill.type.lowercased().contains(skillType.lowercased())
+        }
+    }
+}
+
+// MARK: Selection Button
+struct SelectionButton: View {
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.custom("Poppins-Medium", size: 18))
+                .foregroundColor(.gray)
+                .padding(.horizontal)
+                .frame(width: 200)
+                .padding(.vertical, 12)
+                .background(Color.clear)
+                .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+        }
+    }
+}
+
 
 //MARK: GroupsView
 struct GroupsView: View {
@@ -185,6 +315,7 @@ struct GroupsView: View {
     let testDrills = [
         DrillModel(
             title: "Passing Drill",
+            type: "Passing",
             sets: "3",
             reps: "10",
             duration: "15 min",
@@ -194,6 +325,7 @@ struct GroupsView: View {
         ),
         DrillModel(
             title: "Shooting Practice",
+            type: "Shooting",
             sets: "4",
             reps: "8",
             duration: "20 min",
@@ -203,6 +335,7 @@ struct GroupsView: View {
         ),
         DrillModel(
             title: "Dribbling Skills",
+            type: "Dribbling",
             sets: "5",
             reps: "6",
             duration: "25 min",

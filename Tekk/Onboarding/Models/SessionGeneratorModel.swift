@@ -48,6 +48,7 @@ class SessionGeneratorModel: ObservableObject {
     static let testDrills: [DrillModel] = [
         DrillModel(
             title: "Short Passing Drill",
+            type: "Passing",
             sets: "4",
             reps: "10",
             duration: "15min",
@@ -57,6 +58,7 @@ class SessionGeneratorModel: ObservableObject {
         ),
         DrillModel(
             title: "Long Passing Practice",
+            type: "Passing",
             sets: "3",
             reps: "8",
             duration: "20min",
@@ -66,6 +68,7 @@ class SessionGeneratorModel: ObservableObject {
         ),
         DrillModel(
             title: "Through Ball Training",
+            type: "Passing",
             sets: "4",
             reps: "6",
             duration: "15min",
@@ -75,6 +78,7 @@ class SessionGeneratorModel: ObservableObject {
         ),
         DrillModel(
             title: "Power Shot Practice",
+            type: "Shooting",
             sets: "3",
             reps: "5",
             duration: "20min",
@@ -84,6 +88,7 @@ class SessionGeneratorModel: ObservableObject {
         ),
         DrillModel(
             title: "1v1 Dribbling Skills",
+            type: "Dribbling",
             sets: "4",
             reps: "8",
             duration: "15min",
@@ -189,6 +194,7 @@ struct DrillModel: Identifiable, Equatable {
     let id = UUID()
     var isLiked: Bool = false
     let title: String
+    let type: String
     let sets: String
     let reps: String
     let duration: String

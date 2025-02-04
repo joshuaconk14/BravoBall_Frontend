@@ -113,6 +113,7 @@ struct DrillFollowAlongView: View {
 #Preview {
     DrillFollowAlongView(drill: DrillModel(
         title: "Test Drill",
+        type: "Passing",
         sets: "3",
         reps: "10",
         duration: "15min",

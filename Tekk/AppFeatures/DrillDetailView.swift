@@ -268,6 +268,7 @@ struct InfoItem: View {
     
     let mockDrill = DrillModel(
         title: "Shooting Drill",
+        type: "Shooting",
         sets: "4",
         reps: "2",
         duration: "20min",

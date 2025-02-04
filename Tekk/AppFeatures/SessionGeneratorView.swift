@@ -1235,7 +1235,7 @@ struct GeneratedDrillsSection: View {
                     .frame(width:120, height: 2)
             }
             
-            // Buttons for session adjustment
+            // Button for adding drills
             HStack {
                 Button(action: {
                     viewState.showSearchDrills = true
@@ -1254,6 +1254,8 @@ struct GeneratedDrillsSection: View {
                             .font(.system(size: 16, weight: .medium))
                     }
                 }
+                .disabled(sessionModel.orderedDrills.isEmpty)
+                .opacity(sessionModel.orderedDrills.isEmpty ? 0.4 : 1.0)
                 
                 Spacer()
                 
@@ -1345,4 +1347,3 @@ struct GeneratedDrillsSection: View {
     
      return SessionGeneratorView(model: mockOnboardingModel, appModel: mockAppModel, sessionModel: mockSessionModel)
 }
-
