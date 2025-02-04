@@ -13,6 +13,7 @@ struct OnboardingView: View {
     @ObservedObject var model: OnboardingModel
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var userManager: UserManager
+    @ObservedObject var sessionModel: SessionGeneratorModel
     @Environment(\.dismiss) private var dismiss
 
     
@@ -20,7 +21,7 @@ struct OnboardingView: View {
         Group {
             // testing instead of onboarding complete
             if model.isLoggedIn {
-                MainTabView(model: model, appModel: appModel, userManager: userManager)
+                MainTabView(model: model, appModel: appModel, userManager: userManager, sessionModel: sessionModel)
             } else {
                 content
             }
