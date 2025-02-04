@@ -12,7 +12,6 @@ struct DrillDetailView: View {
     
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
-    @State private var viewState = MainAppModel.ViewState()
     let drill: DrillModel
     
     @Environment(\.dismiss) private var dismiss
@@ -24,7 +23,7 @@ struct DrillDetailView: View {
             ZStack {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
-                        HStack {
+                        HStack(spacing: 25) {
                             Button(action: {
                                 
                             }) {
@@ -37,11 +36,18 @@ struct DrillDetailView: View {
                             Button(action: {
                                 sessionModel.toggleDrillLike(drillId: drill.id, drill: drill)
                             }) {
-                                Image(systemName: "heart.fill")
+                                Image(systemName: sessionModel.isDrillLiked(drill) ? "heart.fill" : "heart")
                                     .resizable()
                                     .scaledToFit()
-                                    .foregroundColor(sessionModel.isDrillLiked(drill) ? Color.red : Color.black)
+                                    .foregroundColor(sessionModel.isDrillLiked(drill) ? .red : .clear)  // Fill color
                                     .frame(width: 30, height: 30)
+                                    .overlay(
+                                        Image(systemName: sessionModel.isDrillLiked(drill) ? "heart.fill" : "heart")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .foregroundColor(sessionModel.isDrillLiked(drill) ? .red : .black)  // Stroke color
+                                            .frame(width: 30, height: 30)
+                                    )
                             }
                             
                             Button(action: {
@@ -128,7 +134,7 @@ struct DrillDetailView: View {
                     .padding()
                 }
                 .safeAreaInset(edge: .bottom) {
-//                    if !viewState.showHomePage {
+                    if !appModel.viewState.showHomePage {
                         Button(action: { showingFollowAlong = true }) {
                             Text("Start Drill")
                                 .font(.custom("Poppins-Bold", size: 18))
@@ -139,7 +145,7 @@ struct DrillDetailView: View {
                                 .cornerRadius(12)
                         }
                         .padding()
-//                    }
+                    }
                     
                 }
                 

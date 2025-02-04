@@ -26,7 +26,11 @@ class MainAppModel: ObservableObject {
     
     // MARK: Session generator
     
+    
     // View state
+    
+    @Published var viewState = ViewState()
+    
     struct ViewState: Codable {
         var showingDrills = false
         var showFilter: Bool = true
@@ -38,7 +42,8 @@ class MainAppModel: ObservableObject {
         var showSearchDrills: Bool = false
     }
     
-        // MARK: Drill Detail View
+    
+    // MARK: Drill Detail View
     
     func saveDrill() {
         // after user saves it in a group

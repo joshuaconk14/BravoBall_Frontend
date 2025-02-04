@@ -12,7 +12,6 @@ struct SessionGeneratorView: View {
     @ObservedObject var model: OnboardingModel
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
-    @State private var viewState = MainAppModel.ViewState()
     @State private var selectedPrerequisite: PrerequisiteType?
     
     @State private var savedFiltersName: String  = ""
@@ -89,14 +88,14 @@ struct SessionGeneratorView: View {
                 // Golden button
                     
                 if !sessionModel.orderedDrills.isEmpty {
-                    if viewState.showHomePage {
+                    if appModel.viewState.showHomePage {
                         
                         goldenButton
                     }
                 }
                 
                 // Prompt to save filter
-                if viewState.showSavedPrereqsPrompt {
+                if appModel.viewState.showSavedPrereqsPrompt {
                     
                     prereqPrompt
                 }
@@ -127,7 +126,7 @@ struct SessionGeneratorView: View {
                 
                 
             // Home page
-            if viewState.showHomePage {
+            if appModel.viewState.showHomePage {
                 VStack {
                     HStack {
                         // Bravo
@@ -139,7 +138,7 @@ struct SessionGeneratorView: View {
                             RiveViewModel(fileName: "Message_Bubble").view()
                                 .frame(width: 170, height: 90)
 
-                            if viewState.showTextBubble {
+                            if appModel.viewState.showTextBubble {
                                 if sessionModel.orderedDrills.isEmpty {
                                     Text("Choose your skill to improve today")
                                         .font(.custom("Poppins-Bold", size: 12))
@@ -182,7 +181,7 @@ struct SessionGeneratorView: View {
                             
                         }
                         
-                        if viewState.showFilter {
+                        if appModel.viewState.showFilter {
                             
                             
                             // TODO: Replace old skills section with new SkillSelectionView
@@ -197,11 +196,11 @@ struct SessionGeneratorView: View {
                         
                         
                         // Dropdown content for saved filters
-                        if viewState.showSavedPrereqs {
+                        if appModel.viewState.showSavedPrereqs {
                             DisplaySavedFilters(
                                 appModel: appModel,
                                 sessionModel: sessionModel,
-                                dismiss: { viewState.showSavedPrereqs = false }
+                                dismiss: { appModel.viewState.showSavedPrereqs = false }
                             )
                             .padding(.vertical, 3)
                         }
@@ -229,16 +228,16 @@ struct SessionGeneratorView: View {
         VStack {
             HStack {
                 // back button to go back to home page
-                if !viewState.showHomePage {
+                if !appModel.viewState.showHomePage {
                     Button(action:  {
                         withAnimation(.spring(dampingFraction: 0.7)) {
-                            viewState.showSmallDrillCards = false
+                            appModel.viewState.showSmallDrillCards = false
                         }
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                             withAnimation(.spring(dampingFraction: 0.7)) {
-                                viewState.showHomePage = true
-                                viewState.showTextBubble = true
+                                appModel.viewState.showHomePage = true
+                                appModel.viewState.showTextBubble = true
                             }
                         }
                     }) {
@@ -256,7 +255,7 @@ struct SessionGeneratorView: View {
             Spacer()
 
                 // When the session is activated
-            if viewState.showSmallDrillCards {
+            if appModel.viewState.showSmallDrillCards {
                     ZStack {
                         RiveViewModel(fileName: "Grass_Field").view()
                             .frame(maxWidth: .infinity)
@@ -303,7 +302,7 @@ struct SessionGeneratorView: View {
     private var filtersToggleButton: some View {
         Button(action: {
             withAnimation(.spring(dampingFraction: 0.7)) {
-                viewState.showFilter.toggle()
+                appModel.viewState.showFilter.toggle()
             }
         }) {
             HStack {
@@ -311,7 +310,7 @@ struct SessionGeneratorView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20, height: 20)
-                if viewState.showFilter {
+                if appModel.viewState.showFilter {
                     Image(systemName: "chevron.up")
                         .padding(.horizontal, 3)
                         .padding(.vertical, 3)
@@ -341,10 +340,10 @@ struct SessionGeneratorView: View {
     // MARK: Ellipses button
     private var ellipsesButton: some View {
         Button(action:  {
-            if viewState.showSavedPrereqsPrompt == true {
-                viewState.showSavedPrereqsPrompt = false
+            if appModel.viewState.showSavedPrereqsPrompt == true {
+                appModel.viewState.showSavedPrereqsPrompt = false
             } else {
-                viewState.showSavedPrereqsPrompt = true
+                appModel.viewState.showSavedPrereqsPrompt = true
             }
         }) {
             VStack {
@@ -378,10 +377,10 @@ struct SessionGeneratorView: View {
                     
                     // Saved filters Button
                     Button(action: { withAnimation(.spring(dampingFraction: 0.7)) {
-                        if viewState.showSavedPrereqs == true {
-                            viewState.showSavedPrereqs = false
+                        if appModel.viewState.showSavedPrereqs == true {
+                            appModel.viewState.showSavedPrereqs = false
                         } else {
-                            viewState.showSavedPrereqs = true
+                            appModel.viewState.showSavedPrereqs = true
                         }
                     }
                     }) {
@@ -461,14 +460,14 @@ struct SessionGeneratorView: View {
             Color.black.opacity(0.3)
                 .ignoresSafeArea()
                 .onTapGesture {
-                    viewState.showSavedPrereqsPrompt = false
+                    appModel.viewState.showSavedPrereqsPrompt = false
                 }
             
             VStack {
                 HStack {
                     Button(action: {
                         withAnimation {
-                            viewState.showSavedPrereqsPrompt = false
+                            appModel.viewState.showSavedPrereqsPrompt = false
                         }
                     }) {
                         Image(systemName: "xmark")
@@ -494,7 +493,7 @@ struct SessionGeneratorView: View {
                 Button(action: {
                     withAnimation {
                         saveFiltersInGroup(name: savedFiltersName)
-                        viewState.showSavedPrereqsPrompt = false
+                        appModel.viewState.showSavedPrereqsPrompt = false
                     }
                 }) {
                     Text("Save")
@@ -520,15 +519,15 @@ struct SessionGeneratorView: View {
         Button(action: {
             withAnimation(.spring(dampingFraction: 0.7)) {
                 sessionModel.generateSession()
-                viewState.showHomePage = false
-                viewState.showTextBubble = false
+                appModel.viewState.showHomePage = false
+                appModel.viewState.showTextBubble = false
                 
             }
             
             // Delay the appearance of drill cards to match the menu's exit animation
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                 withAnimation(.spring(dampingFraction: 0.7)) {
-                    viewState.showSmallDrillCards = true
+                    appModel.viewState.showSmallDrillCards = true
                 }
             }
             
