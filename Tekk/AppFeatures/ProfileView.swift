@@ -16,7 +16,6 @@ struct ProfileView: View {
     
     
     var body: some View {
-        NavigationView {
             ScrollView {
                 VStack(spacing: 25) {
                     profileHeader
@@ -43,39 +42,38 @@ struct ProfileView: View {
                 .padding(.vertical)
                 .background(Color.white)
             }
-        }
-        // The different alerts for logout or delete
-        .edgesIgnoringSafeArea(.top)
-        .alert(isPresented: $appModel.showAlert) {
-            switch appModel.alertType {
-                case .logout:
-                    return Alert(
-                        title: Text("Logout"),
-                        message: Text("Are you sure you want to Logout?"),
-                        primaryButton: .destructive(Text("Logout")) {
-                            userManager.clearUserKeychain()
-                            logOutUser()
-                            appModel.mainTabSelected = 0
+            // The different alerts for logout or delete
+            .edgesIgnoringSafeArea(.top)
+            .alert(isPresented: $appModel.showAlert) {
+                switch appModel.alertType {
+                    case .logout:
+                        return Alert(
+                            title: Text("Logout"),
+                            message: Text("Are you sure you want to Logout?"),
+                            primaryButton: .destructive(Text("Logout")) {
+                                userManager.clearUserKeychain()
+                                logOutUser()
+                                appModel.mainTabSelected = 0
 
-                        },
-                        secondaryButton: .cancel()
-                    )
-                case .delete:
-                    return Alert(
-                        title: Text("Delete Account"),
-                        message: Text("Are you sure you want to delete your account? This action cannot be undone."),
-                        primaryButton: .destructive(Text("Delete")) {
-                            deleteAccount()
-                            userManager.clearUserKeychain()
-                            logOutUser()
-                            appModel.mainTabSelected = 0
-                        },
-                        secondaryButton: .cancel()
-                    )
-                case .none:
-                    return Alert(title: Text(""))
+                            },
+                            secondaryButton: .cancel()
+                        )
+                    case .delete:
+                        return Alert(
+                            title: Text("Delete Account"),
+                            message: Text("Are you sure you want to delete your account? This action cannot be undone."),
+                            primaryButton: .destructive(Text("Delete")) {
+                                deleteAccount()
+                                userManager.clearUserKeychain()
+                                logOutUser()
+                                appModel.mainTabSelected = 0
+                            },
+                            secondaryButton: .cancel()
+                        )
+                    case .none:
+                        return Alert(title: Text(""))
+                }
             }
-        }
     }
     
      

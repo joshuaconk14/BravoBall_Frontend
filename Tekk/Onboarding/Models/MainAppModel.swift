@@ -8,20 +8,29 @@
 
 import Foundation
 import UIKit
+import RiveRuntime
 
 class MainAppModel: ObservableObject {
     let globalSettings = GlobalSettings()
-    
-    
+
     
     // MARK: Main
+    @Published var homeTab = RiveViewModel(fileName: "Tab_House")
+    @Published var progressTab = RiveViewModel(fileName: "Tab_Calendar")
+    @Published var savedTab = RiveViewModel(fileName: "Tab_Saved")
+    @Published var profileTab = RiveViewModel(fileName: "Tab_Dude")
     
     @Published var mainTabSelected = 0
     @Published var inSimulationMode: Bool = true
     
+    
     // MARK: Session generator
     
+    
     // View state
+    
+    @Published var viewState = ViewState()
+    
     struct ViewState: Codable {
         var showingDrills = false
         var showFilter: Bool = true
@@ -30,9 +39,15 @@ class MainAppModel: ObservableObject {
         var showSmallDrillCards: Bool = false
         var showSavedPrereqs: Bool = false
         var showSavedPrereqsPrompt: Bool = false
+        var showSearchDrills: Bool = false
     }
     
     
+    // MARK: Drill Detail View
+    
+    func saveDrill() {
+        // after user saves it in a group
+    }
     
     
     // MARK: Calendar
@@ -54,6 +69,7 @@ class MainAppModel: ObservableObject {
         let totalDrills: Int
     }
     
+    // TODO: drillModel already created
     struct DrillData: Codable {
         let name: String
         let skill: String
