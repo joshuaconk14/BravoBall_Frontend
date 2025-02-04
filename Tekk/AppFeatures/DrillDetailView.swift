@@ -12,6 +12,7 @@ struct DrillDetailView: View {
     
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
+    @State private var viewState = MainAppModel.ViewState()
     let drill: DrillModel
     
     @Environment(\.dismiss) private var dismiss
@@ -127,16 +128,19 @@ struct DrillDetailView: View {
                     .padding()
                 }
                 .safeAreaInset(edge: .bottom) {
-                    Button(action: { showingFollowAlong = true }) {
-                        Text("Start Drill")
-                            .font(.custom("Poppins-Bold", size: 18))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.yellow)
-                            .cornerRadius(12)
-                    }
-                    .padding()
+//                    if !viewState.showHomePage {
+                        Button(action: { showingFollowAlong = true }) {
+                            Text("Start Drill")
+                                .font(.custom("Poppins-Bold", size: 18))
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.yellow)
+                                .cornerRadius(12)
+                        }
+                        .padding()
+//                    }
+                    
                 }
                 
                 if showSaveDrill {
@@ -185,7 +189,6 @@ struct DrillDetailView: View {
                         ForEach(sessionModel.savedDrills) { group in
                             GroupCard(group: group)
                                     .onTapGesture {
-                                        // MARK: here
                                         sessionModel.addDrillToGroup(drill: drill, groupId: group.id)
                                     }
                         }

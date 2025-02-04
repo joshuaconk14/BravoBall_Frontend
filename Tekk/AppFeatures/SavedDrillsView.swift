@@ -44,24 +44,8 @@ struct SavedDrillsView: View {
                         .padding()
                     }
                     
-                    // Groups Display
-                    ScrollView(showsIndicators: false) {
-                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
-                            
-                            LikedGroupCard(sessionModel: sessionModel)
-                                .onTapGesture {
-                                    selectedGroup = sessionModel.likedDrillsGroup
-                                }
-                            
-                            ForEach(sessionModel.savedDrills) { group in
-                                GroupCard(group: group)
-                                    .onTapGesture {
-                                        selectedGroup = group
-                                    }
-                            }
-                        }
-                        .padding()
-                    }
+                    AllGroupsDisplay(appModel: appModel, sessionModel: sessionModel, selectedGroup: $selectedGroup)
+
                 }
                 
                 if showCreateGroup {
@@ -70,7 +54,7 @@ struct SavedDrillsView: View {
                 
             }
             .sheet(item: $selectedGroup) { group in
-                GroupDetailView(group: group)
+                GroupDetailView(appModel: appModel, sessionModel: sessionModel, group: group)
             }
     }
     
@@ -148,6 +132,34 @@ struct SavedDrillsView: View {
 
 }
 
+// MARK: - All Groups Display
+struct AllGroupsDisplay: View {
+    let appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    @Binding var selectedGroup: GroupModel?
+    
+    var body: some View {
+        // Groups Display
+        ScrollView(showsIndicators: false) {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
+                
+                LikedGroupCard(sessionModel: sessionModel)
+                    .onTapGesture {
+                        selectedGroup = sessionModel.likedDrillsGroup
+                    }
+                
+                ForEach(sessionModel.savedDrills) { group in
+                    GroupCard(group: group)
+                        .onTapGesture {
+                            selectedGroup = group
+                        }
+                }
+            }
+            .padding()
+        }
+    }
+}
+
 // MARK: - Group Card
 struct GroupCard: View {
     let group: GroupModel
@@ -183,6 +195,8 @@ struct GroupCard: View {
 
 // MARK: - Group Detail View
 struct GroupDetailView: View {
+    let appModel: MainAppModel
+    let sessionModel: SessionGeneratorModel
     let group: GroupModel
     @Environment(\.dismiss) private var dismiss
     
@@ -195,6 +209,7 @@ struct GroupDetailView: View {
                         dismiss()
                     }
                     .padding()
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
                 }
                 // Group Info Header
                 VStack(spacing: 8) {
@@ -219,7 +234,7 @@ struct GroupDetailView: View {
                 } else {
                     List {
                         ForEach(group.drills) { drill in
-                            DrillRow(drill: drill)
+                            DrillRow(appModel: appModel, sessionModel: sessionModel, drill: drill)
                         }
                     }
                 }
@@ -259,29 +274,42 @@ struct LikedGroupCard: View {
 
 // MARK: - Drill Row
 struct DrillRow: View {
+    let appModel: MainAppModel
+    let sessionModel: SessionGeneratorModel
     let drill: DrillModel
+    @State var showDrillDetail: Bool = false
     
     var body: some View {
-        HStack {
-            Image(systemName: "figure.soccer")
-                .font(.system(size: 24))
-                .foregroundColor(.black)
-                .frame(width: 40, height: 40)
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(8)
-            
-            VStack(alignment: .leading) {
-                Text(drill.title)
-                    .font(.custom("Poppins-Bold", size: 14))
-                Text(drill.description)
-                    .font(.custom("Poppins-Regular", size: 12))
-                    .foregroundColor(.gray)
-                    .lineLimit(2)
+        ZStack {
+            Button( action: {
+                showDrillDetail = true
+            }) {
+                HStack {
+                    Image(systemName: "figure.soccer")
+                        .font(.system(size: 24))
+                        .foregroundColor(.black)
+                        .frame(width: 40, height: 40)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+                    
+                    VStack(alignment: .leading) {
+                        Text(drill.title)
+                            .font(.custom("Poppins-Bold", size: 14))
+                            .foregroundColor(.black)
+                        Text(drill.description)
+                            .font(.custom("Poppins-Regular", size: 12))
+                            .foregroundColor(.gray)
+                            .lineLimit(2)
+                    }
+                    
+                    Spacer()
+                }
+                .padding(.vertical, 8)
             }
-            
-            Spacer()
         }
-        .padding(.vertical, 8)
+        .sheet(isPresented: $showDrillDetail) {
+            DrillDetailView(appModel: appModel,  sessionModel: sessionModel, drill: drill)
+        }
     }
 }
 
