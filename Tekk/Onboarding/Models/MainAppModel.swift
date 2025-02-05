@@ -43,6 +43,7 @@ class MainAppModel: ObservableObject {
     }
     
     
+    // Types (automatically nil)
     @Published var selectedSkill: SkillType?
     @Published var selectedTrainingStyle: TrainingStyleType?
     @Published var selectedDifficulty: DifficultyType?

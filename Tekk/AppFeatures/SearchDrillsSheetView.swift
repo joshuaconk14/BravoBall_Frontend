@@ -155,7 +155,7 @@ struct ByTypeView: View {
     
     var body: some View {
         ZStack {
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 VStack {
                     Text("Skill")
                         .padding()
@@ -177,7 +177,7 @@ struct ByTypeView: View {
                     VStack(spacing: 10) {
                         ForEach(MainAppModel.TrainingStyleType.allCases, id: \.self) { trainingStyle in
                             SelectionButton(
-                                title: trainingStyle.rawValue,
+                                title: ("\(trainingStyle.rawValue) Intensity"),
                                 isSelected: appModel.selectedTrainingStyle == trainingStyle
                             ){
                                 appModel.selectedTrainingStyle = trainingStyle
@@ -253,18 +253,18 @@ struct SpecificDrillsView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20, weight: .semibold))
-                        Text("Back")  // Optional: include text
+                        Text("Back")
                             .font(.custom("Poppins-Bold", size: 16))
                     }
                     .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     .padding()
                 }
                 
+                Text(appModel.selectedTrainingStyle != nil ? ("\(type) Intensity") : type)
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .font(.custom("Poppins-Bold", size: 16))
+                        .padding(.leading, 70)
                 
-                Text(type)
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                    .font(.custom("Poppins-Bold", size: 16))
-                    .padding(.leading, 70)
                 
                 Spacer()
             }
