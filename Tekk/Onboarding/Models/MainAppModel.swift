@@ -76,9 +76,7 @@ class MainAppModel: ObservableObject {
     
     // MARK: Drill Detail View
     
-    func saveDrill() {
-        // after user saves it in a group
-    }
+
     
     
     // MARK: Calendar
@@ -100,7 +98,7 @@ class MainAppModel: ObservableObject {
         let totalDrills: Int
     }
     
-    // TODO: drillModel already created
+    // TODO: drillModel already created, delete this and conform ProgressionView code to DrillModel and drills in there
     struct DrillData: Codable {
         let name: String
         let skill: String

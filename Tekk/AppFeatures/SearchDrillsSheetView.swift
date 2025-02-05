@@ -156,7 +156,7 @@ struct ByTypeView: View {
     var body: some View {
         ZStack {
             ScrollView(showsIndicators: false) {
-                VStack {
+                VStack(spacing: 15) {
                     Text("Skill")
                         .padding()
                     VStack(spacing: 10) {

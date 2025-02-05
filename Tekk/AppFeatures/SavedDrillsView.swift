@@ -134,7 +134,7 @@ struct SavedDrillsView: View {
 
 // MARK: - All Groups Display
 struct AllGroupsDisplay: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     @Binding var selectedGroup: GroupModel?
     
@@ -195,8 +195,8 @@ struct GroupCard: View {
 
 // MARK: - Group Detail View
 struct GroupDetailView: View {
-    let appModel: MainAppModel
-    let sessionModel: SessionGeneratorModel
+    @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
     let group: GroupModel
     @Environment(\.dismiss) private var dismiss
     
@@ -274,8 +274,8 @@ struct LikedGroupCard: View {
 
 // MARK: - Drill Row
 struct DrillRow: View {
-    let appModel: MainAppModel
-    let sessionModel: SessionGeneratorModel
+    @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
     let drill: DrillModel
     @State var showDrillDetail: Bool = false
     
@@ -303,6 +303,19 @@ struct DrillRow: View {
                     }
                     
                     Spacer()
+                    
+                    // MARK: working here
+                    
+//                    if appModel.viewState.showSearchDrills /*&& !appModel.orderedDrills.contains(drill)*/ {
+//                        Button(action: {
+//
+//                        }) {
+//                            RoundedRectangle(cornerRadius: 4)
+//                                .stroke(appModel.globalSettings.primaryDarkColor, lineWidth: 2)
+//                                .frame(width: 20, height: 20)
+//                        }
+//                        
+//                    }
                 }
                 .padding(.vertical, 8)
             }

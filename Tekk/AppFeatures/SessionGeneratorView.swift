@@ -621,9 +621,10 @@ struct PrerequisiteButton: View {
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(value.isEmpty ? Color(hex:"#f5cc9f") : Color(hex:"eb9c49"))
-//                    .stroke(isSelected ? Color.blue : Color(hex:"b37636"), lineWidth: 4)
                     .stroke(value.isEmpty ? Color(hex:"f5cc9f") : Color(hex:"b37636"), lineWidth: 4)
             )
+            .scaleEffect(isSelected ? 1.13 : 1.0)
+            .animation(.spring(response: 0.4, dampingFraction: 0.6), value: isSelected)
         }
     }
 }

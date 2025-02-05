@@ -193,6 +193,14 @@ class SessionGeneratorModel: ObservableObject {
     func isDrillLiked(_ drill: DrillModel) -> Bool {
         likedDrillsGroup.drills.contains(drill)
     }
+
+    
+    // MARK: here
+    func addDrillToSession(drills: [DrillModel]) {
+        for oneDrill in drills {
+            orderedDrills.append(oneDrill)
+        }
+    }
     
     func generateSession() {
         // TODO: Implement session generation logic
