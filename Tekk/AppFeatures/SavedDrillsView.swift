@@ -304,18 +304,27 @@ struct DrillRow: View {
                     
                     Spacer()
                     
-                    // MARK: working here
                     
-//                    if appModel.viewState.showSearchDrills /*&& !appModel.orderedDrills.contains(drill)*/ {
-//                        Button(action: {
-//
-//                        }) {
-//                            RoundedRectangle(cornerRadius: 4)
-//                                .stroke(appModel.globalSettings.primaryDarkColor, lineWidth: 2)
-//                                .frame(width: 20, height: 20)
-//                        }
-//                        
-//                    }
+                    if appModel.viewState.showSearchDrills && !sessionModel.orderedDrills.contains(drill) {
+                        Button(action: {
+                            sessionModel.drillsToAdd(drill: drill)
+                        }) {
+                            ZStack {
+                                
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(sessionModel.isDrillSelected(drill) ? appModel.globalSettings.primaryYellowColor : Color.clear)
+                                    .stroke(sessionModel.isDrillSelected(drill) ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryDarkColor, lineWidth: 2)
+                                    .frame(width: 20, height: 20)
+                                
+                                if sessionModel.isDrillSelected(drill) {
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(Color.white)
+                                }
+                            }
+                            
+                        }
+                        
+                    }
                 }
                 .padding(.vertical, 8)
             }

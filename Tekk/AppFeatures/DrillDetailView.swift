@@ -18,7 +18,7 @@ struct DrillDetailView: View {
     @State private var showingFollowAlong = false
     @State private var showSaveDrill: Bool = false
     
-    
+    // MARK: Main view
     var body: some View {
             ZStack {
                 ScrollView {
@@ -135,7 +135,9 @@ struct DrillDetailView: View {
                 }
                 .safeAreaInset(edge: .bottom) {
                     if !appModel.viewState.showHomePage {
-                        Button(action: { showingFollowAlong = true }) {
+                        Button(action: {
+                            showingFollowAlong = true
+                        }) {
                             Text("Start Drill")
                                 .font(.custom("Poppins-Bold", size: 18))
                                 .foregroundColor(.white)
@@ -159,6 +161,9 @@ struct DrillDetailView: View {
         }
     }
     
+    // MARK: Find groups to save view
+    
+    // TODO: make this a structure?
     private var findGroupToSaveToView: some View {
         ZStack {
             Color.black.opacity(0.3)
@@ -188,19 +193,29 @@ struct DrillDetailView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
-
-                // Groups Display
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
-                        ForEach(sessionModel.savedDrills) { group in
-                            GroupCard(group: group)
-                                    .onTapGesture {
-                                        sessionModel.addDrillToGroup(drill: drill, groupId: group.id)
-                                    }
+                
+                if sessionModel.savedDrills.isEmpty {
+                    Text("No groups created yet")
+                        .font(.custom("Poppins-Medium", size: 12))
+                        .foregroundColor(.gray)
+                        .padding()
+                    
+                } else {
+                    // Groups Display
+                    ScrollView {
+                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
+                            ForEach(sessionModel.savedDrills) { group in
+                                GroupCard(group: group)
+                                        .onTapGesture {
+                                            sessionModel.addDrillToGroup(drill: drill, groupId: group.id)
+                                        }
+                            }
                         }
+                        .padding()
                     }
-                    .padding()
                 }
+                
+                Spacer()
             }
             .padding()
             .frame(width: 300, height: 470)

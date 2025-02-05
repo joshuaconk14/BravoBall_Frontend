@@ -62,6 +62,24 @@ struct SearchDrillsSheetView: View {
             }
 
         }
+        .safeAreaInset(edge: .bottom) {
+            if sessionModel.drillsToUpdate.count > 0 {
+                Button(action: {
+                    sessionModel.addDrillToSession(drills: sessionModel.drillsToUpdate)
+                    appModel.viewState.showSearchDrills = false
+                }) {
+                    Text(sessionModel.drillsToUpdate.count == 1 ? "Add \(sessionModel.drillsToUpdate.count) Drill" : "Add \(sessionModel.drillsToUpdate.count) Drills")
+                        .font(.custom("Poppins-Bold", size: 18))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.yellow)
+                        .cornerRadius(12)
+                }
+                .padding()
+            }
+            
+        }
     }
 }
 

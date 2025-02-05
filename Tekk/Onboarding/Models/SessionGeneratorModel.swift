@@ -21,6 +21,8 @@ class SessionGeneratorModel: ObservableObject {
     }
     
     // Drill for Sesison storage
+    // TODO: see if having too much arrays takes too much storage and if its easier to give isSelected Bool to drills
+    @Published var drillsToUpdate: [DrillModel] = []
     @Published var orderedDrills: [DrillModel] = []
     
     // Saved Drill storage
@@ -194,12 +196,30 @@ class SessionGeneratorModel: ObservableObject {
         likedDrillsGroup.drills.contains(drill)
     }
 
+    // Selected drills to add to session
+    func drillsToAdd (drill: DrillModel) {
+        if drillsToUpdate.contains(drill) {
+            drillsToUpdate.removeAll(where: { $0.id == drill.id })
+        } else {
+            drillsToUpdate.append(drill)
+        }
+    }
     
-    // MARK: here
+    func isDrillSelected(_ drill: DrillModel) -> Bool {
+        drillsToUpdate.contains(drill)
+    }
+    
+    // Adding drills to session
     func addDrillToSession(drills: [DrillModel]) {
         for oneDrill in drills {
             orderedDrills.append(oneDrill)
         }
+        drillsToUpdate.removeAll()
+    }
+    
+    // Deleting drills from session
+    func deleteDrillFromSession(drill: DrillModel) {
+        orderedDrills.removeAll(where: { $0.id == drill.id })
     }
     
     func generateSession() {

@@ -600,7 +600,7 @@ struct SessionGeneratorView: View {
 
 // MARK: Prereq button
 struct PrerequisiteButton: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     let type: SessionGeneratorView.PrerequisiteType
     let icon: SessionGeneratorView.PrerequisiteIcon
     let isSelected: Bool
@@ -631,7 +631,7 @@ struct PrerequisiteButton: View {
 
 // MARK: Prereq dropdown
 struct PrerequisiteDropdown: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     let type: SessionGeneratorView.PrerequisiteType
     @ObservedObject var sessionModel: SessionGeneratorModel
     let dismiss: () -> Void
@@ -757,7 +757,7 @@ struct PrerequisiteDropdown: View {
 // MARK: Display Saved Filters
 
 struct DisplaySavedFilters: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     
     @ObservedObject var sessionModel: SessionGeneratorModel
     let dismiss: () -> Void
@@ -826,7 +826,7 @@ struct DisplaySavedFilters: View {
 
 // MARK: Compact Drill card
 struct CompactDrillCard: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     let drill: DrillModel
     @State private var showingDetail = false
@@ -881,7 +881,7 @@ struct CompactDrillCard: View {
 }
 // MARK: Drill card
 struct DrillCard: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     let drill: DrillModel
     @State private var showingDetail = false
@@ -936,7 +936,7 @@ struct DrillCard: View {
 
 // MARK: Small Drill card
 struct SmallDrillCard: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     let drill: DrillModel
     @State private var showingDetail = false
@@ -975,7 +975,7 @@ struct SmallDrillCard: View {
 
 // MARK: Skill selection view
 struct SkillSelectionView: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     @State private var showingSkillSelector = false
     
@@ -1018,7 +1018,7 @@ struct SkillSelectionView: View {
 
 // MARK: Skill button
 struct SkillButton: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     let title: String
     let icon: String
     let isSelected: Bool
@@ -1051,7 +1051,7 @@ struct SkillButton: View {
 
 // MARK: Skill selector sheet
 struct SkillSelectorSheet: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @Binding var selectedSkills: Set<String>
     @Environment(\.dismiss) private var dismiss
     @State private var expandedCategory: String?
@@ -1211,9 +1211,8 @@ struct SkillCategoryButton: View {
 // MARK: Generated Drills Section
 
 struct GeneratedDrillsSection: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
-    @State private var viewState = MainAppModel.ViewState()
     
     var body: some View {
         ScrollView {
@@ -1238,10 +1237,11 @@ struct GeneratedDrillsSection: View {
                     .frame(width:120, height: 2)
             }
             
-            // Button for adding drills
+            // Button row
             HStack {
+                // Button for adding drills
                 Button(action: {
-                    viewState.showSearchDrills = true
+                    appModel.viewState.showSearchDrills = true
                 }) {
                     ZStack {
                         Circle()
@@ -1253,6 +1253,27 @@ struct GeneratedDrillsSection: View {
                             .frame(width: 30, height: 30)
                         
                         Image(systemName: "plus")
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            .font(.system(size: 16, weight: .medium))
+                    }
+                }
+                .disabled(sessionModel.orderedDrills.isEmpty)
+                .opacity(sessionModel.orderedDrills.isEmpty ? 0.4 : 1.0)
+                
+                // Button for deleting drills
+                Button(action: {
+                    appModel.viewState.showDeleteButtons.toggle()
+                }) {
+                    ZStack {
+                        Circle()
+                            .fill(appModel.globalSettings.primaryLightGrayColor)
+                            .frame(width: 30, height: 30)
+                            .offset(x: 0, y: 3)
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 30, height: 30)
+                        
+                        Image(systemName: "trash")
                             .foregroundColor(appModel.globalSettings.primaryDarkColor)
                             .font(.system(size: 16, weight: .medium))
                     }
@@ -1284,31 +1305,55 @@ struct GeneratedDrillsSection: View {
                 } else {
                     
                     ForEach(sessionModel.orderedDrills) { drill in
-                        DrillCard(
-                            appModel: appModel,
-                            sessionModel: sessionModel,
-                            drill: drill
-                        )
-                        .draggable(drill.title) {
+                        HStack {
+                            
+                            // Red delete buttons
+                            if appModel.viewState.showDeleteButtons {
+                                Button(action: {
+                                    sessionModel.deleteDrillFromSession(drill: drill)
+                                }) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(Color.red)
+                                            .frame(width: 20, height: 20)
+                                        Rectangle()
+                                            .fill(Color.white)
+                                            .frame(width: 10, height: 2)
+                                    }
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                .padding(.leading)
+                            }
+                            
+                            
+                            // Drill cards
                             DrillCard(
                                 appModel: appModel,
                                 sessionModel: sessionModel,
                                 drill: drill
                             )
-                        }
-                        .dropDestination(for: String.self) { items, location in
-                            guard let sourceTitle = items.first,
-                                  let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
-                                  let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
-                                return false
+                            .draggable(drill.title) {
+                                DrillCard(
+                                    appModel: appModel,
+                                    sessionModel: sessionModel,
+                                    drill: drill
+                                )
                             }
-                            
-                            withAnimation(.spring()) {
-                                let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
-                                sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                            .dropDestination(for: String.self) { items, location in
+                                guard let sourceTitle = items.first,
+                                      let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
+                                      let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
+                                    return false
+                                }
+                                
+                                withAnimation(.spring()) {
+                                    let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
+                                    sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                                }
+                                return true
                             }
-                            return true
                         }
+                        
                     }
                     
                 }
@@ -1317,8 +1362,8 @@ struct GeneratedDrillsSection: View {
         }
         .padding()
         .cornerRadius(15)
-        .sheet(isPresented: $viewState.showSearchDrills) {
-            SearchDrillsSheetView(appModel: appModel, sessionModel: sessionModel, dismiss: { viewState.showSearchDrills = false })
+        .sheet(isPresented: $appModel.viewState.showSearchDrills) {
+            SearchDrillsSheetView(appModel: appModel, sessionModel: sessionModel, dismiss: { appModel.viewState.showSearchDrills = false })
         }
     }
 }

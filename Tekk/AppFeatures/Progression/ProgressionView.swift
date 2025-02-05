@@ -38,15 +38,9 @@ struct ProgressionView: View {
                                 // History display
                                 HStack {
                                     VStack {
-                                        if appModel.highestStreak == 1 {
-                                            Text("\(appModel.highestStreak)  day")
-                                                .font(.custom("Poppins-Bold", size: 30))
-                                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                        } else {
-                                            Text("\(appModel.highestStreak)  days")
-                                                .font(.custom("Poppins-Bold", size: 30))
-                                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                        }
+                                        Text(appModel.highestStreak == 1 ? "\(appModel.highestStreak)  day" : "\(appModel.highestStreak)  days")
+                                            .font(.custom("Poppins-Bold", size: 30))
+                                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
                                         Text("Highest Streak")
                                             .font(.custom("Poppins-Bold", size: 16))
                                             .foregroundColor(appModel.globalSettings.primaryGrayColor)
