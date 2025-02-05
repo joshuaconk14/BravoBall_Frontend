@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct SearchDrillsSheetView: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     let dismiss: () -> Void
     @State private var selectedTab: searchDrillsTab = .all
@@ -51,6 +51,7 @@ struct SearchDrillsSheetView: View {
             }
             .padding(.horizontal)
             
+            
             switch selectedTab {
             case .all:
                 AllDrillsView(appModel: appModel, sessionModel: sessionModel)
@@ -89,7 +90,7 @@ struct TabButton: View {
 
 //MARK: AllDrillsView
 struct AllDrillsView: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     @State private var searchText: String = ""
     
@@ -144,83 +145,103 @@ struct AllDrillsView: View {
     }
 }
 
+
 //MARK: ByTypeView
 struct ByTypeView: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
-    @State private var selectedButton: skillType = .none
-    
-    enum skillType {
-        case passing
-        case dribbling
-        case shooting
-        case firstTouch
-        case crossing
-        case defending
-        case goalkeeping
-        case none
-    }
+
     
     
     var body: some View {
         ZStack {
-            VStack {
-                Text("Skill")
-                    .padding()
-                VStack(spacing: 10) {
-                        SelectionButton(title: "Passing", isSelected: selectedButton == .passing) {
-                            selectedButton = .passing
+            ScrollView {
+                VStack {
+                    Text("Skill")
+                        .padding()
+                    VStack(spacing: 10) {
+                        ForEach(MainAppModel.SkillType.allCases, id: \.self) { skill in
+                            SelectionButton(
+                                title: skill.rawValue,
+                                isSelected: appModel.selectedSkill == skill
+                            ){
+                                appModel.selectedSkill = skill
+                            }
                         }
-                        SelectionButton(title: "Dribbling", isSelected: selectedButton == .dribbling) {
-                            selectedButton = .dribbling
-                        }
-                        SelectionButton(title: "Shooting", isSelected: selectedButton == .shooting) {
-                            selectedButton = .shooting
-                        }
-                        SelectionButton(title: "First Touch", isSelected: selectedButton == .firstTouch) {
-                            selectedButton = .firstTouch
-                        }
-                        SelectionButton(title: "Crossing", isSelected: selectedButton == .crossing) {
-                            selectedButton = .crossing
-                        }
-                        SelectionButton(title: "Defending", isSelected: selectedButton == .defending) {
-                            selectedButton = .defending
-                        }
-                        SelectionButton(title: "Goalkeeping", isSelected: selectedButton == .goalkeeping) {
-                            selectedButton = .goalkeeping
-                        }
+                        
                     }
                     Spacer()
+                    
+                    Text("Training Style")
+                        .padding()
+                    VStack(spacing: 10) {
+                        ForEach(MainAppModel.TrainingStyleType.allCases, id: \.self) { trainingStyle in
+                            SelectionButton(
+                                title: trainingStyle.rawValue,
+                                isSelected: appModel.selectedTrainingStyle == trainingStyle
+                            ){
+                                appModel.selectedTrainingStyle = trainingStyle
+                            }
+                        }
+                        
+                    }
+                    
+                    Spacer()
+                    
+                    Text("Difficulty")
+                        .padding()
+                    VStack(spacing: 10) {
+                        ForEach(MainAppModel.DifficultyType.allCases, id: \.self) { difficulty in
+                            SelectionButton(
+                                title: difficulty.rawValue,
+                                isSelected: appModel.selectedDifficulty == difficulty
+                            ){
+                                appModel.selectedDifficulty = difficulty
+                            }
+                        }
+                        
+                    }
+                    Spacer()
+                }
+                .padding(.top, 30)
+                .frame(maxWidth: .infinity)
             }
-            .padding(.top, 30)
             
-            switch selectedButton {
-            case .passing:
-                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "Passing", dismiss: {selectedButton = .none})
-            case .dribbling:
-                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "Dribbling", dismiss: {selectedButton = .none})
-            case .shooting:
-                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "Shooting", dismiss: {selectedButton = .none})
-            case .firstTouch:
-                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "First Touch", dismiss: {selectedButton = .none})
-            case .crossing:
-                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "Crossing", dismiss: {selectedButton = .none})
-            case .defending:
-                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "Defending", dismiss: {selectedButton = .none})
-            case .goalkeeping:
-                SpecificDrillsView(appModel: appModel, sessionModel: sessionModel, skillType: "Goalkeeping", dismiss: {selectedButton = .none})
-            case .none:
-                EmptyView()
+            ScrollView {
+                if let selectedSkill = appModel.selectedSkill {
+                    SpecificDrillsView(
+                        appModel: appModel,
+                        sessionModel: sessionModel,
+                        type: selectedSkill.rawValue,
+                        dismiss: {appModel.selectedSkill = nil})
+                }
+                
+                if let selectedTrainingStyle = appModel.selectedTrainingStyle {
+                    SpecificDrillsView(
+                        appModel: appModel,
+                        sessionModel: sessionModel,
+                        type: selectedTrainingStyle.rawValue,
+                        dismiss: {appModel.selectedTrainingStyle = nil})
+                }
+                
+                if let selectedDifficulty = appModel.selectedDifficulty {
+                    SpecificDrillsView(
+                        appModel: appModel,
+                        sessionModel: sessionModel,
+                        type: selectedDifficulty.rawValue,
+                        dismiss: {appModel.selectedDifficulty = nil})
+                }
             }
+            .background(Color.white)
         }
     }
 }
 
 // MARK: Specific Drills View
 struct SpecificDrillsView: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
-    let skillType: String
+    let type: String
     let dismiss: () -> Void
     
     var body: some View {
@@ -238,6 +259,13 @@ struct SpecificDrillsView: View {
                     .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     .padding()
                 }
+                
+                
+                Text(type)
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    .font(.custom("Poppins-Bold", size: 16))
+                    .padding(.leading, 70)
+                
                 Spacer()
             }
             
@@ -256,12 +284,28 @@ struct SpecificDrillsView: View {
         }
         .background(Color.white)
     }
+    
+    // Returning drills based on type selected
     var specificDrills: [DrillModel] {
-        return SessionGeneratorModel.testDrills.filter { drill in
-            drill.type.lowercased().contains(skillType.lowercased())
+        if appModel.selectedSkill != nil {
+            return SessionGeneratorModel.testDrills.filter { drill in
+                drill.skill.lowercased().contains(type.lowercased())
+            }
+        } else if appModel.selectedTrainingStyle != nil {
+            return SessionGeneratorModel.testDrills.filter { drill in
+                drill.trainingStyle.lowercased().contains(type.lowercased())
+            }
+        }
+        if appModel.selectedDifficulty != nil {
+            return SessionGeneratorModel.testDrills.filter { drill in
+                drill.difficulty.lowercased().contains(type.lowercased())
+            }
+        } else {
+            return []
         }
     }
 }
+
 
 // MARK: Selection Button
 struct SelectionButton: View {
@@ -290,7 +334,7 @@ struct SelectionButton: View {
 
 //MARK: GroupsView
 struct GroupsView: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     @State private var selectedGroup: GroupModel? = nil
     
@@ -315,33 +359,39 @@ struct GroupsView: View {
     let testDrills = [
         DrillModel(
             title: "Passing Drill",
-            type: "Passing",
+            skill: "Passing",
             sets: "3",
             reps: "10",
             duration: "15 min",
             description: "Basic passing drill for beginners",
             tips: ["Keep your head up", "Follow through"],
-            equipment: ["Ball", "Cones"]
+            equipment: ["Ball", "Cones"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Beginner"
         ),
         DrillModel(
             title: "Shooting Practice",
-            type: "Shooting",
+            skill: "Shooting",
             sets: "4",
             reps: "8",
             duration: "20 min",
             description: "Advanced shooting drill",
             tips: ["Plant foot properly", "Strike with laces"],
-            equipment: ["Ball", "Goal"]
+            equipment: ["Ball", "Goal"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Beginner"
         ),
         DrillModel(
             title: "Dribbling Skills",
-            type: "Dribbling",
+            skill: "Dribbling",
             sets: "5",
             reps: "6",
             duration: "25 min",
             description: "Intermediate dribbling exercises",
             tips: ["Close control", "Use both feet"],
-            equipment: ["Ball", "Cones"]
+            equipment: ["Ball", "Cones"],
+            trainingStyle: "High Intensity",
+            difficulty: "Intermediate"
         )
     ]
     

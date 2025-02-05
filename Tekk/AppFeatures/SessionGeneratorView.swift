@@ -211,6 +211,7 @@ struct SessionGeneratorView: View {
                         
                         GeneratedDrillsSection(appModel: appModel, sessionModel: sessionModel)
                     }
+                    
                 }
             }
             .transition(.move(edge: .bottom))
@@ -1214,6 +1215,7 @@ struct GeneratedDrillsSection: View {
     @State private var viewState = MainAppModel.ViewState()
     
     var body: some View {
+        ScrollView {
         VStack(alignment: .center, spacing: 12) {
             HStack {
                 Rectangle()
@@ -1263,7 +1265,7 @@ struct GeneratedDrillsSection: View {
             
             // Drills view
             
-            ScrollView {
+            
                 
                 if sessionModel.orderedDrills.isEmpty {
                     Spacer()

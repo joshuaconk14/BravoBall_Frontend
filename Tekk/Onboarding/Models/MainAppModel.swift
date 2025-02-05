@@ -43,6 +43,36 @@ class MainAppModel: ObservableObject {
     }
     
     
+    @Published var selectedSkill: SkillType?
+    @Published var selectedTrainingStyle: TrainingStyleType?
+    @Published var selectedDifficulty: DifficultyType?
+    
+        
+    enum SkillType: String, CaseIterable {
+        case passing = "Passing"
+        case dribbling = "Dribbling"
+        case shooting = "Shooting"
+        case firstTouch = "First Touch"
+        case crossing = "Crossing"
+        case defending = "Defending"
+        case goalkeeping = "Goalkeeping"
+    }
+    
+    // TODO: will need more for recovery, etc
+    enum TrainingStyleType: String, CaseIterable {
+        case medium = "Medium"
+        case high = "High"
+    }
+    
+    enum DifficultyType: String, CaseIterable {
+        case beginner = "Beginner"
+        case intermediate = "Intermediate"
+        case advanced = "Advanced"
+    }
+    
+    
+    
+    
     // MARK: Drill Detail View
     
     func saveDrill() {

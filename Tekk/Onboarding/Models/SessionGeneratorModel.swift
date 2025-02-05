@@ -48,53 +48,63 @@ class SessionGeneratorModel: ObservableObject {
     static let testDrills: [DrillModel] = [
         DrillModel(
             title: "Short Passing Drill",
-            type: "Passing",
+            skill: "Passing",
             sets: "4",
             reps: "10",
             duration: "15min",
             description: "Practice accurate short passes with a partner or wall.",
             tips: ["Keep the ball on the ground", "Use inside of foot", "Follow through towards target"],
-            equipment: ["Soccer ball", "Cones"]
+            equipment: ["Soccer ball", "Cones"],
+            trainingStyle: "High Intensity",
+            difficulty: "Beginner"
         ),
         DrillModel(
             title: "Long Passing Practice",
-            type: "Passing",
+            skill: "Passing",
             sets: "3",
             reps: "8",
             duration: "20min",
             description: "Improve your long-range passing accuracy.",
             tips: ["Lock ankle", "Follow through", "Watch ball contact"],
-            equipment: ["Soccer ball", "Cones"]
+            equipment: ["Soccer ball", "Cones"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Intermediate"
         ),
         DrillModel(
             title: "Through Ball Training",
-            type: "Passing",
+            skill: "Passing",
             sets: "4",
             reps: "6",
             duration: "15min",
             description: "Practice timing and weight of through passes.",
             tips: ["Look for space", "Time the pass", "Weight it properly"],
-            equipment: ["Soccer ball", "Cones"]
+            equipment: ["Soccer ball", "Cones"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Intermediate"
         ),
         DrillModel(
             title: "Power Shot Practice",
-            type: "Shooting",
+            skill: "Shooting",
             sets: "3",
             reps: "5",
             duration: "20min",
             description: "Work on powerful shots on goal.",
             tips: ["Plant foot beside ball", "Strike with laces", "Follow through"],
-            equipment: ["Soccer ball", "Goal"]
+            equipment: ["Soccer ball", "Goal"],
+            trainingStyle: "High Intensity",
+            difficulty: "Intermediate"
         ),
         DrillModel(
             title: "1v1 Dribbling Skills",
-            type: "Dribbling",
+            skill: "Dribbling",
             sets: "4",
             reps: "8",
             duration: "15min",
             description: "Master close ball control and quick direction changes.",
             tips: ["Keep ball close", "Use both feet", "Change pace"],
-            equipment: ["Soccer ball", "Cones"]
+            equipment: ["Soccer ball", "Cones"],
+            trainingStyle: "High Intensity",
+            difficulty: "Intermediate"
         )
     ]
     
@@ -194,13 +204,15 @@ struct DrillModel: Identifiable, Equatable {
     let id = UUID()
     var isLiked: Bool = false
     let title: String
-    let type: String
+    let skill: String
     let sets: String
     let reps: String
     let duration: String
     let description: String
     let tips: [String]
     let equipment: [String]
+    let trainingStyle: String
+    let difficulty: String
     
     static func == (lhs: DrillModel, rhs: DrillModel) -> Bool {
         lhs.id == rhs.id

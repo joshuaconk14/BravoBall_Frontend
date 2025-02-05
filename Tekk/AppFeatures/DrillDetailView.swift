@@ -231,35 +231,6 @@ struct InfoItem: View {
     }
 }
 
-//// Model for drill data
-//struct DrillModel {
-//    let title: String
-//    let sets: String
-//    let reps: String
-//    let duration: String
-//    let description: String
-//    let tips: [String]
-//    let equipment: [String]
-//
-//    static let example = DrillModel(
-//        title: "Shooting Drill",
-//        sets: "4",
-//        reps: "2",
-//        duration: "20min",
-//        description: "This drill focuses on improving your shooting accuracy and power. Start by setting up cones in a zigzag pattern, dribble through them, and finish with a shot on goal.",
-//        tips: [
-//            "Keep your head down and eyes on the ball when shooting",
-//            "Follow through with your kicking foot",
-//            "Plant your non-kicking foot beside the ball",
-//            "Strike the ball with your laces for power"
-//        ],
-//        equipment: [
-//            "Soccer ball",
-//            "Cones",
-//            "Goal"
-//        ]
-//    )
-//}
 
 #Preview {
     let mockAppModel = MainAppModel()
@@ -268,7 +239,7 @@ struct InfoItem: View {
     
     let mockDrill = DrillModel(
         title: "Shooting Drill",
-        type: "Shooting",
+        skill: "Shooting",
         sets: "4",
         reps: "2",
         duration: "20min",
@@ -283,7 +254,9 @@ struct InfoItem: View {
             "Soccer ball",
             "Cones",
             "Goal"
-        ]
+        ],
+        trainingStyle: "Medium Intensity",
+        difficulty: "Beginner"
     )
     
     // Create a mock group with the drill

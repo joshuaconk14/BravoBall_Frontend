@@ -320,13 +320,15 @@ struct DrillRow: View {
     // Create a mock drill
         let mockDrill = DrillModel(
             title: "Quick Passing",
-            type: "Passing",
+            skill: "Passing",
             sets: "3",
             reps: "5",
             duration: "15 minutes",
             description: "Short passing drill to improve accuracy",
             tips: ["no funny beezness"],
-            equipment: ["ball", "cones"]
+            equipment: ["ball", "cones"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Beginner"
         )
         
         // Create a mock group with the drill
