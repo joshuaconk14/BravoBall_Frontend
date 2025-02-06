@@ -124,7 +124,6 @@ struct SessionGeneratorView: View {
                 }
                 
             }
-            .background(Color(hex:"bef1fa"))
             .sheet(item: $selectedPrerequisite) { type in
                     PrerequisiteDropdown(
                         appModel: appModel,
@@ -134,8 +133,9 @@ struct SessionGeneratorView: View {
                         selectedPrerequisite = nil
                     }
                     .presentationDragIndicator(.hidden)
-                    .interactiveDismissDisabled()
+//                    .interactiveDismissDisabled()
                     .presentationDetents([.height(300)])
+
                 }
             .sheet(isPresented: $appModel.viewState.showSavedPrereqs) {
                 DisplaySavedFilters(
@@ -144,9 +144,10 @@ struct SessionGeneratorView: View {
                     dismiss: { appModel.viewState.showSavedPrereqs = false }
                 )
                 .presentationDragIndicator(.hidden)
-                .interactiveDismissDisabled()
+//                .interactiveDismissDisabled()
                 .presentationDetents([.height(300)])
             }
+            .background(Color(hex:"bef1fa"))
     }
     
     
@@ -214,7 +215,6 @@ struct SessionGeneratorView: View {
                         }
                         
                         if appModel.viewState.showFilter {
-                            
                             
                             // TODO: Replace old skills section with new SkillSelectionView
                             
@@ -654,75 +654,52 @@ struct PrerequisiteDropdown: View {
     let dismiss: () -> Void
     
     var body: some View {
-        ZStack {
-            // Semi-transparent background overlay
-            Color.black.opacity(0.3)
-                .ignoresSafeArea()
-                .onTapGesture {
+        // Prereq dropdown
+        VStack(alignment: .center, spacing: 12) {
+            
+            // Header
+            HStack {
+                Spacer()
+                Text(type.rawValue)
+                    .font(.custom("Poppins-Bold", size: 16))
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                
+                Spacer()
+                Button(action: {
                     withAnimation(.spring(dampingFraction: 0.7)) {
                         dismiss()
                     }
+                }) {
+                    Image(systemName: "xmark")
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 }
+            }
             
-            VStack {
-                Spacer()
-                
-                // Prereq dropdown
-                VStack(alignment: .leading, spacing: 12) {
-                    
-                    // Header
-                    HStack {
-                        Spacer()
-                        Text(type.rawValue)
-                            .font(.custom("Poppins-Bold", size: 16))
-                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        
-                        Spacer()
+            // Options list
+            ScrollView {
+                VStack(alignment: .leading, spacing: 8) {
+                    ForEach(optionsForType, id: \.self) { option in
                         Button(action: {
-                            withAnimation(.spring(dampingFraction: 0.7)) {
-                                dismiss()
-                            }
+                            selectOption(option)
                         }) {
-                            Image(systemName: "xmark")
-                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                        }
-                    }
-                    
-                    // Options list
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 8) {
-                            ForEach(optionsForType, id: \.self) { option in
-                                Button(action: {
-                                    selectOption(option)
-                                }) {
-                                    HStack {
-                                        Text(option)
-                                            .font(.custom("Poppins-Regular", size: 14))
-                                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                                        Spacer()
-                                        if isSelected(option) {
-                                            Image(systemName: "checkmark")
-                                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                        }
-                                    }
-                                    .padding(.vertical, 8)
+                            HStack {
+                                Text(option)
+                                    .font(.custom("Poppins-Regular", size: 14))
+                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                Spacer()
+                                if isSelected(option) {
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(appModel.globalSettings.primaryYellowColor)
                                 }
-                                Divider()
                             }
+                            .padding(.vertical, 8)
                         }
+                        Divider()
                     }
-                    
-                    Spacer()
-                    
                 }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .frame(height: UIScreen.main.bounds.height / 3)
-                .background(Color.white)
-                .cornerRadius(25, corners: [.topLeft, .topRight])
-                .transition(.move(edge: .bottom))
             }
         }
+        .padding()
     }
     
     
@@ -791,71 +768,55 @@ struct DisplaySavedFilters: View {
     let dismiss: () -> Void
     
     var body: some View {
-        
-        ZStack {
-            // Semi-transparent background overlay
-            Color.black.opacity(0.15)
-                .ignoresSafeArea()
-                .onTapGesture {
+        VStack(alignment: .center, spacing: 12) {
+            
+            HStack {
+                Spacer()
+                
+                Text("Saved Filters")
+                    .font(.custom("Poppins-Bold", size: 16))
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                
+                Spacer()
+                Button(action: {
                     withAnimation(.spring(dampingFraction: 0.7)) {
                         dismiss()
                     }
+                }) {
+                    Image(systemName: "xmark")
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                 }
-            
-            VStack {
-                Spacer()
-                
-                VStack(alignment: .leading, spacing: 12) {
-                    
-                    HStack {
-                        Spacer()
-                        
-                        Text("Saved Filters")
-                            .font(.custom("Poppins-Bold", size: 16))
-                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        
-                        Spacer()
-                        Button(action: {
-                            withAnimation(.spring(dampingFraction: 0.7)) {
-                                dismiss()
-                            }
-                        }) {
-                            Image(systemName: "xmark")
-                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                        }
-                    }
-                    
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 8) {
-                            ForEach(sessionModel.allSavedFilters, id: \.name) { filter in
-                                Button(action: {
-                                    loadFilter(filter)
-                                }) {
-                                    HStack {
-                                        Text(filter.name)
-                                            .font(.custom("Poppins-Regular", size: 14))
-                                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                                        Spacer()
-                                    }
-                                    .padding(.vertical, 8)
-                                }
-                                Divider()
-                            }
-                        }
-                    }
-                    .frame(maxHeight: 150)
-                    
-                    Spacer()
-                }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .frame(height: UIScreen.main.bounds.height / 3)
-                .background(Color.white)
-                .cornerRadius(25, corners: [.topLeft, .topRight])
-                .transition(.move(edge: .bottom))
-
             }
+            
+            if sessionModel.allSavedFilters.isEmpty {
+                Text("No filters saved yet")
+                    .font(.custom("Poppins-Medium", size: 12))
+                    .foregroundColor(.gray)
+                    .padding()
+            } else {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 8) {
+                        ForEach(sessionModel.allSavedFilters, id: \.name) { filter in
+                            Button(action: {
+                                loadFilter(filter)
+                            }) {
+                                HStack {
+                                    Text(filter.name)
+                                        .font(.custom("Poppins-Regular", size: 14))
+                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                                    Spacer()
+                                }
+                                .padding(.vertical, 8)
+                            }
+                            Divider()
+                        }
+                    }
+                }
+            }
+            
+            Spacer()
         }
+        .padding()
     }
     
     // Load filter after clicking the name of saved filter
@@ -1292,19 +1253,8 @@ struct GeneratedDrillsSection: View {
                 Button(action: {
                     appModel.viewState.showSearchDrills = true
                 }) {
-                    ZStack {
-                        Circle()
-                            .fill(appModel.globalSettings.primaryLightGrayColor)
-                            .frame(width: 30, height: 30)
-                            .offset(x: 0, y: 3)
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 30, height: 30)
-                        
-                        Image(systemName: "plus")
-                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                            .font(.system(size: 16, weight: .medium))
-                    }
+                    RiveViewModel(fileName: "Plus_Button").view()
+                        .frame(width: 30, height: 30)
                 }
                 .disabled(sessionModel.orderedDrills.isEmpty)
                 .opacity(sessionModel.orderedDrills.isEmpty ? 0.4 : 1.0)
