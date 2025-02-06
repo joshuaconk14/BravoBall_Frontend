@@ -63,12 +63,12 @@ struct SearchDrillsSheetView: View {
 
         }
         .safeAreaInset(edge: .bottom) {
-            if sessionModel.drillsToUpdate.count > 0 {
+            if sessionModel.selectedDrills.count > 0 {
                 Button(action: {
-                    sessionModel.addDrillToSession(drills: sessionModel.drillsToUpdate)
+                    sessionModel.addDrillToSession(drills: sessionModel.selectedDrills)
                     appModel.viewState.showSearchDrills = false
                 }) {
-                    Text(sessionModel.drillsToUpdate.count == 1 ? "Add \(sessionModel.drillsToUpdate.count) Drill" : "Add \(sessionModel.drillsToUpdate.count) Drills")
+                    Text(sessionModel.selectedDrills.count == 1 ? "Add \(sessionModel.selectedDrills.count) Drill" : "Add \(sessionModel.selectedDrills.count) Drills")
                         .font(.custom("Poppins-Bold", size: 18))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)

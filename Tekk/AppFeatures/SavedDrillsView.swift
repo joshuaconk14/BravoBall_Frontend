@@ -304,17 +304,27 @@ struct DrillRow: View {
                     
                     Spacer()
                     
-                    
-                    if appModel.viewState.showSearchDrills && !sessionModel.orderedDrills.contains(drill) {
+                    // Button to select a drill to add in the search drill view
+                    if appModel.viewState.showSearchDrills {
                         Button(action: {
                             sessionModel.drillsToAdd(drill: drill)
                         }) {
                             ZStack {
                                 
-                                RoundedRectangle(cornerRadius: 4)
-                                    .fill(sessionModel.isDrillSelected(drill) ? appModel.globalSettings.primaryYellowColor : Color.clear)
-                                    .stroke(sessionModel.isDrillSelected(drill) ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryDarkColor, lineWidth: 2)
-                                    .frame(width: 20, height: 20)
+                                if sessionModel.orderedDrills.contains(drill) {
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(appModel.globalSettings.primaryLightGrayColor)
+                                        .stroke((appModel.globalSettings.primaryLightGrayColor), lineWidth: 2)
+                                        .frame(width: 20, height: 20)
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(Color.white)
+                                } else {
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(sessionModel.isDrillSelected(drill) ? appModel.globalSettings.primaryYellowColor : Color.clear)
+                                        .stroke(sessionModel.isDrillSelected(drill) ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryDarkColor, lineWidth: 2)
+                                        .frame(width: 20, height: 20)
+                                }
+                                
                                 
                                 if sessionModel.isDrillSelected(drill) {
                                     Image(systemName: "checkmark")
@@ -323,6 +333,7 @@ struct DrillRow: View {
                             }
                             
                         }
+                        .disabled(sessionModel.orderedDrills.contains(drill))
                         
                     }
                 }

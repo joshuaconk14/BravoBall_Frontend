@@ -39,7 +39,7 @@ class MainAppModel: ObservableObject {
         var showSmallDrillCards: Bool = false
         var showSavedPrereqs: Bool = false
         var showSavedPrereqsPrompt: Bool = false
-        var showSearchDrills: Bool = true // TESTING
+        var showSearchDrills: Bool = false
         var showDeleteButtons: Bool = false
     }
     
