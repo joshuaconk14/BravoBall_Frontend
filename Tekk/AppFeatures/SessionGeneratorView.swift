@@ -123,8 +123,9 @@ struct SessionGeneratorView: View {
                     prereqPrompt
                 }
                 
-                // Prerequisite dropdown (instead of sheet)
-                if let type = selectedPrerequisite {
+            }
+            .background(Color(hex:"bef1fa"))
+            .sheet(item: $selectedPrerequisite) { type in
                     PrerequisiteDropdown(
                         appModel: appModel,
                         type: type,
@@ -132,19 +133,20 @@ struct SessionGeneratorView: View {
                     ) {
                         selectedPrerequisite = nil
                     }
+                    .presentationDragIndicator(.hidden)
+                    .interactiveDismissDisabled()
+                    .presentationDetents([.height(300)])
                 }
-                
-                // Dropdown content for saved filters
-                if appModel.viewState.showSavedPrereqs {
-                    DisplaySavedFilters(
-                        appModel: appModel,
-                        sessionModel: sessionModel,
-                        dismiss: { appModel.viewState.showSavedPrereqs = false }
-                    )
-                }
-                
+            .sheet(isPresented: $appModel.viewState.showSavedPrereqs) {
+                DisplaySavedFilters(
+                    appModel: appModel,
+                    sessionModel: sessionModel,
+                    dismiss: { appModel.viewState.showSavedPrereqs = false }
+                )
+                .presentationDragIndicator(.hidden)
+                .interactiveDismissDisabled()
+                .presentationDetents([.height(300)])
             }
-            .background(Color(hex:"bef1fa"))
     }
     
     
@@ -654,7 +656,7 @@ struct PrerequisiteDropdown: View {
     var body: some View {
         ZStack {
             // Semi-transparent background overlay
-            Color.black.opacity(0.15)
+            Color.black.opacity(0.3)
                 .ignoresSafeArea()
                 .onTapGesture {
                     withAnimation(.spring(dampingFraction: 0.7)) {
