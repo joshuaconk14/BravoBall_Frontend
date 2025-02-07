@@ -18,11 +18,11 @@ struct DrillDetailView: View {
     @State private var showingFollowAlong = false
     @State private var showSaveDrill: Bool = false
     
-    
+    // MARK: Main view
     var body: some View {
             ZStack {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
+                    LazyVStack(alignment: .leading, spacing: 24) {
                         HStack(spacing: 25) {
                             Button(action: {
                                 
@@ -83,9 +83,9 @@ struct DrillDetailView: View {
                                 .font(.custom("Poppins-Bold", size: 24))
                             
                             HStack(spacing: 16) {
-                                Label(drill.sets + " sets", systemImage: "repeat")
-                                Label(drill.reps + " reps", systemImage: "figure.run")
-                                Label(drill.duration, systemImage: "clock")
+                                Label("\(drill.sets)" + " sets", systemImage: "repeat")
+                                Label("\(drill.reps)" + " reps", systemImage: "figure.run")
+                                Label("\(drill.duration)" + " minutes", systemImage: "clock")
                             }
                             .font(.custom("Poppins-Medium", size: 14))
                             .foregroundColor(.gray)
@@ -135,7 +135,9 @@ struct DrillDetailView: View {
                 }
                 .safeAreaInset(edge: .bottom) {
                     if !appModel.viewState.showHomePage {
-                        Button(action: { showingFollowAlong = true }) {
+                        Button(action: {
+                            showingFollowAlong = true
+                        }) {
                             Text("Start Drill")
                                 .font(.custom("Poppins-Bold", size: 18))
                                 .foregroundColor(.white)
@@ -159,6 +161,9 @@ struct DrillDetailView: View {
         }
     }
     
+    // MARK: Find groups to save view
+    
+    // TODO: make this a structure?
     private var findGroupToSaveToView: some View {
         ZStack {
             Color.black.opacity(0.3)
@@ -188,19 +193,29 @@ struct DrillDetailView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
-
-                // Groups Display
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
-                        ForEach(sessionModel.savedDrills) { group in
-                            GroupCard(group: group)
-                                    .onTapGesture {
-                                        sessionModel.addDrillToGroup(drill: drill, groupId: group.id)
-                                    }
+                
+                if sessionModel.savedDrills.isEmpty {
+                    Text("No groups created yet")
+                        .font(.custom("Poppins-Medium", size: 12))
+                        .foregroundColor(.gray)
+                        .padding()
+                    
+                } else {
+                    // Groups Display
+                    ScrollView {
+                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
+                            ForEach(sessionModel.savedDrills) { group in
+                                GroupCard(group: group)
+                                        .onTapGesture {
+                                            sessionModel.addDrillToGroup(drill: drill, groupId: group.id)
+                                        }
+                            }
                         }
+                        .padding()
                     }
-                    .padding()
                 }
+                
+                Spacer()
             }
             .padding()
             .frame(width: 300, height: 470)
@@ -231,35 +246,6 @@ struct InfoItem: View {
     }
 }
 
-//// Model for drill data
-//struct DrillModel {
-//    let title: String
-//    let sets: String
-//    let reps: String
-//    let duration: String
-//    let description: String
-//    let tips: [String]
-//    let equipment: [String]
-//
-//    static let example = DrillModel(
-//        title: "Shooting Drill",
-//        sets: "4",
-//        reps: "2",
-//        duration: "20min",
-//        description: "This drill focuses on improving your shooting accuracy and power. Start by setting up cones in a zigzag pattern, dribble through them, and finish with a shot on goal.",
-//        tips: [
-//            "Keep your head down and eyes on the ball when shooting",
-//            "Follow through with your kicking foot",
-//            "Plant your non-kicking foot beside the ball",
-//            "Strike the ball with your laces for power"
-//        ],
-//        equipment: [
-//            "Soccer ball",
-//            "Cones",
-//            "Goal"
-//        ]
-//    )
-//}
 
 #Preview {
     let mockAppModel = MainAppModel()
@@ -268,9 +254,10 @@ struct InfoItem: View {
     
     let mockDrill = DrillModel(
         title: "Shooting Drill",
-        sets: "4",
-        reps: "2",
-        duration: "20min",
+        skill: "Shooting",
+        sets: 4,
+        reps: 2,
+        duration: 20,
         description: "This drill focuses on improving your shooting accuracy and power. Start by setting up cones in a zigzag pattern, dribble through them, and finish with a shot on goal.",
         tips: [
             "Keep your head down and eyes on the ball when shooting",
@@ -282,7 +269,9 @@ struct InfoItem: View {
             "Soccer ball",
             "Cones",
             "Goal"
-        ]
+        ],
+        trainingStyle: "Medium Intensity",
+        difficulty: "Beginner"
     )
     
     // Create a mock group with the drill

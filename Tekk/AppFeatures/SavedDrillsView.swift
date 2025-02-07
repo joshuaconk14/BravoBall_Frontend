@@ -134,7 +134,7 @@ struct SavedDrillsView: View {
 
 // MARK: - All Groups Display
 struct AllGroupsDisplay: View {
-    let appModel: MainAppModel
+    @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     @Binding var selectedGroup: GroupModel?
     
@@ -195,8 +195,8 @@ struct GroupCard: View {
 
 // MARK: - Group Detail View
 struct GroupDetailView: View {
-    let appModel: MainAppModel
-    let sessionModel: SessionGeneratorModel
+    @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
     let group: GroupModel
     @Environment(\.dismiss) private var dismiss
     
@@ -274,8 +274,8 @@ struct LikedGroupCard: View {
 
 // MARK: - Drill Row
 struct DrillRow: View {
-    let appModel: MainAppModel
-    let sessionModel: SessionGeneratorModel
+    @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
     let drill: DrillModel
     @State var showDrillDetail: Bool = false
     
@@ -303,6 +303,39 @@ struct DrillRow: View {
                     }
                     
                     Spacer()
+                    
+                    // Button to select a drill to add in the search drill view
+                    if appModel.viewState.showSearchDrills {
+                        Button(action: {
+                            sessionModel.drillsToAdd(drill: drill)
+                        }) {
+                            ZStack {
+                                
+                                if sessionModel.orderedDrills.contains(drill) {
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(appModel.globalSettings.primaryLightGrayColor)
+                                        .stroke((appModel.globalSettings.primaryLightGrayColor), lineWidth: 2)
+                                        .frame(width: 20, height: 20)
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(Color.white)
+                                } else {
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(sessionModel.isDrillSelected(drill) ? appModel.globalSettings.primaryYellowColor : Color.clear)
+                                        .stroke(sessionModel.isDrillSelected(drill) ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryDarkColor, lineWidth: 2)
+                                        .frame(width: 20, height: 20)
+                                }
+                                
+                                
+                                if sessionModel.isDrillSelected(drill) {
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(Color.white)
+                                }
+                            }
+                            
+                        }
+                        .disabled(sessionModel.orderedDrills.contains(drill))
+                        
+                    }
                 }
                 .padding(.vertical, 8)
             }
@@ -320,12 +353,15 @@ struct DrillRow: View {
     // Create a mock drill
         let mockDrill = DrillModel(
             title: "Quick Passing",
-            sets: "3",
-            reps: "5",
-            duration: "15 minutes",
+            skill: "Passing",
+            sets: 3,
+            reps: 5,
+            duration: 15,
             description: "Short passing drill to improve accuracy",
             tips: ["no funny beezness"],
-            equipment: ["ball", "cones"]
+            equipment: ["ball", "cones"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Beginner"
         )
         
         // Create a mock group with the drill

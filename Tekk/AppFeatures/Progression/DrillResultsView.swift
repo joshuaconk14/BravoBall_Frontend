@@ -18,7 +18,7 @@ struct DrillResultsView: View {
     
     var body: some View {
         ScrollView {
-            VStack {
+            LazyVStack {
                 HStack {
                     backButton
                     Spacer()

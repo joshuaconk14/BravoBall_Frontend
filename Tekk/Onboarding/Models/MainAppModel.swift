@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import RiveRuntime
+import SwiftUI
 
 class MainAppModel: ObservableObject {
     let globalSettings = GlobalSettings()
@@ -40,14 +41,127 @@ class MainAppModel: ObservableObject {
         var showSavedPrereqs: Bool = false
         var showSavedPrereqsPrompt: Bool = false
         var showSearchDrills: Bool = false
+        var showDeleteButtons: Bool = false
     }
+    
+    // Enus and types for prereqs
+    
+    @Published var selectedPrerequisite: PrerequisiteType?
+
+    
+    enum PrerequisiteType: String, CaseIterable, Identifiable {
+        case time = "Time"
+        case equipment = "Equipment"
+        case trainingStyle = "Training Style"
+        case location = "Location"
+        case difficulty = "Difficulty"
+        
+        var id: String { rawValue }
+        
+        @ViewBuilder
+        var view: some View {
+            switch self {
+            case .time:
+                RiveViewModel(fileName: "Prereq_Time").view()
+                    .frame(width: 30, height: 30)
+            case .equipment:
+                RiveViewModel(fileName: "Prereq_Equipment").view()
+                    .frame(width: 30, height: 30)
+            case .trainingStyle:
+                RiveViewModel(fileName: "Prereq_Training_Style").view()
+                    .frame(width: 30, height: 30)
+            case .location:
+                RiveViewModel(fileName: "Prereq_Location").view()
+                    .frame(width: 30, height: 30)
+            case .difficulty:
+                RiveViewModel(fileName: "Prereq_Difficulty").view()
+                    .frame(width: 30, height: 30)
+            }
+        }
+    }
+    
+    
+    enum PrerequisiteIcon {
+        case time
+        case equipment
+        case trainingStyle
+        case location
+        case difficulty
+        
+        
+        @ViewBuilder
+        var view: some View {
+            switch self {
+            case .time:
+                RiveViewModel(fileName: "Prereq_Time").view()
+                    .frame(width: 30, height: 30)
+            case .equipment:
+                RiveViewModel(fileName: "Prereq_Equipment").view()
+                    .frame(width: 30, height: 30)
+            case .trainingStyle:
+                RiveViewModel(fileName: "Prereq_Training_Style").view()
+                    .frame(width: 30, height: 30)
+            case .location:
+                RiveViewModel(fileName: "Prereq_Location").view()
+                    .frame(width: 30, height: 30)
+            case .difficulty:
+                RiveViewModel(fileName: "Prereq_Difficulty").view()
+                    .frame(width: 30, height: 30)
+            }
+        }
+    }
+    
+    // Function to map PrerequisiteType to PrerequisiteIcon
+    func icon(for type: PrerequisiteType) -> PrerequisiteIcon {
+        switch type {
+        case .time:
+            return .time
+        case .equipment:
+            return .equipment
+        case .trainingStyle:
+            return .trainingStyle
+        case .location:
+            return .location
+        case .difficulty:
+            return .difficulty
+        }
+    }
+    
+    
+    // Types (automatically nil)
+    @Published var selectedSkill: SkillType?
+    @Published var selectedTrainingStyle: TrainingStyleType?
+    @Published var selectedDifficulty: DifficultyType?
+    
+        
+    enum SkillType: String, CaseIterable {
+        case passing = "Passing"
+        case dribbling = "Dribbling"
+        case shooting = "Shooting"
+        case firstTouch = "First Touch"
+        case crossing = "Crossing"
+        case defending = "Defending"
+        case goalkeeping = "Goalkeeping"
+    }
+    
+    // TODO: will need more for recovery, etc
+    enum TrainingStyleType: String, CaseIterable {
+        case medium = "Medium"
+        case high = "High"
+    }
+    
+    enum DifficultyType: String, CaseIterable {
+        case beginner = "Beginner"
+        case intermediate = "Intermediate"
+        case advanced = "Advanced"
+    }
+    
+    
     
     
     // MARK: Drill Detail View
     
-    func saveDrill() {
-        // after user saves it in a group
-    }
+
     
     
     // MARK: Calendar
@@ -69,7 +183,7 @@ class MainAppModel: ObservableObject {
         let totalDrills: Int
     }
     
-    // TODO: drillModel already created
+    // TODO: drillModel already created, delete this and conform ProgressionView code to DrillModel and drills in there
     struct DrillData: Codable {
         let name: String
         let skill: String
