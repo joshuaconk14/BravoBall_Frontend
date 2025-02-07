@@ -354,9 +354,9 @@ struct DrillRow: View {
         let mockDrill = DrillModel(
             title: "Quick Passing",
             skill: "Passing",
-            sets: "3",
-            reps: "5",
-            duration: "15 minutes",
+            sets: 3,
+            reps: 5,
+            duration: 15,
             description: "Short passing drill to improve accuracy",
             tips: ["no funny beezness"],
             equipment: ["ball", "cones"],

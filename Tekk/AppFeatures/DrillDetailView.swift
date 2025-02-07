@@ -83,9 +83,9 @@ struct DrillDetailView: View {
                                 .font(.custom("Poppins-Bold", size: 24))
                             
                             HStack(spacing: 16) {
-                                Label(drill.sets + " sets", systemImage: "repeat")
-                                Label(drill.reps + " reps", systemImage: "figure.run")
-                                Label(drill.duration, systemImage: "clock")
+                                Label("\(drill.sets)" + " sets", systemImage: "repeat")
+                                Label("\(drill.reps)" + " reps", systemImage: "figure.run")
+                                Label("\(drill.duration)" + " minutes", systemImage: "clock")
                             }
                             .font(.custom("Poppins-Medium", size: 14))
                             .foregroundColor(.gray)
@@ -255,9 +255,9 @@ struct InfoItem: View {
     let mockDrill = DrillModel(
         title: "Shooting Drill",
         skill: "Shooting",
-        sets: "4",
-        reps: "2",
-        duration: "20min",
+        sets: 4,
+        reps: 2,
+        duration: 20,
         description: "This drill focuses on improving your shooting accuracy and power. Start by setting up cones in a zigzag pattern, dribble through them, and finish with a shot on goal.",
         tips: [
             "Keep your head down and eyes on the ball when shooting",
