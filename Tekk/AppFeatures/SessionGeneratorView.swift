@@ -560,8 +560,6 @@ struct PrerequisiteButton: View {
             )
             .scaleEffect(isSelected ? 1.13 : 1.0)
             .animation(.spring(response: 0.4, dampingFraction: 0.6), value: isSelected)
-            
-            // TODO: need to fix the animation between choosing buttons, theres a fade issue
         }
     }
 }
