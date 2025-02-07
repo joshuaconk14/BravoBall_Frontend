@@ -677,7 +677,7 @@ struct PrerequisiteDropdown: View {
             
             // Options list
             ScrollView {
-                VStack(alignment: .leading, spacing: 8) {
+                LazyVStack(alignment: .leading, spacing: 8) {
                     ForEach(optionsForType, id: \.self) { option in
                         Button(action: {
                             selectOption(option)
@@ -795,7 +795,7 @@ struct DisplaySavedFilters: View {
                     .padding()
             } else {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 8) {
+                    LazyVStack(alignment: .leading, spacing: 8) {
                         ForEach(sessionModel.allSavedFilters, id: \.name) { filter in
                             Button(action: {
                                 loadFilter(filter)
@@ -1226,139 +1226,139 @@ struct GeneratedDrillsSection: View {
     
     var body: some View {
         ScrollView {
-        VStack(alignment: .center, spacing: 12) {
-            HStack {
-                Rectangle()
-                    .fill(appModel.globalSettings.primaryLightGrayColor)
-                    .frame(width:120, height: 2)
-                
-                Spacer()
-                
-                
-                Text("Session")
-                    .font(.custom("Poppins-Bold", size: 20))
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                
-                
-                Spacer()
-                
-                Rectangle()
-                    .fill(appModel.globalSettings.primaryLightGrayColor)
-                    .frame(width:120, height: 2)
-            }
-            
-            // Button row
-            HStack {
-                // Button for adding drills
-                Button(action: {
-                    appModel.viewState.showSearchDrills = true
-                }) {
-                    RiveViewModel(fileName: "Plus_Button").view()
-                        .frame(width: 30, height: 30)
-                }
-                .disabled(sessionModel.orderedDrills.isEmpty)
-                .opacity(sessionModel.orderedDrills.isEmpty ? 0.4 : 1.0)
-                
-                // Button for deleting drills
-                Button(action: {
-                    withAnimation(.spring(dampingFraction: 0.7)) {
-                        appModel.viewState.showDeleteButtons.toggle()
-                    }
-                }) {
-                    ZStack {
-                        Circle()
-                            .fill(appModel.globalSettings.primaryLightGrayColor)
-                            .frame(width: 30, height: 30)
-                            .offset(x: 0, y: 3)
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 30, height: 30)
-                        
-                        Image(systemName: "trash")
-                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                            .font(.system(size: 16, weight: .medium))
-                    }
-                }
-                .disabled(sessionModel.orderedDrills.isEmpty)
-                .opacity(sessionModel.orderedDrills.isEmpty ? 0.4 : 1.0)
-                
-                Spacer()
-                
-            }
-            
-            // Drills view
-            
-            
-                
-                if sessionModel.orderedDrills.isEmpty {
+            LazyVStack(alignment: .center, spacing: 12) {
+                HStack {
+                    Rectangle()
+                        .fill(appModel.globalSettings.primaryLightGrayColor)
+                        .frame(width:120, height: 2)
+                    
                     Spacer()
-                    HStack {
-                        Image(systemName: "lock.fill")
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-                        Text("Choose a skill to create your session")
-                            .font(.custom("Poppins-Bold", size: 12))
-                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                    
+                    
+                    Text("Session")
+                        .font(.custom("Poppins-Bold", size: 20))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    
+                    
+                    Spacer()
+                    
+                    Rectangle()
+                        .fill(appModel.globalSettings.primaryLightGrayColor)
+                        .frame(width:120, height: 2)
+                }
+                
+                // Button row
+                HStack {
+                    // Button for adding drills
+                    Button(action: {
+                        appModel.viewState.showSearchDrills = true
+                    }) {
+                        RiveViewModel(fileName: "Plus_Button").view()
+                            .frame(width: 30, height: 30)
                     }
-                    .padding(.horizontal, 30)
-                    .padding(.bottom, 150)
+                    .disabled(sessionModel.orderedDrills.isEmpty)
+                    .opacity(sessionModel.orderedDrills.isEmpty ? 0.4 : 1.0)
                     
-                } else {
+                    // Button for deleting drills
+                    Button(action: {
+                        withAnimation(.spring(dampingFraction: 0.7)) {
+                            appModel.viewState.showDeleteButtons.toggle()
+                        }
+                    }) {
+                        ZStack {
+                            Circle()
+                                .fill(appModel.globalSettings.primaryLightGrayColor)
+                                .frame(width: 30, height: 30)
+                                .offset(x: 0, y: 3)
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 30, height: 30)
+                            
+                            Image(systemName: "trash")
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                .font(.system(size: 16, weight: .medium))
+                        }
+                    }
+                    .disabled(sessionModel.orderedDrills.isEmpty)
+                    .opacity(sessionModel.orderedDrills.isEmpty ? 0.4 : 1.0)
                     
-                    ForEach(sessionModel.orderedDrills) { drill in
+                    Spacer()
+                    
+                }
+                
+                // Drills view
+                
+                
+                    
+                    if sessionModel.orderedDrills.isEmpty {
+                        Spacer()
                         HStack {
-                            
-                            // Red delete buttons
-                            if appModel.viewState.showDeleteButtons {
-                                Button(action: {
-                                    sessionModel.deleteDrillFromSession(drill: drill)
-                                }) {
-                                    ZStack {
-                                        Circle()
-                                            .fill(Color.red)
-                                            .frame(width: 20, height: 20)
-                                        Rectangle()
-                                            .fill(Color.white)
-                                            .frame(width: 10, height: 2)
+                            Image(systemName: "lock.fill")
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                            Text("Choose a skill to create your session")
+                                .font(.custom("Poppins-Bold", size: 12))
+                                .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                        }
+                        .padding(.horizontal, 30)
+                        .padding(.bottom, 150)
+                        
+                    } else {
+                        
+                        ForEach(sessionModel.orderedDrills) { drill in
+                            HStack {
+                                
+                                // Red delete buttons
+                                if appModel.viewState.showDeleteButtons {
+                                    Button(action: {
+                                        sessionModel.deleteDrillFromSession(drill: drill)
+                                    }) {
+                                        ZStack {
+                                            Circle()
+                                                .fill(Color.red)
+                                                .frame(width: 20, height: 20)
+                                            Rectangle()
+                                                .fill(Color.white)
+                                                .frame(width: 10, height: 2)
+                                        }
                                     }
+                                    .buttonStyle(PlainButtonStyle())
+                                    .padding(.leading)
                                 }
-                                .buttonStyle(PlainButtonStyle())
-                                .padding(.leading)
-                            }
-                            
-                            
-                            // Drill cards
-                            DrillCard(
-                                appModel: appModel,
-                                sessionModel: sessionModel,
-                                drill: drill
-                            )
-                            .draggable(drill.title) {
+                                
+                                
+                                // Drill cards
                                 DrillCard(
                                     appModel: appModel,
                                     sessionModel: sessionModel,
                                     drill: drill
                                 )
-                            }
-                            .dropDestination(for: String.self) { items, location in
-                                guard let sourceTitle = items.first,
-                                      let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
-                                      let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
-                                    return false
+                                .draggable(drill.title) {
+                                    DrillCard(
+                                        appModel: appModel,
+                                        sessionModel: sessionModel,
+                                        drill: drill
+                                    )
                                 }
-                                
-                                withAnimation(.spring()) {
-                                    let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
-                                    sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                                .dropDestination(for: String.self) { items, location in
+                                    guard let sourceTitle = items.first,
+                                          let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
+                                          let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
+                                        return false
+                                    }
+                                    
+                                    withAnimation(.spring()) {
+                                        let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
+                                        sessionModel.orderedDrills.insert(drill, at: destinationIndex)
+                                    }
+                                    return true
                                 }
-                                return true
                             }
+                            
                         }
                         
                     }
-                    
                 }
-            }
             
         }
         .padding()

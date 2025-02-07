@@ -295,8 +295,8 @@
 		178208F52D2E05FE00246494 /* AppFeatures */ = {
 			isa = PBXGroup;
 			children = (
-				43524E942D5198C300AD897A /* SearchDrillsSheetView.swift */,
 				43BFAA042D4200A500B12A6F /* tests */,
+				43524E942D5198C300AD897A /* SearchDrillsSheetView.swift */,
 				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
 				174C676F2D34EB11003D02EF /* DrillDetailView.swift */,
 				174C676D2D34E9EA003D02EF /* SessionGeneratorView.swift */,

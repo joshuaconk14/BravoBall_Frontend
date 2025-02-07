@@ -174,7 +174,7 @@ struct ByTypeView: View {
     var body: some View {
         ZStack {
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 15) {
+                LazyVStack(spacing: 15) {
                     Text("Skill")
                         .padding()
                     VStack(spacing: 10) {
@@ -225,32 +225,31 @@ struct ByTypeView: View {
                 .frame(maxWidth: .infinity)
             }
             
-            ScrollView {
-                if let selectedSkill = appModel.selectedSkill {
-                    SpecificDrillsView(
-                        appModel: appModel,
-                        sessionModel: sessionModel,
-                        type: selectedSkill.rawValue,
-                        dismiss: {appModel.selectedSkill = nil})
-                }
-                
-                if let selectedTrainingStyle = appModel.selectedTrainingStyle {
-                    SpecificDrillsView(
-                        appModel: appModel,
-                        sessionModel: sessionModel,
-                        type: selectedTrainingStyle.rawValue,
-                        dismiss: {appModel.selectedTrainingStyle = nil})
-                }
-                
-                if let selectedDifficulty = appModel.selectedDifficulty {
-                    SpecificDrillsView(
-                        appModel: appModel,
-                        sessionModel: sessionModel,
-                        type: selectedDifficulty.rawValue,
-                        dismiss: {appModel.selectedDifficulty = nil})
-                }
+            
+            if let selectedSkill = appModel.selectedSkill {
+                SpecificDrillsView(
+                    appModel: appModel,
+                    sessionModel: sessionModel,
+                    type: selectedSkill.rawValue,
+                    dismiss: {appModel.selectedSkill = nil})
             }
-            .background(Color.white)
+            
+            if let selectedTrainingStyle = appModel.selectedTrainingStyle {
+                SpecificDrillsView(
+                    appModel: appModel,
+                    sessionModel: sessionModel,
+                    type: selectedTrainingStyle.rawValue,
+                    dismiss: {appModel.selectedTrainingStyle = nil})
+            }
+            
+            if let selectedDifficulty = appModel.selectedDifficulty {
+                SpecificDrillsView(
+                    appModel: appModel,
+                    sessionModel: sessionModel,
+                    type: selectedDifficulty.rawValue,
+                    dismiss: {appModel.selectedDifficulty = nil})
+            }
+
         }
     }
 }
@@ -263,39 +262,41 @@ struct SpecificDrillsView: View {
     let dismiss: () -> Void
     
     var body: some View {
-        VStack {
-            HStack {
-                Button(action: {
-                    dismiss()
-                }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 20, weight: .semibold))
-                        Text("Back")
-                            .font(.custom("Poppins-Bold", size: 16))
+        ScrollView {
+            LazyVStack {
+                HStack {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 20, weight: .semibold))
+                            Text("Back")
+                                .font(.custom("Poppins-Bold", size: 16))
+                        }
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .padding()
                     }
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                    .padding()
-                }
-                
-                Text(appModel.selectedTrainingStyle != nil ? ("\(type) Intensity") : type)
+                    
+                    Text(appModel.selectedTrainingStyle != nil ? ("\(type) Intensity") : type)
                         .foregroundColor(appModel.globalSettings.primaryDarkColor)
                         .font(.custom("Poppins-Bold", size: 16))
                         .padding(.leading, 70)
+                    
+                    
+                    Spacer()
+                }
                 
-                
-                Spacer()
-            }
-            
-            // Drills list
-            ScrollView {
-                LazyVStack(spacing: 16) {
-                    ForEach(specificDrills) { drill in
-                        DrillRow(appModel: appModel, sessionModel: sessionModel,
-                            drill: drill
-                        )
-                        .padding(.horizontal)
-                        Divider()
+                // Drills list
+                ScrollView {
+                    LazyVStack(spacing: 16) {
+                        ForEach(specificDrills) { drill in
+                            DrillRow(appModel: appModel, sessionModel: sessionModel,
+                                     drill: drill
+                            )
+                            .padding(.horizontal)
+                            Divider()
+                        }
                     }
                 }
             }

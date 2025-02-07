@@ -22,7 +22,7 @@ struct DrillDetailView: View {
     var body: some View {
             ZStack {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
+                    LazyVStack(alignment: .leading, spacing: 24) {
                         HStack(spacing: 25) {
                             Button(action: {
                                 

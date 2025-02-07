@@ -22,7 +22,7 @@ struct ProgressionView: View {
                     .foregroundColor(.white)
                 
                 ScrollView(showsIndicators: false) {
-                    VStack(spacing: 5) {
+                    LazyVStack(spacing: 5) {
                         // Yellow section content
                         streakDisplay
                             .padding(.bottom, 20)
