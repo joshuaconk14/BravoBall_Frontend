@@ -9,16 +9,25 @@ import SwiftUI
 
 struct DrillFollowAlongView: View {
     let drill: DrillModel
+    @ObservedObject var appModel: MainAppModel
+    
     @Environment(\.dismiss) private var dismiss
     @State private var isPlaying = false
     @State private var elapsedTime: TimeInterval
+    @State private var setsLeft: Double
     @State private var countdownValue: Int?
     @State private var displayCountdown: Bool = false // MARK: TESTING
     @State private var timer: Timer?
     
     // Initialize elapsedTime to start at time for one set
-    init(drill: DrillModel) {
+    init(drill: DrillModel, appModel: MainAppModel) {
         self.drill = drill
+        self.appModel = appModel
+        
+        let specificSetsLeft = Double(drill.sets)
+        _setsLeft = State(initialValue: specificSetsLeft)
+        
+        
         // MARK: PRODUCTION
 //        let initialTime = TimeInterval(drill.duration) * 60.00 / TimeInterval(drill.sets)
         // MARK: TESTING
@@ -27,6 +36,7 @@ struct DrillFollowAlongView: View {
     }
     
     var body: some View {
+        
         
         
         ZStack(alignment: .bottom) {
@@ -43,6 +53,12 @@ struct DrillFollowAlongView: View {
                             .font(.custom("Poppins-Bold", size: 16))
                     }
                     Spacer()
+                    
+                    
+                    
+                    CircularProgressView(progress: setsLeft, color: appModel.globalSettings.primaryYellowColor)
+                        .frame(width: 80, height: 80)
+                        .padding()
                     
                 }
                 .padding(.horizontal, 20)
@@ -162,6 +178,7 @@ struct DrillFollowAlongView: View {
 }
 
 #Preview {
+    let mockMainAppModel = MainAppModel()
     DrillFollowAlongView(drill: DrillModel(
         title: "Test Drill",
         skill: "Passing",
@@ -173,7 +190,7 @@ struct DrillFollowAlongView: View {
         equipment: ["Ball"],
         trainingStyle: "Medium Intensity",
         difficulty: "Beginner"
-    ))
+    ), appModel: mockMainAppModel)
 }
 
 

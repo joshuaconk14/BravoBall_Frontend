@@ -157,7 +157,7 @@ struct DrillDetailView: View {
                 
             }
             .fullScreenCover(isPresented: $showingFollowAlong) {
-                DrillFollowAlongView(drill: drill)
+                DrillFollowAlongView(drill: drill, appModel: appModel)
         }
     }
     
