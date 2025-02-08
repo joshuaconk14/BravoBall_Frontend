@@ -11,10 +11,24 @@ struct DrillFollowAlongView: View {
     let drill: DrillModel
     @Environment(\.dismiss) private var dismiss
     @State private var isPlaying = false
-    @State private var elapsedTime: TimeInterval = 0
+    @State private var elapsedTime: TimeInterval
+    @State private var countdownValue: Int?
+    @State private var displayCountdown: Bool = false // MARK: TESTING
     @State private var timer: Timer?
     
+    // Initialize elapsedTime to start at time for one set
+    init(drill: DrillModel) {
+        self.drill = drill
+        // MARK: PRODUCTION
+//        let initialTime = TimeInterval(drill.duration) * 60.00 / TimeInterval(drill.sets)
+        // MARK: TESTING
+        let initialTime = 1.0
+        _elapsedTime = State(initialValue: initialTime)
+    }
+    
     var body: some View {
+        
+        
         ZStack(alignment: .bottom) {
             Color.white.ignoresSafeArea()
             
@@ -29,9 +43,11 @@ struct DrillFollowAlongView: View {
                             .font(.custom("Poppins-Bold", size: 16))
                     }
                     Spacer()
+                    
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
+                
                 
                 Spacer()
                 
@@ -42,21 +58,24 @@ struct DrillFollowAlongView: View {
                         .aspectRatio(16/9, contentMode: .fit)
                         .cornerRadius(12)
                     
-                    Button(action: togglePlayPause) {
-                        Circle()
-                            .fill(.white)
-                            .frame(width: 60, height: 60)
-                            .shadow(color: .black.opacity(0.1), radius: 10)
-                            .overlay(
-                                Image(systemName: isPlaying ? "pause.fill" : "play.fill")
-                                    .font(.system(size: 24))
-                                    .foregroundColor(.black)
-                            )
-                    }
                 }
                 .padding(.horizontal, 20)
                 
                 Spacer()
+                
+                Button(action: togglePlayPause) {
+                    Circle()
+                        .fill(.white)
+                        .frame(width: 60, height: 60)
+                        .shadow(color: .black.opacity(0.1), radius: 10)
+                        .overlay(
+                            Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+                                .font(.system(size: 24))
+                                .foregroundColor(.black)
+                        )
+                        .padding(.bottom, 75)
+                }
+                
                 
                 // End Drill button at bottom
                 Button(action: endSession) {
@@ -71,7 +90,14 @@ struct DrillFollowAlongView: View {
                         )
                 }
                 .padding(.horizontal, 20)
-                .padding(.bottom, 40)
+            }
+            
+            // Add countdown overlay
+            if let countdown = countdownValue {
+                Text("\(countdown)")
+                    .font(.custom("Poppins-Bold", size: 72))
+                    .foregroundColor(.black)
+                    .padding(.bottom, 550)
             }
         }
         .statusBar(hidden: false)
@@ -79,17 +105,42 @@ struct DrillFollowAlongView: View {
     }
     
     private func togglePlayPause() {
+
         isPlaying.toggle()
         if isPlaying {
-            startTimer()
+            if displayCountdown {
+                startCountdown()
+            } else {
+                startTimer()
+            }
         } else {
             stopTimer()
         }
     }
     
+    private func startCountdown() {
+            countdownValue = 3
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+                if let count = countdownValue {
+                    if count > 1 {
+                        countdownValue = count - 1
+                    } else {
+                        timer.invalidate()
+                        countdownValue = nil
+                        displayCountdown = false
+                        startTimer()
+                    }
+                }
+            }
+        }
+    
     private func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            elapsedTime += 1
+            if elapsedTime > 0 {
+                elapsedTime -= 1
+            } else {
+                stopTimer()
+            }
         }
     }
     
