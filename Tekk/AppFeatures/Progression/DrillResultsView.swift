@@ -42,7 +42,7 @@ struct DrillResultsView: View {
                     let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
                     
                     ZStack {
-                        CircularProgressView(progress: score, color: appModel.globalSettings.primaryYellowColor)
+                        CircularProgressView(appModel: appModel, progress: score, color: appModel.globalSettings.primaryYellowColor)
                             .frame(width: 200, height: 200)
                         
                         Text("\(session.totalCompletedDrills) / \(session.totalDrills)")
@@ -121,6 +121,7 @@ struct DrillResultsView: View {
 
 // Score View
 struct CircularProgressView: View {
+    @ObservedObject var appModel: MainAppModel
     let progress: Double
     let color: Color
     @State private var animatedProgress: Double = 0
@@ -128,13 +129,13 @@ struct CircularProgressView: View {
     var body: some View {
         ZStack {
             Circle()
-                .stroke(lineWidth: 20)
+                .stroke(lineWidth: appModel.viewState.showHomePage ? 20 : 10)
                 .opacity(0.2)
                 .foregroundColor(Color.gray)
             
             Circle()
                 .trim(from: 0.0, to: CGFloat(min(animatedProgress, 1.0)))
-                .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round, lineJoin: .round))
+                .stroke(style: StrokeStyle(lineWidth: appModel.viewState.showHomePage ? 20 : 10, lineCap: .round, lineJoin: .round))
                 .foregroundColor(color)
                 .rotationEffect(Angle(degrees: 270.0))
         }

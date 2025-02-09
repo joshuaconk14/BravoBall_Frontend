@@ -59,6 +59,7 @@ class SessionGeneratorModel: ObservableObject {
             equipment: ["Soccer ball", "Cones"],
             trainingStyle: "High Intensity",
             difficulty: "Beginner"
+            
         ),
         DrillModel(
             title: "Long Passing Practice",

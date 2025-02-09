@@ -14,18 +14,19 @@ struct DrillFollowAlongView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isPlaying = false
     @State private var elapsedTime: TimeInterval
-    @State private var setsLeft: Double
+    @State private var totalSets: Double
     @State private var countdownValue: Int?
     @State private var displayCountdown: Bool = false // MARK: TESTING
     @State private var timer: Timer?
     
-    // Initialize elapsedTime to start at time for one set
+    // Initialize states to use drill values
     init(drill: DrillModel, appModel: MainAppModel) {
         self.drill = drill
         self.appModel = appModel
         
-        let specificSetsLeft = Double(drill.sets)
-        _setsLeft = State(initialValue: specificSetsLeft)
+        let totalSets = Double(drill.sets)
+        _totalSets = State(initialValue: totalSets)
+        
         
         
         // MARK: PRODUCTION
@@ -56,8 +57,8 @@ struct DrillFollowAlongView: View {
                     
                     
                     
-                    CircularProgressView(progress: setsLeft, color: appModel.globalSettings.primaryYellowColor)
-                        .frame(width: 80, height: 80)
+                    CircularProgressView(appModel: appModel, progress: appModel.setsDone / totalSets, color: appModel.globalSettings.primaryYellowColor)
+                        .frame(width: 50, height: 80)
                         .padding()
                     
                 }
@@ -151,11 +152,17 @@ struct DrillFollowAlongView: View {
         }
     
     private func startTimer() {
+        let restartTime = elapsedTime
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             if elapsedTime > 0 {
                 elapsedTime -= 1
             } else {
                 stopTimer()
+                if appModel.setsDone < totalSets {
+                    appModel.setsDone += 1.0
+                }
+                elapsedTime = restartTime
+                isPlaying = false
             }
         }
     }
