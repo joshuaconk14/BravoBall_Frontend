@@ -162,7 +162,6 @@ class MainAppModel: ObservableObject {
     // MARK: Drill Detail View
     
 
-    @Published var setsDone: Double = 0.0
     
     
     // MARK: Calendar
@@ -193,6 +192,11 @@ class MainAppModel: ObservableObject {
         let reps: Int
         let equipment: [String]
         let isCompleted: Bool
+    }
+    
+    // TODO: data for each drill
+    struct DrillStats {
+        
     }
     
     

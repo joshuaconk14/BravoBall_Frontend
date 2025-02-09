@@ -361,7 +361,8 @@ struct DrillRow: View {
             tips: ["no funny beezness"],
             equipment: ["ball", "cones"],
             trainingStyle: "Medium Intensity",
-            difficulty: "Beginner"
+            difficulty: "Beginner",
+            isCompleted: false
         )
         
         // Create a mock group with the drill

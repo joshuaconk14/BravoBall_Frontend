@@ -386,7 +386,8 @@ struct GroupsView: View {
             tips: ["Keep your head up", "Follow through"],
             equipment: ["Ball", "Cones"],
             trainingStyle: "Medium Intensity",
-            difficulty: "Beginner"
+            difficulty: "Beginner",
+            isCompleted: false
         ),
         DrillModel(
             title: "Shooting Practice",
@@ -398,7 +399,8 @@ struct GroupsView: View {
             tips: ["Plant foot properly", "Strike with laces"],
             equipment: ["Ball", "Goal"],
             trainingStyle: "Medium Intensity",
-            difficulty: "Beginner"
+            difficulty: "Beginner",
+            isCompleted: false
         ),
         DrillModel(
             title: "Dribbling Skills",
@@ -410,7 +412,8 @@ struct GroupsView: View {
             tips: ["Close control", "Use both feet"],
             equipment: ["Ball", "Cones"],
             trainingStyle: "High Intensity",
-            difficulty: "Intermediate"
+            difficulty: "Intermediate",
+            isCompleted: false
         )
     ]
     

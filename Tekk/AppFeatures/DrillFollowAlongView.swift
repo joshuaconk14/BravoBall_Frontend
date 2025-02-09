@@ -14,9 +14,10 @@ struct DrillFollowAlongView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isPlaying = false
     @State private var elapsedTime: TimeInterval
+    @State private var setsDone: Double = 0.0
     @State private var totalSets: Double
     @State private var countdownValue: Int?
-    @State private var displayCountdown: Bool = false // MARK: TESTING
+    @State private var displayCountdown: Bool = false // TESTING
     @State private var timer: Timer?
     
     // Initialize states to use drill values
@@ -35,6 +36,7 @@ struct DrillFollowAlongView: View {
         let initialTime = 1.0
         _elapsedTime = State(initialValue: initialTime)
     }
+
     
     var body: some View {
         
@@ -57,7 +59,7 @@ struct DrillFollowAlongView: View {
                     
                     
                     
-                    CircularProgressView(appModel: appModel, progress: appModel.setsDone / totalSets, color: appModel.globalSettings.primaryYellowColor)
+                    CircularProgressView(appModel: appModel, progress: setsDone / totalSets)
                         .frame(width: 50, height: 80)
                         .padding()
                     
@@ -121,6 +123,8 @@ struct DrillFollowAlongView: View {
         .navigationBarHidden(true)
     }
     
+    
+    
     private func togglePlayPause() {
 
         isPlaying.toggle()
@@ -158,8 +162,8 @@ struct DrillFollowAlongView: View {
                 elapsedTime -= 1
             } else {
                 stopTimer()
-                if appModel.setsDone < totalSets {
-                    appModel.setsDone += 1.0
+                if setsDone < totalSets {
+                    setsDone += 1.0
                 }
                 elapsedTime = restartTime
                 isPlaying = false
@@ -196,7 +200,8 @@ struct DrillFollowAlongView: View {
         tips: ["Tip 1", "Tip 2"],
         equipment: ["Ball"],
         trainingStyle: "Medium Intensity",
-        difficulty: "Beginner"
+        difficulty: "Beginner",
+        isCompleted: false
     ), appModel: mockMainAppModel)
 }
 

@@ -20,7 +20,7 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
-    // Drill for Sesison storage
+    // Drill for Session storage
     // TODO: see if having too much arrays takes too much storage and if its easier to give isSelected Bool to drills
     @Published var selectedDrills: [DrillModel] = []
     @Published var orderedDrills: [DrillModel] = []
@@ -58,7 +58,8 @@ class SessionGeneratorModel: ObservableObject {
             tips: ["Keep the ball on the ground", "Use inside of foot", "Follow through towards target"],
             equipment: ["Soccer ball", "Cones"],
             trainingStyle: "High Intensity",
-            difficulty: "Beginner"
+            difficulty: "Beginner",
+            isCompleted: false
             
         ),
         DrillModel(
@@ -71,7 +72,8 @@ class SessionGeneratorModel: ObservableObject {
             tips: ["Lock ankle", "Follow through", "Watch ball contact"],
             equipment: ["Soccer ball", "Cones"],
             trainingStyle: "Medium Intensity",
-            difficulty: "Intermediate"
+            difficulty: "Intermediate",
+            isCompleted: false
         ),
         DrillModel(
             title: "Through Ball Training",
@@ -83,7 +85,8 @@ class SessionGeneratorModel: ObservableObject {
             tips: ["Look for space", "Time the pass", "Weight it properly"],
             equipment: ["Soccer ball", "Cones"],
             trainingStyle: "Medium Intensity",
-            difficulty: "Intermediate"
+            difficulty: "Intermediate",
+            isCompleted: false
         ),
         DrillModel(
             title: "Power Shot Practice",
@@ -95,7 +98,8 @@ class SessionGeneratorModel: ObservableObject {
             tips: ["Plant foot beside ball", "Strike with laces", "Follow through"],
             equipment: ["Soccer ball", "Goal"],
             trainingStyle: "High Intensity",
-            difficulty: "Intermediate"
+            difficulty: "Intermediate",
+            isCompleted: false
         ),
         DrillModel(
             title: "1v1 Dribbling Skills",
@@ -107,7 +111,8 @@ class SessionGeneratorModel: ObservableObject {
             tips: ["Keep ball close", "Use both feet", "Change pace"],
             equipment: ["Soccer ball", "Cones"],
             trainingStyle: "High Intensity",
-            difficulty: "Intermediate"
+            difficulty: "Intermediate",
+            isCompleted: false
         )
     ]
     
@@ -231,7 +236,6 @@ class SessionGeneratorModel: ObservableObject {
 // Drill model
 struct DrillModel: Identifiable, Equatable {
     let id = UUID()
-    var isLiked: Bool = false
     let title: String
     let skill: String
     let sets: Int
@@ -242,6 +246,8 @@ struct DrillModel: Identifiable, Equatable {
     let equipment: [String]
     let trainingStyle: String
     let difficulty: String
+//    var isLiked: Bool = false
+    let isCompleted: Bool
     
     static func == (lhs: DrillModel, rhs: DrillModel) -> Bool {
         lhs.id == rhs.id

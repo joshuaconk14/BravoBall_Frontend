@@ -1054,7 +1054,9 @@ struct SkillSelectorSheet: View {
                                                 HStack {
                                                     Text(subSkill)
                                                         .font(.custom("Poppins-Medium", size: 16))
+                                                    
                                                     Spacer()
+                                                    
                                                     if selectedSkills.contains(subSkill) {
                                                         Image(systemName: "checkmark.circle.fill")
                                                             .foregroundColor(appModel.globalSettings.primaryYellowColor)

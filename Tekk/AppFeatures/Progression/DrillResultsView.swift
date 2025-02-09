@@ -39,10 +39,9 @@ struct DrillResultsView: View {
                         .font(.custom("Poppins-Bold", size: 30))
                         .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     
-                    let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
                     
                     ZStack {
-                        CircularProgressView(appModel: appModel, progress: score, color: appModel.globalSettings.primaryYellowColor)
+                        CircularProgressView(appModel: appModel, progress: Double(session.totalCompletedDrills) / Double(session.totalDrills))
                             .frame(width: 200, height: 200)
                         
                         Text("\(session.totalCompletedDrills) / \(session.totalDrills)")
@@ -98,6 +97,7 @@ struct DrillResultsView: View {
             }
         }
     }
+
     
     private var backButton: some View {
         Button(action: {
@@ -123,7 +123,6 @@ struct DrillResultsView: View {
 struct CircularProgressView: View {
     @ObservedObject var appModel: MainAppModel
     let progress: Double
-    let color: Color
     @State private var animatedProgress: Double = 0
     
     var body: some View {
@@ -136,10 +135,17 @@ struct CircularProgressView: View {
             Circle()
                 .trim(from: 0.0, to: CGFloat(min(animatedProgress, 1.0)))
                 .stroke(style: StrokeStyle(lineWidth: appModel.viewState.showHomePage ? 20 : 10, lineCap: .round, lineJoin: .round))
-                .foregroundColor(color)
+                .foregroundColor(appModel.globalSettings.primaryYellowColor)
                 .rotationEffect(Angle(degrees: 270.0))
         }
+        // When progress first appears
         .onAppear {
+            withAnimation(.easeOut(duration: 0.8)) {
+                animatedProgress = progress
+            }
+        }
+        // When progress changes
+        .onChange(of: progress) {
             withAnimation(.easeOut(duration: 0.8)) {
                 animatedProgress = progress
             }
