@@ -14,7 +14,7 @@ struct DrillFollowAlongView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isPlaying = false
     @State private var elapsedTime: TimeInterval
-    @State private var setsDone: Double = 0.0
+    @State private var setsDone: Double = 1.0 // TESTING
     @State private var totalSets: Double
     @State private var countdownValue: Int?
     @State private var displayCountdown: Bool = false // TESTING
