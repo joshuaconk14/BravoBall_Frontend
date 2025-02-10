@@ -86,35 +86,43 @@ struct WeekDisplayButton: View {
 #Preview {
     let mockAppModel = MainAppModel()
     
-    // Create mock drills
-        let mockDrills = [
-            MainAppModel.DrillData(
-                name: "Test Drill 1",
-                skill: "Dribbling",
-                duration: 20,
-                sets: 4,
-                reps: 8,
-                equipment: ["Ball"],
-                isCompleted: true
-            ),
-            MainAppModel.DrillData(
-                name: "Test Drill 2",
-                skill: "Shooting",
-                duration: 15,
-                sets: 3,
-                reps: 10,
-                equipment: ["Ball", "Goal"],
-                isCompleted: true
-            )
-        ]
-        
-        // Create mock session
-        let mockSession = MainAppModel.CompletedSession(
-            date: Date(),
-            drills: mockDrills,
-            totalCompletedDrills: 2,  // One drill completed
-            totalDrills: 2           // Out of two total drills
+    // Create mock drills using DrillModel
+    let mockDrills = [
+        DrillModel(
+            title: "Test Drill 1",
+            skill: "Dribbling",
+            sets: 4,
+            reps: 8,
+            duration: 20,
+            description: "A basic dribbling drill to improve ball control",
+            tips: ["Keep the ball close", "Use both feet"],
+            equipment: ["Ball"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Beginner",
+            isCompleted: true
+        ),
+        DrillModel(
+            title: "Test Drill 2",
+            skill: "Shooting",
+            sets: 3,
+            reps: 10,
+            duration: 15,
+            description: "Practice shooting accuracy and power",
+            tips: ["Follow through", "Plant foot beside ball"],
+            equipment: ["Ball", "Goal"],
+            trainingStyle: "High Intensity",
+            difficulty: "Intermediate",
+            isCompleted: true
         )
+    ]
+    
+    // Create mock session with the new DrillModel structure
+    let mockSession = MainAppModel.CompletedSession(
+        date: Date(),
+        drills: mockDrills,
+        totalCompletedDrills: 2,
+        totalDrills: 2
+    )
     
     return WeekDisplayButton(
         appModel: mockAppModel,

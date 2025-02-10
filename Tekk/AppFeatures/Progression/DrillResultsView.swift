@@ -11,6 +11,7 @@ import RiveRuntime
 
 struct DrillResultsView: View {
     @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
     @Environment(\.presentationMode) var presentationMode
     @State private var showScore: Bool = false
     
@@ -63,7 +64,8 @@ struct DrillResultsView: View {
                         .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     
 
-                        ForEach(session.drills, id: \.name) { drill in
+                    // MARK: Fix this
+                        ForEach(session.drills) { drill in
                             ZStack {
                                 if drill.isCompleted {
                                     RiveViewModel(fileName: "Drill_Card_Complete").view()
@@ -75,7 +77,7 @@ struct DrillResultsView: View {
                                 
                                 VStack(alignment: .leading, spacing: 8) {
                                         
-                                        Text("Drill: \(drill.name)")
+                                        Text("Drill: \(drill.title)")
                                             .font(.custom("Poppins-Bold", size: 18))
                                         Text("Skill: \(drill.skill)")
                                         HStack(spacing: 20) {
@@ -155,54 +157,71 @@ struct CircularProgressView: View {
 
 #Preview {
     let mockMainAppModel = MainAppModel()
+    let mockSesGenModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
     
-    // Create mock drill data
+    // Create mock drills using DrillModel
     let mockDrills = [
-        MainAppModel.DrillData(
-            name: "Speed Dribbling",
+        DrillModel(
+            title: "Speed Dribbling",
             skill: "Ball Control",
-            duration: 20,
             sets: 4,
             reps: 10,
+            duration: 20,
+            description: "Improve your dribbling speed and control",
+            tips: ["Keep the ball close", "Look up while dribbling"],
             equipment: ["Ball", "Cones"],
+            trainingStyle: "High Intensity",
+            difficulty: "Intermediate",
             isCompleted: true
         ),
-        MainAppModel.DrillData(
-            name: "V-Taps",
+        DrillModel(
+            title: "V-Taps",
             skill: "Ball Control",
-            duration: 20,
             sets: 4,
             reps: 10,
+            duration: 20,
+            description: "Master the V-tap technique for better ball control",
+            tips: ["Quick touches", "Maintain balance"],
             equipment: ["Ball", "Cones"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Beginner",
             isCompleted: true
         ),
-        MainAppModel.DrillData(
-            name: "Ronaldinho Drill",
+        DrillModel(
+            title: "Ronaldinho Drill",
             skill: "Ball Control",
-            duration: 20,
             sets: 4,
             reps: 10,
+            duration: 20,
+            description: "Practice advanced ball control techniques",
+            tips: ["Stay light on your feet", "Practice both directions"],
             equipment: ["Ball", "Cones"],
+            trainingStyle: "High Intensity",
+            difficulty: "Advanced",
             isCompleted: false
         ),
-        MainAppModel.DrillData(
-            name: "Cone Weaves",
+        DrillModel(
+            title: "Cone Weaves",
             skill: "Ball Control",
-            duration: 20,
             sets: 4,
             reps: 10,
+            duration: 20,
+            description: "Improve close control through cone weaving",
+            tips: ["Use both feet", "Keep head up"],
             equipment: ["Ball", "Cones"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Beginner",
             isCompleted: true
         )
     ]
     
-    // Create mock session
+    // Create mock session with DrillModel array
     mockMainAppModel.selectedSession = MainAppModel.CompletedSession(
         date: Date(),
-        drills: mockDrills, // Pass the combined drills array
+        drills: mockDrills,
         totalCompletedDrills: 3,
         totalDrills: 4
     )
     
-    return DrillResultsView(appModel: mockMainAppModel)
+    return DrillResultsView(appModel: mockMainAppModel, sessionModel: mockSesGenModel)
 }

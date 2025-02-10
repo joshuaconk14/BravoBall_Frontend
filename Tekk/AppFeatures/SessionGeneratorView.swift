@@ -454,7 +454,6 @@ struct SessionGeneratorView: View {
     private var goldenButton: some View {
         Button(action: {
             withAnimation(.spring(dampingFraction: 0.7)) {
-                sessionModel.generateSession() // ?
                 appModel.viewState.showHomePage = false
                 appModel.viewState.showTextBubble = false
                 

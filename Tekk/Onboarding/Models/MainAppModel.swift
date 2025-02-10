@@ -179,31 +179,14 @@ class MainAppModel: ObservableObject {
     
     struct CompletedSession: Codable {
         let date: Date
-        let drills: [DrillData]
+        let drills: [DrillModel]
         let totalCompletedDrills: Int
         let totalDrills: Int
     }
-    
-    // TODO: drillModel already created, delete this and conform ProgressionView code to DrillModel and drills in there
-    struct DrillData: Codable {
-        let name: String
-        let skill: String
-        let duration: Int
-        let sets: Int
-        let reps: Int
-        let equipment: [String]
-        let isCompleted: Bool
-    }
-    
-    // TODO: data for each drill
-    struct DrillStats {
-        
-    }
-    
-    
+
     
     // Adding completed session into allCompletedSessions array
-    func addCompletedSession(date: Date, drills: [DrillData], totalCompletedDrills: Int, totalDrills: Int) {
+    func addCompletedSession(date: Date, drills: [DrillModel], totalCompletedDrills: Int, totalDrills: Int) {
         let newSession = CompletedSession(
             date: date,
             drills: drills,
@@ -229,7 +212,7 @@ class MainAppModel: ObservableObject {
         print ("date: \(date)")
         print ("score: \(totalCompletedDrills) / \(totalDrills)")
         for drill in drills {
-            print ("name: \(drill.name)")
+            print ("name: \(drill.title)")
             print ("skill: \(drill.skill)")
             print ("duration: \(drill.duration)")
             print ("sets: \(drill.sets)")

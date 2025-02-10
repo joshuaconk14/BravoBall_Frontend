@@ -180,16 +180,6 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
-    // Correlates current orderedDrill's session to a date so it can be stored in history
-    func correlateDrillsToDate(drills: [DrillModel]) {
-        let drillsToDate = MainAppModel.CompletedSession(
-            date: Date(),
-            drills: drills,
-            totalCompletedDrills: 0,
-            totalDrills: drills.count)
-
-    }
-    
     func createGroup(name: String, description: String) {
         let groupModel = GroupModel(
             name: name,
@@ -244,8 +234,8 @@ class SessionGeneratorModel: ObservableObject {
 }
 
 // Drill model
-struct DrillModel: Identifiable, Equatable {
-    let id = UUID()
+struct DrillModel: Identifiable, Equatable, Codable {
+    let id: UUID
     let title: String
     let skill: String
     let sets: Int
@@ -256,8 +246,33 @@ struct DrillModel: Identifiable, Equatable {
     let equipment: [String]
     let trainingStyle: String
     let difficulty: String
-//    var isLiked: Bool = false
-    let isCompleted: Bool
+    var isCompleted: Bool
+    
+    init(id: UUID = UUID(),  // Adding initializer with default UUID
+         title: String,
+         skill: String,
+         sets: Int,
+         reps: Int,
+         duration: Int,
+         description: String,
+         tips: [String],
+         equipment: [String],
+         trainingStyle: String,
+         difficulty: String,
+         isCompleted: Bool) {
+        self.id = id
+        self.title = title
+        self.skill = skill
+        self.sets = sets
+        self.reps = reps
+        self.duration = duration
+        self.description = description
+        self.tips = tips
+        self.equipment = equipment
+        self.trainingStyle = trainingStyle
+        self.difficulty = difficulty
+        self.isCompleted = isCompleted
+    }
     
     static func == (lhs: DrillModel, rhs: DrillModel) -> Bool {
         lhs.id == rhs.id

@@ -10,6 +10,7 @@ import RiveRuntime
 
 struct ProgressionView: View {
     @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
     
 
 
@@ -66,7 +67,7 @@ struct ProgressionView: View {
             }
             .background(appModel.globalSettings.primaryYellowColor)
             .sheet(isPresented: $appModel.showDrillResults) {
-                DrillResultsView(appModel: appModel)
+                DrillResultsView(appModel: appModel, sessionModel: sessionModel)
         }
     }
         
@@ -325,40 +326,57 @@ struct CalendarViewTest: View {
 
 
     private func addDrill(for date: Date) {
-        let addedTestDrillsOne = MainAppModel.DrillData (
-            name: "Cone weaves",
+        let addedTestDrillsOne = DrillModel(
+            title: "Cone weaves",
             skill: "Dribbling",
-            duration: 20,
             sets: 4,
             reps: 8,
-            equipment: ["Ball, cones"],
+            duration: 20,
+            description: "Weave through cones to improve close control and agility",
+            tips: ["Keep the ball close", "Use both feet", "Look up while dribbling"],
+            equipment: ["Ball", "Cones"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Beginner",
             isCompleted: true
         )
         
-        let addedTestDrillsTwo = MainAppModel.DrillData (
-            name: "Toe-taps",
+        let addedTestDrillsTwo = DrillModel(
+            title: "Toe-taps",
             skill: "Dribbling",
-            duration: 10,
             sets: 3,
             reps: 20,
+            duration: 10,
+            description: "Quick toe-taps to improve foot speed and coordination",
+            tips: ["Stay on your toes", "Maintain rhythm", "Keep balanced"],
             equipment: ["Ball"],
+            trainingStyle: "High Intensity",
+            difficulty: "Beginner",
             isCompleted: true
         )
         
-        let addedTestDrillsThree = MainAppModel.DrillData (
-            name: "Ronaldinho Drill",
+        let addedTestDrillsThree = DrillModel(
+            title: "Ronaldinho Drill",
             skill: "Dribbling",
-            duration: 15,
             sets: 4,
             reps: 3,
+            duration: 15,
+            description: "Advanced ball control drill inspired by Ronaldinho",
+            tips: ["Focus on technique", "Start slow, build speed", "Practice both directions"],
             equipment: ["Ball"],
+            trainingStyle: "High Intensity",
+            difficulty: "Advanced",
             isCompleted: Bool.random()
         )
         
         let drills = [addedTestDrillsOne, addedTestDrillsTwo, addedTestDrillsThree]
         let completedDrillsCount = drills.filter { $0.isCompleted }.count
 
-        appModel.addCompletedSession(date: simulatedDate, drills: drills, totalCompletedDrills: completedDrillsCount, totalDrills: drills.count)
+        appModel.addCompletedSession(
+            date: simulatedDate,
+            drills: drills,
+            totalCompletedDrills: completedDrillsCount,
+            totalDrills: drills.count
+        )
     }
 
     private func createFullDate(from day: Int) -> Date {
@@ -455,5 +473,7 @@ struct RoundedCorner: Shape {
 
 #Preview {
     let mockAppModel = MainAppModel()
-    return ProgressionView(appModel: mockAppModel)
+    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+    
+    return ProgressionView(appModel: mockAppModel, sessionModel: mockSessionModel)
 }

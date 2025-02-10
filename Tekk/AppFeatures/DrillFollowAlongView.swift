@@ -10,6 +10,7 @@ import SwiftUI
 struct DrillFollowAlongView: View {
     let drill: DrillModel
     @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
     
     @Environment(\.dismiss) private var dismiss
     @State private var isPlaying = false
@@ -21,9 +22,10 @@ struct DrillFollowAlongView: View {
     @State private var timer: Timer?
     
     // Initialize states to use drill values
-    init(drill: DrillModel, appModel: MainAppModel) {
+    init(drill: DrillModel, appModel: MainAppModel, sessionModel: SessionGeneratorModel) {
         self.drill = drill
         self.appModel = appModel
+        self.sessionModel = sessionModel
         
         let totalSets = Double(drill.sets)
         _totalSets = State(initialValue: totalSets)
@@ -115,9 +117,12 @@ struct DrillFollowAlongView: View {
                 Spacer()
                 
                 if doneWithDrill() {
-                    // End Drill button at bottom
-                    Button(action:
-                            endDrill
+                    Button(action: {
+                        handleDrillCompletion()
+                        endDrill()
+                        
+                    }
+                            
                     ){
                         Text("End Drill")
                             .font(.custom("Poppins-Bold", size: 16))
@@ -131,6 +136,27 @@ struct DrillFollowAlongView: View {
                     }
                     .padding(.horizontal, 20)
                 }
+                
+//                if doneWithSession() {
+//                    Button(action: {
+//                        handleSessionCompletion()
+//                        endDrill()
+//                        
+//                    }
+//                            
+//                    ){
+//                        Text("End Drill")
+//                            .font(.custom("Poppins-Bold", size: 16))
+//                            .foregroundColor(.white)
+//                            .frame(height: 44)
+//                            .frame(maxWidth: .infinity)
+//                            .background(
+//                                RoundedRectangle(cornerRadius: 22)
+//                                    .fill(Color.red)
+//                            )
+//                    }
+//                    .padding(.horizontal, 20)
+//                }
                 
             }
             
@@ -159,11 +185,50 @@ struct DrillFollowAlongView: View {
     }
     
     private func doneWithDrill() -> Bool {
-        if totalSets == setsDone {
-            return true
-        }
-        return false
+        return totalSets == setsDone
     }
+    
+    private func handleDrillCompletion() {
+        // Only add session if not already added
+        if doneWithDrill() {  // Add a flag to track this
+//            drill.isCompleted = true
+            appModel.addCompletedSession(
+                date: Date(),
+                drills: sessionModel.orderedDrills,
+                totalCompletedDrills: Int(setsDone),
+                totalDrills: Int(totalSets)
+            )
+        }
+    }
+    
+    private func doneWithSession() -> Bool {
+//        appModel.addCompletedSession(
+//            date: Date(),
+//            drills: sessionModel.orderedDrills,
+//            totalCompletedDrills: Int(setsDone),
+//            totalDrills: Int(totalSets)
+//        )
+//        for drill in sessionModel.orderedDrills {
+//            if drill.totalCompletedDrills == drill.totalDrills {
+//                return true
+//            }
+//            return false
+//        }
+        return totalSets == setsDone
+    }
+
+    private func handleSessionCompletion() {
+        // Only add session if not already added
+        if doneWithDrill() {  // Add a flag to track this
+            appModel.addCompletedSession(
+                date: Date(),
+                drills: sessionModel.orderedDrills,
+                totalCompletedDrills: Int(setsDone),
+                totalDrills: Int(totalSets)
+            )
+        }
+    }
+    
 
     private func togglePlayPause() {
         isPlaying.toggle()
@@ -218,7 +283,6 @@ struct DrillFollowAlongView: View {
     private func endDrill() {
         stopTimer()
         dismiss()
-        appModel.viewState.showingDrillDetail = false
         
     }
     
@@ -231,6 +295,8 @@ struct DrillFollowAlongView: View {
 
 #Preview {
     let mockMainAppModel = MainAppModel()
+    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+    
     DrillFollowAlongView(drill: DrillModel(
         title: "Test Drill",
         skill: "Passing",
@@ -243,7 +309,7 @@ struct DrillFollowAlongView: View {
         trainingStyle: "Medium Intensity",
         difficulty: "Beginner",
         isCompleted: false
-    ), appModel: mockMainAppModel)
+    ), appModel: mockMainAppModel, sessionModel: mockSessionModel)
 }
 
 
