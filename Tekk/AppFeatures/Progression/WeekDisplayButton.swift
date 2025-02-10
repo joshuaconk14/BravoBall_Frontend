@@ -1,4 +1,4 @@
-//
+///
 //  WeekDisplayButton.swift
 //  BravoBall
 //
@@ -86,37 +86,47 @@ struct WeekDisplayButton: View {
 #Preview {
     let mockAppModel = MainAppModel()
     
-    // Create mock drills using DrillModel
+    // Create mock drills using EditableDrillModel
     let mockDrills = [
-        DrillModel(
-            title: "Test Drill 1",
-            skill: "Dribbling",
+        EditableDrillModel(
+            drill: DrillModel(
+                title: "Test Drill 1",
+                skill: "Dribbling",
+                sets: 4,
+                reps: 8,
+                duration: 20,
+                description: "A basic dribbling drill to improve ball control",
+                tips: ["Keep the ball close", "Use both feet"],
+                equipment: ["Ball"],
+                trainingStyle: "Medium Intensity",
+                difficulty: "Beginner"
+            ),
             sets: 4,
             reps: 8,
             duration: 20,
-            description: "A basic dribbling drill to improve ball control",
-            tips: ["Keep the ball close", "Use both feet"],
-            equipment: ["Ball"],
-            trainingStyle: "Medium Intensity",
-            difficulty: "Beginner",
             isCompleted: true
         ),
-        DrillModel(
-            title: "Test Drill 2",
-            skill: "Shooting",
+        EditableDrillModel(
+            drill: DrillModel(
+                title: "Test Drill 2",
+                skill: "Shooting",
+                sets: 3,
+                reps: 10,
+                duration: 15,
+                description: "Practice shooting accuracy and power",
+                tips: ["Follow through", "Plant foot beside ball"],
+                equipment: ["Ball", "Goal"],
+                trainingStyle: "High Intensity",
+                difficulty: "Intermediate"
+            ),
             sets: 3,
             reps: 10,
             duration: 15,
-            description: "Practice shooting accuracy and power",
-            tips: ["Follow through", "Plant foot beside ball"],
-            equipment: ["Ball", "Goal"],
-            trainingStyle: "High Intensity",
-            difficulty: "Intermediate",
             isCompleted: true
         )
     ]
     
-    // Create mock session with the new DrillModel structure
+    // Create mock session with EditableDrillModel array
     let mockSession = MainAppModel.CompletedSession(
         date: Date(),
         drills: mockDrills,

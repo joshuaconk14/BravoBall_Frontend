@@ -118,7 +118,7 @@ struct DrillFollowAlongView: View {
                 
                 if doneWithDrill() {
                     Button(action: {
-                        handleDrillCompletion()
+//                        handleDrillCompletion()
                         endDrill()
                         
                     }
@@ -141,9 +141,9 @@ struct DrillFollowAlongView: View {
 //                    Button(action: {
 //                        handleSessionCompletion()
 //                        endDrill()
-//                        
+//
 //                    }
-//                            
+//
 //                    ){
 //                        Text("End Drill")
 //                            .font(.custom("Poppins-Bold", size: 16))
@@ -189,16 +189,16 @@ struct DrillFollowAlongView: View {
     }
     
     private func handleDrillCompletion() {
-        // Only add session if not already added
-        if doneWithDrill() {  // Add a flag to track this
-//            drill.isCompleted = true
-            appModel.addCompletedSession(
-                date: Date(),
-                drills: sessionModel.orderedDrills,
-                totalCompletedDrills: Int(setsDone),
-                totalDrills: Int(totalSets)
-            )
-        }
+//        // Only add session if not already added
+//        if doneWithDrill() {  // Add a flag to track this
+////            drill.isCompleted = true
+//            appModel.addCompletedSession(
+//                date: Date(),
+//                drills: sessionModel.orderedDrills,
+//                totalCompletedDrills: Int(setsDone),
+//                totalDrills: Int(totalSets)
+//            )
+//        }
     }
     
     private func doneWithSession() -> Bool {
@@ -218,15 +218,15 @@ struct DrillFollowAlongView: View {
     }
 
     private func handleSessionCompletion() {
-        // Only add session if not already added
-        if doneWithDrill() {  // Add a flag to track this
-            appModel.addCompletedSession(
-                date: Date(),
-                drills: sessionModel.orderedDrills,
-                totalCompletedDrills: Int(setsDone),
-                totalDrills: Int(totalSets)
-            )
-        }
+//        // Only add session if not already added
+//        if doneWithDrill() {  // Add a flag to track this
+//            appModel.addCompletedSession(
+//                date: Date(),
+//                drills: sessionModel.orderedDrills,
+//                totalCompletedDrills: Int(setsDone),
+//                totalDrills: Int(totalSets)
+//            )
+//        }
     }
     
 
@@ -307,9 +307,7 @@ struct DrillFollowAlongView: View {
         tips: ["Tip 1", "Tip 2"],
         equipment: ["Ball"],
         trainingStyle: "Medium Intensity",
-        difficulty: "Beginner",
-        isCompleted: false
+        difficulty: "Beginner"
     ), appModel: mockMainAppModel, sessionModel: mockSessionModel)
 }
-
 

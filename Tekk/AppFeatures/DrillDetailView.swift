@@ -271,8 +271,7 @@ struct InfoItem: View {
             "Goal"
         ],
         trainingStyle: "Medium Intensity",
-        difficulty: "Beginner",
-        isCompleted: false
+        difficulty: "Beginner"
     )
     
     // Create a mock group with the drill

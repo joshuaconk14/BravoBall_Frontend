@@ -311,7 +311,7 @@ struct DrillRow: View {
                         }) {
                             ZStack {
                                 
-                                if sessionModel.orderedDrills.contains(drill) {
+                                if sessionModel.orderedDrills.contains(where: { $0.drill.title == drill.title }) {
                                     RoundedRectangle(cornerRadius: 4)
                                         .fill(appModel.globalSettings.primaryLightGrayColor)
                                         .stroke((appModel.globalSettings.primaryLightGrayColor), lineWidth: 2)
@@ -333,7 +333,7 @@ struct DrillRow: View {
                             }
                             
                         }
-                        .disabled(sessionModel.orderedDrills.contains(drill))
+                        .disabled(sessionModel.orderedDrills.contains(where: { $0.drill.title == drill.title }))
                         
                     }
                 }
@@ -361,8 +361,7 @@ struct DrillRow: View {
             tips: ["no funny beezness"],
             equipment: ["ball", "cones"],
             trainingStyle: "Medium Intensity",
-            difficulty: "Beginner",
-            isCompleted: false
+            difficulty: "Beginner"
         )
         
         // Create a mock group with the drill

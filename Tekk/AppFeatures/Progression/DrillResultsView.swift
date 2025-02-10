@@ -65,7 +65,7 @@ struct DrillResultsView: View {
                     
 
                     // MARK: Fix this
-                        ForEach(session.drills) { drill in
+                    ForEach(session.drills, id: \.drill.id) { drill in
                             ZStack {
                                 if drill.isCompleted {
                                     RiveViewModel(fileName: "Drill_Card_Complete").view()
@@ -77,15 +77,15 @@ struct DrillResultsView: View {
                                 
                                 VStack(alignment: .leading, spacing: 8) {
                                         
-                                        Text("Drill: \(drill.title)")
+                                    Text("Drill: \(drill.drill.title)")
                                             .font(.custom("Poppins-Bold", size: 18))
-                                        Text("Skill: \(drill.skill)")
+                                    Text("Skill: \(drill.drill.skill)")
                                         HStack(spacing: 20) {
                                             Text("Duration: \(drill.duration)min")
-                                            Text("Sets: \(drill.sets)")
-                                            Text("Reps: \(drill.reps)")
+                                            Text("Sets: \(drill.drill.sets)")
+                                            Text("Reps: \(drill.drill.reps)")
                                         }
-                                        Text("Equipment: \(drill.equipment.joined(separator: ", "))")
+                                    Text("Equipment: \(drill.drill.equipment.joined(separator: ", "))")
                                 }
                                 .padding()
                                 .font(.custom("Poppins-Regular", size: 14))
@@ -159,63 +159,83 @@ struct CircularProgressView: View {
     let mockMainAppModel = MainAppModel()
     let mockSesGenModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
     
-    // Create mock drills using DrillModel
+    // Create mock drills using EditableDrillModel
     let mockDrills = [
-        DrillModel(
-            title: "Speed Dribbling",
-            skill: "Ball Control",
+        EditableDrillModel(
+            drill: DrillModel(
+                title: "Speed Dribbling",
+                skill: "Ball Control",
+                sets: 4,
+                reps: 10,
+                duration: 20,
+                description: "Improve your dribbling speed and control",
+                tips: ["Keep the ball close", "Look up while dribbling"],
+                equipment: ["Ball", "Cones"],
+                trainingStyle: "High Intensity",
+                difficulty: "Intermediate"
+            ),
             sets: 4,
             reps: 10,
             duration: 20,
-            description: "Improve your dribbling speed and control",
-            tips: ["Keep the ball close", "Look up while dribbling"],
-            equipment: ["Ball", "Cones"],
-            trainingStyle: "High Intensity",
-            difficulty: "Intermediate",
             isCompleted: true
         ),
-        DrillModel(
-            title: "V-Taps",
-            skill: "Ball Control",
+        EditableDrillModel(
+            drill: DrillModel(
+                title: "V-Taps",
+                skill: "Ball Control",
+                sets: 4,
+                reps: 10,
+                duration: 20,
+                description: "Master the V-tap technique for better ball control",
+                tips: ["Quick touches", "Maintain balance"],
+                equipment: ["Ball", "Cones"],
+                trainingStyle: "Medium Intensity",
+                difficulty: "Beginner"
+            ),
             sets: 4,
             reps: 10,
             duration: 20,
-            description: "Master the V-tap technique for better ball control",
-            tips: ["Quick touches", "Maintain balance"],
-            equipment: ["Ball", "Cones"],
-            trainingStyle: "Medium Intensity",
-            difficulty: "Beginner",
             isCompleted: true
         ),
-        DrillModel(
-            title: "Ronaldinho Drill",
-            skill: "Ball Control",
+        EditableDrillModel(
+            drill: DrillModel(
+                title: "Ronaldinho Drill",
+                skill: "Ball Control",
+                sets: 4,
+                reps: 10,
+                duration: 20,
+                description: "Practice advanced ball control techniques",
+                tips: ["Stay light on your feet", "Practice both directions"],
+                equipment: ["Ball", "Cones"],
+                trainingStyle: "High Intensity",
+                difficulty: "Advanced"
+            ),
             sets: 4,
             reps: 10,
             duration: 20,
-            description: "Practice advanced ball control techniques",
-            tips: ["Stay light on your feet", "Practice both directions"],
-            equipment: ["Ball", "Cones"],
-            trainingStyle: "High Intensity",
-            difficulty: "Advanced",
             isCompleted: false
         ),
-        DrillModel(
-            title: "Cone Weaves",
-            skill: "Ball Control",
+        EditableDrillModel(
+            drill: DrillModel(
+                title: "Cone Weaves",
+                skill: "Ball Control",
+                sets: 4,
+                reps: 10,
+                duration: 20,
+                description: "Improve close control through cone weaving",
+                tips: ["Use both feet", "Keep head up"],
+                equipment: ["Ball", "Cones"],
+                trainingStyle: "Medium Intensity",
+                difficulty: "Beginner"
+            ),
             sets: 4,
             reps: 10,
             duration: 20,
-            description: "Improve close control through cone weaving",
-            tips: ["Use both feet", "Keep head up"],
-            equipment: ["Ball", "Cones"],
-            trainingStyle: "Medium Intensity",
-            difficulty: "Beginner",
             isCompleted: true
         )
     ]
     
-    // Create mock session with DrillModel array
+    // Create mock session with EditableDrillModel array
     mockMainAppModel.selectedSession = MainAppModel.CompletedSession(
         date: Date(),
         drills: mockDrills,

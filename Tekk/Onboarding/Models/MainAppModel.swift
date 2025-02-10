@@ -1,4 +1,4 @@
-//
+///
 //  MainAppModel.swift
 //  BravoBall
 //
@@ -179,14 +179,14 @@ class MainAppModel: ObservableObject {
     
     struct CompletedSession: Codable {
         let date: Date
-        let drills: [DrillModel]
+        let drills: [EditableDrillModel]
         let totalCompletedDrills: Int
         let totalDrills: Int
     }
 
     
     // Adding completed session into allCompletedSessions array
-    func addCompletedSession(date: Date, drills: [DrillModel], totalCompletedDrills: Int, totalDrills: Int) {
+    func addCompletedSession(date: Date, drills: [EditableDrillModel], totalCompletedDrills: Int, totalDrills: Int) {
         let newSession = CompletedSession(
             date: date,
             drills: drills,
@@ -212,12 +212,12 @@ class MainAppModel: ObservableObject {
         print ("date: \(date)")
         print ("score: \(totalCompletedDrills) / \(totalDrills)")
         for drill in drills {
-            print ("name: \(drill.title)")
-            print ("skill: \(drill.skill)")
+            print ("name: \(drill.drill.title)")
+            print ("skill: \(drill.drill.skill)")
             print ("duration: \(drill.duration)")
             print ("sets: \(drill.sets)")
             print ("reps: \(drill.reps)")
-            print ("equipment: \(drill.equipment)")
+            print ("equipment: \(drill.drill.equipment)")
             print ("Session completed: \(drill.isCompleted)")
         }
     }

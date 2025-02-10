@@ -336,8 +336,7 @@ struct CalendarViewTest: View {
             tips: ["Keep the ball close", "Use both feet", "Look up while dribbling"],
             equipment: ["Ball", "Cones"],
             trainingStyle: "Medium Intensity",
-            difficulty: "Beginner",
-            isCompleted: true
+            difficulty: "Beginner"
         )
         
         let addedTestDrillsTwo = DrillModel(
@@ -350,8 +349,7 @@ struct CalendarViewTest: View {
             tips: ["Stay on your toes", "Maintain rhythm", "Keep balanced"],
             equipment: ["Ball"],
             trainingStyle: "High Intensity",
-            difficulty: "Beginner",
-            isCompleted: true
+            difficulty: "Beginner"
         )
         
         let addedTestDrillsThree = DrillModel(
@@ -364,11 +362,16 @@ struct CalendarViewTest: View {
             tips: ["Focus on technique", "Start slow, build speed", "Practice both directions"],
             equipment: ["Ball"],
             trainingStyle: "High Intensity",
-            difficulty: "Advanced",
-            isCompleted: Bool.random()
+            difficulty: "Advanced"
         )
         
-        let drills = [addedTestDrillsOne, addedTestDrillsTwo, addedTestDrillsThree]
+        let testDrillOne = EditableDrillModel(drill: addedTestDrillsOne, sets: addedTestDrillsOne.sets, reps: addedTestDrillsOne.reps, duration: addedTestDrillsOne.duration, isCompleted: true)
+        
+        let testDrillTwo = EditableDrillModel(drill: addedTestDrillsTwo, sets: addedTestDrillsTwo.sets, reps: addedTestDrillsTwo.reps, duration: addedTestDrillsTwo.duration, isCompleted: Bool.random())
+        
+        let testDrillThree = EditableDrillModel(drill: addedTestDrillsThree, sets: addedTestDrillsThree.sets, reps: addedTestDrillsThree.reps, duration: addedTestDrillsThree.duration, isCompleted: true)
+        
+        let drills = [testDrillOne, testDrillTwo, testDrillThree]
         let completedDrillsCount = drills.filter { $0.isCompleted }.count
 
         appModel.addCompletedSession(

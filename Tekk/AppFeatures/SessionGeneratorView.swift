@@ -200,7 +200,7 @@ struct SessionGeneratorView: View {
                             RiveViewModel(fileName: "Bravo_Panting").view()
                                 .frame(width: 90, height: 90)
                             VStack {
-                                ForEach(sessionModel.orderedDrills) { drill in
+                                ForEach(sessionModel.orderedDrills, id: \.drill.id) { drill in
                                     SmallDrillCard(
                                         appModel: appModel,
                                         sessionModel: sessionModel,
@@ -208,8 +208,8 @@ struct SessionGeneratorView: View {
                                     )
                                     .dropDestination(for: String.self) { items, location in
                                         guard let sourceTitle = items.first,
-                                              let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
-                                              let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
+                                              let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == sourceTitle }),
+                                              let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == drill.drill.title }) else {
                                             return false
                                         }
                                         
@@ -861,7 +861,7 @@ struct DrillCard: View {
 struct SmallDrillCard: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
-    let drill: DrillModel
+    let drill: EditableDrillModel
     
     var body: some View {
         Button(action: {
@@ -887,7 +887,7 @@ struct SmallDrillCard: View {
         }
         .buttonStyle(PlainButtonStyle())
         .sheet(isPresented: $appModel.viewState.showingDrillDetail) {
-            DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: drill)
+            DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: drill.drill)
         }
     }
 }
@@ -1150,11 +1150,9 @@ struct GeneratedDrillsSection: View {
                     
                     Spacer()
                     
-                    
                     Text("Session")
                         .font(.custom("Poppins-Bold", size: 20))
                         .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                    
                     
                     Spacer()
                     
@@ -1165,7 +1163,6 @@ struct GeneratedDrillsSection: View {
                 
                 // Button row
                 HStack {
-                    // Button for adding drills
                     Button(action: {
                         appModel.viewState.showSearchDrills = true
                     }) {
@@ -1175,7 +1172,6 @@ struct GeneratedDrillsSection: View {
                     .disabled(sessionModel.orderedDrills.isEmpty)
                     .opacity(sessionModel.orderedDrills.isEmpty ? 0.4 : 1.0)
                     
-                    // Button for deleting drills
                     Button(action: {
                         withAnimation(.spring(dampingFraction: 0.7)) {
                             appModel.viewState.showDeleteButtons.toggle()
@@ -1199,83 +1195,70 @@ struct GeneratedDrillsSection: View {
                     .opacity(sessionModel.orderedDrills.isEmpty ? 0.4 : 1.0)
                     
                     Spacer()
-                    
                 }
                 
-                // Drills view
-                
-                
+                if sessionModel.orderedDrills.isEmpty {
+                    Spacer()
+                    HStack {
+                        Image(systemName: "lock.fill")
+                            .frame(width: 50, height: 50)
+                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                        Text("Choose a skill to create your session")
+                            .font(.custom("Poppins-Bold", size: 12))
+                            .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
+                    }
+                    .padding(.horizontal, 30)
+                    .padding(.bottom, 150)
                     
-                    if sessionModel.orderedDrills.isEmpty {
-                        Spacer()
+                } else {
+                    ForEach(sessionModel.orderedDrills, id: \.drill.id) { drill in
                         HStack {
-                            Image(systemName: "lock.fill")
-                                .frame(width: 50, height: 50)
-                                .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-                            Text("Choose a skill to create your session")
-                                .font(.custom("Poppins-Bold", size: 12))
-                                .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-                        }
-                        .padding(.horizontal, 30)
-                        .padding(.bottom, 150)
-                        
-                    } else {
-                        
-                        ForEach(sessionModel.orderedDrills) { drill in
-                            HStack {
-                                
-                                // Red delete buttons
-                                if appModel.viewState.showDeleteButtons {
-                                    Button(action: {
-                                        sessionModel.deleteDrillFromSession(drill: drill)
-                                    }) {
-                                        ZStack {
-                                            Circle()
-                                                .fill(Color.red)
-                                                .frame(width: 20, height: 20)
-                                            Rectangle()
-                                                .fill(Color.white)
-                                                .frame(width: 10, height: 2)
-                                        }
+                            if appModel.viewState.showDeleteButtons {
+                                Button(action: {
+                                    sessionModel.deleteDrillFromSession(drill: drill)
+                                }) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(Color.red)
+                                            .frame(width: 20, height: 20)
+                                        Rectangle()
+                                            .fill(Color.white)
+                                            .frame(width: 10, height: 2)
                                     }
-                                    .buttonStyle(PlainButtonStyle())
-                                    .padding(.leading)
                                 }
-                                
-                                
-                                // Drill cards
+                                .buttonStyle(PlainButtonStyle())
+                                .padding(.leading)
+                            }
+                            
+                            DrillCard(
+                                appModel: appModel,
+                                sessionModel: sessionModel,
+                                drill: drill.drill
+                            )
+                            .draggable(drill.drill.title) {
                                 DrillCard(
                                     appModel: appModel,
                                     sessionModel: sessionModel,
-                                    drill: drill
+                                    drill: drill.drill
                                 )
-                                .draggable(drill.title) {
-                                    DrillCard(
-                                        appModel: appModel,
-                                        sessionModel: sessionModel,
-                                        drill: drill
-                                    )
-                                }
-                                .dropDestination(for: String.self) { items, location in
-                                    guard let sourceTitle = items.first,
-                                          let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == sourceTitle }),
-                                          let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.title == drill.title }) else {
-                                        return false
-                                    }
-                                    
-                                    withAnimation(.spring()) {
-                                        let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
-                                        sessionModel.orderedDrills.insert(drill, at: destinationIndex)
-                                    }
-                                    return true
-                                }
                             }
-                            
+                            .dropDestination(for: String.self) { items, location in
+                                guard let sourceTitle = items.first,
+                                      let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == sourceTitle }),
+                                      let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == drill.drill.title }) else {
+                                    return false
+                                }
+                                
+                                withAnimation(.spring()) {
+                                    let movedDrill = sessionModel.orderedDrills.remove(at: sourceIndex)
+                                    sessionModel.orderedDrills.insert(movedDrill, at: destinationIndex)
+                                }
+                                return true
+                            }
                         }
-                        
                     }
                 }
-            
+            }
         }
         .padding()
         .cornerRadius(15)
@@ -1312,4 +1295,3 @@ struct GeneratedDrillsSection: View {
     
      return SessionGeneratorView(model: mockOnboardingModel, appModel: mockAppModel, sessionModel: mockSessionModel)
 }
-
