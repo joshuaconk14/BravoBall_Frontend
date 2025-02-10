@@ -180,6 +180,16 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
+    // Correlates current orderedDrill's session to a date so it can be stored in history
+    func correlateDrillsToDate(drills: [DrillModel]) {
+        let drillsToDate = MainAppModel.CompletedSession(
+            date: Date(),
+            drills: drills,
+            totalCompletedDrills: 0,
+            totalDrills: drills.count)
+
+    }
+    
     func createGroup(name: String, description: String) {
         let groupModel = GroupModel(
             name: name,

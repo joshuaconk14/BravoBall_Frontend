@@ -42,6 +42,7 @@ class MainAppModel: ObservableObject {
         var showSavedPrereqsPrompt: Bool = false
         var showSearchDrills: Bool = false
         var showDeleteButtons: Bool = false
+        var showingDrillDetail: Bool = false
     }
     
     // Enus and types for prereqs

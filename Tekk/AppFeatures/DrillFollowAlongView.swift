@@ -14,7 +14,7 @@ struct DrillFollowAlongView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isPlaying = false
     @State private var elapsedTime: TimeInterval
-    @State private var setsDone: Double = 1.0 // TESTING
+    @State private var setsDone: Double = 0.0
     @State private var totalSets: Double
     @State private var countdownValue: Int?
     @State private var displayCountdown: Bool = false // TESTING
@@ -45,18 +45,19 @@ struct DrillFollowAlongView: View {
         ZStack(alignment: .bottom) {
             Color.white.ignoresSafeArea()
             
+            
             VStack(spacing: 0) {
-                // Top timer section
                 HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Time")
-                            .font(.custom("Poppins-Regular", size: 14))
-                            .foregroundColor(.gray)
-                        Text(timeString(from: elapsedTime))
-                            .font(.custom("Poppins-Bold", size: 16))
+                    
+                    HStack {
+                        backButton
+                        Spacer()
                     }
+
                     Spacer()
                     
+                    Text("\(drill.title)") // TESTING?
+                        .padding(.horizontal)
                     
                     
                     CircularProgressView(appModel: appModel, progress: setsDone / totalSets)
@@ -66,6 +67,22 @@ struct DrillFollowAlongView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
+                
+                
+                HStack {
+                    Spacer()
+                    
+                    // Top timer section
+                    VStack(alignment: .center, spacing: 4) {
+                        Text("Time")
+                            .font(.custom("Poppins-Regular", size: 24))
+                            .foregroundColor(.gray)
+                        Text(timeString(from: elapsedTime))
+                            .font(.custom("Poppins-Bold", size: 26))
+                    }
+                    
+                    Spacer()
+                }
                 
                 
                 Spacer()
@@ -95,20 +112,26 @@ struct DrillFollowAlongView: View {
                         .padding(.bottom, 75)
                 }
                 
+                Spacer()
                 
-                // End Drill button at bottom
-                Button(action: endSession) {
-                    Text("End Drill")
-                        .font(.custom("Poppins-Bold", size: 16))
-                        .foregroundColor(.white)
-                        .frame(height: 44)
-                        .frame(maxWidth: .infinity)
-                        .background(
-                            RoundedRectangle(cornerRadius: 22)
-                                .fill(Color.red)
-                        )
+                if doneWithDrill() {
+                    // End Drill button at bottom
+                    Button(action:
+                            endDrill
+                    ){
+                        Text("End Drill")
+                            .font(.custom("Poppins-Bold", size: 16))
+                            .foregroundColor(.white)
+                            .frame(height: 44)
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                RoundedRectangle(cornerRadius: 22)
+                                    .fill(Color.red)
+                            )
+                    }
+                    .padding(.horizontal, 20)
                 }
-                .padding(.horizontal, 20)
+                
             }
             
             // Add countdown overlay
@@ -123,10 +146,26 @@ struct DrillFollowAlongView: View {
         .navigationBarHidden(true)
     }
     
+    private var backButton: some View {
+        Button(action: {
+            stopTimer()
+            dismiss()
+        }) {
+            HStack {
+                Image(systemName: "xmark")
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+            }
+        }
+    }
     
-    
-    private func togglePlayPause() {
+    private func doneWithDrill() -> Bool {
+        if totalSets == setsDone {
+            return true
+        }
+        return false
+    }
 
+    private func togglePlayPause() {
         isPlaying.toggle()
         if isPlaying {
             if displayCountdown {
@@ -140,20 +179,20 @@ struct DrillFollowAlongView: View {
     }
     
     private func startCountdown() {
-            countdownValue = 3
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-                if let count = countdownValue {
-                    if count > 1 {
-                        countdownValue = count - 1
-                    } else {
-                        timer.invalidate()
-                        countdownValue = nil
-                        displayCountdown = false
-                        startTimer()
-                    }
+        countdownValue = 3
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            if let count = countdownValue {
+                if count > 1 {
+                    countdownValue = count - 1
+                } else {
+                    timer.invalidate()
+                    countdownValue = nil
+                    displayCountdown = false
+                    startTimer()
                 }
             }
         }
+    }
     
     private func startTimer() {
         let restartTime = elapsedTime
@@ -176,9 +215,11 @@ struct DrillFollowAlongView: View {
         timer = nil
     }
     
-    private func endSession() {
+    private func endDrill() {
         stopTimer()
         dismiss()
+        appModel.viewState.showingDrillDetail = false
+        
     }
     
     private func timeString(from timeInterval: TimeInterval) -> String {
@@ -193,7 +234,7 @@ struct DrillFollowAlongView: View {
     DrillFollowAlongView(drill: DrillModel(
         title: "Test Drill",
         skill: "Passing",
-        sets: 3,
+        sets: 2,
         reps: 10,
         duration: 15,
         description: "Test description",

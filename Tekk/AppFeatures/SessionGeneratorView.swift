@@ -454,7 +454,7 @@ struct SessionGeneratorView: View {
     private var goldenButton: some View {
         Button(action: {
             withAnimation(.spring(dampingFraction: 0.7)) {
-                sessionModel.generateSession()
+                sessionModel.generateSession() // ?
                 appModel.viewState.showHomePage = false
                 appModel.viewState.showTextBubble = false
                 
@@ -755,11 +755,10 @@ struct CompactDrillCard: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     let drill: DrillModel
-    @State private var showingDetail = false
     
     var body: some View {
         Button(action: {
-            showingDetail = true
+            appModel.viewState.showingDrillDetail = true
         }) {
             ZStack {
                 RiveViewModel(fileName: "Drill_Card_Incomplete").view()
@@ -800,7 +799,7 @@ struct CompactDrillCard: View {
             .padding()
         }
         .buttonStyle(PlainButtonStyle())
-        .sheet(isPresented: $showingDetail) {
+        .sheet(isPresented: $appModel.viewState.showingDrillDetail) {
             DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: drill)
         }
     }
@@ -810,11 +809,10 @@ struct DrillCard: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     let drill: DrillModel
-    @State private var showingDetail = false
     
     var body: some View {
         Button(action: {
-            showingDetail = true
+            appModel.viewState.showingDrillDetail = true
         }) {
             ZStack {
                 RiveViewModel(fileName: "Drill_Card_Incomplete").view()
@@ -854,7 +852,7 @@ struct DrillCard: View {
             .padding()
         }
         .buttonStyle(PlainButtonStyle())
-        .sheet(isPresented: $showingDetail) {
+        .sheet(isPresented: $appModel.viewState.showingDrillDetail) {
             DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: drill)
         }
     }
@@ -865,11 +863,10 @@ struct SmallDrillCard: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     let drill: DrillModel
-    @State private var showingDetail = false
     
     var body: some View {
         Button(action: {
-            showingDetail = true
+            appModel.viewState.showingDrillDetail = true
         }) {
             ZStack {
                 RiveViewModel(fileName: "Drill_Card_Incomplete").view()
@@ -890,7 +887,7 @@ struct SmallDrillCard: View {
             .padding()
         }
         .buttonStyle(PlainButtonStyle())
-        .sheet(isPresented: $showingDetail) {
+        .sheet(isPresented: $appModel.viewState.showingDrillDetail) {
             DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: drill)
         }
     }
