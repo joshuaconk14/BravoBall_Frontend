@@ -365,9 +365,10 @@ struct EditingDrillView: View {
             trainingStyle: "Medium Intensity",
             difficulty: "Beginner"
         ),
-        sets: 2,
-        reps: 10,
-        duration: 15,
+        setsDone: 0,
+        totalSets: 2,
+        totalReps: 10,
+        totalDuration: 15,
         isCompleted: false
     )
     

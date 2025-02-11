@@ -365,11 +365,11 @@ struct CalendarViewTest: View {
             difficulty: "Advanced"
         )
         
-        let testDrillOne = EditableDrillModel(drill: addedTestDrillsOne, sets: addedTestDrillsOne.sets, reps: addedTestDrillsOne.reps, duration: addedTestDrillsOne.duration, isCompleted: true)
+        let testDrillOne = EditableDrillModel(drill: addedTestDrillsOne, setsDone: 0, totalSets: addedTestDrillsOne.sets, totalReps: addedTestDrillsOne.reps, totalDuration: addedTestDrillsOne.duration, isCompleted: true)
         
-        let testDrillTwo = EditableDrillModel(drill: addedTestDrillsTwo, sets: addedTestDrillsTwo.sets, reps: addedTestDrillsTwo.reps, duration: addedTestDrillsTwo.duration, isCompleted: Bool.random())
+        let testDrillTwo = EditableDrillModel(drill: addedTestDrillsTwo, setsDone: 0, totalSets: addedTestDrillsTwo.sets, totalReps: addedTestDrillsTwo.reps, totalDuration: addedTestDrillsTwo.duration, isCompleted: Bool.random())
         
-        let testDrillThree = EditableDrillModel(drill: addedTestDrillsThree, sets: addedTestDrillsThree.sets, reps: addedTestDrillsThree.reps, duration: addedTestDrillsThree.duration, isCompleted: true)
+        let testDrillThree = EditableDrillModel(drill: addedTestDrillsThree, setsDone: 0, totalSets: addedTestDrillsThree.sets, totalReps: addedTestDrillsThree.reps, totalDuration: addedTestDrillsThree.duration, isCompleted: true)
         
         let drills = [testDrillOne, testDrillTwo, testDrillThree]
         let completedDrillsCount = drills.filter { $0.isCompleted }.count

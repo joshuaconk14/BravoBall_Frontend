@@ -81,7 +81,7 @@ struct DrillResultsView: View {
                                             .font(.custom("Poppins-Bold", size: 18))
                                     Text("Skill: \(editableDrill.drill.skill)")
                                         HStack(spacing: 20) {
-                                            Text("Duration: \(editableDrill.duration)min")
+                                            Text("Duration: \(editableDrill.totalDuration)min")
                                             Text("Sets: \(editableDrill.drill.sets)")
                                             Text("Reps: \(editableDrill.drill.reps)")
                                         }
@@ -174,9 +174,10 @@ struct CircularProgressView: View {
                 trainingStyle: "High Intensity",
                 difficulty: "Intermediate"
             ),
-            sets: 4,
-            reps: 10,
-            duration: 20,
+            setsDone: 0,
+            totalSets: 4,
+            totalReps: 10,
+            totalDuration: 20,
             isCompleted: true
         ),
         EditableDrillModel(
@@ -192,9 +193,10 @@ struct CircularProgressView: View {
                 trainingStyle: "Medium Intensity",
                 difficulty: "Beginner"
             ),
-            sets: 4,
-            reps: 10,
-            duration: 20,
+            setsDone: 0,
+            totalSets: 4,
+            totalReps: 10,
+            totalDuration: 20,
             isCompleted: true
         ),
         EditableDrillModel(
@@ -210,9 +212,10 @@ struct CircularProgressView: View {
                 trainingStyle: "High Intensity",
                 difficulty: "Advanced"
             ),
-            sets: 4,
-            reps: 10,
-            duration: 20,
+            setsDone: 0,
+            totalSets: 4,
+            totalReps: 10,
+            totalDuration: 20,
             isCompleted: false
         ),
         EditableDrillModel(
@@ -228,9 +231,10 @@ struct CircularProgressView: View {
                 trainingStyle: "Medium Intensity",
                 difficulty: "Beginner"
             ),
-            sets: 4,
-            reps: 10,
-            duration: 20,
+            setsDone: 0,
+            totalSets: 4,
+            totalReps: 10,
+            totalDuration: 20,
             isCompleted: true
         )
     ]

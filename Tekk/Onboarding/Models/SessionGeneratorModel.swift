@@ -166,9 +166,10 @@ class SessionGeneratorModel: ObservableObject {
         orderedDrills = filteredDrills.map { drill in
             EditableDrillModel(
                 drill: drill,
-                sets: drill.sets,
-                reps: drill.reps,
-                duration: drill.duration,
+                setsDone: 0,
+                totalSets: drill.sets,
+                totalReps: drill.reps,
+                totalDuration: drill.duration,
                 isCompleted: false
             )
         }
@@ -225,9 +226,10 @@ class SessionGeneratorModel: ObservableObject {
         for oneDrill in drills {
             let editableDrills = EditableDrillModel(
                 drill: oneDrill,
-                sets: oneDrill.sets,
-                reps: oneDrill.reps,
-                duration: oneDrill.duration,
+                setsDone: 0,
+                totalSets: oneDrill.sets,
+                totalReps: oneDrill.reps,
+                totalDuration: oneDrill.duration,
                 isCompleted: false
             )
             orderedDrills.append(editableDrills)
@@ -292,9 +294,10 @@ struct DrillModel: Identifiable, Equatable, Codable {
 
 struct EditableDrillModel: Codable { // Testing this out
     var drill: DrillModel
-    var sets: Int
-    var reps: Int
-    var duration: Int
+    var setsDone: Int
+    var totalSets: Int
+    var totalReps: Int
+    var totalDuration: Int
     var isCompleted: Bool
 }
 

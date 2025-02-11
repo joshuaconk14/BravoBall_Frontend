@@ -16,34 +16,11 @@ struct DrillFollowAlongView: View {
     
     @Environment(\.dismiss) private var dismiss
     @State private var isPlaying = false
-    @State private var elapsedTime: TimeInterval
-    @State private var setsDone: Double = 0.0
-    @State private var totalSets: Double
+    @State private var elapsedTime: TimeInterval = 1.0
     @State private var countdownValue: Int?
-    @State private var displayCountdown: Bool = false // TESTING
+    @State private var displayCountdown: Bool = false // MARK: TESTING
     @State private var timer: Timer?
     
-    
-    
-    // Initialize states to use drill values
-    init(appModel: MainAppModel, sessionModel: SessionGeneratorModel, editableDrill: Binding<EditableDrillModel>) {
-        self.appModel = appModel
-        self.sessionModel = sessionModel
-        self._editableDrill = editableDrill
-        
-        
-        let totalSets = Double(editableDrill.wrappedValue.drill.sets)
-        _totalSets = State(initialValue: totalSets)
-        
-        
-        
-        // MARK: PRODUCTION
-//        let initialTime = TimeInterval(drill.duration) * 60.00 / TimeInterval(drill.sets)
-        // MARK: TESTING
-        let initialTime = 1.0
-        _elapsedTime = State(initialValue: initialTime)
-        
-    }
 
     
     var body: some View {
@@ -74,7 +51,7 @@ struct DrillFollowAlongView: View {
                         .padding(.horizontal)
                     
                     
-                    CircularProgressView(appModel: appModel, progress: setsDone / totalSets)
+                    CircularProgressView(appModel: appModel, progress: Double(editableDrill.setsDone) / Double(editableDrill.totalSets))
                         .frame(width: 50, height: 80)
                         .padding()
                     
@@ -157,7 +134,7 @@ struct DrillFollowAlongView: View {
 //                    }
 //
 //                    ){
-//                        Text("End Drill")
+//                        Text("End Session")
 //                            .font(.custom("Poppins-Bold", size: 16))
 //                            .foregroundColor(.white)
 //                            .frame(height: 44)
@@ -200,11 +177,13 @@ struct DrillFollowAlongView: View {
     }
     
     private func doneWithDrill() -> Bool {
-        return totalSets == setsDone
+        return editableDrill.totalSets == editableDrill.setsDone
     }
     
     private func handleDrillCompletion() {
         editableDrill.isCompleted = true
+        
+//        if editableDrill.t
     }
     
     private func doneWithSession() -> Bool {
@@ -220,7 +199,7 @@ struct DrillFollowAlongView: View {
 //            }
 //            return false
 //        }
-        return totalSets == setsDone
+        return editableDrill.totalSets == editableDrill.setsDone
     }
 
     private func handleSessionCompletion() {
@@ -274,8 +253,8 @@ struct DrillFollowAlongView: View {
                 elapsedTime -= 1
             } else {
                 stopTimer()
-                if setsDone < totalSets {
-                    setsDone += 1.0
+                if editableDrill.setsDone < editableDrill.totalSets {
+                    editableDrill.setsDone += 1
                 }
                 elapsedTime = restartTime
                 isPlaying = false
@@ -302,31 +281,35 @@ struct DrillFollowAlongView: View {
 }
 
 #Preview {
-    let mockMainAppModel = MainAppModel()
-    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+    struct PreviewWrapper: View {
+        @State var mockDrill = EditableDrillModel(
+            drill: DrillModel(
+                title: "Test Drill",
+                skill: "Passing",
+                sets: 2,
+                reps: 10,
+                duration: 15,
+                description: "Test description",
+                tips: ["Tip 1", "Tip 2"],
+                equipment: ["Ball"],
+                trainingStyle: "Medium Intensity",
+                difficulty: "Beginner"
+            ),
+            setsDone: 0,
+            totalSets: 2,
+            totalReps: 10,
+            totalDuration: 15,
+            isCompleted: false
+        )
+        
+        var body: some View {
+            DrillFollowAlongView(
+                appModel: MainAppModel(),
+                sessionModel: SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData()),
+                editableDrill: $mockDrill  // This binding will be mutable
+            )
+        }
+    }
     
-    let mockDrill = EditableDrillModel(
-        drill: DrillModel(
-            title: "Test Drill",
-            skill: "Passing",
-            sets: 2,
-            reps: 10,
-            duration: 15,
-            description: "Test description",
-            tips: ["Tip 1", "Tip 2"],
-            equipment: ["Ball"],
-            trainingStyle: "Medium Intensity",
-            difficulty: "Beginner"
-        ),
-        sets: 2,
-        reps: 10,
-        duration: 15,
-        isCompleted: false
-    )
-    
-    DrillFollowAlongView(
-        appModel: mockMainAppModel,
-        sessionModel: mockSessionModel,
-        editableDrill: .constant(mockDrill)
-    )
+    return PreviewWrapper()
 }

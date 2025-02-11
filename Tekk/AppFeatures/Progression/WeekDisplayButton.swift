@@ -101,9 +101,10 @@ struct WeekDisplayButton: View {
                 trainingStyle: "Medium Intensity",
                 difficulty: "Beginner"
             ),
-            sets: 4,
-            reps: 8,
-            duration: 20,
+            setsDone: 0,
+            totalSets: 4,
+            totalReps: 8,
+            totalDuration: 20,
             isCompleted: true
         ),
         EditableDrillModel(
@@ -119,9 +120,10 @@ struct WeekDisplayButton: View {
                 trainingStyle: "High Intensity",
                 difficulty: "Intermediate"
             ),
-            sets: 3,
-            reps: 10,
-            duration: 15,
+            setsDone: 0,
+            totalSets: 3,
+            totalReps: 10,
+            totalDuration: 15,
             isCompleted: true
         )
     ]

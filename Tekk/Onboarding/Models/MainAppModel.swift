@@ -218,9 +218,9 @@ class MainAppModel: ObservableObject {
         for drill in drills {
             print ("name: \(drill.drill.title)")
             print ("skill: \(drill.drill.skill)")
-            print ("duration: \(drill.duration)")
-            print ("sets: \(drill.sets)")
-            print ("reps: \(drill.reps)")
+            print ("duration: \(drill.totalDuration)")
+            print ("sets: \(drill.totalSets)")
+            print ("reps: \(drill.totalReps)")
             print ("equipment: \(drill.drill.equipment)")
             print ("Session completed: \(drill.isCompleted)")
         }
