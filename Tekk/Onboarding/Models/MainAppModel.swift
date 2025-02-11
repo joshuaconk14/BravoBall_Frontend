@@ -199,6 +199,7 @@ class MainAppModel: ObservableObject {
         )
         allCompletedSessions.append(newSession)
         
+        
         // Increase count of fully complete sessions if 100% done
         if totalCompletedDrills == totalDrills {
             countOfFullyCompletedSessions += 1

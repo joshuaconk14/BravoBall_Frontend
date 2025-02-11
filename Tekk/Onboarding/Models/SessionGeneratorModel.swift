@@ -175,6 +175,10 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
+    func clearOrderedDrills() {
+        orderedDrills.removeAll()
+    }
+    
     func moveDrill(from source: IndexSet, to destination: Int) {
         orderedDrills.move(fromOffsets: source, toOffset: destination)
     }

@@ -110,6 +110,10 @@ struct DrillFollowAlongView: View {
                         handleDrillCompletion()
                         endDrill()
                         
+                        if doneWithSession() {
+                            handleSessionCompletion()
+                        }
+                        
                     }
                             
                     ){
@@ -177,43 +181,37 @@ struct DrillFollowAlongView: View {
     }
     
     private func doneWithDrill() -> Bool {
+        // TODO: need to handle also for when new day comes
         return editableDrill.totalSets == editableDrill.setsDone
     }
     
     private func handleDrillCompletion() {
         editableDrill.isCompleted = true
-        
-//        if editableDrill.t
     }
     
     private func doneWithSession() -> Bool {
-//        appModel.addCompletedSession(
-//            date: Date(),
-//            drills: sessionModel.orderedDrills,
-//            totalCompletedDrills: Int(setsDone),
-//            totalDrills: Int(totalSets)
-//        )
-//        for drill in sessionModel.orderedDrills {
-//            if drill.totalCompletedDrills == drill.totalDrills {
-//                return true
-//            }
-//            return false
-//        }
-        return editableDrill.totalSets == editableDrill.setsDone
+        for editableDrill in sessionModel.orderedDrills {
+            if editableDrill.isCompleted == false {
+                return false
+            }
+        }
+        return true
+        
     }
 
     private func handleSessionCompletion() {
-        //        appModel.addCompletedSession(
-        //            date: Date(),
-        //            drills: sessionModel.orderedDrills,
-        //            totalCompletedDrills: Int(setsDone),
-        //            totalDrills: Int(totalSets)
-        //        )
-        //        for drill in sessionModel.orderedDrills {
-        //            if drill.totalCompletedDrills == drill.totalDrills {
-        //                return true
-        //            }
-        //            return false
+        appModel.addCompletedSession(
+            date: Date(),
+            drills: sessionModel.orderedDrills,
+            totalCompletedDrills: completedDrillsCount,
+            totalDrills: sessionModel.orderedDrills.count
+        )
+//        sessionModel.clearOrderedDrills()
+        
+    }
+    
+    private var completedDrillsCount: Int {
+        sessionModel.orderedDrills.filter( {$0.isCompleted == true}).count
     }
     
 
