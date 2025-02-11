@@ -65,9 +65,9 @@ struct DrillResultsView: View {
                     
 
                     // MARK: Fix this
-                    ForEach(session.drills, id: \.drill.id) { drill in
+                    ForEach(session.drills, id: \.drill.id) { editableDrill in
                             ZStack {
-                                if drill.isCompleted {
+                                if editableDrill.isCompleted {
                                     RiveViewModel(fileName: "Drill_Card_Complete").view()
                                         .frame(width: 330, height: 180)
                                 } else {
@@ -77,15 +77,15 @@ struct DrillResultsView: View {
                                 
                                 VStack(alignment: .leading, spacing: 8) {
                                         
-                                    Text("Drill: \(drill.drill.title)")
+                                    Text("Drill: \(editableDrill.drill.title)")
                                             .font(.custom("Poppins-Bold", size: 18))
-                                    Text("Skill: \(drill.drill.skill)")
+                                    Text("Skill: \(editableDrill.drill.skill)")
                                         HStack(spacing: 20) {
-                                            Text("Duration: \(drill.duration)min")
-                                            Text("Sets: \(drill.drill.sets)")
-                                            Text("Reps: \(drill.drill.reps)")
+                                            Text("Duration: \(editableDrill.duration)min")
+                                            Text("Sets: \(editableDrill.drill.sets)")
+                                            Text("Reps: \(editableDrill.drill.reps)")
                                         }
-                                    Text("Equipment: \(drill.drill.equipment.joined(separator: ", "))")
+                                    Text("Equipment: \(editableDrill.drill.equipment.joined(separator: ", "))")
                                 }
                                 .padding()
                                 .font(.custom("Poppins-Regular", size: 14))

@@ -15,7 +15,6 @@ struct DrillDetailView: View {
     let drill: DrillModel
     
     @Environment(\.dismiss) private var dismiss
-    @State private var showingFollowAlong = false
     @State private var showSaveDrill: Bool = false
     
     // MARK: Main view
@@ -133,32 +132,13 @@ struct DrillDetailView: View {
                     }
                     .padding()
                 }
-                .safeAreaInset(edge: .bottom) {
-                    if !appModel.viewState.showHomePage {
-                        Button(action: {
-                            showingFollowAlong = true
-                        }) {
-                            Text("Start Drill")
-                                .font(.custom("Poppins-Bold", size: 18))
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.yellow)
-                                .cornerRadius(12)
-                        }
-                        .padding()
-                    }
-                    
-                }
                 
                 if showSaveDrill {
                     findGroupToSaveToView
                 }
                 
             }
-            .fullScreenCover(isPresented: $showingFollowAlong) {
-                DrillFollowAlongView(drill: drill, appModel: appModel, sessionModel: sessionModel)
-        }
+            
     }
     
     // MARK: Find groups to save view
@@ -247,43 +227,153 @@ struct InfoItem: View {
 }
 
 
-#Preview {
-    let mockAppModel = MainAppModel()
-    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
 
+
+
+// MARK: Editing Drill VIew
+struct EditingDrillView: View {
     
-    let mockDrill = DrillModel(
-        title: "Shooting Drill",
-        skill: "Shooting",
-        sets: 4,
-        reps: 2,
-        duration: 20,
-        description: "This drill focuses on improving your shooting accuracy and power. Start by setting up cones in a zigzag pattern, dribble through them, and finish with a shot on goal.",
-        tips: [
-            "Keep your head down and eyes on the ball when shooting",
-            "Follow through with your kicking foot",
-            "Plant your non-kicking foot beside the ball",
-            "Strike the ball with your laces for power"
-        ],
-        equipment: [
-            "Soccer ball",
-            "Cones",
-            "Goal"
-        ],
-        trainingStyle: "Medium Intensity",
-        difficulty: "Beginner"
+    @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    @Binding var editableDrill: EditableDrillModel
+    
+    @State private var showDrillDetailView: Bool = false
+    @State private var editSets: String = ""
+    @State private var editReps: String = ""
+    @State private var editDuration: String = ""
+    
+    var body: some View {
+        ZStack {
+            VStack(alignment: .leading) {
+                Button(action : { showDrillDetailView = true}) {
+                    Image(systemName: "arrow.right")
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .font(.system(size: 16, weight: .medium))
+                }
+                
+                HStack {
+                    TextField("\(editableDrill.drill.sets)", text: $editSets)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .frame(maxWidth: 60)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                    Text("Sets")
+                }
+                HStack {
+                    TextField("\(editableDrill.drill.reps)", text: $editReps)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .frame(maxWidth: 60)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                    Text("Reps")
+                }
+                HStack {
+                    TextField("\(editableDrill.drill.duration)", text: $editDuration)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .frame(maxWidth: 60)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                    Text("Minutes")
+                }
+      
+            }
+            .padding()
+            
+        }
+        
+        .sheet(isPresented: $showDrillDetailView) {
+            DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: editableDrill.drill)
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+//#Preview {
+//    let mockAppModel = MainAppModel()
+//    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+//
+//    
+//    let mockDrill = DrillModel(
+//        title: "Shooting Drill",
+//        skill: "Shooting",
+//        sets: 4,
+//        reps: 2,
+//        duration: 20,
+//        description: "This drill focuses on improving your shooting accuracy and power. Start by setting up cones in a zigzag pattern, dribble through them, and finish with a shot on goal.",
+//        tips: [
+//            "Keep your head down and eyes on the ball when shooting",
+//            "Follow through with your kicking foot",
+//            "Plant your non-kicking foot beside the ball",
+//            "Strike the ball with your laces for power"
+//        ],
+//        equipment: [
+//            "Soccer ball",
+//            "Cones",
+//            "Goal"
+//        ],
+//        trainingStyle: "Medium Intensity",
+//        difficulty: "Beginner"
+//    )
+//    
+//    // Create a mock group with the drill
+//    let mockGroup = GroupModel(
+//        name: "My First Group",
+//        description: "Collection of passing drills",
+//        drills: [mockDrill]
+//    )
+//    
+//    // Add the mock group to savedDrills
+//    mockSessionModel.savedDrills = [mockGroup]
+//    
+//    
+//    return DrillDetailView(appModel: mockAppModel, sessionModel: mockSessionModel, drill: mockDrill)
+//}
+
+#Preview {
+    let mockDrill = EditableDrillModel(
+        drill: DrillModel(
+            title: "Test Drill",
+            skill: "Passing",
+            sets: 2,
+            reps: 10,
+            duration: 15,
+            description: "Test description",
+            tips: ["Tip 1", "Tip 2"],
+            equipment: ["Ball"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Beginner"
+        ),
+        sets: 2,
+        reps: 10,
+        duration: 15,
+        isCompleted: false
     )
     
-    // Create a mock group with the drill
-    let mockGroup = GroupModel(
-        name: "My First Group",
-        description: "Collection of passing drills",
-        drills: [mockDrill]
+    return EditingDrillView(
+        appModel: MainAppModel(),
+        sessionModel: SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData()),
+        editableDrill: .constant(mockDrill)
     )
-    
-    // Add the mock group to savedDrills
-    mockSessionModel.savedDrills = [mockGroup]
-    
-    
-    return DrillDetailView(appModel: mockAppModel, sessionModel: mockSessionModel, drill: mockDrill)
 }

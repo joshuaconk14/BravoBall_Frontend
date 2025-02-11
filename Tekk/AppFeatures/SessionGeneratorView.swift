@@ -200,25 +200,28 @@ struct SessionGeneratorView: View {
                             RiveViewModel(fileName: "Bravo_Panting").view()
                                 .frame(width: 90, height: 90)
                             VStack {
-                                ForEach(sessionModel.orderedDrills, id: \.drill.id) { drill in
-                                    SmallDrillCard(
-                                        appModel: appModel,
-                                        sessionModel: sessionModel,
-                                        drill: drill
-                                    )
-                                    .dropDestination(for: String.self) { items, location in
-                                        guard let sourceTitle = items.first,
-                                              let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == sourceTitle }),
-                                              let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == drill.drill.title }) else {
-                                            return false
+                                ForEach(sessionModel.orderedDrills, id: \.drill.id) { editableDrill in
+                                    if let index = sessionModel.orderedDrills.firstIndex(where: {$0.drill.id == editableDrill.drill.id}) {
+                                        SmallDrillCard(
+                                            appModel: appModel,
+                                            sessionModel: sessionModel,
+                                            editableDrill: $sessionModel.orderedDrills[index]
+                                        )
+                                        .dropDestination(for: String.self) { items, location in
+                                            guard let sourceTitle = items.first,
+                                                  let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == sourceTitle }),
+                                                  let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == editableDrill.drill.title }) else {
+                                                return false
+                                            }
+                                            
+                                            withAnimation(.spring()) {
+                                                let editableDrill = sessionModel.orderedDrills.remove(at: sourceIndex)
+                                                sessionModel.orderedDrills.insert(editableDrill, at: destinationIndex)
+                                            }
+                                            return true
                                         }
-                                        
-                                        withAnimation(.spring()) {
-                                            let drill = sessionModel.orderedDrills.remove(at: sourceIndex)
-                                            sessionModel.orderedDrills.insert(drill, at: destinationIndex)
-                                        }
-                                        return true
                                     }
+                                    
                                 }
                             }
                             .padding()
@@ -750,6 +753,7 @@ struct DisplaySavedFilters: View {
 
 
 // MARK: Compact Drill card
+// (only displays immutable drill model values)
 struct CompactDrillCard: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
@@ -807,11 +811,12 @@ struct CompactDrillCard: View {
 struct DrillCard: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
-    let drill: DrillModel
+    let editableDrill: EditableDrillModel
+    @State private var showingDrillDetail = false
     
     var body: some View {
         Button(action: {
-            appModel.viewState.showingDrillDetail = true
+            showingDrillDetail = true
         }) {
             ZStack {
                 RiveViewModel(fileName: "Drill_Card_Incomplete").view()
@@ -832,10 +837,10 @@ struct DrillCard: View {
                         .cornerRadius(10)
                     
                     VStack(alignment: .leading) {
-                            Text(drill.title)
+                        Text(editableDrill.drill.title)
                                 .font(.custom("Poppins-Bold", size: 16))
                                 .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                            Text("\(drill.sets) sets - \(drill.reps) reps - \(drill.duration)")
+                        Text("\(editableDrill.drill.sets) sets - \(editableDrill.drill.reps) reps - \(editableDrill.drill.duration)")
                             .font(.custom("Poppins-Bold", size: 14))
                             .foregroundColor(appModel.globalSettings.primaryGrayColor)
                     }
@@ -851,21 +856,29 @@ struct DrillCard: View {
             .padding()
         }
         .buttonStyle(PlainButtonStyle())
-        .sheet(isPresented: $appModel.viewState.showingDrillDetail) {
-            DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: drill)
+        .sheet(isPresented: $showingDrillDetail) {
+            if let index = sessionModel.orderedDrills.firstIndex(where: {$0.drill.id == editableDrill.drill.id}) {
+                EditingDrillView(
+                    appModel: appModel,
+                    sessionModel: sessionModel,
+                    editableDrill: $sessionModel.orderedDrills[index])
+            }
+            
         }
     }
 }
 
 // MARK: Small Drill card
+// When session is running
 struct SmallDrillCard: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
-    let drill: EditableDrillModel
+    @Binding var editableDrill: EditableDrillModel
+    @State private var showingFollowAlong: Bool = false
     
     var body: some View {
         Button(action: {
-            appModel.viewState.showingDrillDetail = true
+            showingFollowAlong = true
         }) {
             ZStack {
                 RiveViewModel(fileName: "Drill_Card_Incomplete").view()
@@ -874,7 +887,7 @@ struct SmallDrillCard: View {
                         .font(.system(size: 24))
                     .padding()
                     .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                    .background(Color.gray.opacity(0.1))
+                    .background(editableDrill.isCompleted ? appModel.globalSettings.primaryYellowColor : Color.gray.opacity(0.1))
                     .cornerRadius(10)
                 
 //                VStack(alignment: .leading) {
@@ -886,8 +899,12 @@ struct SmallDrillCard: View {
             .padding()
         }
         .buttonStyle(PlainButtonStyle())
-        .sheet(isPresented: $appModel.viewState.showingDrillDetail) {
-            DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: drill.drill)
+        .fullScreenCover(isPresented: $showingFollowAlong) {
+            DrillFollowAlongView(
+                appModel: appModel,
+                sessionModel: sessionModel,
+                editableDrill: $editableDrill
+                )
         }
     }
 }
@@ -1211,11 +1228,11 @@ struct GeneratedDrillsSection: View {
                     .padding(.bottom, 150)
                     
                 } else {
-                    ForEach(sessionModel.orderedDrills, id: \.drill.id) { drill in
+                    ForEach(sessionModel.orderedDrills, id: \.drill.id) { editableDrill in
                         HStack {
                             if appModel.viewState.showDeleteButtons {
                                 Button(action: {
-                                    sessionModel.deleteDrillFromSession(drill: drill)
+                                    sessionModel.deleteDrillFromSession(drill: editableDrill)
                                 }) {
                                     ZStack {
                                         Circle()
@@ -1233,19 +1250,19 @@ struct GeneratedDrillsSection: View {
                             DrillCard(
                                 appModel: appModel,
                                 sessionModel: sessionModel,
-                                drill: drill.drill
+                                editableDrill: editableDrill
                             )
-                            .draggable(drill.drill.title) {
+                            .draggable(editableDrill.drill.title) {
                                 DrillCard(
                                     appModel: appModel,
                                     sessionModel: sessionModel,
-                                    drill: drill.drill
+                                    editableDrill: editableDrill
                                 )
                             }
                             .dropDestination(for: String.self) { items, location in
                                 guard let sourceTitle = items.first,
                                       let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == sourceTitle }),
-                                      let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == drill.drill.title }) else {
+                                      let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == editableDrill.drill.title }) else {
                                     return false
                                 }
                                 

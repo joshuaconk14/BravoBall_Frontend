@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct DrillFollowAlongView: View {
-    let drill: DrillModel
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
+    @Binding var editableDrill: EditableDrillModel
+    
+    @State private var showDrillDetailView: Bool = false
     
     @Environment(\.dismiss) private var dismiss
     @State private var isPlaying = false
@@ -21,13 +23,16 @@ struct DrillFollowAlongView: View {
     @State private var displayCountdown: Bool = false // TESTING
     @State private var timer: Timer?
     
+    
+    
     // Initialize states to use drill values
-    init(drill: DrillModel, appModel: MainAppModel, sessionModel: SessionGeneratorModel) {
-        self.drill = drill
+    init(appModel: MainAppModel, sessionModel: SessionGeneratorModel, editableDrill: Binding<EditableDrillModel>) {
         self.appModel = appModel
         self.sessionModel = sessionModel
+        self._editableDrill = editableDrill
         
-        let totalSets = Double(drill.sets)
+        
+        let totalSets = Double(editableDrill.wrappedValue.drill.sets)
         _totalSets = State(initialValue: totalSets)
         
         
@@ -37,6 +42,7 @@ struct DrillFollowAlongView: View {
         // MARK: TESTING
         let initialTime = 1.0
         _elapsedTime = State(initialValue: initialTime)
+        
     }
 
     
@@ -58,7 +64,13 @@ struct DrillFollowAlongView: View {
 
                     Spacer()
                     
-                    Text("\(drill.title)") // TESTING?
+                    Button(action : { showDrillDetailView = true}) {
+                        Image(systemName: "arrow.right")
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            .font(.system(size: 16, weight: .medium))
+                    }
+                    
+                    Text("\(editableDrill.drill.title)")
                         .padding(.horizontal)
                     
                     
@@ -118,7 +130,7 @@ struct DrillFollowAlongView: View {
                 
                 if doneWithDrill() {
                     Button(action: {
-//                        handleDrillCompletion()
+                        handleDrillCompletion()
                         endDrill()
                         
                     }
@@ -170,6 +182,9 @@ struct DrillFollowAlongView: View {
         }
         .statusBar(hidden: false)
         .navigationBarHidden(true)
+        .sheet(isPresented: $showDrillDetailView) {
+            DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: editableDrill.drill)
+        }
     }
     
     private var backButton: some View {
@@ -189,16 +204,7 @@ struct DrillFollowAlongView: View {
     }
     
     private func handleDrillCompletion() {
-//        // Only add session if not already added
-//        if doneWithDrill() {  // Add a flag to track this
-////            drill.isCompleted = true
-//            appModel.addCompletedSession(
-//                date: Date(),
-//                drills: sessionModel.orderedDrills,
-//                totalCompletedDrills: Int(setsDone),
-//                totalDrills: Int(totalSets)
-//            )
-//        }
+        editableDrill.isCompleted = true
     }
     
     private func doneWithSession() -> Bool {
@@ -218,15 +224,17 @@ struct DrillFollowAlongView: View {
     }
 
     private func handleSessionCompletion() {
-//        // Only add session if not already added
-//        if doneWithDrill() {  // Add a flag to track this
-//            appModel.addCompletedSession(
-//                date: Date(),
-//                drills: sessionModel.orderedDrills,
-//                totalCompletedDrills: Int(setsDone),
-//                totalDrills: Int(totalSets)
-//            )
-//        }
+        //        appModel.addCompletedSession(
+        //            date: Date(),
+        //            drills: sessionModel.orderedDrills,
+        //            totalCompletedDrills: Int(setsDone),
+        //            totalDrills: Int(totalSets)
+        //        )
+        //        for drill in sessionModel.orderedDrills {
+        //            if drill.totalCompletedDrills == drill.totalDrills {
+        //                return true
+        //            }
+        //            return false
     }
     
 
@@ -297,17 +305,28 @@ struct DrillFollowAlongView: View {
     let mockMainAppModel = MainAppModel()
     let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
     
-    DrillFollowAlongView(drill: DrillModel(
-        title: "Test Drill",
-        skill: "Passing",
+    let mockDrill = EditableDrillModel(
+        drill: DrillModel(
+            title: "Test Drill",
+            skill: "Passing",
+            sets: 2,
+            reps: 10,
+            duration: 15,
+            description: "Test description",
+            tips: ["Tip 1", "Tip 2"],
+            equipment: ["Ball"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Beginner"
+        ),
         sets: 2,
         reps: 10,
         duration: 15,
-        description: "Test description",
-        tips: ["Tip 1", "Tip 2"],
-        equipment: ["Ball"],
-        trainingStyle: "Medium Intensity",
-        difficulty: "Beginner"
-    ), appModel: mockMainAppModel, sessionModel: mockSessionModel)
+        isCompleted: false
+    )
+    
+    DrillFollowAlongView(
+        appModel: mockMainAppModel,
+        sessionModel: mockSessionModel,
+        editableDrill: .constant(mockDrill)
+    )
 }
-

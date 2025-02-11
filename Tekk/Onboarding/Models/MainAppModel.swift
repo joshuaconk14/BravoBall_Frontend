@@ -45,6 +45,10 @@ class MainAppModel: ObservableObject {
         var showingDrillDetail: Bool = false
     }
     
+        
+    
+    
+    
     // Enus and types for prereqs
     
     @Published var selectedPrerequisite: PrerequisiteType?
