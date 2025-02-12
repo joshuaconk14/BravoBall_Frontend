@@ -26,6 +26,10 @@ struct SessionGeneratorView: View {
     var body: some View {
             ZStack(alignment: .bottom) {
                 
+                // Sky background color
+                Color(hex:"bef1fa")
+                    .ignoresSafeArea()
+                
                 homePage
 
                 // Golden button
@@ -44,6 +48,8 @@ struct SessionGeneratorView: View {
                 }
                 
             }
+            .background(Color(hex:"bef1fa"))
+
             .sheet(item: $appModel.selectedPrerequisite) { type in
                     PrerequisiteDropdown(
                         appModel: appModel,
@@ -67,7 +73,6 @@ struct SessionGeneratorView: View {
 //                .interactiveDismissDisabled()
                 .presentationDetents([.height(300)])
             }
-            .background(Color(hex:"bef1fa"))
     }
     
     
@@ -162,78 +167,81 @@ struct SessionGeneratorView: View {
     private var areaBehindHomePage: some View {
         // Whole area behind the home page
         VStack {
-            HStack {
-                // back button to go back to home page
-                if !appModel.viewState.showHomePage {
-                    Button(action:  {
-                        withAnimation(.spring(dampingFraction: 0.7)) {
-                            appModel.viewState.showSmallDrillCards = false
-                        }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                            withAnimation(.spring(dampingFraction: 0.7)) {
-                                appModel.viewState.showHomePage = true
-                                appModel.viewState.showTextBubble = true
-                            }
-                        }
-                    }) {
-                        Image(systemName: "xmark")
-                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                    }
-                }
-                Spacer()
-
-                
-            }
-            .padding(.horizontal)
-            .padding(.vertical, 8)
+            
             
             Spacer()
 
                 // When the session is activated
             if appModel.viewState.showSmallDrillCards {
-                    ZStack {
-                        RiveViewModel(fileName: "Grass_Field").view()
-                            .frame(maxWidth: .infinity)
-                            .padding(.top, 100)
-                        HStack {
-                            RiveViewModel(fileName: "Bravo_Panting").view()
-                                .frame(width: 90, height: 90)
-                            VStack {
-                                ForEach(sessionModel.orderedDrills, id: \.drill.id) { editableDrill in
-                                    if let index = sessionModel.orderedDrills.firstIndex(where: {$0.drill.id == editableDrill.drill.id}) {
-                                        SmallDrillCard(
-                                            appModel: appModel,
-                                            sessionModel: sessionModel,
-                                            editableDrill: $sessionModel.orderedDrills[index]
-                                        )
-                                        .dropDestination(for: String.self) { items, location in
-                                            guard let sourceTitle = items.first,
-                                                  let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == sourceTitle }),
-                                                  let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == editableDrill.drill.title }) else {
-                                                return false
-                                            }
-                                            
-                                            withAnimation(.spring()) {
-                                                let editableDrill = sessionModel.orderedDrills.remove(at: sourceIndex)
-                                                sessionModel.orderedDrills.insert(editableDrill, at: destinationIndex)
-                                            }
-                                            return true
+                ZStack {
+                    RiveViewModel(fileName: "Grass_Field").view()
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 100)
+                    HStack {
+                        RiveViewModel(fileName: "Bravo_Panting").view()
+                            .frame(width: 90, height: 90)
+                        VStack {
+                            ForEach(sessionModel.orderedDrills, id: \.drill.id) { editableDrill in
+                                if let index = sessionModel.orderedDrills.firstIndex(where: {$0.drill.id == editableDrill.drill.id}) {
+                                    SmallDrillCard(
+                                        appModel: appModel,
+                                        sessionModel: sessionModel,
+                                        editableDrill: $sessionModel.orderedDrills[index]
+                                    )
+                                    .dropDestination(for: String.self) { items, location in
+                                        guard let sourceTitle = items.first,
+                                              let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == sourceTitle }),
+                                              let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == editableDrill.drill.title }) else {
+                                            return false
                                         }
+                                        
+                                        withAnimation(.spring()) {
+                                            let editableDrill = sessionModel.orderedDrills.remove(at: sourceIndex)
+                                            sessionModel.orderedDrills.insert(editableDrill, at: destinationIndex)
+                                        }
+                                        return true
                                     }
-                                    
                                 }
+                                
                             }
-                            .padding()
                         }
-                        
+                        .padding()
                     }
-                    .transition(.move(edge: .bottom))
-                    
+                        // back button to go back to home page
+                        HStack {
+                            Spacer()
+                            
+                            Button(action:  {
+                                withAnimation(.spring(dampingFraction: 0.7)) {
+                                    appModel.viewState.showSmallDrillCards = false
+                                }
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                    withAnimation(.spring(dampingFraction: 0.7)) {
+                                        appModel.viewState.showHomePage = true
+                                        appModel.viewState.showTextBubble = true
+                                    }
+                                }
+                            }) {
+                                Text("End Session")
+                                    .font(.custom("Poppins-Bold", size: 16))
+                                    .foregroundColor(.white)
+                                    .frame(width: 150, height: 44)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 22)
+                                            .fill(Color.red)
+                                    )
+                            }
+                            
+                        }
+                        .padding()
+                        .padding(.top, 500) // TODO: find better way to style this
                     
                 }
-                
+                .transition(.move(edge: .bottom))
+            }
         }
+        
     }
     
     
@@ -881,24 +889,42 @@ struct SmallDrillCard: View {
             showingFollowAlong = true
         }) {
             ZStack {
-                RiveViewModel(fileName: "Drill_Card_Incomplete").view()
-                    .frame(width: 100, height: 50)
-                Image(systemName: "figure.soccer")
-                        .font(.system(size: 24))
-                    .padding()
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                    .background(editableDrill.isCompleted ? appModel.globalSettings.primaryYellowColor : Color.gray.opacity(0.1))
-                    .cornerRadius(10)
+                // Progress stroke rectangle
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(
+                        Color.gray.opacity(0.3),
+                        lineWidth: 7
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .trim(from: 1 - progress, to: 1)
+                            .stroke(
+                                appModel.globalSettings.primaryYellowColor,
+                                lineWidth: 7
+                            )
+                            .animation(.linear, value: progress)
+                    )
+                    .frame(width: 110, height: 60)
                 
-//                VStack(alignment: .leading) {
-//                        Text(drill.title)
-//                            .font(.custom("Poppins-Bold", size: 16))
-//                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-//                }
+                // Drill card
+                ZStack {
+                    RiveViewModel(fileName: "Drill_Card_Incomplete").view()
+                        .frame(width: 100, height: 50)
+                    Image(systemName: "figure.soccer")
+                            .font(.system(size: 24))
+                        .padding()
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .background(editableDrill.isCompleted ? appModel.globalSettings.primaryYellowColor : Color.gray.opacity(0.1))
+                        .cornerRadius(10)
+
+                }
+                .padding()
             }
-            .padding()
+            
         }
         .buttonStyle(PlainButtonStyle())
+        .opacity(editableDrill.isCompleted || isCurrentDrill() ? 1.0 : 0.5)
+        .disabled(!editableDrill.isCompleted && !isCurrentDrill())
         .fullScreenCover(isPresented: $showingFollowAlong) {
             DrillFollowAlongView(
                 appModel: appModel,
@@ -906,6 +932,17 @@ struct SmallDrillCard: View {
                 editableDrill: $editableDrill
                 )
         }
+    }
+    
+    var progress: Double {
+            Double(editableDrill.setsDone) / Double(editableDrill.drill.sets)
+        }
+    
+    private func isCurrentDrill() -> Bool {
+        if let firstIncompleteDrill = sessionModel.orderedDrills.first(where: { !$0.isCompleted }) {
+            return firstIncompleteDrill.drill.id == editableDrill.drill.id
+        }
+        return false
     }
 }
 
