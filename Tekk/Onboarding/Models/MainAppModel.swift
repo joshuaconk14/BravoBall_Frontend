@@ -38,6 +38,7 @@ class MainAppModel: ObservableObject {
         var showHomePage: Bool = true
         var showTextBubble: Bool = true
         var showSmallDrillCards: Bool = false
+        var showFilterOptions: Bool = false
         var showSavedPrereqs: Bool = false
         var showSavedPrereqsPrompt: Bool = false
         var showSearchDrills: Bool = false
