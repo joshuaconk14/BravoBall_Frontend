@@ -43,6 +43,7 @@ class MainAppModel: ObservableObject {
         var showSearchDrills: Bool = false
         var showDeleteButtons: Bool = false
         var showingDrillDetail: Bool = false
+        var showSkillSearch: Bool = false
     }
     
         
