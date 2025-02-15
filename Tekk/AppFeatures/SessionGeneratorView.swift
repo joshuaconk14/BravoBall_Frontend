@@ -1108,6 +1108,7 @@ struct SkillSelectionView: View {
                     }
                 }
                 
+                // Full Search bar
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
@@ -1132,6 +1133,7 @@ struct SkillSelectionView: View {
                             TextField(sessionModel.selectedSkills.isEmpty ? "Search skills..." : "Select more...", text: $searchText)
                                 .textFieldStyle(PlainTextFieldStyle())
                                 .frame(maxWidth: .infinity, alignment: .leading)
+                                .tint(appModel.globalSettings.primaryYellowColor)
                                 .focused($isFocused)
                                 .onChange(of: isFocused) {
                                     if isFocused {
@@ -1166,7 +1168,7 @@ struct SkillSelectionView: View {
                 .background(Color.white)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(appModel.globalSettings.primaryLightGrayColor, lineWidth: 3)
+                        .stroke(isFocused ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryLightGrayColor, lineWidth: 3)
                 )
                 .cornerRadius(20)
                 .padding(.top, 13)
