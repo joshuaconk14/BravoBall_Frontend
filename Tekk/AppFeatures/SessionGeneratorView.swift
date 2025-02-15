@@ -14,6 +14,7 @@ struct SessionGeneratorView: View {
     @ObservedObject var sessionModel: SessionGeneratorModel
     
     @State private var savedFiltersName: String  = ""
+    @State private var searchSkillsText: String = ""
 
 //    init(model: OnboardingModel, appModel: MainAppModel) {
 //        self.model = model
@@ -36,11 +37,9 @@ struct SessionGeneratorView: View {
 
                 // Golden button
                     
-                if !sessionModel.orderedDrills.isEmpty {
-                    if appModel.viewState.showHomePage {
+                if !sessionModel.orderedDrills.isEmpty && !appModel.viewState.showSkillSearch && appModel.viewState.showHomePage  {
                         
                         goldenButton
-                    }
                 }
                 
                 // Prompt to save filter
@@ -55,8 +54,8 @@ struct SessionGeneratorView: View {
             .sheet(item: $appModel.selectedPrerequisite) { type in
                     PrerequisiteDropdown(
                         appModel: appModel,
-                        type: type,
-                        sessionModel: sessionModel
+                        sessionModel: sessionModel,
+                        type: type
                     ) {
                         appModel.selectedPrerequisite = nil
                     }
@@ -144,7 +143,7 @@ struct SessionGeneratorView: View {
                             Spacer()
                             
                             // Skills for today view
-                            SkillSelectionView(appModel: appModel, sessionModel: sessionModel)
+                            SkillSelectionView(appModel: appModel, sessionModel: sessionModel, searchText: $searchSkillsText)
                                 .padding(.top, 3)
                             
                             Spacer()
@@ -153,7 +152,8 @@ struct SessionGeneratorView: View {
                         if appModel.viewState.showSkillSearch {
                             SearchSkillsView(
                                 appModel: appModel,
-                                sessionModel: sessionModel
+                                sessionModel: sessionModel,
+                                searchText: $searchSkillsText
                             )
                         } else {
                             
@@ -198,19 +198,6 @@ struct SessionGeneratorView: View {
                                         sessionModel: sessionModel,
                                         editableDrill: $sessionModel.orderedDrills[index]
                                     )
-                                    .dropDestination(for: String.self) { items, location in
-                                        guard let sourceTitle = items.first,
-                                              let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == sourceTitle }),
-                                              let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == editableDrill.drill.title }) else {
-                                            return false
-                                        }
-                                        
-                                        withAnimation(.spring()) {
-                                            let editableDrill = sessionModel.orderedDrills.remove(at: sourceIndex)
-                                            sessionModel.orderedDrills.insert(editableDrill, at: destinationIndex)
-                                        }
-                                        return true
-                                    }
                                 }
                                 
                             }
@@ -258,18 +245,18 @@ struct SessionGeneratorView: View {
     
     // MARK: Prerequisite Scroll View
     private var prerequisiteScrollView: some View {
-        ZStack {
+        ZStack(alignment: .leading) {
             
             Rectangle()
                 .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 2)
-                .frame(height: 70)
+                .frame(height: 52)
             
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
+                HStack(spacing: 0) {
                     
                     
-                    FilterButton(appModel: appModel, sessionModel: sessionModel)
+                
                     
                     
                     // All prereqs
@@ -287,13 +274,18 @@ struct SessionGeneratorView: View {
                                 appModel.selectedPrerequisite = type
                             }
                         }
-                        .padding(.vertical)
+                        .padding(.vertical, 3)
                     }
                     
                 }
-                .padding()
                 
             }
+            .padding(.leading, 70)
+            
+            FilterButton(appModel: appModel, sessionModel: sessionModel)
+
+            
+                
         }
         .frame(maxWidth: .infinity)
         .padding(.bottom, 5)
@@ -466,8 +458,9 @@ struct FilterButton: View {
                         .foregroundColor(appModel.globalSettings.primaryDarkColor)
                         .font(.system(size: 16, weight: .medium))
                 }
-                .padding(.vertical)
             }
+            .padding(.horizontal)
+            .padding(.vertical, 3)
         }
         .onTapGesture {
             withAnimation {
@@ -476,6 +469,7 @@ struct FilterButton: View {
                 }
             }
         }
+        .background(Color.white)
     }
     
 
@@ -586,24 +580,24 @@ struct SearchSkillsView: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     
-    @State private var searchText = ""
+    @Binding var searchText: String
     
     // Flatten all skills for searching
-        var allSkills: [(category: String, skill: String)] {
+        var allSkills: [String] {
             SessionGeneratorView.skillCategories.flatMap { category in
                 category.subSkills.map { subSkill in
-                    (category: category.name, skill: subSkill)
+                    (subSkill)
                 }
             }
+            
         }
         
-        var filteredSkills: [(category: String, skill: String)] {
+        var filteredSkills: [String] {
             if searchText.isEmpty {
-                return allSkills
+                return []
             } else {
-                return allSkills.filter {
-                    $0.skill.localizedCaseInsensitiveContains(searchText) ||
-                    $0.category.localizedCaseInsensitiveContains(searchText)
+                return allSkills.filter { skill in
+                    skill.lowercased().contains(searchText.lowercased())
                 }
             }
         }
@@ -616,41 +610,88 @@ struct SearchSkillsView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
-                            if let category = SessionGeneratorView.skillCategories.first(where: { $0.subSkills.contains(skill) }) {
-                                SkillButton(
-                                    appModel: appModel,
-                                    title: skill,
-                                    isSelected: true
-                                ) { }
-                            }
-                        
+                            SkillButton(
+                                appModel: appModel,
+                                title: skill,
+                                isSelected: true
+                            ) { }
                     }
                 }
                 .padding(.horizontal)
             }
             
-            // Results grouped by category
-                List {
-                    ForEach(Dictionary(grouping: filteredSkills) { $0.category }
-                        .sorted(by: { $0.key < $1.key }), id: \.key) { category, skills in
-                        Section(header: Text(category)) {
-                            ForEach(skills, id: \.skill) { skill in
-                                HStack {
-                                    // Get icon for the category
-                                    if let categoryData = SessionGeneratorView.skillCategories.first(where: { $0.name == category }) {
-                                        Image(systemName: categoryData.icon)
-                                            .foregroundColor(.gray)
-                                    }
-                                    Text(skill.skill)
-                                }
-                            }
-                        }
+            ScrollView(showsIndicators: false) {
+                ForEach(filteredSkills, id: \.self) { skill in
+                    VStack(alignment: .leading) {
+                        SkillRow(
+                            appModel: appModel,
+                            sessionModel: sessionModel,
+                            skill: skill
+                        )
+                        Divider()
                     }
                 }
+            }
             
             Spacer()
         }
+        .safeAreaInset(edge: .bottom) {
+            if sessionModel.selectedSkills.count > 0 {
+                Button(action: {
+                    searchText = ""
+                    appModel.viewState.showSkillSearch = false
+                }) {
+                    Text("Create Session")
+                        .font(.custom("Poppins-Bold", size: 18))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.yellow)
+                        .cornerRadius(12)
+                }
+                .padding()
+            }
+            
+        }
     }
+}
+
+
+// MARK: Skill Row
+struct SkillRow: View {
+    @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    let skill: String
+    
+    var body: some View {
+        Button( action: {
+            if sessionModel.selectedSkills.contains(skill) {
+                sessionModel.selectedSkills.remove(skill)
+            } else {
+                sessionModel.selectedSkills.insert(skill)
+            }
+        }) {
+            HStack {
+                Image(systemName: "figure.soccer")
+                    .font(.system(size: 24))
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    .frame(width: 40, height: 40)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(8)
+                
+                VStack(alignment: .leading) {
+                    Text(skill)
+                        .font(.custom("Poppins-Bold", size: 14))
+                        .foregroundColor(.black)
+                    Text("Defending")
+                        .font(.custom("Poppins-Regular", size: 12))
+                        .foregroundColor(.gray)
+                        .lineLimit(2)
+                }
+            }
+        }
+    }
+    
 }
 
 
@@ -671,19 +712,21 @@ struct PrerequisiteButton: View {
         }) {
             HStack {
                 icon.view
+                    .scaleEffect(0.7)
+                    
                 
                 Text(value.isEmpty ? type.rawValue : value)
-                    .font(.custom("Poppins-Bold", size: 12))
+                    .font(.custom("Poppins-Bold", size: 18))
                     .foregroundColor(Color.white)
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 8)
             .padding(.vertical, 3)
             .background(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 20)
                     .fill(value.isEmpty ? Color(hex:"#f5cc9f") : Color(hex:"eb9c49"))
                     .stroke(value.isEmpty ? Color(hex:"f5cc9f") : Color(hex:"b37636"), lineWidth: 3)
             )
-            .scaleEffect(isSelected ? 1.05 : 1.0)
+            .scaleEffect(isSelected ? 0.85 : 0.8)
             .animation(.spring(response: 0.4, dampingFraction: 0.6), value: isSelected)
         }
     }
@@ -692,8 +735,9 @@ struct PrerequisiteButton: View {
 // MARK: Prereq dropdown
 struct PrerequisiteDropdown: View {
     @ObservedObject var appModel: MainAppModel
-    let type: MainAppModel.PrerequisiteType
     @ObservedObject var sessionModel: SessionGeneratorModel
+    
+    let type: MainAppModel.PrerequisiteType
     let dismiss: () -> Void
     
     var body: some View {
@@ -863,28 +907,6 @@ struct DisplaySavedFilters: View {
         }
         .padding()
     }
-    
-    // MARK: Ellipses button
-    private var ellipsesButton: some View {
-        Button(action:  {
-            if appModel.viewState.showSavedPrereqsPrompt == true {
-                appModel.viewState.showSavedPrereqsPrompt = false
-            } else {
-                appModel.viewState.showSavedPrereqsPrompt = true
-            }
-        }) {
-            VStack {
-                Image(systemName: "ellipsis")
-                    .font(.system(size: 14))
-                    .foregroundColor((appModel.globalSettings.primaryDarkColor))
-            }
-            
-        }
-        .padding()
-    }
-    
-
-    
     // Load filter after clicking the name of saved filter
     private func loadFilter(_ filter: SavedFiltersModel) {
             sessionModel.selectedTime = filter.savedTime
@@ -893,10 +915,7 @@ struct DisplaySavedFilters: View {
             sessionModel.selectedLocation = filter.savedLocation
             sessionModel.selectedDifficulty = filter.savedDifficulty
         }
-    
 }
-    
-
 
 
 // MARK: Compact Drill card
@@ -1047,14 +1066,17 @@ struct SmallDrillCard: View {
                 
                 // Drill card
                 ZStack {
-                    RiveViewModel(fileName: "Drill_Card_Incomplete").view()
+                    if editableDrill.isCompleted {
+                        RiveViewModel(fileName: "Drill_Card_Complete").view()
                         .frame(width: 100, height: 50)
+                    } else {
+                        RiveViewModel(fileName: "Drill_Card_Incomplete").view()
+                        .frame(width: 100, height: 50)
+                    }
                     Image(systemName: "figure.soccer")
-                            .font(.system(size: 24))
+                        .font(.system(size: 20))
                         .padding()
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        .background(editableDrill.isCompleted ? appModel.globalSettings.primaryYellowColor : Color.gray.opacity(0.1))
-                        .cornerRadius(10)
+                        .foregroundColor(editableDrill.isCompleted ? Color.white : appModel.globalSettings.primaryDarkColor)
 
                 }
                 .padding()
@@ -1093,8 +1115,9 @@ struct SkillSelectionView: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     @State private var showingSkillSelector = false
-    @State private var searchText: String = ""
     @FocusState private var isFocused: Bool
+    
+    @Binding var searchText: String
     
     
     var body: some View {
@@ -1103,6 +1126,7 @@ struct SkillSelectionView: View {
             HStack {
                 if appModel.viewState.showSkillSearch {
                     Button( action: {
+                        searchText = ""
                         appModel.viewState.showSkillSearch = false
                     }) {
                         Image(systemName: "chevron.left")
@@ -1150,7 +1174,6 @@ struct SkillSelectionView: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(10)
                 .padding(.top, 13)
-                .padding(.horizontal, 4)
 
             }
             
@@ -1159,22 +1182,19 @@ struct SkillSelectionView: View {
         if !appModel.viewState.showSkillSearch {
             HStack(spacing: 8) {
                 ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
-                        if let category = SessionGeneratorView.skillCategories.first(where: { $0.subSkills.contains(skill) }) {
-                            SkillButton(
-                                appModel: appModel,
-                                title: skill,
-                                isSelected: true
-                            ) { }
-                        }
+                        SkillButton(
+                            appModel: appModel,
+                            title: skill,
+                            isSelected: true
+                        ) { }
                     }
                 }
-                .padding(.horizontal, 5)
             }
             
         }
-        .padding(.horizontal)
+        .padding(.horizontal, 8)
         .sheet(isPresented: $showingSkillSelector) {
-            SkillSelectorSheet(appModel: appModel, selectedSkills: $sessionModel.selectedSkills)
+            SkillSelectorSheet(appModel: appModel, sessionModel: sessionModel)
                 .presentationDragIndicator(.hidden)
                 .interactiveDismissDisabled()
         }
@@ -1203,11 +1223,12 @@ struct SkillButton: View {
             }
             .padding(4)
             .background(
-                RoundedRectangle(cornerRadius: 6)
+                RoundedRectangle(cornerRadius: 20)
                     .fill(Color.white)
                     .stroke(appModel.globalSettings.primaryLightGrayColor, lineWidth: 2)
             )
         }
+        .padding(.vertical, 10)
     }
 }
 
@@ -1215,7 +1236,8 @@ struct SkillButton: View {
 // MARK: Skill selector sheet
 struct SkillSelectorSheet: View {
     @ObservedObject var appModel: MainAppModel
-    @Binding var selectedSkills: Set<String>
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    
     @Environment(\.dismiss) private var dismiss
     @State private var expandedCategory: String?
     
@@ -1230,9 +1252,13 @@ struct SkillSelectorSheet: View {
                         .font(.custom("Poppins-Bold", size: 16))
                         .padding(.leading, 70)
                     Spacer()
-                    Button("Done") {
+                    Button(action: {
                         dismiss()
+                    }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(.gray)
                     }
+                    
                     .padding()
                     .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     .font(.custom("Poppins-Bold", size: 16))
@@ -1280,10 +1306,10 @@ struct SkillSelectorSheet: View {
                                     VStack(spacing: 12) {
                                         ForEach(category.subSkills, id: \.self) { subSkill in
                                             Button(action: {
-                                                if selectedSkills.contains(subSkill) {
-                                                    selectedSkills.remove(subSkill)
+                                                if sessionModel.selectedSkills.contains(subSkill) {
+                                                    sessionModel.selectedSkills.remove(subSkill)
                                                 } else {
-                                                    selectedSkills.insert(subSkill)
+                                                    sessionModel.selectedSkills.insert(subSkill)
                                                 }
                                             }) {
                                                 HStack {
@@ -1292,7 +1318,7 @@ struct SkillSelectorSheet: View {
                                                     
                                                     Spacer()
                                                     
-                                                    if selectedSkills.contains(subSkill) {
+                                                    if sessionModel.selectedSkills.contains(subSkill) {
                                                         Image(systemName: "checkmark.circle.fill")
                                                             .foregroundColor(appModel.globalSettings.primaryYellowColor)
                                                     }
@@ -1314,12 +1340,29 @@ struct SkillSelectorSheet: View {
                     .padding()
                 }
             }
+            .safeAreaInset(edge: .bottom) {
+                if sessionModel.selectedSkills.count > 0 {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Text("Create Session")
+                            .font(.custom("Poppins-Bold", size: 18))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.yellow)
+                            .cornerRadius(12)
+                    }
+                    .padding()
+                }
+                
+            }
     }
     // TODO: move this somewhere else?
     // Highlight category if sub skill selected
     func isCategorySelected(_ category: SkillCategory) -> Bool {
         for skill in category.subSkills {
-            if selectedSkills.contains(skill) {
+            if sessionModel.selectedSkills.contains(skill) {
                 return true
             }
         }
@@ -1491,6 +1534,7 @@ struct GeneratedDrillsSection: View {
             }
         }
         .padding(.horizontal)
+        .padding(.top, 10)
         .cornerRadius(15)
         .sheet(isPresented: $appModel.viewState.showSearchDrills) {
             SearchDrillsSheetView(appModel: appModel, sessionModel: sessionModel, dismiss: { appModel.viewState.showSearchDrills = false })

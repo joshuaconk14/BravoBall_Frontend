@@ -34,32 +34,61 @@ struct DrillFollowAlongView: View {
             VStack(spacing: 0) {
                 HStack {
                     
-                    HStack {
-                        backButton
-                        Spacer()
-                    }
+                    backButton
 
                     Spacer()
-                    
-                    Button(action : { showDrillDetailView = true}) {
-                        Image(systemName: "arrow.right")
-                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                            .font(.system(size: 16, weight: .medium))
-                    }
                     
                     Text("\(editableDrill.drill.title)")
                         .padding(.horizontal)
                     
+                    Spacer()
                     
-                    CircularProgressView(appModel: appModel, progress: Double(editableDrill.setsDone) / Double(editableDrill.totalSets))
-                        .frame(width: 50, height: 80)
-                        .padding()
+                    Button(action: {
+                        showDrillDetailView = true
+                    }) {
+                        Image(systemName: "line.horizontal.3")
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            .font(.system(size: 16, weight: .medium))
+                    }
                     
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
                 
+                // Progress stroke rectangle
+                Path { path in
+                    path.move(to: CGPoint(x: 0, y: 0))
+                    path.addLine(to: CGPoint(x: 360, y: 0))
+                }
+                .stroke(
+                    Color.gray.opacity(0.3),
+                    lineWidth: 7
+                )
+                .overlay(
+                    Path { path in
+                        path.move(to: CGPoint(x: 0, y: 0))
+                        path.addLine(to: CGPoint(x: 360, y: 0))
+                    }
+                    .trim(from: 0, to: Double(editableDrill.setsDone) / Double(editableDrill.totalSets))
+                    .stroke(
+                        appModel.globalSettings.primaryYellowColor,
+                        lineWidth: 7
+                    )
+                    .animation(.linear, value: Double(editableDrill.setsDone) / Double(editableDrill.totalSets))
+                )
+                .frame(width: 360, height: 10)
+                .padding(.top, 20)
                 
+                
+                Text("Sets \(Int(editableDrill.setsDone)) / \(Int(editableDrill.totalSets))")
+                    .padding(.horizontal)
+                    .padding(.vertical, 3)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.custom("Poppins-Regular", size: 16))
+                
+                Spacer()
+                
+
                 HStack {
                     Spacer()
                     
@@ -74,10 +103,10 @@ struct DrillFollowAlongView: View {
                     
                     Spacer()
                 }
-                
-                
+
+
                 Spacer()
-                
+
                 // Video preview in the middle
                 ZStack {
                     Rectangle()
@@ -87,6 +116,7 @@ struct DrillFollowAlongView: View {
                     
                 }
                 .padding(.horizontal, 20)
+
                 
                 Spacer()
                 
@@ -100,7 +130,7 @@ struct DrillFollowAlongView: View {
                                 .font(.system(size: 24))
                                 .foregroundColor(.black)
                         )
-                        .padding(.bottom, 75)
+                        .padding(.bottom, 145)
                 }
                 
                 Spacer()
