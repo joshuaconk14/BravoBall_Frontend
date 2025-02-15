@@ -1113,19 +1113,22 @@ struct SkillSelectionView: View {
                         .foregroundColor(.gray)
                     
                     // Horizontal scrolling selected skills
-                    ScrollView(.horizontal, showsIndicators: false) {
                         VStack {
                             if !sessionModel.selectedSkills.isEmpty {
-                                HStack(spacing: 4) {
-                                    ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 4) {
+                                        ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
                                             SkillButton(
                                                 appModel: appModel,
                                                 title: skill,
                                                 isSelected: true
-                                            ) { }
+                                            ) {
+                                                sessionModel.selectedSkills.remove(skill)
+                                            }
                                         }
                                     }
                                 }
+                            }
                             TextField(sessionModel.selectedSkills.isEmpty ? "Search skills..." : "Select more...", text: $searchText)
                                 .textFieldStyle(PlainTextFieldStyle())
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -1137,7 +1140,6 @@ struct SkillSelectionView: View {
                                 }
                             
                             }
-                        }
                     
                     Spacer()
                     
@@ -1189,28 +1191,30 @@ struct SkillButton: View {
     let action: () -> Void
     
     var body: some View {
-        Button(action: action) {
-            VStack {
+            HStack(spacing: 4) {
                 Text(title)
                     .font(.custom("Poppins-Bold", size: 12))
                     .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .minimumScaleFactor(0.8)
-                    .padding(.vertical, 3)
-                    .padding(.horizontal, 2)
                 
+                Button(action: action) {
+                    Image(systemName: "xmark")
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor.opacity(0.5))
+                        .font(.system(size: 14))
+                }
             }
-            .padding(4)
+            .padding(.vertical, 3)
+            .padding(.horizontal, 8)  // Increased horizontal padding for X button
             .background(
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.white)
                     .stroke(appModel.globalSettings.primaryLightGrayColor, lineWidth: 2)
             )
+            .padding(.vertical, 2)
+            .padding(.horizontal, 2)
         }
-        .padding(.vertical, 2)
-        .padding(.horizontal, 2)
-    }
 }
 
 
