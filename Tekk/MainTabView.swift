@@ -25,7 +25,7 @@ struct MainTabView: View {
                     case 0:
                         SessionGeneratorView(model: model, appModel: appModel, sessionModel: sessionModel)
                     case 1:
-                        ProgressionView(appModel: appModel)
+                        ProgressionView(appModel: appModel, sessionModel: sessionModel)
                     case 2:
                         SavedDrillsView(appModel: appModel, sessionModel: sessionModel)
                     case 3:

@@ -1,4 +1,4 @@
-//
+///
 //  WeekDisplayButton.swift
 //  BravoBall
 //
@@ -86,35 +86,55 @@ struct WeekDisplayButton: View {
 #Preview {
     let mockAppModel = MainAppModel()
     
-    // Create mock drills
-        let mockDrills = [
-            MainAppModel.DrillData(
-                name: "Test Drill 1",
+    // Create mock drills using EditableDrillModel
+    let mockDrills = [
+        EditableDrillModel(
+            drill: DrillModel(
+                title: "Test Drill 1",
                 skill: "Dribbling",
-                duration: 20,
                 sets: 4,
                 reps: 8,
+                duration: 20,
+                description: "A basic dribbling drill to improve ball control",
+                tips: ["Keep the ball close", "Use both feet"],
                 equipment: ["Ball"],
-                isCompleted: true
+                trainingStyle: "Medium Intensity",
+                difficulty: "Beginner"
             ),
-            MainAppModel.DrillData(
-                name: "Test Drill 2",
+            setsDone: 0,
+            totalSets: 4,
+            totalReps: 8,
+            totalDuration: 20,
+            isCompleted: true
+        ),
+        EditableDrillModel(
+            drill: DrillModel(
+                title: "Test Drill 2",
                 skill: "Shooting",
-                duration: 15,
                 sets: 3,
                 reps: 10,
+                duration: 15,
+                description: "Practice shooting accuracy and power",
+                tips: ["Follow through", "Plant foot beside ball"],
                 equipment: ["Ball", "Goal"],
-                isCompleted: true
-            )
-        ]
-        
-        // Create mock session
-        let mockSession = MainAppModel.CompletedSession(
-            date: Date(),
-            drills: mockDrills,
-            totalCompletedDrills: 2,  // One drill completed
-            totalDrills: 2           // Out of two total drills
+                trainingStyle: "High Intensity",
+                difficulty: "Intermediate"
+            ),
+            setsDone: 0,
+            totalSets: 3,
+            totalReps: 10,
+            totalDuration: 15,
+            isCompleted: true
         )
+    ]
+    
+    // Create mock session with EditableDrillModel array
+    let mockSession = MainAppModel.CompletedSession(
+        date: Date(),
+        drills: mockDrills,
+        totalCompletedDrills: 2,
+        totalDrills: 2
+    )
     
     return WeekDisplayButton(
         appModel: mockAppModel,

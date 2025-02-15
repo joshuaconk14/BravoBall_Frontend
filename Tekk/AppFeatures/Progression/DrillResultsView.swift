@@ -11,6 +11,7 @@ import RiveRuntime
 
 struct DrillResultsView: View {
     @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
     @Environment(\.presentationMode) var presentationMode
     @State private var showScore: Bool = false
     
@@ -18,7 +19,7 @@ struct DrillResultsView: View {
     
     var body: some View {
         ScrollView {
-            VStack {
+            LazyVStack {
                 HStack {
                     backButton
                     Spacer()
@@ -39,10 +40,9 @@ struct DrillResultsView: View {
                         .font(.custom("Poppins-Bold", size: 30))
                         .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     
-                    let score = Double(session.totalCompletedDrills) / Double(session.totalDrills)
                     
                     ZStack {
-                        CircularProgressView(progress: score, color: appModel.globalSettings.primaryYellowColor)
+                        CircularProgressView(appModel: appModel, progress: Double(session.totalCompletedDrills) / Double(session.totalDrills))
                             .frame(width: 200, height: 200)
                         
                         Text("\(session.totalCompletedDrills) / \(session.totalDrills)")
@@ -64,9 +64,10 @@ struct DrillResultsView: View {
                         .foregroundColor(appModel.globalSettings.primaryDarkColor)
                     
 
-                        ForEach(session.drills, id: \.name) { drill in
+                    // MARK: Fix this
+                    ForEach(session.drills, id: \.drill.id) { editableDrill in
                             ZStack {
-                                if drill.isCompleted {
+                                if editableDrill.isCompleted {
                                     RiveViewModel(fileName: "Drill_Card_Complete").view()
                                         .frame(width: 330, height: 180)
                                 } else {
@@ -76,15 +77,15 @@ struct DrillResultsView: View {
                                 
                                 VStack(alignment: .leading, spacing: 8) {
                                         
-                                        Text("Drill: \(drill.name)")
+                                    Text("Drill: \(editableDrill.drill.title)")
                                             .font(.custom("Poppins-Bold", size: 18))
-                                        Text("Skill: \(drill.skill)")
+                                    Text("Skill: \(editableDrill.drill.skill)")
                                         HStack(spacing: 20) {
-                                            Text("Duration: \(drill.duration)min")
-                                            Text("Sets: \(drill.sets)")
-                                            Text("Reps: \(drill.reps)")
+                                            Text("Duration: \(editableDrill.totalDuration)min")
+                                            Text("Sets: \(editableDrill.drill.sets)")
+                                            Text("Reps: \(editableDrill.drill.reps)")
                                         }
-                                        Text("Equipment: \(drill.equipment.joined(separator: ", "))")
+                                    Text("Equipment: \(editableDrill.drill.equipment.joined(separator: ", "))")
                                 }
                                 .padding()
                                 .font(.custom("Poppins-Regular", size: 14))
@@ -98,6 +99,7 @@ struct DrillResultsView: View {
             }
         }
     }
+
     
     private var backButton: some View {
         Button(action: {
@@ -121,24 +123,31 @@ struct DrillResultsView: View {
 
 // Score View
 struct CircularProgressView: View {
+    @ObservedObject var appModel: MainAppModel
     let progress: Double
-    let color: Color
     @State private var animatedProgress: Double = 0
     
     var body: some View {
         ZStack {
             Circle()
-                .stroke(lineWidth: 20)
+                .stroke(lineWidth: appModel.viewState.showHomePage ? 20 : 10)
                 .opacity(0.2)
                 .foregroundColor(Color.gray)
             
             Circle()
                 .trim(from: 0.0, to: CGFloat(min(animatedProgress, 1.0)))
-                .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round, lineJoin: .round))
-                .foregroundColor(color)
+                .stroke(style: StrokeStyle(lineWidth: appModel.viewState.showHomePage ? 20 : 10, lineCap: .round, lineJoin: .round))
+                .foregroundColor(appModel.globalSettings.primaryYellowColor)
                 .rotationEffect(Angle(degrees: 270.0))
         }
+        // When progress first appears
         .onAppear {
+            withAnimation(.easeOut(duration: 0.8)) {
+                animatedProgress = progress
+            }
+        }
+        // When progress changes
+        .onChange(of: progress) {
             withAnimation(.easeOut(duration: 0.8)) {
                 animatedProgress = progress
             }
@@ -148,54 +157,95 @@ struct CircularProgressView: View {
 
 #Preview {
     let mockMainAppModel = MainAppModel()
+    let mockSesGenModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
     
-    // Create mock drill data
+    // Create mock drills using EditableDrillModel
     let mockDrills = [
-        MainAppModel.DrillData(
-            name: "Speed Dribbling",
-            skill: "Ball Control",
-            duration: 20,
-            sets: 4,
-            reps: 10,
-            equipment: ["Ball", "Cones"],
+        EditableDrillModel(
+            drill: DrillModel(
+                title: "Speed Dribbling",
+                skill: "Ball Control",
+                sets: 4,
+                reps: 10,
+                duration: 20,
+                description: "Improve your dribbling speed and control",
+                tips: ["Keep the ball close", "Look up while dribbling"],
+                equipment: ["Ball", "Cones"],
+                trainingStyle: "High Intensity",
+                difficulty: "Intermediate"
+            ),
+            setsDone: 0,
+            totalSets: 4,
+            totalReps: 10,
+            totalDuration: 20,
             isCompleted: true
         ),
-        MainAppModel.DrillData(
-            name: "V-Taps",
-            skill: "Ball Control",
-            duration: 20,
-            sets: 4,
-            reps: 10,
-            equipment: ["Ball", "Cones"],
+        EditableDrillModel(
+            drill: DrillModel(
+                title: "V-Taps",
+                skill: "Ball Control",
+                sets: 4,
+                reps: 10,
+                duration: 20,
+                description: "Master the V-tap technique for better ball control",
+                tips: ["Quick touches", "Maintain balance"],
+                equipment: ["Ball", "Cones"],
+                trainingStyle: "Medium Intensity",
+                difficulty: "Beginner"
+            ),
+            setsDone: 0,
+            totalSets: 4,
+            totalReps: 10,
+            totalDuration: 20,
             isCompleted: true
         ),
-        MainAppModel.DrillData(
-            name: "Ronaldinho Drill",
-            skill: "Ball Control",
-            duration: 20,
-            sets: 4,
-            reps: 10,
-            equipment: ["Ball", "Cones"],
+        EditableDrillModel(
+            drill: DrillModel(
+                title: "Ronaldinho Drill",
+                skill: "Ball Control",
+                sets: 4,
+                reps: 10,
+                duration: 20,
+                description: "Practice advanced ball control techniques",
+                tips: ["Stay light on your feet", "Practice both directions"],
+                equipment: ["Ball", "Cones"],
+                trainingStyle: "High Intensity",
+                difficulty: "Advanced"
+            ),
+            setsDone: 0,
+            totalSets: 4,
+            totalReps: 10,
+            totalDuration: 20,
             isCompleted: false
         ),
-        MainAppModel.DrillData(
-            name: "Cone Weaves",
-            skill: "Ball Control",
-            duration: 20,
-            sets: 4,
-            reps: 10,
-            equipment: ["Ball", "Cones"],
+        EditableDrillModel(
+            drill: DrillModel(
+                title: "Cone Weaves",
+                skill: "Ball Control",
+                sets: 4,
+                reps: 10,
+                duration: 20,
+                description: "Improve close control through cone weaving",
+                tips: ["Use both feet", "Keep head up"],
+                equipment: ["Ball", "Cones"],
+                trainingStyle: "Medium Intensity",
+                difficulty: "Beginner"
+            ),
+            setsDone: 0,
+            totalSets: 4,
+            totalReps: 10,
+            totalDuration: 20,
             isCompleted: true
         )
     ]
     
-    // Create mock session
+    // Create mock session with EditableDrillModel array
     mockMainAppModel.selectedSession = MainAppModel.CompletedSession(
         date: Date(),
-        drills: mockDrills, // Pass the combined drills array
+        drills: mockDrills,
         totalCompletedDrills: 3,
         totalDrills: 4
     )
     
-    return DrillResultsView(appModel: mockMainAppModel)
+    return DrillResultsView(appModel: mockMainAppModel, sessionModel: mockSesGenModel)
 }

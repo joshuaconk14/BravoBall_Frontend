@@ -20,8 +20,10 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
-    // Drill for Sesison storage
-    @Published var orderedDrills: [DrillModel] = []
+    // Drill for Session storage
+    // TODO: see if having too much arrays takes too much storage and if its easier to give isSelected Bool to drills
+    @Published var selectedDrills: [DrillModel] = []
+    @Published var orderedDrills: [EditableDrillModel] = []
     
     // Saved Drill storage
     @Published var savedDrills: [GroupModel] = []
@@ -48,50 +50,66 @@ class SessionGeneratorModel: ObservableObject {
     static let testDrills: [DrillModel] = [
         DrillModel(
             title: "Short Passing Drill",
-            sets: "4",
-            reps: "10",
-            duration: "15min",
+            skill: "Passing",
+            sets: 4,
+            reps: 10,
+            duration: 15,
             description: "Practice accurate short passes with a partner or wall.",
             tips: ["Keep the ball on the ground", "Use inside of foot", "Follow through towards target"],
-            equipment: ["Soccer ball", "Cones"]
+            equipment: ["Soccer ball", "Cones"],
+            trainingStyle: "High Intensity",
+            difficulty: "Beginner"
         ),
         DrillModel(
             title: "Long Passing Practice",
-            sets: "3",
-            reps: "8",
-            duration: "20min",
+            skill: "Passing",
+            sets: 3,
+            reps: 8,
+            duration: 20,
             description: "Improve your long-range passing accuracy.",
             tips: ["Lock ankle", "Follow through", "Watch ball contact"],
-            equipment: ["Soccer ball", "Cones"]
+            equipment: ["Soccer ball", "Cones"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Intermediate"
         ),
         DrillModel(
             title: "Through Ball Training",
-            sets: "4",
-            reps: "6",
-            duration: "15min",
+            skill: "Passing",
+            sets: 4,
+            reps: 6,
+            duration: 15,
             description: "Practice timing and weight of through passes.",
             tips: ["Look for space", "Time the pass", "Weight it properly"],
-            equipment: ["Soccer ball", "Cones"]
+            equipment: ["Soccer ball", "Cones"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Intermediate"
         ),
         DrillModel(
             title: "Power Shot Practice",
-            sets: "3",
-            reps: "5",
-            duration: "20min",
+            skill: "Shooting",
+            sets: 3,
+            reps: 5,
+            duration: 20,
             description: "Work on powerful shots on goal.",
             tips: ["Plant foot beside ball", "Strike with laces", "Follow through"],
-            equipment: ["Soccer ball", "Goal"]
+            equipment: ["Soccer ball", "Goal"],
+            trainingStyle: "High Intensity",
+            difficulty: "Intermediate"
         ),
         DrillModel(
             title: "1v1 Dribbling Skills",
-            sets: "4",
-            reps: "8",
-            duration: "15min",
+            skill: "Dribbling",
+            sets: 4,
+            reps: 8,
+            duration: 15,
             description: "Master close ball control and quick direction changes.",
             tips: ["Keep ball close", "Use both feet", "Change pace"],
-            equipment: ["Soccer ball", "Cones"]
+            equipment: ["Soccer ball", "Cones"],
+            trainingStyle: "High Intensity",
+            difficulty: "Intermediate"
         )
     ]
+    
     
     
     // Initialize with user's onboarding data
@@ -112,7 +130,7 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
-    // Update drills based on selected sub-skills
+    // Update drills based on selected sub-skills, converting testDrill's DrillModels into orderedDrill's EditDrillModels
     func updateDrills() {
         if selectedSkills.isEmpty {
             orderedDrills = []
@@ -121,7 +139,7 @@ class SessionGeneratorModel: ObservableObject {
         
         
         // Show drills that match any of the selected sub-skills
-        orderedDrills = Self.testDrills.filter { drill in
+        let filteredDrills = Self.testDrills.filter { drill in
             // Check if any of the selected skills match the drill
             for skill in selectedSkills {
                 // Match drills based on skill keywords
@@ -144,6 +162,21 @@ class SessionGeneratorModel: ObservableObject {
             }
             return false
         }
+        // Convert filtered DrillModels to EditableDrillModels
+        orderedDrills = filteredDrills.map { drill in
+            EditableDrillModel(
+                drill: drill,
+                setsDone: 0,
+                totalSets: drill.sets,
+                totalReps: drill.reps,
+                totalDuration: drill.duration,
+                isCompleted: false
+            )
+        }
+    }
+    
+    func clearOrderedDrills() {
+        orderedDrills.removeAll()
     }
     
     func moveDrill(from source: IndexSet, to destination: Int) {
@@ -178,6 +211,40 @@ class SessionGeneratorModel: ObservableObject {
     func isDrillLiked(_ drill: DrillModel) -> Bool {
         likedDrillsGroup.drills.contains(drill)
     }
+
+    // Selected drills to add to session
+    func drillsToAdd (drill: DrillModel) {
+        if selectedDrills.contains(drill) {
+            selectedDrills.removeAll(where: { $0.id == drill.id })
+        } else {
+            selectedDrills.append(drill)
+        }
+    }
+    
+    func isDrillSelected(_ drill: DrillModel) -> Bool {
+        selectedDrills.contains(drill)
+    }
+    
+    // Adding drills to session
+    func addDrillToSession(drills: [DrillModel]) {
+        for oneDrill in drills {
+            let editableDrills = EditableDrillModel(
+                drill: oneDrill,
+                setsDone: 0,
+                totalSets: oneDrill.sets,
+                totalReps: oneDrill.reps,
+                totalDuration: oneDrill.duration,
+                isCompleted: false
+            )
+            orderedDrills.append(editableDrills)
+        }
+        selectedDrills.removeAll()
+    }
+    
+    // Deleting drills from session
+    func deleteDrillFromSession(drill: EditableDrillModel) {
+        orderedDrills.removeAll(where: { $0.drill.id == drill.drill.id })
+    }
     
     func generateSession() {
         // TODO: Implement session generation logic
@@ -185,20 +252,57 @@ class SessionGeneratorModel: ObservableObject {
 }
 
 // Drill model
-struct DrillModel: Identifiable, Equatable {
-    let id = UUID()
-    var isLiked: Bool = false
+struct DrillModel: Identifiable, Equatable, Codable {
+    let id: UUID
     let title: String
-    let sets: String
-    let reps: String
-    let duration: String
+    let skill: String
+    let sets: Int
+    let reps: Int
+    let duration: Int
     let description: String
     let tips: [String]
     let equipment: [String]
+    let trainingStyle: String
+    let difficulty: String
+    
+    init(id: UUID = UUID(),  // Adding initializer with default UUID
+         title: String,
+         skill: String,
+         sets: Int,
+         reps: Int,
+         duration: Int,
+         description: String,
+         tips: [String],
+         equipment: [String],
+         trainingStyle: String,
+         difficulty: String) {
+        self.id = id
+        self.title = title
+        self.skill = skill
+        self.sets = sets
+        self.reps = reps
+        self.duration = duration
+        self.description = description
+        self.tips = tips
+        self.equipment = equipment
+        self.trainingStyle = trainingStyle
+        self.difficulty = difficulty
+    }
     
     static func == (lhs: DrillModel, rhs: DrillModel) -> Bool {
         lhs.id == rhs.id
     }
+}
+
+
+
+struct EditableDrillModel: Codable { // Testing this out
+    var drill: DrillModel
+    var setsDone: Int
+    var totalSets: Int
+    var totalReps: Int
+    var totalDuration: Int
+    var isCompleted: Bool
 }
 
 // Group model

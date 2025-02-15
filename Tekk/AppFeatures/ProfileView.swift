@@ -17,7 +17,7 @@ struct ProfileView: View {
     
     var body: some View {
             ScrollView {
-                VStack(spacing: 25) {
+                LazyVStack(spacing: 25) {
                     profileHeader
                     
                     actionSection(title: "Account", buttons: [
