@@ -1114,7 +1114,7 @@ struct SkillSelectionView: View {
                     
                     // Horizontal scrolling selected skills
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
+                        VStack {
                             if !sessionModel.selectedSkills.isEmpty {
                                 HStack(spacing: 4) {
                                     ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
@@ -1126,7 +1126,7 @@ struct SkillSelectionView: View {
                                         }
                                     }
                                 }
-                            TextField(sessionModel.selectedSkills.isEmpty ? "Search skills..." : "", text: $searchText)
+                            TextField(sessionModel.selectedSkills.isEmpty ? "Search skills..." : "Select more...", text: $searchText)
                                 .textFieldStyle(PlainTextFieldStyle())
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .focused($isFocused)
@@ -1135,9 +1135,6 @@ struct SkillSelectionView: View {
                                         appModel.viewState.showSkillSearch = true
                                     }
                                 }
-                            Spacer()
-                            Spacer()
-                            Spacer()
                             
                             }
                         }
