@@ -248,17 +248,13 @@ struct SessionGeneratorView: View {
         ZStack(alignment: .leading) {
             
             Rectangle()
-                .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 2)
-                .frame(height: 52)
-            
+                .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 1)
+                .frame(height: 1)
+                .offset(y: 30)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 0) {
-                    
-                    
-                
-                    
-                    
+         
                     // All prereqs
                     ForEach(MainAppModel.PrerequisiteType.allCases, id: \.self) { type in
                         PrerequisiteButton(
@@ -283,18 +279,12 @@ struct SessionGeneratorView: View {
             .padding(.leading, 70)
             
             FilterButton(appModel: appModel, sessionModel: sessionModel)
-
-            
-                
+             
         }
         .frame(maxWidth: .infinity)
         .padding(.bottom, 5)
-
     }
     
-
-    
-
     // MARK: prereq prompt
     private var prereqPrompt: some View {
         ZStack {
@@ -604,22 +594,6 @@ struct SearchSkillsView: View {
     
     var body: some View {
         VStack {
-            
-            
-            // Horizontal scrolling selected skills
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
-                            SkillButton(
-                                appModel: appModel,
-                                title: skill,
-                                isSelected: true
-                            ) { }
-                    }
-                }
-                .padding(.horizontal)
-            }
-            
             ScrollView(showsIndicators: false) {
                 ForEach(filteredSkills, id: \.self) { skill in
                     VStack(alignment: .leading) {
@@ -632,7 +606,6 @@ struct SearchSkillsView: View {
                     }
                 }
             }
-            
             Spacer()
         }
         .safeAreaInset(edge: .bottom) {
@@ -1121,7 +1094,7 @@ struct SkillSelectionView: View {
     
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 5) {
             
             HStack {
                 if appModel.viewState.showSkillSearch {
@@ -1139,13 +1112,33 @@ struct SkillSelectionView: View {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
                     
-                    TextField("Search skills...", text: $searchText)
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .focused($isFocused)
-                        .onChange(of: isFocused) {
-                            if isFocused {
-                                appModel.viewState.showSkillSearch = true
+                    // Horizontal scrolling selected skills
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            if !sessionModel.selectedSkills.isEmpty {
+                                HStack(spacing: 4) {
+                                    ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
+                                            SkillButton(
+                                                appModel: appModel,
+                                                title: skill,
+                                                isSelected: true
+                                            ) { }
+                                        }
+                                    }
+                                }
+                            TextField(sessionModel.selectedSkills.isEmpty ? "Search skills..." : "", text: $searchText)
+                                .textFieldStyle(PlainTextFieldStyle())
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .focused($isFocused)
+                                .onChange(of: isFocused) {
+                                    if isFocused {
+                                        appModel.viewState.showSkillSearch = true
+                                    }
+                                }
+                            Spacer()
+                            Spacer()
+                            Spacer()
+                            
                             }
                         }
                     
@@ -1171,24 +1164,14 @@ struct SkillSelectionView: View {
                     }
                 }
                 .padding(8)
-                .background(Color(.systemGray6))
-                .cornerRadius(10)
+                .background(Color.white)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(appModel.globalSettings.primaryLightGrayColor, lineWidth: 3)
+                )
+                .cornerRadius(20)
                 .padding(.top, 13)
 
-            }
-            
-  
-        // Horizontal scrolling selected skills
-        if !appModel.viewState.showSkillSearch {
-            HStack(spacing: 8) {
-                ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
-                        SkillButton(
-                            appModel: appModel,
-                            title: skill,
-                            isSelected: true
-                        ) { }
-                    }
-                }
             }
             
         }
@@ -1228,7 +1211,8 @@ struct SkillButton: View {
                     .stroke(appModel.globalSettings.primaryLightGrayColor, lineWidth: 2)
             )
         }
-        .padding(.vertical, 10)
+        .padding(.vertical, 2)
+        .padding(.horizontal, 2)
     }
 }
 

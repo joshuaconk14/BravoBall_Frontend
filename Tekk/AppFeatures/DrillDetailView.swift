@@ -44,7 +44,7 @@ struct DrillDetailView: View {
                                         Image(systemName: sessionModel.isDrillLiked(drill) ? "heart.fill" : "heart")
                                             .resizable()
                                             .scaledToFit()
-                                            .foregroundColor(sessionModel.isDrillLiked(drill) ? .red : .black)  // Stroke color
+                                            .foregroundColor(sessionModel.isDrillLiked(drill) ? .red : appModel.globalSettings.primaryDarkColor)  // Stroke color
                                             .frame(width: 30, height: 30)
                                     )
                             }
@@ -55,7 +55,7 @@ struct DrillDetailView: View {
                                 Image(systemName: "square.and.arrow.down")
                                     .resizable()
                                     .scaledToFit()
-                                    .foregroundColor(.black)
+                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
                                     .frame(width: 30, height: 30)
                             }
                         }
@@ -80,6 +80,7 @@ struct DrillDetailView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             Text(drill.title)
                                 .font(.custom("Poppins-Bold", size: 24))
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
                             
                             HStack(spacing: 16) {
                                 Label("\(drill.sets)" + " sets", systemImage: "repeat")
@@ -87,29 +88,31 @@ struct DrillDetailView: View {
                                 Label("\(drill.duration)" + " minutes", systemImage: "clock")
                             }
                             .font(.custom("Poppins-Medium", size: 14))
-                            .foregroundColor(.gray)
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
                         }
                         
                         // Description
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Description")
                                 .font(.custom("Poppins-Bold", size: 18))
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
                             Text(drill.description)
                                 .font(.custom("Poppins-Regular", size: 16))
-                                .foregroundColor(.gray)
+                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
                         }
                         
                         // Tips
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Tips")
                                 .font(.custom("Poppins-Bold", size: 18))
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
                             ForEach(drill.tips, id: \.self) { tip in
                                 HStack(alignment: .top, spacing: 8) {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundColor(.green)
                                     Text(tip)
                                         .font(.custom("Poppins-Regular", size: 16))
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                                 }
                             }
                         }
@@ -118,6 +121,7 @@ struct DrillDetailView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Equipment Needed")
                                 .font(.custom("Poppins-Bold", size: 18))
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
                             ForEach(drill.equipment, id: \.self) { item in
                                 HStack(spacing: 8) {
                                     Image(systemName: "circle.fill")
@@ -125,7 +129,7 @@ struct DrillDetailView: View {
                                         .foregroundColor(.gray)
                                     Text(item)
                                         .font(.custom("Poppins-Regular", size: 16))
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                                 }
                             }
                         }
@@ -246,7 +250,7 @@ struct EditingDrillView: View {
         ZStack {
             VStack(alignment: .leading) {
                 Button(action : { showDrillDetailView = true}) {
-                    Image(systemName: "arrow.right")
+                    Image(systemName: "line.horizontal.3")
                         .foregroundColor(appModel.globalSettings.primaryDarkColor)
                         .font(.system(size: 16, weight: .medium))
                 }
@@ -254,6 +258,7 @@ struct EditingDrillView: View {
                 HStack {
                     TextField("\(editableDrill.drill.sets)", text: $editSets)
                         .textFieldStyle(PlainTextFieldStyle())
+                        .font(.custom("Poppins-Medium", size: 18))
                         .foregroundColor(appModel.globalSettings.primaryDarkColor)
                         .frame(maxWidth: 60)
                         .padding(.horizontal, 6)
@@ -263,10 +268,13 @@ struct EditingDrillView: View {
                                 .stroke(Color.gray, lineWidth: 1)
                         )
                     Text("Sets")
+                        .font(.custom("Poppins-Medium", size: 18))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
                 }
                 HStack {
                     TextField("\(editableDrill.drill.reps)", text: $editReps)
                         .textFieldStyle(PlainTextFieldStyle())
+                        .font(.custom("Poppins-Medium", size: 18))
                         .foregroundColor(appModel.globalSettings.primaryDarkColor)
                         .frame(maxWidth: 60)
                         .padding(.horizontal, 6)
@@ -276,10 +284,13 @@ struct EditingDrillView: View {
                                 .stroke(Color.gray, lineWidth: 1)
                         )
                     Text("Reps")
+                        .font(.custom("Poppins-Medium", size: 18))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
                 }
                 HStack {
                     TextField("\(editableDrill.drill.duration)", text: $editDuration)
                         .textFieldStyle(PlainTextFieldStyle())
+                        .font(.custom("Poppins-Medium", size: 18))
                         .foregroundColor(appModel.globalSettings.primaryDarkColor)
                         .frame(maxWidth: 60)
                         .padding(.horizontal, 6)
@@ -289,6 +300,8 @@ struct EditingDrillView: View {
                                 .stroke(Color.gray, lineWidth: 1)
                         )
                     Text("Minutes")
+                        .font(.custom("Poppins-Medium", size: 18))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
                 }
       
             }

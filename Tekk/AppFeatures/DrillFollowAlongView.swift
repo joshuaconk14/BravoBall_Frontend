@@ -39,6 +39,8 @@ struct DrillFollowAlongView: View {
                     Spacer()
                     
                     Text("\(editableDrill.drill.title)")
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .font(.custom("Poppins-Bold", size: 18))
                         .padding(.horizontal)
                     
                     Spacer()
@@ -55,6 +57,7 @@ struct DrillFollowAlongView: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
                 
+                
                 // Progress stroke rectangle
                 Path { path in
                     path.move(to: CGPoint(x: 0, y: 0))
@@ -62,7 +65,10 @@ struct DrillFollowAlongView: View {
                 }
                 .stroke(
                     Color.gray.opacity(0.3),
-                    lineWidth: 7
+                    style: StrokeStyle(
+                        lineWidth: 9,
+                        lineCap: .round  // This rounds the ends
+                    )
                 )
                 .overlay(
                     Path { path in
@@ -72,11 +78,14 @@ struct DrillFollowAlongView: View {
                     .trim(from: 0, to: Double(editableDrill.setsDone) / Double(editableDrill.totalSets))
                     .stroke(
                         appModel.globalSettings.primaryYellowColor,
-                        lineWidth: 7
+                        style: StrokeStyle(
+                            lineWidth: 9,
+                            lineCap: .round  // This rounds the ends
+                        )
                     )
                     .animation(.linear, value: Double(editableDrill.setsDone) / Double(editableDrill.totalSets))
                 )
-                .frame(width: 360, height: 10)
+                .frame(width: 360, height: 20)
                 .padding(.top, 20)
                 
                 
@@ -84,7 +93,8 @@ struct DrillFollowAlongView: View {
                     .padding(.horizontal)
                     .padding(.vertical, 3)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.custom("Poppins-Regular", size: 16))
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    .font(.custom("Poppins-Bold", size: 16))
                 
                 Spacer()
                 
@@ -95,7 +105,7 @@ struct DrillFollowAlongView: View {
                     // Top timer section
                     VStack(alignment: .center, spacing: 4) {
                         Text("Time")
-                            .font(.custom("Poppins-Regular", size: 24))
+                            .font(.custom("Poppins-Bold", size: 24))
                             .foregroundColor(.gray)
                         Text(timeString(from: elapsedTime))
                             .font(.custom("Poppins-Bold", size: 26))

@@ -132,8 +132,12 @@ struct AllDrillsView: View {
                 }
             }
             .padding(8)
-            .background(Color(.systemGray6))
-            .cornerRadius(10)
+            .background(Color.white)
+            .cornerRadius(20)
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(appModel.globalSettings.primaryLightGrayColor, lineWidth: 3)
+            )
             .padding()
             
             // Drills list
