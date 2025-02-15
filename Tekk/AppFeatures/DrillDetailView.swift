@@ -15,14 +15,13 @@ struct DrillDetailView: View {
     let drill: DrillModel
     
     @Environment(\.dismiss) private var dismiss
-    @State private var showingFollowAlong = false
     @State private var showSaveDrill: Bool = false
     
-    
+    // MARK: Main view
     var body: some View {
             ZStack {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
+                    LazyVStack(alignment: .leading, spacing: 24) {
                         HStack(spacing: 25) {
                             Button(action: {
                                 
@@ -45,7 +44,7 @@ struct DrillDetailView: View {
                                         Image(systemName: sessionModel.isDrillLiked(drill) ? "heart.fill" : "heart")
                                             .resizable()
                                             .scaledToFit()
-                                            .foregroundColor(sessionModel.isDrillLiked(drill) ? .red : .black)  // Stroke color
+                                            .foregroundColor(sessionModel.isDrillLiked(drill) ? .red : appModel.globalSettings.primaryDarkColor)  // Stroke color
                                             .frame(width: 30, height: 30)
                                     )
                             }
@@ -56,7 +55,7 @@ struct DrillDetailView: View {
                                 Image(systemName: "square.and.arrow.down")
                                     .resizable()
                                     .scaledToFit()
-                                    .foregroundColor(.black)
+                                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
                                     .frame(width: 30, height: 30)
                             }
                         }
@@ -81,36 +80,39 @@ struct DrillDetailView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             Text(drill.title)
                                 .font(.custom("Poppins-Bold", size: 24))
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
                             
                             HStack(spacing: 16) {
-                                Label(drill.sets + " sets", systemImage: "repeat")
-                                Label(drill.reps + " reps", systemImage: "figure.run")
-                                Label(drill.duration, systemImage: "clock")
+                                Label("\(drill.sets)" + " sets", systemImage: "repeat")
+                                Label("\(drill.reps)" + " reps", systemImage: "figure.run")
+                                Label("\(drill.duration)" + " minutes", systemImage: "clock")
                             }
                             .font(.custom("Poppins-Medium", size: 14))
-                            .foregroundColor(.gray)
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
                         }
                         
                         // Description
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Description")
                                 .font(.custom("Poppins-Bold", size: 18))
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
                             Text(drill.description)
                                 .font(.custom("Poppins-Regular", size: 16))
-                                .foregroundColor(.gray)
+                                .foregroundColor(appModel.globalSettings.primaryGrayColor)
                         }
                         
                         // Tips
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Tips")
                                 .font(.custom("Poppins-Bold", size: 18))
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
                             ForEach(drill.tips, id: \.self) { tip in
                                 HStack(alignment: .top, spacing: 8) {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundColor(.green)
                                     Text(tip)
                                         .font(.custom("Poppins-Regular", size: 16))
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                                 }
                             }
                         }
@@ -119,6 +121,7 @@ struct DrillDetailView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Equipment Needed")
                                 .font(.custom("Poppins-Bold", size: 18))
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
                             ForEach(drill.equipment, id: \.self) { item in
                                 HStack(spacing: 8) {
                                     Image(systemName: "circle.fill")
@@ -126,27 +129,12 @@ struct DrillDetailView: View {
                                         .foregroundColor(.gray)
                                     Text(item)
                                         .font(.custom("Poppins-Regular", size: 16))
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
                                 }
                             }
                         }
                     }
                     .padding()
-                }
-                .safeAreaInset(edge: .bottom) {
-                    if !appModel.viewState.showHomePage {
-                        Button(action: { showingFollowAlong = true }) {
-                            Text("Start Drill")
-                                .font(.custom("Poppins-Bold", size: 18))
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.yellow)
-                                .cornerRadius(12)
-                        }
-                        .padding()
-                    }
-                    
                 }
                 
                 if showSaveDrill {
@@ -154,11 +142,12 @@ struct DrillDetailView: View {
                 }
                 
             }
-            .fullScreenCover(isPresented: $showingFollowAlong) {
-                DrillFollowAlongView(drill: drill)
-        }
+            
     }
     
+    // MARK: Find groups to save view
+    
+    // TODO: make this a structure?
     private var findGroupToSaveToView: some View {
         ZStack {
             Color.black.opacity(0.3)
@@ -188,19 +177,29 @@ struct DrillDetailView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
-
-                // Groups Display
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
-                        ForEach(sessionModel.savedDrills) { group in
-                            GroupCard(group: group)
-                                    .onTapGesture {
-                                        sessionModel.addDrillToGroup(drill: drill, groupId: group.id)
-                                    }
+                
+                if sessionModel.savedDrills.isEmpty {
+                    Text("No groups created yet")
+                        .font(.custom("Poppins-Medium", size: 12))
+                        .foregroundColor(.gray)
+                        .padding()
+                    
+                } else {
+                    // Groups Display
+                    ScrollView {
+                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
+                            ForEach(sessionModel.savedDrills) { group in
+                                GroupCard(group: group)
+                                        .onTapGesture {
+                                            sessionModel.addDrillToGroup(drill: drill, groupId: group.id)
+                                        }
+                            }
                         }
+                        .padding()
                     }
-                    .padding()
                 }
+                
+                Spacer()
             }
             .padding()
             .frame(width: 300, height: 470)
@@ -231,21 +230,110 @@ struct InfoItem: View {
     }
 }
 
-//// Model for drill data
-//struct DrillModel {
-//    let title: String
-//    let sets: String
-//    let reps: String
-//    let duration: String
-//    let description: String
-//    let tips: [String]
-//    let equipment: [String]
+
+
+
+
+// MARK: Editing Drill VIew
+struct EditingDrillView: View {
+    
+    @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    @Binding var editableDrill: EditableDrillModel
+    
+    @State private var showDrillDetailView: Bool = false
+    @State private var editSets: String = ""
+    @State private var editReps: String = ""
+    @State private var editDuration: String = ""
+    
+    var body: some View {
+        ZStack {
+            VStack(alignment: .leading) {
+                Button(action : { showDrillDetailView = true}) {
+                    Image(systemName: "line.horizontal.3")
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .font(.system(size: 16, weight: .medium))
+                }
+                
+                HStack {
+                    TextField("\(editableDrill.drill.sets)", text: $editSets)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .font(.custom("Poppins-Medium", size: 18))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .frame(maxWidth: 60)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                    Text("Sets")
+                        .font(.custom("Poppins-Medium", size: 18))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                }
+                HStack {
+                    TextField("\(editableDrill.drill.reps)", text: $editReps)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .font(.custom("Poppins-Medium", size: 18))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .frame(maxWidth: 60)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                    Text("Reps")
+                        .font(.custom("Poppins-Medium", size: 18))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                }
+                HStack {
+                    TextField("\(editableDrill.drill.duration)", text: $editDuration)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .font(.custom("Poppins-Medium", size: 18))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .frame(maxWidth: 60)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                    Text("Minutes")
+                        .font(.custom("Poppins-Medium", size: 18))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                }
+      
+            }
+            .padding()
+            
+        }
+        
+        .sheet(isPresented: $showDrillDetailView) {
+            DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: editableDrill.drill)
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+//#Preview {
+//    let mockAppModel = MainAppModel()
+//    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
 //
-//    static let example = DrillModel(
+//    
+//    let mockDrill = DrillModel(
 //        title: "Shooting Drill",
-//        sets: "4",
-//        reps: "2",
-//        duration: "20min",
+//        skill: "Shooting",
+//        sets: 4,
+//        reps: 2,
+//        duration: 20,
 //        description: "This drill focuses on improving your shooting accuracy and power. Start by setting up cones in a zigzag pattern, dribble through them, and finish with a shot on goal.",
 //        tips: [
 //            "Keep your head down and eyes on the ball when shooting",
@@ -257,44 +345,49 @@ struct InfoItem: View {
 //            "Soccer ball",
 //            "Cones",
 //            "Goal"
-//        ]
+//        ],
+//        trainingStyle: "Medium Intensity",
+//        difficulty: "Beginner"
 //    )
+//    
+//    // Create a mock group with the drill
+//    let mockGroup = GroupModel(
+//        name: "My First Group",
+//        description: "Collection of passing drills",
+//        drills: [mockDrill]
+//    )
+//    
+//    // Add the mock group to savedDrills
+//    mockSessionModel.savedDrills = [mockGroup]
+//    
+//    
+//    return DrillDetailView(appModel: mockAppModel, sessionModel: mockSessionModel, drill: mockDrill)
 //}
 
 #Preview {
-    let mockAppModel = MainAppModel()
-    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
-
-    
-    let mockDrill = DrillModel(
-        title: "Shooting Drill",
-        sets: "4",
-        reps: "2",
-        duration: "20min",
-        description: "This drill focuses on improving your shooting accuracy and power. Start by setting up cones in a zigzag pattern, dribble through them, and finish with a shot on goal.",
-        tips: [
-            "Keep your head down and eyes on the ball when shooting",
-            "Follow through with your kicking foot",
-            "Plant your non-kicking foot beside the ball",
-            "Strike the ball with your laces for power"
-        ],
-        equipment: [
-            "Soccer ball",
-            "Cones",
-            "Goal"
-        ]
+    let mockDrill = EditableDrillModel(
+        drill: DrillModel(
+            title: "Test Drill",
+            skill: "Passing",
+            sets: 2,
+            reps: 10,
+            duration: 15,
+            description: "Test description",
+            tips: ["Tip 1", "Tip 2"],
+            equipment: ["Ball"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Beginner"
+        ),
+        setsDone: 0,
+        totalSets: 2,
+        totalReps: 10,
+        totalDuration: 15,
+        isCompleted: false
     )
     
-    // Create a mock group with the drill
-    let mockGroup = GroupModel(
-        name: "My First Group",
-        description: "Collection of passing drills",
-        drills: [mockDrill]
+    return EditingDrillView(
+        appModel: MainAppModel(),
+        sessionModel: SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData()),
+        editableDrill: .constant(mockDrill)
     )
-    
-    // Add the mock group to savedDrills
-    mockSessionModel.savedDrills = [mockGroup]
-    
-    
-    return DrillDetailView(appModel: mockAppModel, sessionModel: mockSessionModel, drill: mockDrill)
 }

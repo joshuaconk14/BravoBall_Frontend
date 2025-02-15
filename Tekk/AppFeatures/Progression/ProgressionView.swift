@@ -10,6 +10,7 @@ import RiveRuntime
 
 struct ProgressionView: View {
     @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
     
 
 
@@ -22,7 +23,7 @@ struct ProgressionView: View {
                     .foregroundColor(.white)
                 
                 ScrollView(showsIndicators: false) {
-                    VStack(spacing: 5) {
+                    LazyVStack(spacing: 5) {
                         // Yellow section content
                         streakDisplay
                             .padding(.bottom, 20)
@@ -38,15 +39,9 @@ struct ProgressionView: View {
                                 // History display
                                 HStack {
                                     VStack {
-                                        if appModel.highestStreak == 1 {
-                                            Text("\(appModel.highestStreak)  day")
-                                                .font(.custom("Poppins-Bold", size: 30))
-                                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                        } else {
-                                            Text("\(appModel.highestStreak)  days")
-                                                .font(.custom("Poppins-Bold", size: 30))
-                                                .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                        }
+                                        Text(appModel.highestStreak == 1 ? "\(appModel.highestStreak)  day" : "\(appModel.highestStreak)  days")
+                                            .font(.custom("Poppins-Bold", size: 30))
+                                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
                                         Text("Highest Streak")
                                             .font(.custom("Poppins-Bold", size: 16))
                                             .foregroundColor(appModel.globalSettings.primaryGrayColor)
@@ -72,7 +67,7 @@ struct ProgressionView: View {
             }
             .background(appModel.globalSettings.primaryYellowColor)
             .sheet(isPresented: $appModel.showDrillResults) {
-                DrillResultsView(appModel: appModel)
+                DrillResultsView(appModel: appModel, sessionModel: sessionModel)
         }
     }
         
@@ -331,40 +326,60 @@ struct CalendarViewTest: View {
 
 
     private func addDrill(for date: Date) {
-        let addedTestDrillsOne = MainAppModel.DrillData (
-            name: "Cone weaves",
+        let addedTestDrillsOne = DrillModel(
+            title: "Cone weaves",
             skill: "Dribbling",
-            duration: 20,
             sets: 4,
             reps: 8,
-            equipment: ["Ball, cones"],
-            isCompleted: true
+            duration: 20,
+            description: "Weave through cones to improve close control and agility",
+            tips: ["Keep the ball close", "Use both feet", "Look up while dribbling"],
+            equipment: ["Ball", "Cones"],
+            trainingStyle: "Medium Intensity",
+            difficulty: "Beginner"
         )
         
-        let addedTestDrillsTwo = MainAppModel.DrillData (
-            name: "Toe-taps",
+        let addedTestDrillsTwo = DrillModel(
+            title: "Toe-taps",
             skill: "Dribbling",
-            duration: 10,
             sets: 3,
             reps: 20,
+            duration: 10,
+            description: "Quick toe-taps to improve foot speed and coordination",
+            tips: ["Stay on your toes", "Maintain rhythm", "Keep balanced"],
             equipment: ["Ball"],
-            isCompleted: true
+            trainingStyle: "High Intensity",
+            difficulty: "Beginner"
         )
         
-        let addedTestDrillsThree = MainAppModel.DrillData (
-            name: "Ronaldinho Drill",
+        let addedTestDrillsThree = DrillModel(
+            title: "Ronaldinho Drill",
             skill: "Dribbling",
-            duration: 15,
             sets: 4,
             reps: 3,
+            duration: 15,
+            description: "Advanced ball control drill inspired by Ronaldinho",
+            tips: ["Focus on technique", "Start slow, build speed", "Practice both directions"],
             equipment: ["Ball"],
-            isCompleted: Bool.random()
+            trainingStyle: "High Intensity",
+            difficulty: "Advanced"
         )
         
-        let drills = [addedTestDrillsOne, addedTestDrillsTwo, addedTestDrillsThree]
+        let testDrillOne = EditableDrillModel(drill: addedTestDrillsOne, setsDone: 0, totalSets: addedTestDrillsOne.sets, totalReps: addedTestDrillsOne.reps, totalDuration: addedTestDrillsOne.duration, isCompleted: true)
+        
+        let testDrillTwo = EditableDrillModel(drill: addedTestDrillsTwo, setsDone: 0, totalSets: addedTestDrillsTwo.sets, totalReps: addedTestDrillsTwo.reps, totalDuration: addedTestDrillsTwo.duration, isCompleted: Bool.random())
+        
+        let testDrillThree = EditableDrillModel(drill: addedTestDrillsThree, setsDone: 0, totalSets: addedTestDrillsThree.sets, totalReps: addedTestDrillsThree.reps, totalDuration: addedTestDrillsThree.duration, isCompleted: true)
+        
+        let drills = [testDrillOne, testDrillTwo, testDrillThree]
         let completedDrillsCount = drills.filter { $0.isCompleted }.count
 
-        appModel.addCompletedSession(date: simulatedDate, drills: drills, totalCompletedDrills: completedDrillsCount, totalDrills: drills.count)
+        appModel.addCompletedSession(
+            date: simulatedDate,
+            drills: drills,
+            totalCompletedDrills: completedDrillsCount,
+            totalDrills: drills.count
+        )
     }
 
     private func createFullDate(from day: Int) -> Date {
@@ -461,5 +476,7 @@ struct RoundedCorner: Shape {
 
 #Preview {
     let mockAppModel = MainAppModel()
-    return ProgressionView(appModel: mockAppModel)
+    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+    
+    return ProgressionView(appModel: mockAppModel, sessionModel: mockSessionModel)
 }
