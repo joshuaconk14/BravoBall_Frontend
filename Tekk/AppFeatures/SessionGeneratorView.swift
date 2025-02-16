@@ -104,25 +104,25 @@ struct SessionGeneratorView: View {
                             .frame(width: 60, height: 60)
                         
                         // Bravo's message bubble
-                        ZStack(alignment: .center) {
-                            RiveViewModel(fileName: "Message_Bubble").view()
-                                .frame(width: 170, height: 50)
+                        if appModel.viewState.showTextBubble {
+                            ZStack(alignment: .center) {
+                                RiveViewModel(fileName: "Message_Bubble").view()
+                                    .frame(width: 170, height: 50)
 
-                            if appModel.viewState.showTextBubble {
-                                if sessionModel.orderedDrills.isEmpty {
-                                    Text("Choose your skill to improve today")
-                                        .font(.custom("Poppins-Bold", size: 12))
-                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                        .padding(10)
-                                        .frame(maxWidth: 150)
-                                } else {
-                                    
-                                    Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
-                                        .font(.custom("Poppins-Bold", size: 12))
-                                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                        .padding(10)
-                                        .frame(maxWidth: 150)
-                                }
+                                    if sessionModel.orderedDrills.isEmpty {
+                                        Text("Choose your skill to improve today")
+                                            .font(.custom("Poppins-Bold", size: 12))
+                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                            .padding(10)
+                                            .frame(maxWidth: 150)
+                                    } else {
+                                        
+                                        Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
+                                            .font(.custom("Poppins-Bold", size: 12))
+                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                                            .padding(10)
+                                            .frame(maxWidth: 150)
+                                    }
                             }
                         }
                     }
@@ -214,36 +214,40 @@ struct SessionGeneratorView: View {
                         }
                         .padding()
                     }
-                    // back button to go back to home page
-                    HStack {
+                    
+                    if sessionModel.orderedDrills.contains(where: { $0.isCompleted == false }) {
+                        // back button to go back to home page
+                        HStack {
 
-                        Button(action:  {
-                            withAnimation(.spring(dampingFraction: 0.7)) {
-                                appModel.viewState.showSmallDrillCards = false
+                            Button(action:  {
+                                withAnimation(.spring(dampingFraction: 0.7)) {
+                                    appModel.viewState.showSmallDrillCards = false
+                                }
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                    withAnimation(.spring(dampingFraction: 0.7)) {
+                                        appModel.viewState.showHomePage = true
+                                        appModel.viewState.showTextBubble = true
+                                    }
+                                }
+                            }) {
+                                Text("End Session")
+                                    .font(.custom("Poppins-Bold", size: 16))
+                                    .foregroundColor(.white)
+                                    .frame(width: 150, height: 44)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 22)
+                                            .fill(Color.red)
+                                    )
                             }
                             
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                withAnimation(.spring(dampingFraction: 0.7)) {
-                                    appModel.viewState.showHomePage = true
-                                    appModel.viewState.showTextBubble = true
-                                }
-                            }
-                        }) {
-                            Text("End Session")
-                                .font(.custom("Poppins-Bold", size: 16))
-                                .foregroundColor(.white)
-                                .frame(width: 150, height: 44)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 22)
-                                        .fill(Color.red)
-                                )
-                        }
-                        
-                        Spacer()
+                            Spacer()
 
+                        }
+                        .padding()
+                        .padding(.top, 500) // TODO: find better way to style this
                     }
-                    .padding()
-                    .padding(.top, 500) // TODO: find better way to style this
+                    
                     
                 }
                 .transition(.move(edge: .bottom))

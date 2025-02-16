@@ -35,9 +35,9 @@ class MainAppModel: ObservableObject {
     struct ViewState: Codable {
         var showingDrills = false
         var showFilter: Bool = true
-        var showHomePage: Bool = false // TESTING
+        var showHomePage: Bool = true // NOT TESTING
         var showTextBubble: Bool = true
-        var showSmallDrillCards: Bool = true // TESTING
+        var showSmallDrillCards: Bool = false // NOT TESTING
         var showFilterOptions: Bool = false
         var showSavedPrereqs: Bool = false
         var showSavedPrereqsPrompt: Bool = false

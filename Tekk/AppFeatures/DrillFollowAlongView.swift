@@ -169,28 +169,6 @@ struct DrillFollowAlongView: View {
                     }
                     .padding(.horizontal, 20)
                 }
-                
-//                if doneWithSession() {
-//                    Button(action: {
-//                        handleSessionCompletion()
-//                        endDrill()
-//
-//                    }
-//
-//                    ){
-//                        Text("End Session")
-//                            .font(.custom("Poppins-Bold", size: 16))
-//                            .foregroundColor(.white)
-//                            .frame(height: 44)
-//                            .frame(maxWidth: .infinity)
-//                            .background(
-//                                RoundedRectangle(cornerRadius: 22)
-//                                    .fill(Color.red)
-//                            )
-//                    }
-//                    .padding(.horizontal, 20)
-//                }
-                
             }
             
             // Add countdown overlay
@@ -246,8 +224,14 @@ struct DrillFollowAlongView: View {
             totalCompletedDrills: completedDrillsCount,
             totalDrills: sessionModel.orderedDrills.count
         )
-//        sessionModel.clearOrderedDrills()
         
+        if appModel.allCompletedSessions.count(where: {
+            Calendar.current.isDate($0.date, equalTo: Date(), toGranularity: .day)
+        }) == 1 {
+            appModel.currentStreak += 1
+        }
+        
+        appModel.highestStreakSetter(streak: appModel.currentStreak)
     }
     
     private var completedDrillsCount: Int {

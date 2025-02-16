@@ -14,7 +14,7 @@ struct SessionCompleteView: View {
     
     var body: some View {
         
-        ZStack(alignment: .bottom) {
+        ZStack {
             
             // Sky background color
             Color(appModel.globalSettings.primaryYellowColor)
@@ -22,27 +22,79 @@ struct SessionCompleteView: View {
             
             VStack {
                 Text("You've completed your session!")
+                    .foregroundColor(Color.white)
+                    .font(.custom("Poppins-Bold", size: 20))
+                    .padding()
                 
-                Button(action: {
-                    appModel.viewState.showSessionComplete = false
-                }) {
-                    ZStack {
-                        RiveViewModel(fileName: "Golden_Button").view()
-                            .frame(width: 120, height: 40)
-                        
-                        Text("Back to home page")
-                            .font(.custom("Poppins-Bold", size: 10))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .padding(.bottom, 10)
+                RiveViewModel(fileName: "Bravo_Panting").view()
+                    .frame(width: 200, height: 200)
+                
+                VStack {
+                    HStack {
+                        Image("Streak_Flame")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 90)
+                        Text("\(appModel.currentStreak)")
+                            .font(.custom("Poppins-Bold", size: 90))
+                            .foregroundColor(Color.white)
+                        if appModel.allCompletedSessions.count(where: {
+                            Calendar.current.isDate($0.date, equalTo: Date(), toGranularity: .day)
+                        }) == 1  {
+                            ZStack {
+                                Circle()
+                                    .fill(Color.green)
+                                    .frame(width: 30, height: 30)
+                                Text("+ 1")
+                                    .font(.custom("Poppins-Bold", size: 15))
+                                    .foregroundColor(Color.white)
+                            }
+                        }
+
                     }
+                    Text("Day Streak")
+                        .font(.custom("Poppins-Bold", size: 22))
+                        .foregroundColor(Color.white)
+                        .padding(.horizontal)
                 }
+                .padding()
+                
             }
         }
+        .safeAreaInset(edge: .bottom) {
+            Button(action: {
+                sessionModel.orderedDrills = []
+                sessionModel.selectedSkills = []
+                appModel.viewState.showSmallDrillCards = false
+                appModel.viewState.showHomePage = true
+                appModel.viewState.showTextBubble = true
+                appModel.viewState.showSessionComplete = false
+            }) {
+                Text("Back to home page")
+                    .font(.custom("Poppins-Bold", size: 16))
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(12)
+                
+            }
+            .padding()
+        }
+        
         
         
 
         
+    }
+}
+
+struct SessionCompleteView_Previews: PreviewProvider {
+    static var previews: some View {
+        SessionCompleteView(
+            appModel: MainAppModel(),
+            sessionModel: SessionGeneratorModel(onboardingData: .init())
+        )
+        .previewDisplayName("Session Complete")
     }
 }

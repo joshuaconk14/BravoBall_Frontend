@@ -297,7 +297,7 @@ struct DrillModel: Identifiable, Equatable, Codable {
 
 
 
-struct EditableDrillModel: Codable { // Testing this out
+struct EditableDrillModel: Codable {
     var drill: DrillModel
     var setsDone: Int
     var totalSets: Int

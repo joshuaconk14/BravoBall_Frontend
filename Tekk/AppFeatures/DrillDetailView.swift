@@ -233,6 +233,8 @@ struct InfoItem: View {
 
 
 
+// TODO: make this better code
+
 
 // MARK: Editing Drill VIew
 struct EditingDrillView: View {
@@ -245,65 +247,143 @@ struct EditingDrillView: View {
     @State private var editSets: String = ""
     @State private var editReps: String = ""
     @State private var editDuration: String = ""
+    @FocusState private var isSetsFocused: Bool
+    @FocusState private var isRepsFocused: Bool
+    @FocusState private var isDurationFocused: Bool
     
     var body: some View {
         ZStack {
-            VStack(alignment: .leading) {
-                Button(action : { showDrillDetailView = true}) {
-                    Image(systemName: "line.horizontal.3")
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        .font(.system(size: 16, weight: .medium))
+            VStack {
+                HStack {
+                    Spacer()
+                    
+                    Spacer()
+                    
+                    // Progress header
+                    Text("Edit Drill")
+                        .font(.custom("Poppins-Bold", size: 18))
+                        .foregroundColor(.black)
+                        .padding()
+                    
+                    Spacer()
+                    
+                    Button(action : {
+                        showDrillDetailView = true
+                    }) {
+                        Image(systemName: "line.horizontal.3")
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            .font(.system(size: 16, weight: .medium))
+                    }
+                    .padding()
                 }
                 
-                HStack {
-                    TextField("\(editableDrill.drill.sets)", text: $editSets)
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .font(.custom("Poppins-Medium", size: 18))
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        .frame(maxWidth: 60)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 8)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                    Text("Sets")
-                        .font(.custom("Poppins-Medium", size: 18))
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                ZStack {
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.1))
+                        .aspectRatio(16/9, contentMode: .fit)
+                        .cornerRadius(12)
+                    
                 }
-                HStack {
-                    TextField("\(editableDrill.drill.reps)", text: $editReps)
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .font(.custom("Poppins-Medium", size: 18))
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        .frame(maxWidth: 60)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 8)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                    Text("Reps")
-                        .font(.custom("Poppins-Medium", size: 18))
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                .padding(.horizontal, 20)
+                
+                Spacer()
+                
+                VStack(alignment: .leading, spacing: 25) {
+                    HStack {
+                        TextField("\(editableDrill.totalSets)", text: $editSets)
+                            .keyboardType(.numberPad)
+                            .textFieldStyle(PlainTextFieldStyle())
+                            .font(.custom("Poppins-Medium", size: 18))
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            .focused($isSetsFocused)
+                            .tint((appModel.globalSettings.primaryYellowColor))
+                            .frame(maxWidth: 60)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 8)
+                            .onChange(of: editSets) { _, newValue in
+                                            let filtered = newValue.filter { $0.isNumber }
+                                            if filtered.count > 2 {
+                                                // Limit to 2 digits
+                                                editSets = String(filtered.prefix(2))
+                                            } else if filtered != newValue {
+                                                // Only numbers allowed
+                                                editSets = filtered
+                                            }
+
+                                        }
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(isSetsFocused ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryLightGrayColor, lineWidth: 3)
+                            )
+                        Text("Sets")
+                            .font(.custom("Poppins-Medium", size: 18))
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    }
+                    HStack {
+                        TextField("\(editableDrill.totalReps)", text: $editReps)
+                            .keyboardType(.numberPad)
+                            .textFieldStyle(PlainTextFieldStyle())
+                            .font(.custom("Poppins-Medium", size: 18))
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            .focused($isRepsFocused)
+                            .tint((appModel.globalSettings.primaryYellowColor))
+                            .frame(maxWidth: 60)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 8)
+                            .onChange(of: editSets) { _, newValue in
+                                            let filtered = newValue.filter { $0.isNumber }
+                                            if filtered.count > 2 {
+                                                // Limit to 2 digits
+                                                editSets = String(filtered.prefix(2))
+                                            } else if filtered != newValue {
+                                                // Only numbers allowed
+                                                editSets = filtered
+                                            }
+
+                                        }
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(isRepsFocused ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryLightGrayColor, lineWidth: 3)
+                            )
+                        Text("Reps")
+                            .font(.custom("Poppins-Medium", size: 18))
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    }
+                    HStack {
+                        TextField("\(editableDrill.totalDuration)", text: $editDuration)
+                            .keyboardType(.numberPad)
+                            .textFieldStyle(PlainTextFieldStyle())
+                            .font(.custom("Poppins-Medium", size: 18))
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                            .focused($isDurationFocused)
+                            .tint((appModel.globalSettings.primaryYellowColor))
+                            .frame(maxWidth: 60)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 8)
+                            .onChange(of: editSets) { _, newValue in
+                                            let filtered = newValue.filter { $0.isNumber }
+                                            if filtered.count > 2 {
+                                                // Limit to 2 digits
+                                                editSets = String(filtered.prefix(2))
+                                            } else if filtered != newValue {
+                                                // Only numbers allowed
+                                                editSets = filtered
+                                            }
+
+                                        }
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(isDurationFocused ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryLightGrayColor, lineWidth: 3)
+                            )
+                        Text("Minutes")
+                            .font(.custom("Poppins-Medium", size: 18))
+                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    }
+                    
                 }
-                HStack {
-                    TextField("\(editableDrill.drill.duration)", text: $editDuration)
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .font(.custom("Poppins-Medium", size: 18))
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        .frame(maxWidth: 60)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 8)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                    Text("Minutes")
-                        .font(.custom("Poppins-Medium", size: 18))
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                }
-      
+                .padding(.bottom, 100)
+                
+                Spacer()
             }
             .padding()
             
@@ -312,57 +392,41 @@ struct EditingDrillView: View {
         .sheet(isPresented: $showDrillDetailView) {
             DrillDetailView(appModel: appModel, sessionModel: sessionModel, drill: editableDrill.drill)
         }
+        
+        // TODO: fix this
+        .safeAreaInset(edge: .bottom) {
+            let validations = (
+                sets: Int(editSets).map { $0 > 0 && $0 <= 99 } ?? false,
+                reps: Int(editReps).map { $0 > 0 && $0 <= 99 } ?? false,
+                duration: Int(editDuration).map { $0 > 0 && $0 <= 999 } ?? false
+            )
+            
+            let allValid = validations.sets || validations.reps || validations.duration
+            
+            Button(action: {
+                if let sets = Int(editSets),
+                   let reps = Int(editReps),
+                   let duration = Int(editDuration),
+                   allValid {
+                    editableDrill.totalSets = sets
+                    editableDrill.totalReps = reps
+                    editableDrill.totalDuration = duration
+                }
+            }) {
+                Text("Save Changes")
+                    .font(.custom("Poppins-Bold", size: 18))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(allValid ? appModel.globalSettings.primaryYellowColor : Color.gray.opacity(0.5))
+                    .cornerRadius(12)
+            }
+            .disabled(!allValid)
+            .padding()
+        }
     }
 }
 
-
-
-
-
-
-
-
-
-//#Preview {
-//    let mockAppModel = MainAppModel()
-//    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
-//
-//    
-//    let mockDrill = DrillModel(
-//        title: "Shooting Drill",
-//        skill: "Shooting",
-//        sets: 4,
-//        reps: 2,
-//        duration: 20,
-//        description: "This drill focuses on improving your shooting accuracy and power. Start by setting up cones in a zigzag pattern, dribble through them, and finish with a shot on goal.",
-//        tips: [
-//            "Keep your head down and eyes on the ball when shooting",
-//            "Follow through with your kicking foot",
-//            "Plant your non-kicking foot beside the ball",
-//            "Strike the ball with your laces for power"
-//        ],
-//        equipment: [
-//            "Soccer ball",
-//            "Cones",
-//            "Goal"
-//        ],
-//        trainingStyle: "Medium Intensity",
-//        difficulty: "Beginner"
-//    )
-//    
-//    // Create a mock group with the drill
-//    let mockGroup = GroupModel(
-//        name: "My First Group",
-//        description: "Collection of passing drills",
-//        drills: [mockDrill]
-//    )
-//    
-//    // Add the mock group to savedDrills
-//    mockSessionModel.savedDrills = [mockGroup]
-//    
-//    
-//    return DrillDetailView(appModel: mockAppModel, sessionModel: mockSessionModel, drill: mockDrill)
-//}
 
 #Preview {
     let mockDrill = EditableDrillModel(
