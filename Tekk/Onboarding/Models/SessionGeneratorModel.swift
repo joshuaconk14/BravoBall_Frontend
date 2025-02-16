@@ -175,6 +175,7 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
+    
     func clearOrderedDrills() {
         orderedDrills.removeAll()
     }

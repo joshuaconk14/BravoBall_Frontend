@@ -111,6 +111,8 @@ struct AllDrillsView: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     @State private var searchText: String = ""
+    @FocusState private var isFocused: Bool
+
     
     var body: some View {
         VStack {
@@ -121,6 +123,10 @@ struct AllDrillsView: View {
                 
                 TextField("Search drills...", text: $searchText)
                     .textFieldStyle(PlainTextFieldStyle())
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .focused($isFocused)
+                    .tint(appModel.globalSettings.primaryYellowColor)
+
                 
                 if !searchText.isEmpty {
                     Button(action: {
@@ -133,11 +139,11 @@ struct AllDrillsView: View {
             }
             .padding(8)
             .background(Color.white)
-            .cornerRadius(20)
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(appModel.globalSettings.primaryLightGrayColor, lineWidth: 3)
+                    .stroke(isFocused ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryLightGrayColor, lineWidth: 3)
             )
+            .cornerRadius(20)
             .padding()
             
             // Drills list

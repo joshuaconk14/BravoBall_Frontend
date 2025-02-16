@@ -190,7 +190,7 @@ struct SessionGeneratorView: View {
                     HStack {
                         RiveViewModel(fileName: "Bravo_Panting").view()
                             .frame(width: 90, height: 90)
-                        VStack {
+                        VStack(spacing: 15) {
                             ForEach(sessionModel.orderedDrills, id: \.drill.id) { editableDrill in
                                 if let index = sessionModel.orderedDrills.firstIndex(where: {$0.drill.id == editableDrill.drill.id}) {
                                     SmallDrillCard(
@@ -201,43 +201,58 @@ struct SessionGeneratorView: View {
                                 }
                                 
                             }
+                            
+                            // Trophy button for completionview
+                            Button(action: {
+                                appModel.viewState.showSessionComplete = true
+                            }) {
+                                RiveViewModel(fileName: "Drill_Card_Complete").view()
+                                    .frame(width: 60, height: 40)
+                            }
+                            .disabled(sessionModel.orderedDrills.contains(where: { $0.isCompleted == false }))
+                            .opacity(sessionModel.orderedDrills.contains(where: { $0.isCompleted == false }) ? 0.5 : 1.0)
                         }
                         .padding()
                     }
-                        // back button to go back to home page
-                        HStack {
-                            Spacer()
-                            
-                            Button(action:  {
-                                withAnimation(.spring(dampingFraction: 0.7)) {
-                                    appModel.viewState.showSmallDrillCards = false
-                                }
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                    withAnimation(.spring(dampingFraction: 0.7)) {
-                                        appModel.viewState.showHomePage = true
-                                        appModel.viewState.showTextBubble = true
-                                    }
-                                }
-                            }) {
-                                Text("End Session")
-                                    .font(.custom("Poppins-Bold", size: 16))
-                                    .foregroundColor(.white)
-                                    .frame(width: 150, height: 44)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 22)
-                                            .fill(Color.red)
-                                    )
+                    // back button to go back to home page
+                    HStack {
+
+                        Button(action:  {
+                            withAnimation(.spring(dampingFraction: 0.7)) {
+                                appModel.viewState.showSmallDrillCards = false
                             }
                             
-                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                withAnimation(.spring(dampingFraction: 0.7)) {
+                                    appModel.viewState.showHomePage = true
+                                    appModel.viewState.showTextBubble = true
+                                }
+                            }
+                        }) {
+                            Text("End Session")
+                                .font(.custom("Poppins-Bold", size: 16))
+                                .foregroundColor(.white)
+                                .frame(width: 150, height: 44)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 22)
+                                        .fill(Color.red)
+                                )
                         }
-                        .padding()
-                        .padding(.top, 500) // TODO: find better way to style this
+                        
+                        Spacer()
+
+                    }
+                    .padding()
+                    .padding(.top, 500) // TODO: find better way to style this
                     
                 }
                 .transition(.move(edge: .bottom))
             }
+        }
+        .fullScreenCover(isPresented: $appModel.viewState.showSessionComplete) {
+            SessionCompleteView(
+                appModel: appModel, sessionModel: sessionModel
+            )
         }
         
     }
@@ -253,7 +268,7 @@ struct SessionGeneratorView: View {
                 .offset(y: 30)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 0) {
+                LazyHStack(spacing: 0) {
          
                     // All prereqs
                     ForEach(MainAppModel.PrerequisiteType.allCases, id: \.self) { type in
@@ -274,6 +289,7 @@ struct SessionGeneratorView: View {
                     }
                     
                 }
+                .frame(height: 50)
                 
             }
             .padding(.leading, 70)
@@ -1052,7 +1068,6 @@ struct SmallDrillCard: View {
                         .foregroundColor(editableDrill.isCompleted ? Color.white : appModel.globalSettings.primaryDarkColor)
 
                 }
-                .padding()
             }
             
         }
@@ -1135,10 +1150,11 @@ struct SkillSelectionView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .tint(appModel.globalSettings.primaryYellowColor)
                                 .focused($isFocused)
-                                .onChange(of: isFocused) {
-                                    if isFocused {
-                                        appModel.viewState.showSkillSearch = true
-                                    }
+                                .onChange(of: isFocused) { _, newValue in
+                                    updateSearchState(isFocused: newValue)
+                                }
+                                .onChange(of: appModel.viewState.showSkillSearch) { _, newValue in
+                                    updateSearchState(isShowing: newValue)
                                 }
                             
                             }
@@ -1183,6 +1199,19 @@ struct SkillSelectionView: View {
                 .interactiveDismissDisabled()
         }
     }
+    private func updateSearchState(isFocused: Bool? = nil, isShowing: Bool? = nil) {
+           if let isFocused = isFocused {
+               if isFocused {
+                   appModel.viewState.showSkillSearch = true
+               }
+           }
+           
+           if let isShowing = isShowing {
+               if !isShowing {
+                   self.isFocused = false
+               }
+           }
+       }
 }
 
 // MARK: Skill button
