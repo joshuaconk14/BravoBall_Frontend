@@ -935,10 +935,12 @@ struct CompactDrillCard: View {
 struct DrillCard: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
-    let editableDrill: EditableDrillModel
+    @Binding var editableDrill: EditableDrillModel
+    
     
     var body: some View {
         Button(action: {
+            sessionModel.selectedDrillForEditing = editableDrill
             appModel.viewState.showingDrillDetail = true
         }) {
             ZStack {
@@ -980,18 +982,19 @@ struct DrillCard: View {
         }
         .buttonStyle(PlainButtonStyle())
         .sheet(isPresented: $appModel.viewState.showingDrillDetail) {
-            if let index = sessionModel.orderedSessionDrills.firstIndex(where: {$0.drill.id == editableDrill.drill.id}) {
-                EditingDrillView(
-                    appModel: appModel,
-                    sessionModel: sessionModel,
-                    editableDrill: $sessionModel.orderedSessionDrills[index])
-            }
+            if let selectedDrill = sessionModel.selectedDrillForEditing,
+               let index = sessionModel.orderedSessionDrills.firstIndex(where: {$0.drill.id == selectedDrill.drill.id}) {
+                    EditingDrillView(
+                        appModel: appModel,
+                        sessionModel: sessionModel,
+                        editableDrill: $sessionModel.orderedSessionDrills[index])
+                }
             
         }
     }
 }
 
-// MARK: Small Drill card
+// MARK: Field Drill card
 // When session is running
 struct FieldDrillCard: View {
     @ObservedObject var appModel: MainAppModel
@@ -1468,7 +1471,7 @@ struct GeneratedDrillsSection: View {
                     .padding(.bottom, 150)
                     
                 } else {
-                    ForEach(sessionModel.orderedSessionDrills, id: \.drill.id) { editableDrill in
+                    ForEach($sessionModel.orderedSessionDrills, id: \.drill.id) { $editableDrill in
                         HStack {
                             if appModel.viewState.showDeleteButtons {
                                 Button(action: {
@@ -1490,13 +1493,13 @@ struct GeneratedDrillsSection: View {
                             DrillCard(
                                 appModel: appModel,
                                 sessionModel: sessionModel,
-                                editableDrill: editableDrill
+                                editableDrill: $editableDrill
                             )
                             .draggable(editableDrill.drill.title) {
                                 DrillCard(
                                     appModel: appModel,
                                     sessionModel: sessionModel,
-                                    editableDrill: editableDrill
+                                    editableDrill: $editableDrill
                                 )
                             }
                             .dropDestination(for: String.self) { items, location in

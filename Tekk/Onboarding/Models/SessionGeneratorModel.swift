@@ -19,6 +19,8 @@ class SessionGeneratorModel: ObservableObject {
             updateDrills()
         }
     }
+    // Reference to the drill we want to edit
+    @Published var selectedDrillForEditing: EditableDrillModel?
     
     // Drill for Session storage
     // TODO: see if having too much arrays takes too much storage and if its easier to give isSelected Bool to drills
