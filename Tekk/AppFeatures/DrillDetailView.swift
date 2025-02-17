@@ -146,8 +146,6 @@ struct DrillDetailView: View {
     }
     
     // MARK: Find groups to save view
-    
-    // TODO: make this a structure?
     private var findGroupToSaveToView: some View {
         ZStack {
             Color.black.opacity(0.3)
@@ -225,7 +223,6 @@ struct InfoItem: View {
         }
         .frame(maxWidth: .infinity)
         .padding()
-//        .background(Color.gray.opacity(0.1))
         .cornerRadius(8)
     }
 }
@@ -233,8 +230,7 @@ struct InfoItem: View {
 
 
 
-// TODO: make this better code
-
+// TODO: make this code cleaner, and fix the values passed in for totalsets, totalreps, and totalduration
 
 // MARK: Editing Drill VIew
 struct EditingDrillView: View {
@@ -400,30 +396,40 @@ struct EditingDrillView: View {
                 reps: Int(editReps).map { $0 > 0 && $0 <= 99 } ?? false,
                 duration: Int(editDuration).map { $0 > 0 && $0 <= 999 } ?? false
             )
+            let setsValid = validations.sets
+            let repsValid = validations.reps
+            let durationValid = validations.duration
             
-            let allValid = validations.sets || validations.reps || validations.duration
+            
+
             
             Button(action: {
-                if let sets = Int(editSets),
-                   let reps = Int(editReps),
-                   let duration = Int(editDuration),
-                   allValid {
+
+                if let sets = Int(editSets), setsValid {
                     editableDrill.totalSets = sets
+                } else if let reps = Int(editReps), repsValid {
                     editableDrill.totalReps = reps
+                } else if let duration = Int(editDuration), durationValid {
                     editableDrill.totalDuration = duration
                 }
+                
+                appModel.viewState.showingDrillDetail = false
+                
             }) {
                 Text("Save Changes")
                     .font(.custom("Poppins-Bold", size: 18))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(allValid ? appModel.globalSettings.primaryYellowColor : Color.gray.opacity(0.5))
+                    .background(setsValid || repsValid || durationValid ? appModel.globalSettings.primaryYellowColor : Color.gray.opacity(0.5))
                     .cornerRadius(12)
             }
-            .disabled(!allValid)
+            .disabled(!setsValid && !repsValid && !durationValid)
             .padding()
         }
+    }
+    
+    private func validateOneDrill() {
     }
 }
 

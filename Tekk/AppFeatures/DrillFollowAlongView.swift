@@ -208,7 +208,7 @@ struct DrillFollowAlongView: View {
     }
     
     private func doneWithSession() -> Bool {
-        for editableDrill in sessionModel.orderedDrills {
+        for editableDrill in sessionModel.orderedSessionDrills {
             if editableDrill.isCompleted == false {
                 return false
             }
@@ -220,9 +220,9 @@ struct DrillFollowAlongView: View {
     private func handleSessionCompletion() {
         appModel.addCompletedSession(
             date: Date(),
-            drills: sessionModel.orderedDrills,
+            drills: sessionModel.orderedSessionDrills,
             totalCompletedDrills: completedDrillsCount,
-            totalDrills: sessionModel.orderedDrills.count
+            totalDrills: sessionModel.orderedSessionDrills.count
         )
         
         if appModel.allCompletedSessions.count(where: {
@@ -235,7 +235,7 @@ struct DrillFollowAlongView: View {
     }
     
     private var completedDrillsCount: Int {
-        sessionModel.orderedDrills.filter( {$0.isCompleted == true}).count
+        sessionModel.orderedSessionDrills.filter( {$0.isCompleted == true}).count
     }
     
 

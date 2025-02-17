@@ -23,7 +23,7 @@ class SessionGeneratorModel: ObservableObject {
     // Drill for Session storage
     // TODO: see if having too much arrays takes too much storage and if its easier to give isSelected Bool to drills
     @Published var selectedDrills: [DrillModel] = []
-    @Published var orderedDrills: [EditableDrillModel] = []
+    @Published var orderedSessionDrills: [EditableDrillModel] = []
     
     // Saved Drill storage
     @Published var savedDrills: [GroupModel] = []
@@ -39,7 +39,7 @@ class SessionGeneratorModel: ObservableObject {
     // Saved filters storage
     @Published var allSavedFilters: [SavedFiltersModel] = []
     
-    // Prerequisite options
+    // Filter options
     let timeOptions = ["15min", "30min", "45min", "1h", "1h30", "2h+"]
     let equipmentOptions = ["balls", "cones", "goals"]
     let trainingStyleOptions = ["medium intensity", "high intensity", "game prep", "game recovery", "rest day"]
@@ -133,7 +133,7 @@ class SessionGeneratorModel: ObservableObject {
     // Update drills based on selected sub-skills, converting testDrill's DrillModels into orderedDrill's EditDrillModels
     func updateDrills() {
         if selectedSkills.isEmpty {
-            orderedDrills = []
+            orderedSessionDrills = []
             return
         }
         
@@ -163,7 +163,7 @@ class SessionGeneratorModel: ObservableObject {
             return false
         }
         // Convert filtered DrillModels to EditableDrillModels
-        orderedDrills = filteredDrills.map { drill in
+        orderedSessionDrills = filteredDrills.map { drill in
             EditableDrillModel(
                 drill: drill,
                 setsDone: 0,
@@ -175,13 +175,16 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
+    func sessionNotComplete() -> Bool {
+        orderedSessionDrills.contains(where: { $0.isCompleted == false })
+    }
     
     func clearOrderedDrills() {
-        orderedDrills.removeAll()
+        orderedSessionDrills.removeAll()
     }
     
     func moveDrill(from source: IndexSet, to destination: Int) {
-        orderedDrills.move(fromOffsets: source, toOffset: destination)
+        orderedSessionDrills.move(fromOffsets: source, toOffset: destination)
     }
     
     func addDrillToGroup(drill: DrillModel, groupId: UUID) {
@@ -237,19 +240,58 @@ class SessionGeneratorModel: ObservableObject {
                 totalDuration: oneDrill.duration,
                 isCompleted: false
             )
-            orderedDrills.append(editableDrills)
+            orderedSessionDrills.append(editableDrills)
         }
         selectedDrills.removeAll()
     }
     
     // Deleting drills from session
     func deleteDrillFromSession(drill: EditableDrillModel) {
-        orderedDrills.removeAll(where: { $0.drill.id == drill.drill.id })
+        orderedSessionDrills.removeAll(where: { $0.drill.id == drill.drill.id })
     }
     
-    func generateSession() {
-        // TODO: Implement session generation logic
+    // Filter value that is selected, or if its empty
+    func filterValue(for type: MainAppModel.FilterType) -> String {
+        switch type {
+        case .time:
+            return selectedTime ?? ""
+        case .equipment:
+            return selectedEquipment.isEmpty ? "" : "\(selectedEquipment.count) selected"
+        case .trainingStyle:
+            return selectedTrainingStyle ?? ""
+        case .location:
+            return selectedLocation ?? ""
+        case .difficulty:
+            return selectedDifficulty ?? ""
+        }
     }
+    
+    // Save filters into saved filters group
+    func saveFiltersInGroup(name: String) {
+        
+        guard !name.isEmpty else { return }
+        
+        let savedFilters = SavedFiltersModel(
+            name: name,
+            savedTime: selectedTime,
+            savedEquipment: selectedEquipment,
+            savedTrainingStyle: selectedTrainingStyle,
+            savedLocation: selectedLocation,
+            savedDifficulty: selectedDifficulty
+        )
+        
+        allSavedFilters.append(savedFilters)
+    }
+    
+    // Load filter after clicking the name of saved filter
+    func loadFilter(_ filter: SavedFiltersModel) {
+        selectedTime = filter.savedTime
+        selectedEquipment = filter.savedEquipment
+        selectedTrainingStyle = filter.savedTrainingStyle
+        selectedLocation = filter.savedLocation
+        selectedDifficulty = filter.savedDifficulty
+    }
+    
 }
 
 // Drill model

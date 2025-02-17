@@ -311,7 +311,7 @@ struct DrillRow: View {
                         }) {
                             ZStack {
                                 
-                                if sessionModel.orderedDrills.contains(where: { $0.drill.title == drill.title }) {
+                                if sessionModel.orderedSessionDrills.contains(where: { $0.drill.title == drill.title }) {
                                     RoundedRectangle(cornerRadius: 4)
                                         .fill(appModel.globalSettings.primaryLightGrayColor)
                                         .stroke((appModel.globalSettings.primaryLightGrayColor), lineWidth: 2)
@@ -333,7 +333,7 @@ struct DrillRow: View {
                             }
                             
                         }
-                        .disabled(sessionModel.orderedDrills.contains(where: { $0.drill.title == drill.title }))
+                        .disabled(sessionModel.orderedSessionDrills.contains(where: { $0.drill.title == drill.title }))
                         
                     }
                 }

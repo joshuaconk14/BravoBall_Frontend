@@ -35,12 +35,12 @@ class MainAppModel: ObservableObject {
     struct ViewState: Codable {
         var showingDrills = false
         var showFilter: Bool = true
-        var showHomePage: Bool = true // NOT TESTING
+        var showHomePage: Bool = true
         var showTextBubble: Bool = true
-        var showSmallDrillCards: Bool = false // NOT TESTING
+        var showFieldBehindHomePage: Bool = false
         var showFilterOptions: Bool = false
-        var showSavedPrereqs: Bool = false
-        var showSavedPrereqsPrompt: Bool = false
+        var showSavedFilters: Bool = false
+        var showSaveFiltersPrompt: Bool = false
         var showSearchDrills: Bool = false
         var showDeleteButtons: Bool = false
         var showingDrillDetail: Bool = false
@@ -52,12 +52,12 @@ class MainAppModel: ObservableObject {
     
     
     
-    // Enus and types for prereqs
+    // Enus and types for filters
     
-    @Published var selectedPrerequisite: PrerequisiteType?
+    @Published var selectedFilter: FilterType?
 
     
-    enum PrerequisiteType: String, CaseIterable, Identifiable {
+    enum FilterType: String, CaseIterable, Identifiable {
         case time = "Time"
         case equipment = "Equipment"
         case trainingStyle = "Training Style"
@@ -89,7 +89,7 @@ class MainAppModel: ObservableObject {
     }
     
     
-    enum PrerequisiteIcon {
+    enum FilterIcon {
         case time
         case equipment
         case trainingStyle
@@ -119,8 +119,8 @@ class MainAppModel: ObservableObject {
         }
     }
     
-    // Function to map PrerequisiteType to PrerequisiteIcon
-    func icon(for type: PrerequisiteType) -> PrerequisiteIcon {
+    // Function to map FilterType to FilterIcon
+    func icon(for type: FilterType) -> FilterIcon {
         switch type {
         case .time:
             return .time

@@ -63,9 +63,9 @@ struct SessionCompleteView: View {
         }
         .safeAreaInset(edge: .bottom) {
             Button(action: {
-                sessionModel.orderedDrills = []
+                sessionModel.orderedSessionDrills = []
                 sessionModel.selectedSkills = []
-                appModel.viewState.showSmallDrillCards = false
+                appModel.viewState.showFieldBehindHomePage = false
                 appModel.viewState.showHomePage = true
                 appModel.viewState.showTextBubble = true
                 appModel.viewState.showSessionComplete = false

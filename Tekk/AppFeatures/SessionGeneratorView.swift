@@ -15,74 +15,63 @@ struct SessionGeneratorView: View {
     
     @State private var savedFiltersName: String  = ""
     @State private var searchSkillsText: String = ""
-
-//    init(model: OnboardingModel, appModel: MainAppModel) {
-//        self.model = model
-//        self.appModel = appModel
-//
-//    }
     
     
     // MARK: Main view
     var body: some View {
-            ZStack(alignment: .bottom) {
-                
-                // Sky background color
-                Color(hex:"bef1fa")
-                    .ignoresSafeArea()
-                
+        ZStack(alignment: .bottom) {
+            
+            // Sky background color
+            Color(hex:"bef1fa")
+                .ignoresSafeArea()
 
-                homePage
+            homePage
 
-
-                // Golden button
-                    
-                if !sessionModel.orderedDrills.isEmpty && !appModel.viewState.showSkillSearch && appModel.viewState.showHomePage  {
-                        
-                        goldenButton
-                }
-                
-                // Prompt to save filter
-                if appModel.viewState.showSavedPrereqsPrompt {
-                    
-                    prereqPrompt
-                }
-                
+            // Golden button
+            if sessionReady()  {
+                goldenButton
             }
-            .background(Color(hex:"bef1fa"))
-
-            .sheet(item: $appModel.selectedPrerequisite) { type in
-                    PrerequisiteDropdown(
-                        appModel: appModel,
-                        sessionModel: sessionModel,
-                        type: type
-                    ) {
-                        appModel.selectedPrerequisite = nil
-                    }
-                    .presentationDragIndicator(.hidden)
-//                    .interactiveDismissDisabled()
-                    .presentationDetents([.height(300)])
-
-                }
-            .sheet(isPresented: $appModel.viewState.showSavedPrereqs) {
-                DisplaySavedFilters(
-                    appModel: appModel,
-                    sessionModel: sessionModel,
-                    dismiss: { appModel.viewState.showSavedPrereqs = false }
-                )
-                .presentationDragIndicator(.hidden)
-//                .interactiveDismissDisabled()
-                .presentationDetents([.height(300)])
+            
+            // Prompt to save filter
+            if appModel.viewState.showSaveFiltersPrompt {
+                
+                saveFiltersPrompt
             }
-            .sheet(isPresented: $appModel.viewState.showFilterOptions) {
-                FilterOptions(
-                    appModel: appModel,
-                    sessionModel: sessionModel
-                )
-                .presentationDragIndicator(.hidden)
-//                .interactiveDismissDisabled()
-                .presentationDetents([.height(200)])
+            
+        }
+
+        // Sheet pop-up for each filter
+        .sheet(item: $appModel.selectedFilter) { type in
+            FilterSheet(
+                appModel: appModel,
+                sessionModel: sessionModel,
+                type: type
+            ) {
+                appModel.selectedFilter = nil
             }
+            .presentationDragIndicator(.hidden)
+            .presentationDetents([.height(300)])
+
+        }
+        // Sheet pop-up for saved filters
+        .sheet(isPresented: $appModel.viewState.showSavedFilters) {
+            DisplaySavedFilters(
+                appModel: appModel,
+                sessionModel: sessionModel,
+                dismiss: { appModel.viewState.showSavedFilters = false }
+            )
+            .presentationDragIndicator(.hidden)
+            .presentationDetents([.height(300)])
+        }
+        // Sheet pop-up for filter option button
+        .sheet(isPresented: $appModel.viewState.showFilterOptions) {
+            FilterOptions(
+                appModel: appModel,
+                sessionModel: sessionModel
+            )
+            .presentationDragIndicator(.hidden)
+            .presentationDetents([.height(200)])
+        }
     }
     
     
@@ -93,8 +82,7 @@ struct SessionGeneratorView: View {
             // Where session begins, behind home page
             areaBehindHomePage
                 
-                
-                
+            
             // Home page
             if appModel.viewState.showHomePage {
                 VStack {
@@ -105,25 +93,8 @@ struct SessionGeneratorView: View {
                         
                         // Bravo's message bubble
                         if appModel.viewState.showTextBubble {
-                            ZStack(alignment: .center) {
-                                RiveViewModel(fileName: "Message_Bubble").view()
-                                    .frame(width: 170, height: 50)
-
-                                    if sessionModel.orderedDrills.isEmpty {
-                                        Text("Choose your skill to improve today")
-                                            .font(.custom("Poppins-Bold", size: 12))
-                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                            .padding(10)
-                                            .frame(maxWidth: 150)
-                                    } else {
-                                        
-                                        Text("Looks like you got \(sessionModel.orderedDrills.count) drills for today!")
-                                            .font(.custom("Poppins-Bold", size: 12))
-                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                            .padding(10)
-                                            .frame(maxWidth: 150)
-                                    }
-                            }
+                            
+                            bravosMessageBubble
                         }
                     }
                     
@@ -135,36 +106,38 @@ struct SessionGeneratorView: View {
                         .fill(Color.white)
                         .edgesIgnoringSafeArea(.bottom)
                     
-                    // Home page
+                    // White part of home page
                     VStack(alignment: .leading, spacing: 5) {
                         
                         HStack {
 
                             Spacer()
                             
-                            // Skills for today view
-                            SkillSelectionView(appModel: appModel, sessionModel: sessionModel, searchText: $searchSkillsText)
+                            SkillSearchBar(appModel: appModel, sessionModel: sessionModel, searchText: $searchSkillsText)
                                 .padding(.top, 3)
                             
                             Spacer()
                         }
                         
+                        // If skills search bar is selected
                         if appModel.viewState.showSkillSearch {
+                            
+                            // New view for searching skills
                             SearchSkillsView(
                                 appModel: appModel,
                                 sessionModel: sessionModel,
                                 searchText: $searchSkillsText
                             )
+                        // If skills search bar is not selected
                         } else {
                             
-                            prerequisiteScrollView
+                            // Filter options
+                            filterScrollView
 
-                            // Generated Drills Section
+                            // Generated session portion
                             GeneratedDrillsSection(appModel: appModel, sessionModel: sessionModel)
                         }
                     }
-                    
- 
                 }
             }
             .transition(.move(edge: .bottom))
@@ -178,11 +151,10 @@ struct SessionGeneratorView: View {
         // Whole area behind the home page
         VStack {
             
-            
             Spacer()
 
-                // When the session is activated
-            if appModel.viewState.showSmallDrillCards {
+            // When the session begins, the field pops up
+            if appModel.viewState.showFieldBehindHomePage {
                 ZStack {
                     RiveViewModel(fileName: "Grass_Field").view()
                         .frame(maxWidth: .infinity)
@@ -191,37 +163,30 @@ struct SessionGeneratorView: View {
                         RiveViewModel(fileName: "Bravo_Panting").view()
                             .frame(width: 90, height: 90)
                         VStack(spacing: 15) {
-                            ForEach(sessionModel.orderedDrills, id: \.drill.id) { editableDrill in
-                                if let index = sessionModel.orderedDrills.firstIndex(where: {$0.drill.id == editableDrill.drill.id}) {
-                                    SmallDrillCard(
+                            
+                            // Ordered drill cards on the field
+                            ForEach(sessionModel.orderedSessionDrills, id: \.drill.id) { editableDrill in
+                                if let index = sessionModel.orderedSessionDrills.firstIndex(where: {$0.drill.id == editableDrill.drill.id}) {
+                                    FieldDrillCard(
                                         appModel: appModel,
                                         sessionModel: sessionModel,
-                                        editableDrill: $sessionModel.orderedDrills[index]
+                                        editableDrill: $sessionModel.orderedSessionDrills[index]
                                     )
                                 }
-                                
                             }
                             
                             // Trophy button for completionview
-                            Button(action: {
-                                appModel.viewState.showSessionComplete = true
-                            }) {
-                                RiveViewModel(fileName: "Drill_Card_Complete").view()
-                                    .frame(width: 60, height: 40)
-                            }
-                            .disabled(sessionModel.orderedDrills.contains(where: { $0.isCompleted == false }))
-                            .opacity(sessionModel.orderedDrills.contains(where: { $0.isCompleted == false }) ? 0.5 : 1.0)
+                            trophyButton
                         }
                         .padding()
                     }
                     
-                    if sessionModel.orderedDrills.contains(where: { $0.isCompleted == false }) {
-                        // back button to go back to home page
+                    // back button only shows if session not completed
+                    if sessionModel.sessionNotComplete() {
                         HStack {
-
                             Button(action:  {
                                 withAnimation(.spring(dampingFraction: 0.7)) {
-                                    appModel.viewState.showSmallDrillCards = false
+                                    appModel.viewState.showFieldBehindHomePage = false
                                 }
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
@@ -261,64 +226,100 @@ struct SessionGeneratorView: View {
         
     }
     
+    // MARK: Bravo's message bubble
+    private var bravosMessageBubble: some View {
+        ZStack(alignment: .center) {
+            RiveViewModel(fileName: "Message_Bubble").view()
+                .frame(width: 170, height: 50)
+
+                if sessionModel.orderedSessionDrills.isEmpty {
+                    Text("Choose your skill to improve today")
+                        .font(.custom("Poppins-Bold", size: 12))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .padding(10)
+                        .frame(maxWidth: 150)
+                } else {
+                    
+                    Text("Looks like you got \(sessionModel.orderedSessionDrills.count) drills for today!")
+                        .font(.custom("Poppins-Bold", size: 12))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .padding(10)
+                        .frame(maxWidth: 150)
+                }
+        }
+    }
     
-    // MARK: Prerequisite Scroll View
-    private var prerequisiteScrollView: some View {
+    // MARK: Trophy button
+    private var trophyButton: some View {
+        Button(action: {
+            appModel.viewState.showSessionComplete = true
+        }) {
+            RiveViewModel(fileName: "Drill_Card_Complete").view()
+                .frame(width: 60, height: 40)
+        }
+        .disabled(sessionModel.sessionNotComplete())
+        .opacity(sessionModel.sessionNotComplete() ? 0.5 : 1.0)
+    }
+    
+    
+    // MARK: Filter Scroll View
+    private var filterScrollView: some View {
         ZStack(alignment: .leading) {
             
+            // Gray line below filters
             Rectangle()
                 .stroke(appModel.globalSettings.primaryGrayColor.opacity(0.3), lineWidth: 1)
                 .frame(height: 1)
                 .offset(y: 30)
             
+            // All filter buttons
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 0) {
          
-                    // All prereqs
-                    ForEach(MainAppModel.PrerequisiteType.allCases, id: \.self) { type in
-                        PrerequisiteButton(
+                    ForEach(MainAppModel.FilterType.allCases, id: \.self) { type in
+                        FilterButton(
                             appModel: appModel,
                             type: type,
                             icon: appModel.icon(for: type),
-                            isSelected: appModel.selectedPrerequisite == type,
-                            value: prerequisiteValue(for: type)
+                            isSelected: appModel.selectedFilter == type,
+                            value: sessionModel.filterValue(for: type)
                         ) {
-                            if appModel.selectedPrerequisite == type {
-                                appModel.selectedPrerequisite = nil
+                            if appModel.selectedFilter == type {
+                                appModel.selectedFilter = nil
                             } else {
-                                appModel.selectedPrerequisite = type
+                                appModel.selectedFilter = type
                             }
                         }
                         .padding(.vertical, 3)
                     }
-                    
                 }
                 .frame(height: 50)
-                
             }
             .padding(.leading, 70)
             
-            FilterButton(appModel: appModel, sessionModel: sessionModel)
+            // White filter button on the left
+            FilterOptionsButton(appModel: appModel, sessionModel: sessionModel)
              
         }
         .frame(maxWidth: .infinity)
         .padding(.bottom, 5)
     }
     
-    // MARK: prereq prompt
-    private var prereqPrompt: some View {
+    // MARK: Save filters prompt
+    private var saveFiltersPrompt: some View {
         ZStack {
             Color.black.opacity(0.3)
                 .ignoresSafeArea()
                 .onTapGesture {
-                    appModel.viewState.showSavedPrereqsPrompt = false
+                    appModel.viewState.showSaveFiltersPrompt = false
                 }
             
             VStack {
                 HStack {
+                    // Exit the prompt
                     Button(action: {
                         withAnimation {
-                            appModel.viewState.showSavedPrereqsPrompt = false
+                            appModel.viewState.showSaveFiltersPrompt = false
                         }
                     }) {
                         Image(systemName: "xmark")
@@ -331,6 +332,7 @@ struct SessionGeneratorView: View {
                     Text("Save filter")
                         .font(.custom("Poppins-Bold", size: 12))
                         .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    
                     Spacer()
                 }
                 .padding(.horizontal, 16)
@@ -341,10 +343,11 @@ struct SessionGeneratorView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                 
+                // Save filters button
                 Button(action: {
                     withAnimation {
-                        saveFiltersInGroup(name: savedFiltersName)
-                        appModel.viewState.showSavedPrereqsPrompt = false
+                        sessionModel.saveFiltersInGroup(name: savedFiltersName)
+                        appModel.viewState.showSaveFiltersPrompt = false
                     }
                 }) {
                     Text("Save")
@@ -377,10 +380,10 @@ struct SessionGeneratorView: View {
                 
             }
             
-            // Delay the appearance of drill cards to match the menu's exit animation
+            // Delay the appearance of field
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                 withAnimation(.spring(dampingFraction: 0.7)) {
-                    appModel.viewState.showSmallDrillCards = true
+                    appModel.viewState.showFieldBehindHomePage = true
                 }
             }
             
@@ -401,49 +404,15 @@ struct SessionGeneratorView: View {
         .padding(.bottom, 46)
         .transition(.move(edge: .bottom))
     }
-            
-    // Prereq value that is selected, or if its empty
-    private func prerequisiteValue(for type: MainAppModel.PrerequisiteType) -> String {
-        switch type {
-        case .time:
-            return sessionModel.selectedTime ?? ""
-        case .equipment:
-            return sessionModel.selectedEquipment.isEmpty ? "" : "\(sessionModel.selectedEquipment.count) selected"
-        case .trainingStyle:
-            return sessionModel.selectedTrainingStyle ?? ""
-        case .location:
-            return sessionModel.selectedLocation ?? ""
-        case .difficulty:
-            return sessionModel.selectedDifficulty ?? ""
-        }
-    }
     
-    
-    // Save prerequisites
-    
-    private func saveFiltersInGroup(name: String) {
-        
-        guard !name.isEmpty else { return }
-        
-        let savedFilters = SavedFiltersModel(
-            name: name,
-            savedTime: sessionModel.selectedTime,
-            savedEquipment: sessionModel.selectedEquipment,
-            savedTrainingStyle: sessionModel.selectedTrainingStyle,
-            savedLocation: sessionModel.selectedLocation,
-            savedDifficulty: sessionModel.selectedDifficulty
-        )
-        
-        sessionModel.allSavedFilters.append(savedFilters)
+    private func sessionReady() -> Bool {
+        !sessionModel.orderedSessionDrills.isEmpty && !appModel.viewState.showSkillSearch && appModel.viewState.showHomePage
     }
     
 }
 
-
-// TODO: make this neater
-
 // MARK: Filter button
-struct FilterButton: View {
+struct FilterOptionsButton: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
 
@@ -487,15 +456,16 @@ struct FilterButton: View {
 
 // MARK: Filter Options
 struct FilterOptions: View {
-    
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
+    
+    // TODO: case enums for neatness
     
     var body: some View {
         VStack(alignment: .leading) {
             Button(action: {
                 
-                clearPrereqSelection()
+                clearFilterSelection()
                 
                 withAnimation {
                     appModel.viewState.showFilterOptions = false
@@ -516,7 +486,7 @@ struct FilterOptions: View {
             
             Button(action: {
                 
-                showPrereqPrompt()
+                showFilterPrompt()
                 
                 withAnimation {
                     appModel.viewState.showFilterOptions = false
@@ -537,7 +507,7 @@ struct FilterOptions: View {
             
             Button(action: {
                 withAnimation(.spring(dampingFraction: 0.7)) {
-                    appModel.viewState.showSavedPrereqs.toggle()
+                    appModel.viewState.showSavedFilters.toggle()
                     appModel.viewState.showFilterOptions = false
                 }
             }) {
@@ -557,16 +527,18 @@ struct FilterOptions: View {
         .frame(maxWidth: .infinity)
 
     }
-    private func showPrereqPrompt() {
-        if appModel.viewState.showSavedPrereqsPrompt == true {
-            appModel.viewState.showSavedPrereqsPrompt = false
+    
+    // Show Save Filter prompt
+    private func showFilterPrompt() {
+        if appModel.viewState.showSaveFiltersPrompt == true {
+            appModel.viewState.showSaveFiltersPrompt = false
         } else {
-            appModel.viewState.showSavedPrereqsPrompt = true
+            appModel.viewState.showSaveFiltersPrompt = true
         }
     }
     
-    // Clears prereq selected options
-    private func clearPrereqSelection() {
+    // Clears filter selected options
+    private func clearFilterSelection() {
         sessionModel.selectedTime = nil
         sessionModel.selectedEquipment.removeAll()
         sessionModel.selectedTrainingStyle = nil
@@ -576,11 +548,11 @@ struct FilterOptions: View {
 
 
     
-    private func showSavedPrerequisites() {
-        if appModel.viewState.showSavedPrereqs == true {
-            appModel.viewState.showSavedPrereqs = false
+    private func showSavedFilters() {
+        if appModel.viewState.showSavedFilters == true {
+            appModel.viewState.showSavedFilters = false
         } else {
-            appModel.viewState.showSavedPrereqs = true
+            appModel.viewState.showSavedFilters = true
         }
     }
 }
@@ -591,26 +563,6 @@ struct SearchSkillsView: View {
     @ObservedObject var sessionModel: SessionGeneratorModel
     
     @Binding var searchText: String
-    
-    // Flatten all skills for searching
-        var allSkills: [String] {
-            SessionGeneratorView.skillCategories.flatMap { category in
-                category.subSkills.map { subSkill in
-                    (subSkill)
-                }
-            }
-            
-        }
-        
-        var filteredSkills: [String] {
-            if searchText.isEmpty {
-                return []
-            } else {
-                return allSkills.filter { skill in
-                    skill.lowercased().contains(searchText.lowercased())
-                }
-            }
-        }
     
     var body: some View {
         VStack {
@@ -645,6 +597,26 @@ struct SearchSkillsView: View {
                 .padding()
             }
             
+        }
+    }
+    
+    // Flatten all skills for searching
+    private var allSkills: [String] {
+        SessionGeneratorView.skillCategories.flatMap { category in
+            category.subSkills.map { subSkill in
+                (subSkill)
+            }
+        }
+        
+    }
+
+    private var filteredSkills: [String] {
+        if searchText.isEmpty {
+            return []
+        } else {
+            return allSkills.filter { skill in
+                skill.lowercased().contains(searchText.lowercased())
+            }
         }
     }
 }
@@ -688,11 +660,11 @@ struct SkillRow: View {
 }
 
 
-// MARK: Prereq button
-struct PrerequisiteButton: View {
+// MARK: Filter button
+struct FilterButton: View {
     @ObservedObject var appModel: MainAppModel
-    let type: MainAppModel.PrerequisiteType
-    let icon: MainAppModel.PrerequisiteIcon
+    let type: MainAppModel.FilterType
+    let icon: MainAppModel.FilterIcon
     let isSelected: Bool
     let value: String
     let action: () -> Void
@@ -725,16 +697,16 @@ struct PrerequisiteButton: View {
     }
 }
 
-// MARK: Prereq dropdown
-struct PrerequisiteDropdown: View {
+// MARK: Filter dropdown
+struct FilterSheet: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     
-    let type: MainAppModel.PrerequisiteType
+    let type: MainAppModel.FilterType
     let dismiss: () -> Void
     
     var body: some View {
-        // Prereq dropdown
+        // Filter dropdown
         VStack(alignment: .center, spacing: 12) {
             
             // Header
@@ -880,7 +852,7 @@ struct DisplaySavedFilters: View {
                     LazyVStack(alignment: .leading, spacing: 8) {
                         ForEach(sessionModel.allSavedFilters, id: \.name) { filter in
                             Button(action: {
-                                loadFilter(filter)
+                                sessionModel.loadFilter(filter)
                             }) {
                                 HStack {
                                     Text(filter.name)
@@ -900,14 +872,7 @@ struct DisplaySavedFilters: View {
         }
         .padding()
     }
-    // Load filter after clicking the name of saved filter
-    private func loadFilter(_ filter: SavedFiltersModel) {
-            sessionModel.selectedTime = filter.savedTime
-            sessionModel.selectedEquipment = filter.savedEquipment
-            sessionModel.selectedTrainingStyle = filter.savedTrainingStyle
-            sessionModel.selectedLocation = filter.savedLocation
-            sessionModel.selectedDifficulty = filter.savedDifficulty
-        }
+
 }
 
 
@@ -971,11 +936,10 @@ struct DrillCard: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     let editableDrill: EditableDrillModel
-    @State private var showingDrillDetail = false
     
     var body: some View {
         Button(action: {
-            showingDrillDetail = true
+            appModel.viewState.showingDrillDetail = true
         }) {
             ZStack {
                 RiveViewModel(fileName: "Drill_Card_Incomplete").view()
@@ -1015,12 +979,12 @@ struct DrillCard: View {
             .padding()
         }
         .buttonStyle(PlainButtonStyle())
-        .sheet(isPresented: $showingDrillDetail) {
-            if let index = sessionModel.orderedDrills.firstIndex(where: {$0.drill.id == editableDrill.drill.id}) {
+        .sheet(isPresented: $appModel.viewState.showingDrillDetail) {
+            if let index = sessionModel.orderedSessionDrills.firstIndex(where: {$0.drill.id == editableDrill.drill.id}) {
                 EditingDrillView(
                     appModel: appModel,
                     sessionModel: sessionModel,
-                    editableDrill: $sessionModel.orderedDrills[index])
+                    editableDrill: $sessionModel.orderedSessionDrills[index])
             }
             
         }
@@ -1029,7 +993,7 @@ struct DrillCard: View {
 
 // MARK: Small Drill card
 // When session is running
-struct SmallDrillCard: View {
+struct FieldDrillCard: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
     @Binding var editableDrill: EditableDrillModel
@@ -1092,7 +1056,7 @@ struct SmallDrillCard: View {
         }
     
     private func isCurrentDrill() -> Bool {
-        if let firstIncompleteDrill = sessionModel.orderedDrills.first(where: { !$0.isCompleted }) {
+        if let firstIncompleteDrill = sessionModel.orderedSessionDrills.first(where: { !$0.isCompleted }) {
             return firstIncompleteDrill.drill.id == editableDrill.drill.id
         }
         return false
@@ -1103,12 +1067,12 @@ struct SmallDrillCard: View {
 
 
 // MARK: Skill selection view
-struct SkillSelectionView: View {
+struct SkillSearchBar: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
+    
     @State private var showingSkillSelector = false
     @FocusState private var isFocused: Bool
-    
     @Binding var searchText: String
     
     
@@ -1453,8 +1417,8 @@ struct GeneratedDrillsSection: View {
                         RiveViewModel(fileName: "Plus_Button").view()
                             .frame(width: 30, height: 30)
                     }
-                    .disabled(sessionModel.orderedDrills.isEmpty)
-                    .opacity(sessionModel.orderedDrills.isEmpty ? 0.4 : 1.0)
+                    .disabled(sessionModel.orderedSessionDrills.isEmpty)
+                    .opacity(sessionModel.orderedSessionDrills.isEmpty ? 0.4 : 1.0)
                     
                     Button(action: {
                         withAnimation(.spring(dampingFraction: 0.7)) {
@@ -1475,8 +1439,8 @@ struct GeneratedDrillsSection: View {
                                 .font(.system(size: 16, weight: .medium))
                         }
                     }
-                    .disabled(sessionModel.orderedDrills.isEmpty)
-                    .opacity(sessionModel.orderedDrills.isEmpty ? 0.4 : 1.0)
+                    .disabled(sessionModel.orderedSessionDrills.isEmpty)
+                    .opacity(sessionModel.orderedSessionDrills.isEmpty ? 0.4 : 1.0)
 
                     Spacer()
                     
@@ -1490,7 +1454,7 @@ struct GeneratedDrillsSection: View {
                 }
                 
                 
-                if sessionModel.orderedDrills.isEmpty {
+                if sessionModel.orderedSessionDrills.isEmpty {
                     Spacer()
                     HStack {
                         Image(systemName: "lock.fill")
@@ -1504,7 +1468,7 @@ struct GeneratedDrillsSection: View {
                     .padding(.bottom, 150)
                     
                 } else {
-                    ForEach(sessionModel.orderedDrills, id: \.drill.id) { editableDrill in
+                    ForEach(sessionModel.orderedSessionDrills, id: \.drill.id) { editableDrill in
                         HStack {
                             if appModel.viewState.showDeleteButtons {
                                 Button(action: {
@@ -1537,14 +1501,14 @@ struct GeneratedDrillsSection: View {
                             }
                             .dropDestination(for: String.self) { items, location in
                                 guard let sourceTitle = items.first,
-                                      let sourceIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == sourceTitle }),
-                                      let destinationIndex = sessionModel.orderedDrills.firstIndex(where: { $0.drill.title == editableDrill.drill.title }) else {
+                                      let sourceIndex = sessionModel.orderedSessionDrills.firstIndex(where: { $0.drill.title == sourceTitle }),
+                                      let destinationIndex = sessionModel.orderedSessionDrills.firstIndex(where: { $0.drill.title == editableDrill.drill.title }) else {
                                     return false
                                 }
                                 
                                 withAnimation(.spring()) {
-                                    let movedDrill = sessionModel.orderedDrills.remove(at: sourceIndex)
-                                    sessionModel.orderedDrills.insert(movedDrill, at: destinationIndex)
+                                    let movedDrill = sessionModel.orderedSessionDrills.remove(at: sourceIndex)
+                                    sessionModel.orderedSessionDrills.insert(movedDrill, at: destinationIndex)
                                 }
                                 return true
                             }
