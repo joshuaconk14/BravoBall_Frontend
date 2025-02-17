@@ -181,6 +181,8 @@ struct SessionGeneratorView: View {
                         .padding()
                     }
                     
+                    // TODO: add button that will end session early and save users progress into calendar
+                    
                     // back button only shows if session not completed
                     if sessionModel.sessionNotComplete() {
                         HStack {
@@ -196,7 +198,7 @@ struct SessionGeneratorView: View {
                                     }
                                 }
                             }) {
-                                Text("End Session")
+                                Text("Take a break")
                                     .font(.custom("Poppins-Bold", size: 16))
                                     .foregroundColor(.white)
                                     .frame(width: 150, height: 44)
@@ -254,9 +256,12 @@ struct SessionGeneratorView: View {
         Button(action: {
             appModel.viewState.showSessionComplete = true
         }) {
-            RiveViewModel(fileName: "Drill_Card_Complete").view()
-                .frame(width: 60, height: 40)
+            Image("BravoBall_Trophy")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 80, height: 90)
         }
+        .padding(.top, 20)
         .disabled(sessionModel.sessionNotComplete())
         .opacity(sessionModel.sessionNotComplete() ? 0.5 : 1.0)
     }
@@ -684,12 +689,12 @@ struct FilterButton: View {
                     .font(.custom("Poppins-Bold", size: 18))
                     .foregroundColor(Color.white)
             }
-            .padding(.horizontal, 8)
-            .padding(.vertical, 3)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
             .background(
                 RoundedRectangle(cornerRadius: 20)
                     .fill(value.isEmpty ? Color(hex:"#f5cc9f") : Color(hex:"eb9c49"))
-                    .stroke(value.isEmpty ? Color(hex:"f5cc9f") : Color(hex:"b37636"), lineWidth: 3)
+                    .stroke(isSelected ? appModel.globalSettings.primaryYellowColor : Color.clear, lineWidth: 5)
             )
             .scaleEffect(isSelected ? 0.85 : 0.8)
             .animation(.spring(response: 0.4, dampingFraction: 0.6), value: isSelected)
