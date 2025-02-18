@@ -181,6 +181,13 @@ class SessionGeneratorModel: ObservableObject {
         orderedSessionDrills.contains(where: { $0.isCompleted == false })
     }
     
+    func sessionsLeftToComplete() -> Int {
+//        let sessionsLeft = orderedSessionDrills.count(where: {$0.isCompleted == false})
+//            return String(sessionsLeft)
+        orderedSessionDrills.count(where: {$0.isCompleted == false})
+        
+    }
+    
     func clearOrderedDrills() {
         orderedSessionDrills.removeAll()
     }

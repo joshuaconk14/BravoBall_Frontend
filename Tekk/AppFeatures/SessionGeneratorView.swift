@@ -80,7 +80,9 @@ struct SessionGeneratorView: View {
         ZStack(alignment: .top) {
 
             // Where session begins, behind home page
-            areaBehindHomePage
+            AreaBehindHomePage(
+                appModel: appModel,
+                sessionModel: sessionModel)
                 
             
             // Home page
@@ -94,7 +96,7 @@ struct SessionGeneratorView: View {
                         // Bravo's message bubble
                         if appModel.viewState.showTextBubble {
                             
-                            bravosMessageBubble
+                            preSessionMessageBubble
                         }
                     }
                     
@@ -145,128 +147,38 @@ struct SessionGeneratorView: View {
             }
         }
     }
-    
-    // MARK: Area behind home page
-    private var areaBehindHomePage: some View {
-        // Whole area behind the home page
-        VStack {
-            
-            Spacer()
 
-            // When the session begins, the field pops up
-            if appModel.viewState.showFieldBehindHomePage {
-                ZStack {
-                    RiveViewModel(fileName: "Grass_Field").view()
-                        .frame(maxWidth: .infinity)
-                        .padding(.top, 100)
-                    HStack {
-                        RiveViewModel(fileName: "Bravo_Panting").view()
-                            .frame(width: 90, height: 90)
-                        VStack(spacing: 15) {
-                            
-                            // Ordered drill cards on the field
-                            ForEach(sessionModel.orderedSessionDrills, id: \.drill.id) { editableDrill in
-                                if let index = sessionModel.orderedSessionDrills.firstIndex(where: {$0.drill.id == editableDrill.drill.id}) {
-                                    FieldDrillCard(
-                                        appModel: appModel,
-                                        sessionModel: sessionModel,
-                                        editableDrill: $sessionModel.orderedSessionDrills[index]
-                                    )
-                                }
-                            }
-                            
-                            // Trophy button for completionview
-                            trophyButton
-                        }
-                        .padding()
-                    }
-                    
-                    // TODO: add button that will end session early and save users progress into calendar
-                    
-                    // back button only shows if session not completed
-                    if sessionModel.sessionNotComplete() {
-                        HStack {
-                            Button(action:  {
-                                withAnimation(.spring(dampingFraction: 0.7)) {
-                                    appModel.viewState.showFieldBehindHomePage = false
-                                }
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                    withAnimation(.spring(dampingFraction: 0.7)) {
-                                        appModel.viewState.showHomePage = true
-                                        appModel.viewState.showTextBubble = true
-                                    }
-                                }
-                            }) {
-                                Text("Take a break")
-                                    .font(.custom("Poppins-Bold", size: 16))
-                                    .foregroundColor(.white)
-                                    .frame(width: 150, height: 44)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 22)
-                                            .fill(Color.red)
-                                    )
-                            }
-                            
-                            Spacer()
-
-                        }
-                        .padding()
-                        .padding(.top, 500) // TODO: find better way to style this
-                    }
-                    
-                    
-                }
-                .transition(.move(edge: .bottom))
-            }
-        }
-        .fullScreenCover(isPresented: $appModel.viewState.showSessionComplete) {
-            SessionCompleteView(
-                appModel: appModel, sessionModel: sessionModel
-            )
-        }
-        
-    }
-    
     // MARK: Bravo's message bubble
-    private var bravosMessageBubble: some View {
+    private var preSessionMessageBubble: some View {
         ZStack(alignment: .center) {
-            RiveViewModel(fileName: "Message_Bubble").view()
-                .frame(width: 170, height: 50)
-
-                if sessionModel.orderedSessionDrills.isEmpty {
-                    Text("Choose your skill to improve today")
-                        .font(.custom("Poppins-Bold", size: 12))
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        .padding(10)
-                        .frame(maxWidth: 150)
-                } else {
-                    
-                    Text("Looks like you got \(sessionModel.orderedSessionDrills.count) drills for today!")
-                        .font(.custom("Poppins-Bold", size: 12))
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        .padding(10)
-                        .frame(maxWidth: 150)
+            HStack(spacing: 0) {
+                // Left Pointer
+                Path { path in
+                    path.move(to: CGPoint(x: 15, y: 0))
+                    path.addLine(to: CGPoint(x: 0, y: 10))
+                    path.addLine(to: CGPoint(x: 15, y: 20))
                 }
+                .fill(Color(hex:"E4FBFF"))
+                .frame(width: 9, height: 20)
+                .offset(y: 1)  // Adjust this to align with text
+                
+                // Text Bubble
+                Text(sessionModel.orderedSessionDrills.isEmpty ? "Choose your skill to improve today" : "Looks like you got \(sessionModel.orderedSessionDrills.count) drills for today!")
+                    .font(.custom("Poppins-Bold", size: 12))
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color(hex:"E4FBFF"))
+                    )
+                    .frame(maxWidth: 150)
+ 
+            }
+            .transition(.opacity.combined(with: .offset(y: 10)))
         }
     }
-    
-    // MARK: Trophy button
-    private var trophyButton: some View {
-        Button(action: {
-            appModel.viewState.showSessionComplete = true
-        }) {
-            Image("BravoBall_Trophy")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 80, height: 90)
-        }
-        .padding(.top, 20)
-        .disabled(sessionModel.sessionNotComplete())
-        .opacity(sessionModel.sessionNotComplete() ? 0.5 : 1.0)
-    }
-    
-    
+     
     // MARK: Filter Scroll View
     private var filterScrollView: some View {
         ZStack(alignment: .leading) {
@@ -458,6 +370,147 @@ struct FilterOptionsButton: View {
     
 
 }
+
+// MARK: Area behind home page
+struct AreaBehindHomePage: View {
+    @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
+        
+    var body: some View {
+        // Whole area behind the home page
+        VStack {
+            
+            Spacer()
+
+            // When the session begins, the field pops up
+            if appModel.viewState.showFieldBehindHomePage {
+                ZStack {
+                    RiveViewModel(fileName: "Grass_Field").view()
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 100)
+                    
+                    HStack {
+                        
+                        VStack {
+                            
+                            sessionMessageBubble
+ 
+                            RiveViewModel(fileName: "Bravo_Panting").view()
+                                .frame(width: 90, height: 90)
+                        }
+     
+                        
+                        VStack(spacing: 15) {
+                            
+                            // Ordered drill cards on the field
+                            ForEach(sessionModel.orderedSessionDrills, id: \.drill.id) { editableDrill in
+                                if let index = sessionModel.orderedSessionDrills.firstIndex(where: {$0.drill.id == editableDrill.drill.id}) {
+                                    FieldDrillCard(
+                                        appModel: appModel,
+                                        sessionModel: sessionModel,
+                                        editableDrill: $sessionModel.orderedSessionDrills[index]
+                                    )
+                                }
+                            }
+                            
+                            // Trophy button for completionview
+                            trophyButton
+                        }
+                        .padding()
+                    }
+                    
+                    // TODO: add button that will end session early and save users progress into calendar
+                    
+                    // back button only shows if session not completed
+                    if sessionModel.sessionNotComplete() {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                
+                                Button(action:  {
+                                    withAnimation(.spring(dampingFraction: 0.7)) {
+                                        appModel.viewState.showFieldBehindHomePage = false
+                                    }
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                        withAnimation(.spring(dampingFraction: 0.7)) {
+                                            appModel.viewState.showHomePage = true
+                                            appModel.viewState.showTextBubble = true
+                                        }
+                                    }
+                                }) {
+                                    Image(systemName: "door.left.hand.open")
+                                        .foregroundColor(.black.opacity(0.5))
+                                        .font(.system(size: 35, weight: .semibold))
+                                    
+                                }
+                                RiveViewModel(fileName: "Break_Area").view()
+                                    .frame(width: 120, height: 120)
+                                
+                            }
+
+                            
+                            Spacer()
+
+                        }
+                        .padding()
+                        .padding(.top, 500) // TODO: find better way to style this
+                    }
+                    
+                    
+                }
+                .transition(.move(edge: .bottom))
+            }
+        }
+        .fullScreenCover(isPresented: $appModel.viewState.showSessionComplete) {
+            SessionCompleteView(
+                appModel: appModel, sessionModel: sessionModel
+            )
+        }
+    }
+    
+    private var trophyButton: some View {
+        Button(action: {
+            appModel.viewState.showSessionComplete = true
+        }) {
+            Image("BravoBall_Trophy")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 80, height: 90)
+        }
+        .padding(.top, 20)
+        .disabled(sessionModel.sessionNotComplete())
+        .opacity(sessionModel.sessionNotComplete() ? 0.5 : 1.0)
+    }
+    
+    private var sessionMessageBubble: some View {
+        VStack(spacing: 0) {
+            
+            Text(sessionModel.sessionNotComplete() ? "You have \(sessionModel.sessionsLeftToComplete()) drills left" : "Well done! Click on the trophy to claim your prize")
+                .font(.custom("Poppins-Bold", size: 16))
+                .foregroundColor(.white)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color(hex:"60AE17"))
+                )
+                .frame(maxWidth: 150)
+                .transition(.opacity.combined(with: .offset(y: 10)))
+            
+            // Pointer
+            Path { path in
+                path.move(to: CGPoint(x: 0, y: 0))
+                path.addLine(to: CGPoint(x: 10, y: 10))
+                path.addLine(to: CGPoint(x: 20, y: 0))
+            }
+            .fill(Color(hex:"60AE17"))
+            .frame(width: 20, height: 10)
+        }
+    }
+}
+
+
+
 
 // MARK: Filter Options
 struct FilterOptions: View {
