@@ -7,6 +7,7 @@
 
 
 import SwiftUI
+import RiveRuntime
 
 struct DrillDetailView: View {
     
@@ -57,6 +58,13 @@ struct DrillDetailView: View {
                                     .scaledToFit()
                                     .foregroundColor(appModel.globalSettings.primaryDarkColor)
                                     .frame(width: 30, height: 30)
+                            }
+                            
+                            Button(action: {
+                                sessionModel.addDrillToSession(drills: [drill])
+                            }) {
+                                RiveViewModel(fileName: "Plus_Button").view()
+                                    .frame(width: 20, height: 20)
                             }
                         }
                         .padding()

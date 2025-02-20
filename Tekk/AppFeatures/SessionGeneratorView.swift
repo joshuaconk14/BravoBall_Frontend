@@ -136,8 +136,18 @@ struct SessionGeneratorView: View {
                             // Filter options
                             filterScrollView
 
-                            // Generated session portion
-                            GeneratedDrillsSection(appModel: appModel, sessionModel: sessionModel)
+                            
+                            ScrollView {
+                                // Generated session portion
+                                GeneratedDrillsSection(appModel: appModel, sessionModel: sessionModel)
+                            // If user has selected skills
+                            if sessionModel.selectedSkills.isEmpty {
+                                RecommendedDrillsSection(appModel: appModel, sessionModel: sessionModel)
+                            }
+                            
+                            Spacer()
+                            }
+                            
                         }
                     }
                 }
@@ -421,28 +431,31 @@ struct AreaBehindHomePage: View {
                     
                     // TODO: add button that will end session early and save users progress into calendar
                     
-                    // back button only shows if session not completed
-                    if sessionModel.sessionNotComplete() {
+                    
                         HStack {
                             VStack(alignment: .leading) {
-                                
-                                Button(action:  {
-                                    withAnimation(.spring(dampingFraction: 0.7)) {
-                                        appModel.viewState.showFieldBehindHomePage = false
-                                    }
-                                    
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                // back button only shows if session not completed
+                                if sessionModel.sessionNotComplete() {
+                                    Button(action:  {
                                         withAnimation(.spring(dampingFraction: 0.7)) {
-                                            appModel.viewState.showHomePage = true
-                                            appModel.viewState.showTextBubble = true
+                                            appModel.viewState.showFieldBehindHomePage = false
                                         }
+                                        
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                            withAnimation(.spring(dampingFraction: 0.7)) {
+                                                appModel.viewState.showHomePage = true
+                                                appModel.viewState.showTextBubble = true
+                                            }
+                                        }
+                                    }) {
+                                        Image(systemName: "door.left.hand.open")
+                                            .foregroundColor(.black.opacity(0.5))
+                                            .font(.system(size: 35, weight: .semibold))
+                                        
                                     }
-                                }) {
-                                    Image(systemName: "door.left.hand.open")
-                                        .foregroundColor(.black.opacity(0.5))
-                                        .font(.system(size: 35, weight: .semibold))
-                                    
                                 }
+                                
+                                
                                 RiveViewModel(fileName: "Break_Area").view()
                                     .frame(width: 120, height: 120)
                                 
@@ -454,7 +467,6 @@ struct AreaBehindHomePage: View {
                         }
                         .padding()
                         .padding(.top, 500) // TODO: find better way to style this
-                    }
                     
                     
                 }
@@ -1036,7 +1048,7 @@ struct DrillCard: View {
                         .font(.system(size: 14, weight: .semibold))
                 }
             }
-            .padding()
+            .padding(.horizontal)
         }
         .buttonStyle(PlainButtonStyle())
         .sheet(isPresented: $appModel.viewState.showingDrillDetail) {
@@ -1047,6 +1059,69 @@ struct DrillCard: View {
                         sessionModel: sessionModel,
                         editableDrill: $sessionModel.orderedSessionDrills[index])
                 }
+            
+        }
+    }
+}
+
+// MARK: Recommended Drill card
+struct RecommendedDrillCard: View {
+    @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    
+    let drill: DrillModel
+    @State private var showingDrillDetail: Bool = false
+    
+    
+    var body: some View {
+        Button(action: {
+            showingDrillDetail = true
+        }) {
+            ZStack {
+                RiveViewModel(fileName: "Drill_Card_Incomplete").view()
+                    .frame(width: 320, height: 170)
+                HStack {
+                        // Drag handle
+                        Image(systemName: "line.3.horizontal")
+                            .padding()
+                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                            .font(.system(size: 14))
+                            .padding(.trailing, 8)
+                        
+                    Image(systemName: "figure.soccer")
+                            .font(.system(size: 24))
+                        .padding()
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
+                    
+                    VStack(alignment: .leading) {
+                        Text(drill.title)
+                                .font(.custom("Poppins-Bold", size: 16))
+                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        Text("\(drill.sets) sets - \(drill.reps) reps - \(drill.duration)")
+                            .font(.custom("Poppins-Bold", size: 14))
+                            .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                    }
+                
+                Spacer()
+                
+                    Image(systemName: "chevron.right")
+                        .padding()
+                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
+                        .font(.system(size: 14, weight: .semibold))
+                }
+            }
+            .padding(.horizontal)
+        }
+        .buttonStyle(PlainButtonStyle())
+        .sheet(isPresented: $showingDrillDetail) {
+                DrillDetailView(
+                    appModel: appModel,
+                    sessionModel: sessionModel,
+                    drill: drill
+                )
+            
             
         }
     }
@@ -1468,7 +1543,6 @@ struct GeneratedDrillsSection: View {
     @ObservedObject var sessionModel: SessionGeneratorModel
     
     var body: some View {
-        ScrollView {
             LazyVStack(alignment: .center, spacing: 12) {
                 HStack {
                     
@@ -1478,8 +1552,6 @@ struct GeneratedDrillsSection: View {
                         RiveViewModel(fileName: "Plus_Button").view()
                             .frame(width: 30, height: 30)
                     }
-                    .disabled(sessionModel.orderedSessionDrills.isEmpty)
-                    .opacity(sessionModel.orderedSessionDrills.isEmpty ? 0.4 : 1.0)
                     
                     Button(action: {
                         withAnimation(.spring(dampingFraction: 0.7)) {
@@ -1500,8 +1572,6 @@ struct GeneratedDrillsSection: View {
                                 .font(.system(size: 16, weight: .medium))
                         }
                     }
-                    .disabled(sessionModel.orderedSessionDrills.isEmpty)
-                    .opacity(sessionModel.orderedSessionDrills.isEmpty ? 0.4 : 1.0)
 
                     Spacer()
                     
@@ -1513,7 +1583,7 @@ struct GeneratedDrillsSection: View {
                     Spacer()
 
                 }
-                
+ 
                 
                 if sessionModel.orderedSessionDrills.isEmpty {
                     Spacer()
@@ -1525,8 +1595,7 @@ struct GeneratedDrillsSection: View {
                             .font(.custom("Poppins-Bold", size: 12))
                             .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
                     }
-                    .padding(.horizontal, 30)
-                    .padding(.bottom, 150)
+                    .padding(30)
                     
                 } else {
                     ForEach($sessionModel.orderedSessionDrills, id: \.drill.id) { $editableDrill in
@@ -1576,14 +1645,56 @@ struct GeneratedDrillsSection: View {
                         }
                     }
                 }
+
             }
-        }
-        .padding(.horizontal)
-        .padding(.top, 10)
-        .cornerRadius(15)
-        .sheet(isPresented: $appModel.viewState.showSearchDrills) {
-            SearchDrillsSheetView(appModel: appModel, sessionModel: sessionModel, dismiss: { appModel.viewState.showSearchDrills = false })
-        }
+            .padding(.horizontal)
+            .padding(.top, 10)
+            .cornerRadius(15)
+            .sheet(isPresented: $appModel.viewState.showSearchDrills) {
+                SearchDrillsSheetView(appModel: appModel, sessionModel: sessionModel, dismiss: { appModel.viewState.showSearchDrills = false })
+            }
+        
+    }
+}
+
+// MARK: Recommended Drills Section
+struct RecommendedDrillsSection: View {
+    @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    
+    var body: some View {
+            VStack {
+                HStack {
+                    Text("Recommended drills for you:")
+                        .font(.custom("Poppins-Bold", size: 17))
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .padding(.trailing, 60)
+                    Spacer()
+                }
+                
+                LazyVStack {
+                    ForEach(sessionModel.recommendedDrills) { testDrill in
+                        RecommendedDrillCard(
+                            appModel: appModel,
+                            sessionModel: sessionModel,
+                            drill: testDrill
+                        )
+                    }
+                }
+                
+            }
+            .padding()
+            .onAppear {
+                loadRandomDrills()
+            }
+        
+    }
+    
+    // TODO: make it so recommended drills really recommends drills based on users onboarding data
+    func loadRandomDrills() {
+        guard sessionModel.recommendedDrills.isEmpty else { return }  // Only load if empty
+        let randomSet = Array(SessionGeneratorModel.testDrills.shuffled().prefix(3))
+        sessionModel.recommendedDrills = randomSet
     }
 }
 

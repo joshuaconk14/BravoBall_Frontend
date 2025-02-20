@@ -22,6 +22,8 @@ class SessionGeneratorModel: ObservableObject {
     // Reference to the drill we want to edit
     @Published var selectedDrillForEditing: EditableDrillModel?
     
+    @Published var recommendedDrills: [DrillModel] = []
+    
     // Drill for Session storage
     // TODO: see if having too much arrays takes too much storage and if its easier to give isSelected Bool to drills
     @Published var selectedDrills: [DrillModel] = []
@@ -251,7 +253,10 @@ class SessionGeneratorModel: ObservableObject {
             )
             orderedSessionDrills.append(editableDrills)
         }
-        selectedDrills.removeAll()
+        
+        if !selectedDrills.isEmpty {
+            selectedDrills.removeAll()
+        }
     }
     
     // Deleting drills from session
