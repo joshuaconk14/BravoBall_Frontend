@@ -77,3 +77,83 @@ struct GroupDetailView: View {
             }
     }
 }
+
+
+// TODO: enum this or combine it with the filteroptions structure
+
+// MARK: Group Filter Options
+struct GroupFilterOptions: View {
+    @ObservedObject var appModel: MainAppModel
+    @ObservedObject var sessionModel: SessionGeneratorModel
+    
+    // TODO: case enums for neatness
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Button(action: {
+                
+                // TODO: action for this
+                
+                withAnimation {
+                    appModel.viewState.showGroupFilterOptions = false
+                }
+            }) {
+                HStack(spacing: 8) {
+                    Image(systemName: "xmark.circle")
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    Text("Delete Group")
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .font(.custom("Poppins-Bold", size: 12))
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+            }
+            
+            Divider()
+            
+            Button(action: {
+                
+                // TODO: action for this
+                
+                withAnimation {
+                    appModel.viewState.showGroupFilterOptions = false
+                }
+            }) {
+                HStack(spacing: 8) {
+                    Image(systemName: "gearshape")
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    Text("Edit Group")
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .font(.custom("Poppins-Bold", size: 12))
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+            }
+            
+            Divider()
+            
+            Button(action: {
+                
+                // TODO: action for this
+                
+                withAnimation(.spring(dampingFraction: 0.7)) {
+                    appModel.viewState.showGroupFilterOptions = false
+                }
+            }) {
+                HStack(spacing: 8) {
+                    Image(systemName: "plus")
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    Text("Add to Group")
+                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                        .font(.custom("Poppins-Bold", size: 12))
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+            }
+        }
+        .padding(8)
+        .background(Color.white)
+        .frame(maxWidth: .infinity)
+
+    }
+}
