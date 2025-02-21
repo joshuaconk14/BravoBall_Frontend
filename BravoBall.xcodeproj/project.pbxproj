@@ -44,6 +44,7 @@
 		43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */; };
 		43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */; };
 		43985E5A2CB5B0BB00BE2AB6 /* Bravo_Panting.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */; };
+		4399B6CE2D67CE3B00DA5E84 /* ToastMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6CD2D67CE3500DA5E84 /* ToastMessageView.swift */; };
 		43AFAE852D6168F800B61982 /* SessionCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFAE842D6168F100B61982 /* SessionCompleteView.swift */; };
 		43BFA9D62D3F38B300B12A6F /* Golden_Button.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9D52D3F38B300B12A6F /* Golden_Button.riv */; };
 		43BFA9E62D40885000B12A6F /* Plus_Button.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9E52D40885000B12A6F /* Plus_Button.riv */; };
@@ -125,6 +126,7 @@
 		43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PottaOne-Regular.ttf"; sourceTree = "<group>"; };
 		43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bravo_Panting.riv; sourceTree = "<group>"; };
+		4399B6CD2D67CE3500DA5E84 /* ToastMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessageView.swift; sourceTree = "<group>"; };
 		43AFAE842D6168F100B61982 /* SessionCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteView.swift; sourceTree = "<group>"; };
 		43BFA9D52D3F38B300B12A6F /* Golden_Button.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Golden_Button.riv; sourceTree = "<group>"; };
 		43BFA9E52D40885000B12A6F /* Plus_Button.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Plus_Button.riv; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 		178208F52D2E05FE00246494 /* AppFeatures */ = {
 			isa = PBXGroup;
 			children = (
+				4399B6CD2D67CE3500DA5E84 /* ToastMessageView.swift */,
 				43AFAE842D6168F100B61982 /* SessionCompleteView.swift */,
 				43524E942D5198C300AD897A /* SearchDrillsSheetView.swift */,
 				43BFAA042D4200A500B12A6F /* tests */,
@@ -542,6 +545,7 @@
 				178208E42D2DEBC800246494 /* LoginView.swift in Sources */,
 				178208E92D2DEC6D00246494 /* OnboardingStepView.swift in Sources */,
 				17595A9F2D3B3B320015F35D /* ProgressionView.swift in Sources */,
+				4399B6CE2D67CE3B00DA5E84 /* ToastMessageView.swift in Sources */,
 				174C676E2D34E9EE003D02EF /* SessionGeneratorView.swift in Sources */,
 				43AFAE852D6168F800B61982 /* SessionCompleteView.swift in Sources */,
 				178208D22D2D14D200246494 /* MainTabView.swift in Sources */,

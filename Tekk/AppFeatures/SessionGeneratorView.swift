@@ -72,6 +72,7 @@ struct SessionGeneratorView: View {
             .presentationDragIndicator(.hidden)
             .presentationDetents([.height(200)])
         }
+        
     }
     
     
@@ -1591,7 +1592,7 @@ struct GeneratedDrillsSection: View {
                         Image(systemName: "lock.fill")
                             .frame(width: 50, height: 50)
                             .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
-                        Text("Choose a skill to create your session")
+                        Text("Choose a skill or drill to create your session")
                             .font(.custom("Poppins-Bold", size: 12))
                             .foregroundColor(appModel.globalSettings.primaryLightGrayColor)
                     }

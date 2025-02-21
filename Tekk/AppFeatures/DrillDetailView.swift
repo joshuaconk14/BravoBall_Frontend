@@ -33,6 +33,7 @@ struct DrillDetailView: View {
                             
                             Spacer()
                             
+                            // Like button
                             Button(action: {
                                 sessionModel.toggleDrillLike(drillId: drill.id, drill: drill)
                             }) {
@@ -50,6 +51,7 @@ struct DrillDetailView: View {
                                     )
                             }
                             
+                            // Add drill to group
                             Button(action: {
                                 showSaveDrill = true
                             }) {
@@ -61,7 +63,17 @@ struct DrillDetailView: View {
                             }
                             
                             Button(action: {
+                                // MARK: testing
+                                withAnimation {
+                                    if sessionModel.orderedSessionDrills.contains(where: { $0.drill.id == drill.id }) {
+                                        appModel.toastMessage = .notAllowed("Drill is already in session")
+                                    } else {
+                                        appModel.toastMessage = .success("Drill added to session")
+                                    }
+                                }
+                                
                                 sessionModel.addDrillToSession(drills: [drill])
+
                             }) {
                                 RiveViewModel(fileName: "Plus_Button").view()
                                     .frame(width: 20, height: 20)
@@ -150,6 +162,8 @@ struct DrillDetailView: View {
                 }
                 
             }
+        // MARK: testing
+            .toastOverlay(appModel: appModel)
             
     }
     
@@ -197,7 +211,18 @@ struct DrillDetailView: View {
                             ForEach(sessionModel.savedDrills) { group in
                                 GroupCard(group: group)
                                         .onTapGesture {
-                                            sessionModel.addDrillToGroup(drill: drill, groupId: group.id)
+                                            // MARK: testing
+                                            withAnimation {
+                                                if group.drills.contains(where: { $0.id == drill.id }) {
+                                                    appModel.toastMessage = .unAdded("Drill unadded from group")
+                                                    sessionModel.removeDrillFromGroup(drill: drill, groupId: group.id)
+                                                    
+                                                } else {
+                                                    appModel.toastMessage = .success("Drill added to group")
+                                                    sessionModel.addDrillToGroup(drill: drill, groupId: group.id)
+                                                }
+                                            }
+                                            showSaveDrill = false
                                         }
                             }
                         }

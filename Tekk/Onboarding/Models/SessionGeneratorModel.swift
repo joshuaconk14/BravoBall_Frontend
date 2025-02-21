@@ -205,6 +205,13 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
+    func removeDrillFromGroup(drill: DrillModel, groupId: UUID) {
+        if let index = savedDrills.firstIndex(where: { $0.id == groupId }) {
+            // Modify the drills array of the group at the found index
+            savedDrills[index].drills.removeAll(where: { $0.id == drill.id })
+        }
+    }
+    
     func createGroup(name: String, description: String) {
         let groupModel = GroupModel(
             name: name,
@@ -251,7 +258,10 @@ class SessionGeneratorModel: ObservableObject {
                 totalDuration: oneDrill.duration,
                 isCompleted: false
             )
-            orderedSessionDrills.append(editableDrills)
+            if !orderedSessionDrills.contains(where: {$0.drill.id == oneDrill.id}) {
+                orderedSessionDrills.append(editableDrills)
+            }
+            
         }
         
         if !selectedDrills.isEmpty {
