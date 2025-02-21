@@ -116,6 +116,7 @@ class MainAppModel: ObservableObject {
         var showTextBubble: Bool = true
         var showFieldBehindHomePage: Bool = false
         var showFilterOptions: Bool = false
+        var showGroupFilterOptions: Bool = false
         var showSavedFilters: Bool = false
         var showSaveFiltersPrompt: Bool = false
         var showSearchDrills: Bool = false

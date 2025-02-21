@@ -37,11 +37,11 @@ struct SavedDrillsView: View {
                         Button(action: {
                             showCreateGroup = true
                         }) {
-                            Text("Create")
-                                .font(.custom("Poppins-Bold", size: 12))
+                            Image(systemName: "plus")
+                                .font(.custom("Poppins-Bold", size: 20))
                                 .foregroundColor(.black)
                         }
-                        .padding()
+                        .padding(.horizontal, 20)
                     }
                     
                     AllGroupsDisplay(appModel: appModel, sessionModel: sessionModel, selectedGroup: $selectedGroup)
@@ -91,7 +91,6 @@ struct SavedDrillsView: View {
                     Spacer()
                 }
                 .padding(.horizontal, 16)
-                .padding(.top, 8)
                 
                 TextField("Name", text: $savedGroupName)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -124,7 +123,7 @@ struct SavedDrillsView: View {
                 .padding(.top, 16)
             }
             .padding()
-            .frame(width: 300, height: 270)
+            .frame(width: 300, height: 250)
             .background(Color.white)
             .cornerRadius(15)
         }
@@ -155,8 +154,8 @@ struct AllGroupsDisplay: View {
                         }
                 }
             }
-            .padding()
         }
+        .padding()
     }
 }
 
@@ -186,62 +185,13 @@ struct GroupCard: View {
                 .foregroundColor(.gray)
         }
         .padding()
-        .frame(width: 150, height: 170)
+        .frame(width: 170, height: 170)
         .background(Color.white)
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.1), radius: 5)
     }
 }
 
-// MARK: - Group Detail View
-struct GroupDetailView: View {
-    @ObservedObject var appModel: MainAppModel
-    @ObservedObject var sessionModel: SessionGeneratorModel
-    let group: GroupModel
-    @Environment(\.dismiss) private var dismiss
-    
-    var body: some View {
-            VStack {
-                HStack {
-                    Spacer()
-                    
-                    Button("Done") {
-                        dismiss()
-                    }
-                    .padding()
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                }
-                // Group Info Header
-                VStack(spacing: 8) {
-                    Image(systemName: "figure.soccer")
-                        .font(.system(size: 40))
-                    Text(group.name)
-                        .font(.custom("Poppins-Bold", size: 24))
-                    Text(group.description)
-                        .font(.custom("Poppins-Regular", size: 14))
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                }
-                .padding()
-                
-                // Drills List
-                if group.drills.isEmpty {
-                    Text("No drills saved yet")
-                        .font(.custom("Poppins-Medium", size: 16))
-                        .foregroundColor(.gray)
-                        .padding()
-                } else {
-                    List {
-                        ForEach(group.drills) { drill in
-                            DrillRow(appModel: appModel, sessionModel: sessionModel, drill: drill)
-                        }
-                    }
-                }
-                Spacer()
-            }
-    }
-}
 
 // MARK: - Liked Group Card
 struct LikedGroupCard: View {
@@ -264,87 +214,13 @@ struct LikedGroupCard: View {
                 .foregroundColor(.gray)
         }
         .padding()
-        .frame(width: 150, height: 170)
+        .frame(width: 170, height: 170)
         .background(Color.white)
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.1), radius: 5)
     }
 }
 
-
-// MARK: - Drill Row
-struct DrillRow: View {
-    @ObservedObject var appModel: MainAppModel
-    @ObservedObject var sessionModel: SessionGeneratorModel
-    let drill: DrillModel
-    @State var showDrillDetail: Bool = false
-    
-    var body: some View {
-        ZStack {
-            Button( action: {
-                showDrillDetail = true
-            }) {
-                HStack {
-                    Image(systemName: "figure.soccer")
-                        .font(.system(size: 24))
-                        .foregroundColor(.black)
-                        .frame(width: 40, height: 40)
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(8)
-                    
-                    VStack(alignment: .leading) {
-                        Text(drill.title)
-                            .font(.custom("Poppins-Bold", size: 14))
-                            .foregroundColor(.black)
-                        Text(drill.description)
-                            .font(.custom("Poppins-Regular", size: 12))
-                            .foregroundColor(.gray)
-                            .lineLimit(2)
-                    }
-                    
-                    Spacer()
-                    
-                    // Button to select a drill to add in the search drill view
-                    if appModel.viewState.showSearchDrills {
-                        Button(action: {
-                            sessionModel.drillsToAdd(drill: drill)
-                        }) {
-                            ZStack {
-                                
-                                if sessionModel.orderedSessionDrills.contains(where: { $0.drill.title == drill.title }) {
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(appModel.globalSettings.primaryLightGrayColor)
-                                        .stroke((appModel.globalSettings.primaryLightGrayColor), lineWidth: 2)
-                                        .frame(width: 20, height: 20)
-                                    Image(systemName: "checkmark")
-                                        .foregroundColor(Color.white)
-                                } else {
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(sessionModel.isDrillSelected(drill) ? appModel.globalSettings.primaryYellowColor : Color.clear)
-                                        .stroke(sessionModel.isDrillSelected(drill) ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryDarkColor, lineWidth: 2)
-                                        .frame(width: 20, height: 20)
-                                }
-                                
-                                
-                                if sessionModel.isDrillSelected(drill) {
-                                    Image(systemName: "checkmark")
-                                        .foregroundColor(Color.white)
-                                }
-                            }
-                            
-                        }
-                        .disabled(sessionModel.orderedSessionDrills.contains(where: { $0.drill.title == drill.title }))
-                        
-                    }
-                }
-                .padding(.vertical, 8)
-            }
-        }
-        .sheet(isPresented: $showDrillDetail) {
-            DrillDetailView(appModel: appModel,  sessionModel: sessionModel, drill: drill)
-        }
-    }
-}
 
 #Preview {
     let mockAppModel = MainAppModel()

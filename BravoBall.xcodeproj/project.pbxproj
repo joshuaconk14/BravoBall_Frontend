@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -45,6 +45,11 @@
 		43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */; };
 		43985E5A2CB5B0BB00BE2AB6 /* Bravo_Panting.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */; };
 		4399B6CE2D67CE3B00DA5E84 /* ToastMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6CD2D67CE3500DA5E84 /* ToastMessageView.swift */; };
+		4399B6D92D6930AB00DA5E84 /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6D72D6930AB00DA5E84 /* OnboardingService.swift */; };
+		4399B6DA2D6930AB00DA5E84 /* UserInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6D82D6930AB00DA5E84 /* UserInfoService.swift */; };
+		4399B6E62D693C3100DA5E84 /* EditingDrillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6E52D693C2B00DA5E84 /* EditingDrillView.swift */; };
+		4399B6E92D69407F00DA5E84 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6E82D69407A00DA5E84 /* GroupDetailView.swift */; };
+		4399B6EB2D6942AC00DA5E84 /* DrillRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6EA2D6942A800DA5E84 /* DrillRow.swift */; };
 		43AFAE852D6168F800B61982 /* SessionCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFAE842D6168F100B61982 /* SessionCompleteView.swift */; };
 		43BFA9D62D3F38B300B12A6F /* Golden_Button.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9D52D3F38B300B12A6F /* Golden_Button.riv */; };
 		43BFA9E62D40885000B12A6F /* Plus_Button.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9E52D40885000B12A6F /* Plus_Button.riv */; };
@@ -127,6 +132,11 @@
 		43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PottaOne-Regular.ttf"; sourceTree = "<group>"; };
 		43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bravo_Panting.riv; sourceTree = "<group>"; };
 		4399B6CD2D67CE3500DA5E84 /* ToastMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessageView.swift; sourceTree = "<group>"; };
+		4399B6D72D6930AB00DA5E84 /* OnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingService.swift; sourceTree = "<group>"; };
+		4399B6D82D6930AB00DA5E84 /* UserInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoService.swift; sourceTree = "<group>"; };
+		4399B6E52D693C2B00DA5E84 /* EditingDrillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingDrillView.swift; sourceTree = "<group>"; };
+		4399B6E82D69407A00DA5E84 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
+		4399B6EA2D6942A800DA5E84 /* DrillRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillRow.swift; sourceTree = "<group>"; };
 		43AFAE842D6168F100B61982 /* SessionCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteView.swift; sourceTree = "<group>"; };
 		43BFA9D52D3F38B300B12A6F /* Golden_Button.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Golden_Button.riv; sourceTree = "<group>"; };
 		43BFA9E52D40885000B12A6F /* Plus_Button.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Plus_Button.riv; sourceTree = "<group>"; };
@@ -149,10 +159,6 @@
 		43C5773B2D645BBB00D9B587 /* Break_Area.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Break_Area.riv; sourceTree = "<group>"; };
 		43F69CEA2D456286002143FD /* testNewElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testNewElement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		430FD6BD2D2F0DE50016D520 /* Services */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Services; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		174936132C3E102B001163B9 /* Frameworks */ = {
@@ -245,20 +251,10 @@
 			path = TekkUITests;
 			sourceTree = "<group>";
 		};
-		17595A9D2D3B3B1B0015F35D /* Progression */ = {
-			isa = PBXGroup;
-			children = (
-				17595A9E2D3B3B2C0015F35D /* ProgressionView.swift */,
-				17595AA02D3B3B4E0015F35D /* DrillResultsView.swift */,
-				17595AA22D3B3B5B0015F35D /* WeekDisplayButton.swift */,
-			);
-			path = Progression;
-			sourceTree = "<group>";
-		};
 		178208DC2D2DEB7200246494 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				430FD6BD2D2F0DE50016D520 /* Services */,
+				4399B6DC2D69393F00DA5E84 /* Services */,
 				178208DE2D2DEB8400246494 /* Views */,
 				178208DD2D2DEB7C00246494 /* Models */,
 			);
@@ -278,10 +274,10 @@
 		178208DE2D2DEB8400246494 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				178208E72D2DEC5400246494 /* HelperViews */,
 				178208E12D2DEBB400246494 /* OnboardingView.swift */,
 				178208F02D2DFD6500246494 /* OnboardingPreview.swift */,
 				178208E52D2DEC2900246494 /* CompletionView.swift */,
-				178208E72D2DEC5400246494 /* HelperViews */,
 				178208E32D2DEBC800246494 /* LoginView.swift */,
 			);
 			path = Views;
@@ -301,16 +297,8 @@
 		178208F52D2E05FE00246494 /* AppFeatures */ = {
 			isa = PBXGroup;
 			children = (
-				4399B6CD2D67CE3500DA5E84 /* ToastMessageView.swift */,
-				43AFAE842D6168F100B61982 /* SessionCompleteView.swift */,
-				43524E942D5198C300AD897A /* SearchDrillsSheetView.swift */,
+				4399B6DD2D6939BB00DA5E84 /* Views */,
 				43BFAA042D4200A500B12A6F /* tests */,
-				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
-				174C676F2D34EB11003D02EF /* DrillDetailView.swift */,
-				174C676D2D34E9EA003D02EF /* SessionGeneratorView.swift */,
-				1782090D2D2E0A1100246494 /* ProfileView.swift */,
-				17595A9D2D3B3B1B0015F35D /* Progression */,
-				17C3B58C2D38E41C00D2471F /* DrillFollowAlongView.swift */,
 			);
 			path = AppFeatures;
 			sourceTree = "<group>";
@@ -322,6 +310,84 @@
 				43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		4399B6DC2D69393F00DA5E84 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4399B6D72D6930AB00DA5E84 /* OnboardingService.swift */,
+				4399B6D82D6930AB00DA5E84 /* UserInfoService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		4399B6DD2D6939BB00DA5E84 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4399B6DE2D6939E600DA5E84 /* HelperViews */,
+				174C676D2D34E9EA003D02EF /* SessionGeneratorView.swift */,
+				17595A9E2D3B3B2C0015F35D /* ProgressionView.swift */,
+				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
+				1782090D2D2E0A1100246494 /* ProfileView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4399B6DE2D6939E600DA5E84 /* HelperViews */ = {
+			isa = PBXGroup;
+			children = (
+				4399B6E42D693A8900DA5E84 /* Global */,
+				4399B6DF2D6939F200DA5E84 /* SessionGenerator */,
+				4399B6E02D6939FB00DA5E84 /* Progression */,
+				4399B6E12D693A0200DA5E84 /* SavedDrills */,
+				4399B6E22D693A0800DA5E84 /* Profle */,
+			);
+			path = HelperViews;
+			sourceTree = "<group>";
+		};
+		4399B6DF2D6939F200DA5E84 /* SessionGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				4399B6EA2D6942A800DA5E84 /* DrillRow.swift */,
+				43524E942D5198C300AD897A /* SearchDrillsSheetView.swift */,
+				43AFAE842D6168F100B61982 /* SessionCompleteView.swift */,
+				17C3B58C2D38E41C00D2471F /* DrillFollowAlongView.swift */,
+			);
+			path = SessionGenerator;
+			sourceTree = "<group>";
+		};
+		4399B6E02D6939FB00DA5E84 /* Progression */ = {
+			isa = PBXGroup;
+			children = (
+				17595AA02D3B3B4E0015F35D /* DrillResultsView.swift */,
+				17595AA22D3B3B5B0015F35D /* WeekDisplayButton.swift */,
+			);
+			path = Progression;
+			sourceTree = "<group>";
+		};
+		4399B6E12D693A0200DA5E84 /* SavedDrills */ = {
+			isa = PBXGroup;
+			children = (
+				4399B6E82D69407A00DA5E84 /* GroupDetailView.swift */,
+			);
+			path = SavedDrills;
+			sourceTree = "<group>";
+		};
+		4399B6E22D693A0800DA5E84 /* Profle */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Profle;
+			sourceTree = "<group>";
+		};
+		4399B6E42D693A8900DA5E84 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				4399B6E52D693C2B00DA5E84 /* EditingDrillView.swift */,
+				174C676F2D34EB11003D02EF /* DrillDetailView.swift */,
+				4399B6CD2D67CE3500DA5E84 /* ToastMessageView.swift */,
+			);
+			path = Global;
 			sourceTree = "<group>";
 		};
 		439A72632C9FA55700B4C5AD /* RiveAssets */ = {
@@ -376,9 +442,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				430FD6BD2D2F0DE50016D520 /* Services */,
 			);
 			name = BravoBall;
 			productName = Tekk;
@@ -526,12 +589,16 @@
 				430FD6CD2D30648A0016D520 /* MainAppModel.swift in Sources */,
 				174C67702D34EB26003D02EF /* DrillDetailView.swift in Sources */,
 				17C3B58D2D38E43900D2471F /* DrillFollowAlongView.swift in Sources */,
+				4399B6EB2D6942AC00DA5E84 /* DrillRow.swift in Sources */,
 				17595AA32D3B3B610015F35D /* WeekDisplayButton.swift in Sources */,
 				17595AA12D3B3B520015F35D /* DrillResultsView.swift in Sources */,
 				178208F12D2DFD6500246494 /* OnboardingPreview.swift in Sources */,
 				178208E62D2DEC2900246494 /* CompletionView.swift in Sources */,
+				4399B6D92D6930AB00DA5E84 /* OnboardingService.swift in Sources */,
+				4399B6DA2D6930AB00DA5E84 /* UserInfoService.swift in Sources */,
 				178208EB2D2DECE300246494 /* OnboardingMultiSelectView.swift in Sources */,
 				430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */,
+				4399B6E92D69407F00DA5E84 /* GroupDetailView.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
 				178208E02D2DEB9C00246494 /* OnboardingModel.swift in Sources */,
 				43BFA9FE2D41D37100B12A6F /* testSesGenView.swift in Sources */,
@@ -548,6 +615,7 @@
 				4399B6CE2D67CE3B00DA5E84 /* ToastMessageView.swift in Sources */,
 				174C676E2D34E9EE003D02EF /* SessionGeneratorView.swift in Sources */,
 				43AFAE852D6168F800B61982 /* SessionCompleteView.swift in Sources */,
+				4399B6E62D693C3100DA5E84 /* EditingDrillView.swift in Sources */,
 				178208D22D2D14D200246494 /* MainTabView.swift in Sources */,
 				178208ED2D2DED0800246494 /* OnboardingBooleanView.swift in Sources */,
 				43524E772D4D994B00AD897A /* SessionGeneratorModel.swift in Sources */,
