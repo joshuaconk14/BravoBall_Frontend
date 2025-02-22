@@ -84,22 +84,25 @@ struct SessionGeneratorView: View {
             AreaBehindHomePage(
                 appModel: appModel,
                 sessionModel: sessionModel)
-                
+            
             
             // Home page
             if appModel.viewState.showHomePage {
-                VStack {
-                    HStack {
-                        // Bravo
-                        RiveViewModel(fileName: "Bravo_Panting").view()
-                            .frame(width: 60, height: 60)
+                
+                // Bravo and message bubble
+                HStack {
+                    // Bravo
+                    RiveViewModel(fileName: "Bravo_Peaking").view()
+                        .frame(width: 90, height: 90)
                         
-                        // Bravo's message bubble
-                        if appModel.viewState.showTextBubble {
-                            
-                            preSessionMessageBubble
-                        }
+
+                    
+                    // Bravo's message bubble
+                    if appModel.viewState.showTextBubble {
+                        
+                        preSessionMessageBubble
                     }
+                }
                     
                 // ZStack for rounded corner
                 ZStack {
@@ -152,9 +155,9 @@ struct SessionGeneratorView: View {
                         }
                     }
                 }
-            }
-            .transition(.move(edge: .bottom))
-            .padding(.top, 3)
+                .transition(.move(edge: .bottom))
+                .padding(.top, 65)
+            
             }
         }
     }
@@ -186,6 +189,7 @@ struct SessionGeneratorView: View {
                     .frame(maxWidth: 150)
  
             }
+            .offset(y: -15)
             .transition(.opacity.combined(with: .offset(y: 10)))
         }
     }
