@@ -88,22 +88,20 @@ struct SessionGeneratorView: View {
             
             // Home page
             if appModel.viewState.showHomePage {
-                
-                // Bravo and message bubble
-                HStack {
-                    // Bravo
-                    RiveViewModel(fileName: "Bravo_Peaking").view()
-                        .frame(width: 90, height: 90)
-                        
 
-                    
-                    // Bravo's message bubble
-                    if appModel.viewState.showTextBubble {
-                        
-                        preSessionMessageBubble
-                    }
+                
+
+                // Bravo
+                RiveViewModel(fileName: "Bravo_Peaking").view()
+                    .frame(width: 90, height: 90)
+                    .offset(x: -60)
+   
+                // Bravo's message bubble
+                if appModel.viewState.showPreSessionTextBubble {
+                    preSessionMessageBubble
+                        .offset(x: 50, y: 20)
                 }
-                    
+  
                 // ZStack for rounded corner
                 ZStack {
                     
@@ -158,6 +156,21 @@ struct SessionGeneratorView: View {
                 .transition(.move(edge: .bottom))
                 .padding(.top, 65)
             
+            }
+        }
+        .onAppear {
+            BravoTextBubbleDelay()
+        }
+    }
+    
+     func BravoTextBubbleDelay() {
+        // Initially hide the bubble
+        appModel.viewState.showPreSessionTextBubble = false
+        
+        // Show it after a 1 second delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            withAnimation(.easeIn(duration: 0.3)) {
+                appModel.viewState.showPreSessionTextBubble = true
             }
         }
     }
@@ -308,7 +321,7 @@ struct SessionGeneratorView: View {
         Button(action: {
             withAnimation(.spring(dampingFraction: 0.7)) {
                 appModel.viewState.showHomePage = false
-                appModel.viewState.showTextBubble = false
+                appModel.viewState.showPreSessionTextBubble = false
                 
             }
             
@@ -343,7 +356,7 @@ struct SessionGeneratorView: View {
     
 }
 
-// MARK: Filter button
+// MARK: Filter Options button
 struct FilterOptionsButton: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
@@ -386,251 +399,6 @@ struct FilterOptionsButton: View {
 
 }
 
-// MARK: Area behind home page
-struct AreaBehindHomePage: View {
-    @ObservedObject var appModel: MainAppModel
-    @ObservedObject var sessionModel: SessionGeneratorModel
-        
-    var body: some View {
-        // Whole area behind the home page
-        VStack {
-            
-            Spacer()
-
-            // When the session begins, the field pops up
-            if appModel.viewState.showFieldBehindHomePage {
-                ZStack {
-                    RiveViewModel(fileName: "Grass_Field").view()
-                        .frame(maxWidth: .infinity)
-                        .padding(.top, 100)
-                    
-                    HStack {
-                        
-                        VStack {
-                            
-                            sessionMessageBubble
- 
-                            RiveViewModel(fileName: "Bravo_Panting").view()
-                                .frame(width: 90, height: 90)
-                        }
-     
-                        
-                        VStack(spacing: 15) {
-                            
-                            // Ordered drill cards on the field
-                            ForEach(sessionModel.orderedSessionDrills, id: \.drill.id) { editableDrill in
-                                if let index = sessionModel.orderedSessionDrills.firstIndex(where: {$0.drill.id == editableDrill.drill.id}) {
-                                    FieldDrillCard(
-                                        appModel: appModel,
-                                        sessionModel: sessionModel,
-                                        editableDrill: $sessionModel.orderedSessionDrills[index]
-                                    )
-                                }
-                            }
-                            
-                            // Trophy button for completionview
-                            trophyButton
-                        }
-                        .padding()
-                    }
-                    
-                    // TODO: add button that will end session early and save users progress into calendar
-                    
-                    
-                        HStack {
-                            VStack(alignment: .leading) {
-                                // back button only shows if session not completed
-                                if sessionModel.sessionNotComplete() {
-                                    Button(action:  {
-                                        withAnimation(.spring(dampingFraction: 0.7)) {
-                                            appModel.viewState.showFieldBehindHomePage = false
-                                        }
-                                        
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                            withAnimation(.spring(dampingFraction: 0.7)) {
-                                                appModel.viewState.showHomePage = true
-                                                appModel.viewState.showTextBubble = true
-                                            }
-                                        }
-                                    }) {
-                                        Image(systemName: "door.left.hand.open")
-                                            .foregroundColor(.black.opacity(0.5))
-                                            .font(.system(size: 35, weight: .semibold))
-                                        
-                                    }
-                                }
-                                
-                                
-                                RiveViewModel(fileName: "Break_Area").view()
-                                    .frame(width: 120, height: 120)
-                                
-                            }
-
-                            
-                            Spacer()
-
-                        }
-                        .padding()
-                        .padding(.top, 500) // TODO: find better way to style this
-                    
-                    
-                }
-                .transition(.move(edge: .bottom))
-            }
-        }
-        .fullScreenCover(isPresented: $appModel.viewState.showSessionComplete) {
-            SessionCompleteView(
-                appModel: appModel, sessionModel: sessionModel
-            )
-        }
-    }
-    
-    private var trophyButton: some View {
-        Button(action: {
-            appModel.viewState.showSessionComplete = true
-        }) {
-            Image("BravoBall_Trophy")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 80, height: 90)
-        }
-        .padding(.top, 20)
-        .disabled(sessionModel.sessionNotComplete())
-        .opacity(sessionModel.sessionNotComplete() ? 0.5 : 1.0)
-    }
-    
-    private var sessionMessageBubble: some View {
-        VStack(spacing: 0) {
-            
-            Text(sessionModel.sessionNotComplete() ? "You have \(sessionModel.sessionsLeftToComplete()) drills left" : "Well done! Click on the trophy to claim your prize")
-                .font(.custom("Poppins-Bold", size: 16))
-                .foregroundColor(.white)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color(hex:"60AE17"))
-                )
-                .frame(maxWidth: 150)
-                .transition(.opacity.combined(with: .offset(y: 10)))
-            
-            // Pointer
-            Path { path in
-                path.move(to: CGPoint(x: 0, y: 0))
-                path.addLine(to: CGPoint(x: 10, y: 10))
-                path.addLine(to: CGPoint(x: 20, y: 0))
-            }
-            .fill(Color(hex:"60AE17"))
-            .frame(width: 20, height: 10)
-        }
-    }
-}
-
-
-// TODO: enum this
-
-// MARK: Filter Options
-struct FilterOptions: View {
-    @ObservedObject var appModel: MainAppModel
-    @ObservedObject var sessionModel: SessionGeneratorModel
-    
-    // TODO: case enums for neatness
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Button(action: {
-                
-                clearFilterSelection()
-                
-                withAnimation {
-                    appModel.viewState.showFilterOptions = false
-                }
-            }) {
-                HStack(spacing: 8) {
-                    Image(systemName: "xmark.circle")
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                    Text("Clear Filters")
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        .font(.custom("Poppins-Bold", size: 12))
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-            }
-            
-            Divider()
-            
-            Button(action: {
-                
-                showFilterPrompt()
-                
-                withAnimation {
-                    appModel.viewState.showFilterOptions = false
-                }
-            }) {
-                HStack(spacing: 8) {
-                    Image(systemName: "square.and.arrow.down")
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                    Text("Save Filters")
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        .font(.custom("Poppins-Bold", size: 12))
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-            }
-            
-            Divider()
-            
-            Button(action: {
-                withAnimation(.spring(dampingFraction: 0.7)) {
-                    appModel.viewState.showSavedFilters.toggle()
-                    appModel.viewState.showFilterOptions = false
-                }
-            }) {
-                HStack(spacing: 8) {
-                    Image(systemName: "list.bullet")
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                    Text("Show Saved Filters")
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        .font(.custom("Poppins-Bold", size: 12))
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-            }
-        }
-        .padding(8)
-        .background(Color.white)
-        .frame(maxWidth: .infinity)
-
-    }
-    
-    // Show Save Filter prompt
-    private func showFilterPrompt() {
-        if appModel.viewState.showSaveFiltersPrompt == true {
-            appModel.viewState.showSaveFiltersPrompt = false
-        } else {
-            appModel.viewState.showSaveFiltersPrompt = true
-        }
-    }
-    
-    // Clears filter selected options
-    private func clearFilterSelection() {
-        sessionModel.selectedTime = nil
-        sessionModel.selectedEquipment.removeAll()
-        sessionModel.selectedTrainingStyle = nil
-        sessionModel.selectedLocation = nil
-        sessionModel.selectedDifficulty = nil
-    }
-
-
-    
-    private func showSavedFilters() {
-        if appModel.viewState.showSavedFilters == true {
-            appModel.viewState.showSavedFilters = false
-        } else {
-            appModel.viewState.showSavedFilters = true
-        }
-    }
-}
 
 // MARK: Search Skills View
 struct SearchSkillsView: View {
@@ -768,120 +536,6 @@ struct FilterButton: View {
             )
             .scaleEffect(isSelected ? 0.85 : 0.8)
             .animation(.spring(response: 0.4, dampingFraction: 0.6), value: isSelected)
-        }
-    }
-}
-
-// MARK: Filter dropdown
-struct FilterSheet: View {
-    @ObservedObject var appModel: MainAppModel
-    @ObservedObject var sessionModel: SessionGeneratorModel
-    
-    let type: MainAppModel.FilterType
-    let dismiss: () -> Void
-    
-    var body: some View {
-        // Filter dropdown
-        VStack(alignment: .center, spacing: 12) {
-            
-            // Header
-            HStack {
-                Spacer()
-                Text(type.rawValue)
-                    .font(.custom("Poppins-Bold", size: 16))
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                
-                Spacer()
-                Button(action: {
-                    withAnimation(.spring(dampingFraction: 0.7)) {
-                        dismiss()
-                    }
-                }) {
-                    Image(systemName: "xmark")
-                        .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                }
-            }
-            
-            // Options list
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 8) {
-                    ForEach(optionsForType, id: \.self) { option in
-                        Button(action: {
-                            selectOption(option)
-                        }) {
-                            HStack {
-                                Text(option)
-                                    .font(.custom("Poppins-Regular", size: 14))
-                                    .foregroundColor(appModel.globalSettings.primaryGrayColor)
-                                Spacer()
-                                if isSelected(option) {
-                                    Image(systemName: "checkmark")
-                                        .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                }
-                            }
-                            .padding(.vertical, 8)
-                        }
-                        Divider()
-                    }
-                }
-            }
-        }
-        .padding()
-    }
-    
-    
-    private var optionsForType: [String] {
-        switch type {
-        case .time: return sessionModel.timeOptions
-        case .equipment: return sessionModel.equipmentOptions
-        case .trainingStyle: return sessionModel.trainingStyleOptions
-        case .location: return sessionModel.locationOptions
-        case .difficulty: return sessionModel.difficultyOptions
-        }
-    }
-    
-    private func isSelected(_ option: String) -> Bool {
-        switch type {
-        case .time: return sessionModel.selectedTime == option
-        case .equipment: return sessionModel.selectedEquipment.contains(option)
-        case .trainingStyle: return sessionModel.selectedTrainingStyle == option
-        case .location: return sessionModel.selectedLocation == option
-        case .difficulty: return sessionModel.selectedDifficulty == option
-        }
-    }
-
-    private func selectOption(_ option: String) {
-        switch type {
-        case .time:
-            if sessionModel.selectedTime == option {
-                sessionModel.selectedTime = nil
-            } else {
-                sessionModel.selectedTime = option
-            }
-        case .equipment:
-            if sessionModel.selectedEquipment.contains(option) {
-                sessionModel.selectedEquipment.remove(option)
-            } else {
-                sessionModel.selectedEquipment.insert(option)
-            }
-        case .trainingStyle:
-            if sessionModel.selectedTrainingStyle == option {
-                sessionModel.selectedTrainingStyle = nil
-            } else {
-                sessionModel.selectedTrainingStyle = option
-            }
-        case .location:
-            if sessionModel.selectedLocation == option {
-                sessionModel.selectedLocation = nil
-            } else {
-                sessionModel.selectedLocation = option
-            }
-        case .difficulty:
-            if sessionModel.selectedDifficulty == option {
-                sessionModel.selectedDifficulty = nil
-            } else {
-                sessionModel.selectedDifficulty = option
-            }
         }
     }
 }
@@ -1205,124 +859,6 @@ struct FieldDrillCard: View {
 }
 
 
-
-
-// MARK: Skill selection view
-struct SkillSearchBar: View {
-    @ObservedObject var appModel: MainAppModel
-    @ObservedObject var sessionModel: SessionGeneratorModel
-    
-    @State private var showingSkillSelector = false
-    @FocusState private var isFocused: Bool
-    @Binding var searchText: String
-    
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            
-            HStack {
-                if appModel.viewState.showSkillSearch {
-                    Button( action: {
-                        searchText = ""
-                        appModel.viewState.showSkillSearch = false
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.gray)
-                            .padding(.vertical, 3)
-                    }
-                }
-                
-                // Full Search bar
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.gray)
-                    
-                    // Horizontal scrolling selected skills
-                        VStack {
-                            if !sessionModel.selectedSkills.isEmpty {
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 4) {
-                                        ForEach(Array(sessionModel.selectedSkills).sorted(), id: \.self) { skill in
-                                            SkillButton(
-                                                appModel: appModel,
-                                                title: skill,
-                                                isSelected: true
-                                            ) {
-                                                sessionModel.selectedSkills.remove(skill)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            TextField(sessionModel.selectedSkills.isEmpty ? "Search skills..." : "Select more...", text: $searchText)
-                                .textFieldStyle(PlainTextFieldStyle())
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .tint(appModel.globalSettings.primaryYellowColor)
-                                .focused($isFocused)
-                                .onChange(of: isFocused) { _, newValue in
-                                    updateSearchState(isFocused: newValue)
-                                }
-                                .onChange(of: appModel.viewState.showSkillSearch) { _, newValue in
-                                    updateSearchState(isShowing: newValue)
-                                }
-                            
-                            }
-                    
-                    Spacer()
-                    
-
-                    if !appModel.viewState.showSkillSearch {
-                        Button(action: { showingSkillSelector = true }) {
-                            RiveViewModel(fileName: "Plus_Button").view()
-                                .frame(width: 20, height: 20)
-                        }
-                    }
-                    
-                    
-                    if !searchText.isEmpty {
-                        Button(action: {
-                            searchText = ""
-                        }) {
-                            
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.gray)
-                        }
-                    }
-                }
-                .padding(8)
-                .background(Color.white)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(isFocused ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryLightGrayColor, lineWidth: 3)
-                )
-                .cornerRadius(20)
-                .padding(.top, 13)
-
-            }
-            
-        }
-        .padding(.horizontal, 8)
-        .sheet(isPresented: $showingSkillSelector) {
-            SkillSelectorSheet(appModel: appModel, sessionModel: sessionModel)
-                .presentationDragIndicator(.hidden)
-                .interactiveDismissDisabled()
-        }
-    }
-    private func updateSearchState(isFocused: Bool? = nil, isShowing: Bool? = nil) {
-           if let isFocused = isFocused {
-               if isFocused {
-                   appModel.viewState.showSkillSearch = true
-               }
-           }
-           
-           if let isShowing = isShowing {
-               if !isShowing {
-                   self.isFocused = false
-               }
-           }
-       }
-}
-
 // MARK: Skill button
 struct SkillButton: View {
     @ObservedObject var appModel: MainAppModel
@@ -1357,143 +893,6 @@ struct SkillButton: View {
         }
 }
 
-
-// MARK: Skill selector sheet
-struct SkillSelectorSheet: View {
-    @ObservedObject var appModel: MainAppModel
-    @ObservedObject var sessionModel: SessionGeneratorModel
-    
-    @Environment(\.dismiss) private var dismiss
-    @State private var expandedCategory: String?
-    
-
-    
-    var body: some View {
-            VStack {
-                HStack {
-                    Spacer()
-                    Text("Select Skills")
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        .font(.custom("Poppins-Bold", size: 16))
-                        .padding(.leading, 70)
-                    Spacer()
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "xmark")
-                            .foregroundColor(.gray)
-                    }
-                    
-                    .padding()
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                    .font(.custom("Poppins-Bold", size: 16))
-                }
-                ScrollView {
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 40) {
-                        ForEach(SessionGeneratorView.skillCategories, id: \.name) { category in
-                            VStack(alignment: .leading, spacing: 0) {
-                                Button(action: {
-                                    withAnimation {
-                                        if expandedCategory == category.name {
-                                            expandedCategory = nil
-                                        } else {
-                                            expandedCategory = category.name
-                                        }
-                                    }
-                                }) {
-                                    VStack {
-                                        Text(category.name)
-                                            .font(.custom("Poppins-Bold", size: 18))
-                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                        HStack {
-                                            Spacer()
-                                            
-                                            Image(systemName: category.icon)
-                                                .font(.system(size: 20))
-                                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                            
-                                            Spacer()
-
-                                        }
-                                        .padding()
-                                        
-                                    }
-                                    .padding()
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .fill(Color.white)
-                                            .stroke(isCategorySelected(category) ? appModel.globalSettings.primaryYellowColor : Color.gray.opacity(0.3), lineWidth: 4)
-                                    )
-                                }
-                                .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                                
-                                if expandedCategory == category.name {
-                                    VStack(spacing: 12) {
-                                        ForEach(category.subSkills, id: \.self) { subSkill in
-                                            Button(action: {
-                                                if sessionModel.selectedSkills.contains(subSkill) {
-                                                    sessionModel.selectedSkills.remove(subSkill)
-                                                } else {
-                                                    sessionModel.selectedSkills.insert(subSkill)
-                                                }
-                                            }) {
-                                                HStack {
-                                                    Text(subSkill)
-                                                        .font(.custom("Poppins-Medium", size: 16))
-                                                    
-                                                    Spacer()
-                                                    
-                                                    if sessionModel.selectedSkills.contains(subSkill) {
-                                                        Image(systemName: "checkmark.circle.fill")
-                                                            .foregroundColor(appModel.globalSettings.primaryYellowColor)
-                                                    }
-                                                }
-                                                .padding(.horizontal)
-                                                .padding(.vertical, 8)
-                                            }
-                                            .foregroundColor(appModel.globalSettings.primaryDarkColor)                                    }
-                                    }
-                                    .padding(.vertical)
-                                    .background(Color.gray.opacity(0.05))
-                                    .cornerRadius(12)
-                                }
-                            }
-                            .background(Color.white)
-                            .cornerRadius(12)
-                        }
-                    }
-                    .padding()
-                }
-            }
-            .safeAreaInset(edge: .bottom) {
-                if sessionModel.selectedSkills.count > 0 {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Text("Create Session")
-                            .font(.custom("Poppins-Bold", size: 18))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.yellow)
-                            .cornerRadius(12)
-                    }
-                    .padding()
-                }
-                
-            }
-    }
-    // TODO: move this somewhere else?
-    // Highlight category if sub skill selected
-    func isCategorySelected(_ category: SkillCategory) -> Bool {
-        for skill in category.subSkills {
-            if sessionModel.selectedSkills.contains(skill) {
-                return true
-            }
-        }
-        return false
-    }
-}
 
 // MARK: Skill category button
 struct SkillCategoryButton: View {

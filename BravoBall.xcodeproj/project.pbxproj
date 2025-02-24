@@ -51,6 +51,11 @@
 		4399B6E92D69407F00DA5E84 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6E82D69407A00DA5E84 /* GroupDetailView.swift */; };
 		4399B6EB2D6942AC00DA5E84 /* DrillRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6EA2D6942A800DA5E84 /* DrillRow.swift */; };
 		4399B6EF2D69932D00DA5E84 /* Bravo_Peaking.riv in Resources */ = {isa = PBXBuildFile; fileRef = 4399B6EE2D69932D00DA5E84 /* Bravo_Peaking.riv */; };
+		4399B6F12D6C84B800DA5E84 /* AreaBehindHomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6F02D6C84AD00DA5E84 /* AreaBehindHomePageView.swift */; };
+		4399B6F32D6C854B00DA5E84 /* FilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6F22D6C854700DA5E84 /* FilterSheet.swift */; };
+		4399B6F52D6C858200DA5E84 /* FilterOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6F42D6C857E00DA5E84 /* FilterOptions.swift */; };
+		4399B6F72D6C85C900DA5E84 /* SkillSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6F62D6C85C400DA5E84 /* SkillSearchBar.swift */; };
+		4399B6FD2D6C878600DA5E84 /* SkillSelectorSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6FC2D6C878000DA5E84 /* SkillSelectorSheetView.swift */; };
 		43AFAE852D6168F800B61982 /* SessionCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFAE842D6168F100B61982 /* SessionCompleteView.swift */; };
 		43BFA9D62D3F38B300B12A6F /* Golden_Button.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9D52D3F38B300B12A6F /* Golden_Button.riv */; };
 		43BFA9E62D40885000B12A6F /* Plus_Button.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9E52D40885000B12A6F /* Plus_Button.riv */; };
@@ -139,6 +144,11 @@
 		4399B6E82D69407A00DA5E84 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
 		4399B6EA2D6942A800DA5E84 /* DrillRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillRow.swift; sourceTree = "<group>"; };
 		4399B6EE2D69932D00DA5E84 /* Bravo_Peaking.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bravo_Peaking.riv; sourceTree = "<group>"; };
+		4399B6F02D6C84AD00DA5E84 /* AreaBehindHomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaBehindHomePageView.swift; sourceTree = "<group>"; };
+		4399B6F22D6C854700DA5E84 /* FilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSheet.swift; sourceTree = "<group>"; };
+		4399B6F42D6C857E00DA5E84 /* FilterOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOptions.swift; sourceTree = "<group>"; };
+		4399B6F62D6C85C400DA5E84 /* SkillSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillSearchBar.swift; sourceTree = "<group>"; };
+		4399B6FC2D6C878000DA5E84 /* SkillSelectorSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillSelectorSheetView.swift; sourceTree = "<group>"; };
 		43AFAE842D6168F100B61982 /* SessionCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteView.swift; sourceTree = "<group>"; };
 		43BFA9D52D3F38B300B12A6F /* Golden_Button.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Golden_Button.riv; sourceTree = "<group>"; };
 		43BFA9E52D40885000B12A6F /* Plus_Button.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Plus_Button.riv; sourceTree = "<group>"; };
@@ -350,10 +360,8 @@
 		4399B6DF2D6939F200DA5E84 /* SessionGenerator */ = {
 			isa = PBXGroup;
 			children = (
-				4399B6EA2D6942A800DA5E84 /* DrillRow.swift */,
-				43524E942D5198C300AD897A /* SearchDrillsSheetView.swift */,
-				43AFAE842D6168F100B61982 /* SessionCompleteView.swift */,
-				17C3B58C2D38E41C00D2471F /* DrillFollowAlongView.swift */,
+				4399B6F92D6C868600DA5E84 /* Components */,
+				4399B6F82D6C867F00DA5E84 /* Views */,
 			);
 			path = SessionGenerator;
 			sourceTree = "<group>";
@@ -385,11 +393,34 @@
 		4399B6E42D693A8900DA5E84 /* Global */ = {
 			isa = PBXGroup;
 			children = (
-				4399B6E52D693C2B00DA5E84 /* EditingDrillView.swift */,
 				174C676F2D34EB11003D02EF /* DrillDetailView.swift */,
 				4399B6CD2D67CE3500DA5E84 /* ToastMessageView.swift */,
 			);
 			path = Global;
+			sourceTree = "<group>";
+		};
+		4399B6F82D6C867F00DA5E84 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4399B6FC2D6C878000DA5E84 /* SkillSelectorSheetView.swift */,
+				4399B6F02D6C84AD00DA5E84 /* AreaBehindHomePageView.swift */,
+				43AFAE842D6168F100B61982 /* SessionCompleteView.swift */,
+				17C3B58C2D38E41C00D2471F /* DrillFollowAlongView.swift */,
+				43524E942D5198C300AD897A /* SearchDrillsSheetView.swift */,
+				4399B6E52D693C2B00DA5E84 /* EditingDrillView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4399B6F92D6C868600DA5E84 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				4399B6F62D6C85C400DA5E84 /* SkillSearchBar.swift */,
+				4399B6F42D6C857E00DA5E84 /* FilterOptions.swift */,
+				4399B6F22D6C854700DA5E84 /* FilterSheet.swift */,
+				4399B6EA2D6942A800DA5E84 /* DrillRow.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		439A72632C9FA55700B4C5AD /* RiveAssets */ = {
@@ -593,6 +624,8 @@
 				430FD6CD2D30648A0016D520 /* MainAppModel.swift in Sources */,
 				174C67702D34EB26003D02EF /* DrillDetailView.swift in Sources */,
 				17C3B58D2D38E43900D2471F /* DrillFollowAlongView.swift in Sources */,
+				4399B6FD2D6C878600DA5E84 /* SkillSelectorSheetView.swift in Sources */,
+				4399B6F12D6C84B800DA5E84 /* AreaBehindHomePageView.swift in Sources */,
 				4399B6EB2D6942AC00DA5E84 /* DrillRow.swift in Sources */,
 				17595AA32D3B3B610015F35D /* WeekDisplayButton.swift in Sources */,
 				17595AA12D3B3B520015F35D /* DrillResultsView.swift in Sources */,
@@ -613,6 +646,8 @@
 				43524E952D5198C900AD897A /* SearchDrillsSheetView.swift in Sources */,
 				1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */,
 				178208E22D2DEBB400246494 /* OnboardingView.swift in Sources */,
+				4399B6F72D6C85C900DA5E84 /* SkillSearchBar.swift in Sources */,
+				4399B6F52D6C858200DA5E84 /* FilterOptions.swift in Sources */,
 				178208E42D2DEBC800246494 /* LoginView.swift in Sources */,
 				178208E92D2DEC6D00246494 /* OnboardingStepView.swift in Sources */,
 				17595A9F2D3B3B320015F35D /* ProgressionView.swift in Sources */,
@@ -622,6 +657,7 @@
 				4399B6E62D693C3100DA5E84 /* EditingDrillView.swift in Sources */,
 				178208D22D2D14D200246494 /* MainTabView.swift in Sources */,
 				178208ED2D2DED0800246494 /* OnboardingBooleanView.swift in Sources */,
+				4399B6F32D6C854B00DA5E84 /* FilterSheet.swift in Sources */,
 				43524E772D4D994B00AD897A /* SessionGeneratorModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

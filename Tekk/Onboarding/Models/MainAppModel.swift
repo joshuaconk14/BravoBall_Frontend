@@ -113,7 +113,8 @@ class MainAppModel: ObservableObject {
         var showingDrills = false
         var showFilter: Bool = true
         var showHomePage: Bool = true
-        var showTextBubble: Bool = true
+        var showPreSessionTextBubble: Bool = false
+        var showPostSessionTextBubble: Bool = false
         var showFieldBehindHomePage: Bool = false
         var showFilterOptions: Bool = false
         var showGroupFilterOptions: Bool = false
@@ -124,6 +125,7 @@ class MainAppModel: ObservableObject {
         var showingDrillDetail: Bool = false
         var showSkillSearch: Bool = false
         var showSessionComplete: Bool = false
+        var showBravo: Bool = true
     }
     
         

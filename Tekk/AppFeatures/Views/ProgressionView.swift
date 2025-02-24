@@ -34,7 +34,7 @@ struct ProgressionView: View {
                                 .fill(Color.white)
                             
                             VStack(spacing: 5) {
-                                CalendarViewTest(appModel: appModel)
+                                CalendarView(appModel: appModel)
                                 
                                 // History display
                                 HStack {
@@ -102,7 +102,7 @@ struct ProgressionView: View {
 
 // MARK: Calendar View
 
-struct CalendarViewTest: View {
+struct CalendarView: View {
     @ObservedObject var appModel: MainAppModel
     let calendar = Calendar.current
     
@@ -324,6 +324,7 @@ struct CalendarViewTest: View {
     }
 
 
+    // TODO: get rid test drills and make this production ready
 
     private func addDrill(for date: Date) {
         let addedTestDrillsOne = DrillModel(

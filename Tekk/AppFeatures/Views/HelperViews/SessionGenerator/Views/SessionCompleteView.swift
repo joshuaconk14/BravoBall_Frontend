@@ -63,12 +63,7 @@ struct SessionCompleteView: View {
         }
         .safeAreaInset(edge: .bottom) {
             Button(action: {
-                sessionModel.orderedSessionDrills = []
-                sessionModel.selectedSkills = []
-                appModel.viewState.showFieldBehindHomePage = false
-                appModel.viewState.showHomePage = true
-                appModel.viewState.showTextBubble = true
-                appModel.viewState.showSessionComplete = false
+                resetSessionState()
             }) {
                 Text("Back to home page")
                     .font(.custom("Poppins-Bold", size: 16))
@@ -81,11 +76,15 @@ struct SessionCompleteView: View {
             }
             .padding()
         }
-        
-        
-        
-
-        
+    }
+    
+    private func resetSessionState() {
+        sessionModel.orderedSessionDrills = []
+        sessionModel.selectedSkills = []
+        appModel.viewState.showFieldBehindHomePage = false
+        appModel.viewState.showHomePage = true
+        appModel.viewState.showPreSessionTextBubble = true
+        appModel.viewState.showSessionComplete = false
     }
 }
 

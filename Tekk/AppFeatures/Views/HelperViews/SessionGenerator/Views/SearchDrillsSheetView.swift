@@ -179,6 +179,7 @@ struct ByTypeView: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
 
+    // TODO: enum this
     
     
     var body: some View {
