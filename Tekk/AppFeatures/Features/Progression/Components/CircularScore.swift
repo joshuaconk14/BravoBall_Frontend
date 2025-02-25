@@ -1,5 +1,5 @@
 //
-//  CircularProgressionView.swift
+//  CircularScore.swift
 //  BravoBall
 //
 //  Created by Joshua Conklin on 2/25/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CircularProgressView: View {
+struct CircularScore: View {
     @ObservedObject var appModel: MainAppModel
     let progress: Double
     @State private var animatedProgress: Double = 0

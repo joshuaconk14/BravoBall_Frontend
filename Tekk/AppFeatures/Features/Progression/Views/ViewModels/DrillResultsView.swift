@@ -42,7 +42,7 @@ struct DrillResultsView: View {
                     
                     
                     ZStack {
-                        CircularProgressView(appModel: appModel, progress: Double(session.totalCompletedDrills) / Double(session.totalDrills))
+                        CircularScore(appModel: appModel, progress: Double(session.totalCompletedDrills) / Double(session.totalDrills))
                             .frame(width: 200, height: 200)
                         
                         Text("\(session.totalCompletedDrills) / \(session.totalDrills)")

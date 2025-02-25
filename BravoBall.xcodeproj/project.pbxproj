@@ -86,7 +86,6 @@
 		43C5FC522D6DBCF00064E7D5 /* AllGroupsDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC512D6DBCEA0064E7D5 /* AllGroupsDisplay.swift */; };
 		43C5FC542D6DBD0E0064E7D5 /* GroupCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC532D6DBD0B0064E7D5 /* GroupCard.swift */; };
 		43C5FC562D6DBD310064E7D5 /* LikedGroupCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC552D6DBD2C0064E7D5 /* LikedGroupCard.swift */; };
-		43C5FC582D6DBD9C0064E7D5 /* CircularProgressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC572D6DBD940064E7D5 /* CircularProgressionView.swift */; };
 		43C5FC5A2D6DBDF50064E7D5 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC592D6DBDEF0064E7D5 /* CalendarView.swift */; };
 		43C5FC5C2D6DBEC90064E7D5 /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC5B2D6DBEC50064E7D5 /* RoundedCorner.swift */; };
 		43C5FC5E2D6DC0E40064E7D5 /* FilterOptionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC5D2D6DC0DF0064E7D5 /* FilterOptionsButton.swift */; };
@@ -107,6 +106,7 @@
 		43C5FC812D6DCEEE0064E7D5 /* ByTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC802D6DCEEA0064E7D5 /* ByTypeView.swift */; };
 		43C5FC832D6DCF1B0064E7D5 /* AllDrillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC822D6DCF160064E7D5 /* AllDrillsView.swift */; };
 		43C5FC852D6DCF530064E7D5 /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC842D6DCF4F0064E7D5 /* TabButton.swift */; };
+		43C5FC9C2D6E54B90064E7D5 /* CircularScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC9B2D6E54B60064E7D5 /* CircularScore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -209,7 +209,6 @@
 		43C5FC512D6DBCEA0064E7D5 /* AllGroupsDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsDisplay.swift; sourceTree = "<group>"; };
 		43C5FC532D6DBD0B0064E7D5 /* GroupCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCard.swift; sourceTree = "<group>"; };
 		43C5FC552D6DBD2C0064E7D5 /* LikedGroupCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedGroupCard.swift; sourceTree = "<group>"; };
-		43C5FC572D6DBD940064E7D5 /* CircularProgressionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressionView.swift; sourceTree = "<group>"; };
 		43C5FC592D6DBDEF0064E7D5 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		43C5FC5B2D6DBEC50064E7D5 /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
 		43C5FC5D2D6DC0DF0064E7D5 /* FilterOptionsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOptionsButton.swift; sourceTree = "<group>"; };
@@ -230,6 +229,7 @@
 		43C5FC802D6DCEEA0064E7D5 /* ByTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByTypeView.swift; sourceTree = "<group>"; };
 		43C5FC822D6DCF160064E7D5 /* AllDrillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDrillsView.swift; sourceTree = "<group>"; };
 		43C5FC842D6DCF4F0064E7D5 /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
+		43C5FC9B2D6E54B60064E7D5 /* CircularScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularScore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -368,8 +368,8 @@
 			isa = PBXGroup;
 			children = (
 				4399B7142D6D794000DA5E84 /* Core */,
-				4399B7222D6D7A3C00DA5E84 /* Shared */,
 				4399B7192D6D79D100DA5E84 /* Features */,
+				4399B7222D6D7A3C00DA5E84 /* Shared */,
 			);
 			path = AppFeatures;
 			sourceTree = "<group>";
@@ -530,6 +530,8 @@
 		4399B7272D6D7B0C00DA5E84 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				43C5FC5B2D6DBEC50064E7D5 /* RoundedCorner.swift */,
+				43C5FC9B2D6E54B60064E7D5 /* CircularScore.swift */,
 				17595AA22D3B3B5B0015F35D /* WeekDisplayButton.swift */,
 			);
 			path = Components;
@@ -551,9 +553,7 @@
 		4399B72D2D6D7F3600DA5E84 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				43C5FC5B2D6DBEC50064E7D5 /* RoundedCorner.swift */,
 				43C5FC592D6DBDEF0064E7D5 /* CalendarView.swift */,
-				43C5FC572D6DBD940064E7D5 /* CircularProgressionView.swift */,
 				17595AA02D3B3B4E0015F35D /* DrillResultsView.swift */,
 			);
 			path = ViewModels;
@@ -919,8 +919,8 @@
 				43C5FC852D6DCF530064E7D5 /* TabButton.swift in Sources */,
 				43C5FC5C2D6DBEC90064E7D5 /* RoundedCorner.swift in Sources */,
 				43C5FC6E2D6DCC7E0064E7D5 /* FieldDrillCard.swift in Sources */,
+				43C5FC9C2D6E54B90064E7D5 /* CircularScore.swift in Sources */,
 				17C3B58D2D38E43900D2471F /* DrillFollowAlongView.swift in Sources */,
-				43C5FC582D6DBD9C0064E7D5 /* CircularProgressionView.swift in Sources */,
 				43C5FC722D6DCCD20064E7D5 /* SkillCategoryButton.swift in Sources */,
 				4399B6FD2D6C878600DA5E84 /* SkillSelectorSheetView.swift in Sources */,
 				4399B6F12D6C84B800DA5E84 /* AreaBehindHomePageView.swift in Sources */,
