@@ -96,9 +96,9 @@ struct ProgressionView: View {
 }
 
 
-#Preview {
-    let mockAppModel = MainAppModel()
-    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
-    
-    return ProgressionView(appModel: mockAppModel, sessionModel: mockSessionModel)
-}
+//#Preview {
+//    let mockAppModel = MainAppModel()
+//    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+//    
+//    return ProgressionView(appModel: mockAppModel, sessionModel: mockSessionModel)
+//}

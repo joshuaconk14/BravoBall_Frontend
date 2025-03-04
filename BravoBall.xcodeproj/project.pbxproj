@@ -38,6 +38,8 @@
 		430FD6D32D307AEC0016D520 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 430FD6D22D307AEC0016D520 /* SwiftKeychainWrapper */; };
 		430FD71F2D334CAF0016D520 /* Day_Null.riv in Resources */ = {isa = PBXBuildFile; fileRef = 430FD71E2D334CAF0016D520 /* Day_Null.riv */; };
 		43156B782D77B39E00DC1FE7 /* SecureStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43156B772D77B39800DC1FE7 /* SecureStorageService.swift */; };
+		43156B7A2D77B6F600DC1FE7 /* TestDrillsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43156B792D77B6EE00DC1FE7 /* TestDrillsModel.swift */; };
+		43156B7C2D77BB0600DC1FE7 /* ServiceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43156B7B2D77BB0200DC1FE7 /* ServiceContainer.swift */; };
 		43524E772D4D994B00AD897A /* SessionGeneratorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43524E762D4D994400AD897A /* SessionGeneratorModel.swift */; };
 		43524E952D5198C900AD897A /* SearchDrillsSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43524E942D5198C300AD897A /* SearchDrillsSheetView.swift */; };
 		435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 435A70142CA7AB2600BFCC40 /* RiveRuntime */; };
@@ -169,6 +171,8 @@
 		430FD6CC2D3064850016D520 /* MainAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppModel.swift; sourceTree = "<group>"; };
 		430FD71E2D334CAF0016D520 /* Day_Null.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Null.riv; sourceTree = "<group>"; };
 		43156B772D77B39800DC1FE7 /* SecureStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStorageService.swift; sourceTree = "<group>"; };
+		43156B792D77B6EE00DC1FE7 /* TestDrillsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDrillsModel.swift; sourceTree = "<group>"; };
+		43156B7B2D77BB0200DC1FE7 /* ServiceContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceContainer.swift; sourceTree = "<group>"; };
 		43524E762D4D994400AD897A /* SessionGeneratorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionGeneratorModel.swift; sourceTree = "<group>"; };
 		43524E942D5198C300AD897A /* SearchDrillsSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDrillsSheetView.swift; sourceTree = "<group>"; };
 		437F4BC82D742FD500FC154B /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
@@ -408,6 +412,7 @@
 		437F4BCF2D7438A300FC154B /* SesMgmtTest */ = {
 			isa = PBXGroup;
 			children = (
+				43156B7B2D77BB0200DC1FE7 /* ServiceContainer.swift */,
 				43156B772D77B39800DC1FE7 /* SecureStorageService.swift */,
 				437F4BD82D746D2400FC154B /* EncryptionService.swift */,
 				437F4BD62D743A7800FC154B /* ErrorHandling.swift */,
@@ -441,6 +446,7 @@
 		4399B70F2D6D741100DA5E84 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				43156B792D77B6EE00DC1FE7 /* TestDrillsModel.swift */,
 				43C5FC402D6DB59A0064E7D5 /* DrillModel.swift */,
 				43524E762D4D994400AD897A /* SessionGeneratorModel.swift */,
 				430FD6CC2D3064850016D520 /* MainAppModel.swift */,
@@ -1000,6 +1006,7 @@
 				17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
 				1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */,
+				43156B7C2D77BB0600DC1FE7 /* ServiceContainer.swift in Sources */,
 				43524E952D5198C900AD897A /* SearchDrillsSheetView.swift in Sources */,
 				43C5FC5E2D6DC0E40064E7D5 /* FilterOptionsButton.swift in Sources */,
 				43C5FC562D6DBD310064E7D5 /* LikedGroupCard.swift in Sources */,
@@ -1031,6 +1038,7 @@
 				4399B6F32D6C854B00DA5E84 /* FilterSheet.swift in Sources */,
 				43524E772D4D994B00AD897A /* SessionGeneratorModel.swift in Sources */,
 				43C5FC762D6DCD1D0064E7D5 /* RecommendedDrillsSection.swift in Sources */,
+				43156B7A2D77B6F600DC1FE7 /* TestDrillsModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

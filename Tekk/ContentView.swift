@@ -20,8 +20,11 @@ struct ContentView: View {
     @StateObject private var onboardingModel = OnboardingModel()
     @StateObject private var appModel = MainAppModel()
     @StateObject private var userInfoManager = UserManager()
-    @StateObject private var sessionGenModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
-
+    @StateObject private var sessionGenModel = SessionGeneratorModel(
+        onboardingData: OnboardingModel.OnboardingData(),
+        secureStorage: ServiceContainer.shared.secureStorage
+    )
+    
     var body: some View {
         Group {
             if onboardingModel.isLoggedIn {

@@ -90,8 +90,27 @@ struct SessionCompleteView: View {
 
 
 #Preview("Session Complete") {
-    SessionCompleteView(
-        appModel: MainAppModel(),
-        sessionModel: SessionGeneratorModel(onboardingData: .init())
+    // 1. Create required services
+    let encryption = try! EncryptionService()  // Force try for preview
+    let secureStorage = SecureStorageService(encryption: encryption)
+    
+    // 2. Create models with dependencies
+    let mockAppModel = MainAppModel()
+    let mockOnboardingData = OnboardingModel.OnboardingData(
+        trainingExperience: "Beginner",
+        trainingLocation: ["field with goals"],
+        availableEquipment: ["balls", "cones"],
+        dailyTrainingTime: "30-60 minutes"
+    )
+    
+    // 3. Create session model with dependencies
+    let mockSessionModel = SessionGeneratorModel(
+        onboardingData: mockOnboardingData,
+        secureStorage: secureStorage
+    )
+    
+    return SessionCompleteView(
+        appModel: mockAppModel,
+        sessionModel: mockSessionModel
     )
 }

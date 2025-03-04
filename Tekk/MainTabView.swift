@@ -100,10 +100,31 @@ struct CustomTabItem: View {
 }
 
 #Preview {
+    // 1. Create required services
+    let encryption = try! EncryptionService()  // Force try for preview
+    let secureStorage = SecureStorageService(encryption: encryption)
+    
+    // 2. Create models with dependencies
     let mockOnboardingModel = OnboardingModel()
     let mockMainAppModel = MainAppModel()
     let mockUserManager = UserManager()
-    let mockSesGenModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+    
+    // 3. Create proper onboarding data
+    let mockOnboardingData = OnboardingModel.OnboardingData(
+        trainingExperience: "Beginner",
+        trainingLocation: ["field with goals"],
+        availableEquipment: ["balls", "cones"],
+        dailyTrainingTime: "30-60 minutes"
+    )
+    
+    // 4. Create session model with dependencies
+    let mockSesGenModel = SessionGeneratorModel(
+        onboardingData: mockOnboardingData,
+        secureStorage: secureStorage
+    )
+    
+    // 5. Set onboarding data
+    mockOnboardingModel.onboardingData = mockOnboardingData
     
     return MainTabView(
         model: mockOnboardingModel,

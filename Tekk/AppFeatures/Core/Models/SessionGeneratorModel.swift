@@ -13,7 +13,6 @@ class SessionGeneratorModel: ObservableObject {
     
     // Initialize with user's onboarding data
     init(onboardingData: OnboardingModel.OnboardingData, secureStorage: SecureStorageService) {
-        self.secureStorage = secureStorage
         selectedDifficulty = onboardingData.trainingExperience.lowercased()
         if let location = onboardingData.trainingLocation.first {
             selectedLocation = location
@@ -28,6 +27,9 @@ class SessionGeneratorModel: ObservableObject {
         case "More than 2 hours": selectedTime = "2h+"
         default: selectedTime = "1h"
         }
+        
+        self.secureStorage = secureStorage
+        loadSavedSession()
     }
     
     
@@ -62,6 +64,8 @@ class SessionGeneratorModel: ObservableObject {
     
     // Saved filters storage
     @Published var allSavedFilters: [SavedFiltersModel] = []
+    
+    
     
     
     
@@ -129,7 +133,53 @@ class SessionGeneratorModel: ObservableObject {
             difficulty: "Intermediate"
         )
     ]
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // 4. Add save/load methods
+    private func saveCurrentSession() {
+        do {
+            try secureStorage.save(
+                orderedSessionDrills,
+                key: "current_session",
+                storage: .fileSystem
+            )
+        } catch {
+            print("Failed to save session: \(error)")
+        }
+    }
+    
+    private func loadSavedSession() {
+        do {
+            if let saved = try secureStorage.load(
+                [EditableDrillModel].self,
+                key: "current_session",
+                storage: .fileSystem
+            ) {
+                orderedSessionDrills = saved
+            }
+        } catch {
+            print("Failed to load session: \(error)")
+        }
+    }
+    
+    
+    
 
+    
+    
+    
+    
+    
+    
     
     // Update drills based on selected sub-skills, converting testDrill's DrillModels into orderedDrill's EditDrillModels
     func updateDrills() {

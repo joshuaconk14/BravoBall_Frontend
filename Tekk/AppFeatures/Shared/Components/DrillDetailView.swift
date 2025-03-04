@@ -243,39 +243,39 @@ struct DrillDetailView: View {
 }
 
 
-#Preview("With Liked Drill") {
-    // Create mock drill
-    let mockDrill = DrillModel(
-        id: UUID(),
-        title: "Quick Passing Drill",
-        skill: "Passing",
-        sets: 3,
-        reps: 10,
-        duration: 15,
-        description: "A fast-paced drill designed to improve passing accuracy and ball control under pressure. Players work in pairs to complete a series of quick passes while moving.",
-        tips: [
-            "Keep your head up while dribbling",
-            "Use both feet for passing",
-            "Maintain proper body position",
-            "Communicate with your partner"
-        ],
-        equipment: [
-            "Soccer ball",
-            "Cones",
-            "Training vest",
-            "Partner"
-        ],
-        trainingStyle: "Technical",
-        difficulty: "Intermediate"
-    )
-    
-    let mockAppModel = MainAppModel()
-    let mockSessionModel = SessionGeneratorModel(onboardingData: .init())
-    
-    
-    return DrillDetailView(
-        appModel: mockAppModel,
-        sessionModel: mockSessionModel,
-        drill: mockDrill
-    )
-}
+//#Preview("With Liked Drill") {
+//    // Create mock drill
+//    let mockDrill = DrillModel(
+//        id: UUID(),
+//        title: "Quick Passing Drill",
+//        skill: "Passing",
+//        sets: 3,
+//        reps: 10,
+//        duration: 15,
+//        description: "A fast-paced drill designed to improve passing accuracy and ball control under pressure. Players work in pairs to complete a series of quick passes while moving.",
+//        tips: [
+//            "Keep your head up while dribbling",
+//            "Use both feet for passing",
+//            "Maintain proper body position",
+//            "Communicate with your partner"
+//        ],
+//        equipment: [
+//            "Soccer ball",
+//            "Cones",
+//            "Training vest",
+//            "Partner"
+//        ],
+//        trainingStyle: "Technical",
+//        difficulty: "Intermediate"
+//    )
+//    
+//    let mockAppModel = MainAppModel()
+//    let mockSessionModel = SessionGeneratorModel(onboardingData: .init())
+//    
+//    
+//    return DrillDetailView(
+//        appModel: mockAppModel,
+//        sessionModel: mockSessionModel,
+//        drill: mockDrill
+//    )
+//}

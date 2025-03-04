@@ -87,11 +87,25 @@ struct SearchDrillsSheetView: View {
 
 
 #Preview {
-    // Create mock data and models
-    let mockAppModel = MainAppModel()
-    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+    // 1. Create required services
+    let encryption = try! EncryptionService()  // Force try for preview
+    let secureStorage = SecureStorageService(encryption: encryption)
     
-    // Create some test drills
+    // 2. Create models with dependencies
+    let mockAppModel = MainAppModel()
+    let mockOnboardingData = OnboardingModel.OnboardingData(
+        trainingExperience: "Beginner",
+        trainingLocation: ["field with goals"],
+        availableEquipment: ["balls", "cones"],
+        dailyTrainingTime: "30-60 minutes"
+    )
+    
+    let mockSessionModel = SessionGeneratorModel(
+        onboardingData: mockOnboardingData,
+        secureStorage: secureStorage
+    )
+    
+    // 3. Create test drills
     let testDrills = [
         DrillModel(
             title: "Passing Drill",
@@ -131,7 +145,7 @@ struct SearchDrillsSheetView: View {
         )
     ]
     
-    // Create some test groups
+    // 4. Create test groups
     let testGroups = [
         GroupModel(
             name: "Beginner Drills",
@@ -145,7 +159,7 @@ struct SearchDrillsSheetView: View {
         )
     ]
     
-    // Add test data to session model
+    // 5. Add test data to session model
     mockSessionModel.savedDrills = testGroups
     
     return SearchDrillsSheetView(

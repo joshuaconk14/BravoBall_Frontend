@@ -358,10 +358,16 @@ struct SessionGeneratorView: View {
 
 // MARK: Preview
 #Preview {
+    // 1. Create required services
+    let encryption = try! EncryptionService()  // Force try for preview
+    let secureStorage = SecureStorageService(encryption: encryption)
+    
+    // 2. Create models with dependencies
     let mockOnboardingModel = OnboardingModel()
     let mockAppModel = MainAppModel()
-    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
-    mockOnboardingModel.onboardingData = OnboardingModel.OnboardingData(
+    
+    // 3. Set up onboarding data
+    let onboardingData = OnboardingModel.OnboardingData(
         primaryGoal: "Improve my overall skill level",
         biggestChallenge: "Not knowing what to work on",
         trainingExperience: "Intermediate",
@@ -380,6 +386,18 @@ struct SessionGeneratorView: View {
         password: "password123"
     )
     
+    // 4. Create SessionGeneratorModel with dependencies
+    let mockSessionModel = SessionGeneratorModel(
+        onboardingData: onboardingData,
+        secureStorage: secureStorage
+    )
     
-     return SessionGeneratorView(model: mockOnboardingModel, appModel: mockAppModel, sessionModel: mockSessionModel)
+    // 5. Set onboarding data
+    mockOnboardingModel.onboardingData = onboardingData
+    
+    return SessionGeneratorView(
+        model: mockOnboardingModel,
+        appModel: mockAppModel,
+        sessionModel: mockSessionModel
+    )
 }

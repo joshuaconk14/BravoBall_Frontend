@@ -133,33 +133,49 @@ struct SavedDrillsView: View {
 
 
 #Preview {
+    // 1. Create required services
+    let encryption = try! EncryptionService()  // Force try for preview only
+    let secureStorage = SecureStorageService(encryption: encryption)
+    
+    // 2. Create models with dependencies
     let mockAppModel = MainAppModel()
-    let mockSesGenModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+    let mockOnboardingData = OnboardingModel.OnboardingData(
+        trainingExperience: "Beginner",
+        trainingLocation: ["field with goals"],
+        availableEquipment: ["balls", "cones"],
+        dailyTrainingTime: "30-60 minutes"
+    )
     
-    // Create a mock drill
+    let mockSesGenModel = SessionGeneratorModel(
+        onboardingData: mockOnboardingData,
+        secureStorage: secureStorage
+    )
+    
+    // 3. Create mock data
     let mockDrill = DrillModel(
-            title: "Quick Passing",
-            skill: "Passing",
-            sets: 3,
-            reps: 5,
-            duration: 15,
-            description: "Short passing drill to improve accuracy",
-            tips: ["no funny beezness"],
-            equipment: ["ball", "cones"],
-            trainingStyle: "Medium Intensity",
-            difficulty: "Beginner"
-        )
-        
-        // Create a mock group with the drill
-        let mockGroup = GroupModel(
-            name: "My First Group",
-            description: "Collection of passing drills",
-            drills: [mockDrill]
-        )
-        
-        // Add the mock group to savedDrills
-        mockSesGenModel.savedDrills = [mockGroup]
+        title: "Quick Passing",
+        skill: "Passing",
+        sets: 3,
+        reps: 5,
+        duration: 15,
+        description: "Short passing drill to improve accuracy",
+        tips: ["no funny beezness"],
+        equipment: ["ball", "cones"],
+        trainingStyle: "Medium Intensity",
+        difficulty: "Beginner"
+    )
     
+    let mockGroup = GroupModel(
+        name: "My First Group",
+        description: "Collection of passing drills",
+        drills: [mockDrill]
+    )
     
-    return SavedDrillsView(appModel: mockAppModel, sessionModel: mockSesGenModel)
+    // 4. Set up mock data
+    mockSesGenModel.savedDrills = [mockGroup]
+    
+    return SavedDrillsView(
+        appModel: mockAppModel,
+        sessionModel: mockSesGenModel
+    )
 }
