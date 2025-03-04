@@ -206,7 +206,7 @@ struct DrillResultsView: View {
     ]
     
     // Create mock session with EditableDrillModel array
-    mockMainAppModel.selectedSession = MainAppModel.CompletedSession(
+    mockMainAppModel.selectedSession = CompletedSession(
         date: Date(),
         drills: mockDrills,
         totalCompletedDrills: 3,

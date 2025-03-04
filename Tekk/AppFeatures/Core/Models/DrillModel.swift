@@ -48,4 +48,5 @@ struct DrillModel: Identifiable, Equatable, Codable {
     static func == (lhs: DrillModel, rhs: DrillModel) -> Bool {
         lhs.id == rhs.id
     }
+    
 }

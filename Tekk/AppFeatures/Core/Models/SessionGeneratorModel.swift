@@ -9,6 +9,27 @@ import Foundation
 
 // MARK: Session model
 class SessionGeneratorModel: ObservableObject {
+    private let secureStorage: SecureStorageService
+    
+    // Initialize with user's onboarding data
+    init(onboardingData: OnboardingModel.OnboardingData, secureStorage: SecureStorageService) {
+        self.secureStorage = secureStorage
+        selectedDifficulty = onboardingData.trainingExperience.lowercased()
+        if let location = onboardingData.trainingLocation.first {
+            selectedLocation = location
+        }
+        selectedEquipment = Set(onboardingData.availableEquipment)
+        
+        switch onboardingData.dailyTrainingTime {
+        case "Less than 15 minutes": selectedTime = "15min"
+        case "15-30 minutes": selectedTime = "30min"
+        case "30-60 minutes": selectedTime = "1h"
+        case "1-2 hours": selectedTime = "1h30"
+        case "More than 2 hours": selectedTime = "2h+"
+        default: selectedTime = "1h"
+        }
+    }
+    
     
     // FilterTypes
     @Published var selectedTime: String?
@@ -42,24 +63,6 @@ class SessionGeneratorModel: ObservableObject {
     // Saved filters storage
     @Published var allSavedFilters: [SavedFiltersModel] = []
     
-    
-    // Initialize with user's onboarding data
-    init(onboardingData: OnboardingModel.OnboardingData) {
-        selectedDifficulty = onboardingData.trainingExperience.lowercased()
-        if let location = onboardingData.trainingLocation.first {
-            selectedLocation = location
-        }
-        selectedEquipment = Set(onboardingData.availableEquipment)
-        
-        switch onboardingData.dailyTrainingTime {
-        case "Less than 15 minutes": selectedTime = "15min"
-        case "15-30 minutes": selectedTime = "30min"
-        case "30-60 minutes": selectedTime = "1h"
-        case "1-2 hours": selectedTime = "1h30"
-        case "More than 2 hours": selectedTime = "2h+"
-        default: selectedTime = "1h"
-        }
-    }
     
     
     
@@ -312,12 +315,5 @@ class SessionGeneratorModel: ObservableObject {
     
 }
 
-// Group model
-struct GroupModel: Identifiable {
-    let id = UUID()
-    let name: String
-    let description: String
-    var drills: [DrillModel]
-}
 
 

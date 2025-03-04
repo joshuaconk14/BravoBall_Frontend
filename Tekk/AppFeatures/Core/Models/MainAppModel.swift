@@ -110,12 +110,6 @@ class MainAppModel: ObservableObject {
     @Published var highestStreak: Int = 0
     @Published var countOfFullyCompletedSessions: Int = 0
     
-    struct CompletedSession: Codable {
-        let date: Date
-        let drills: [EditableDrillModel]
-        let totalCompletedDrills: Int
-        let totalDrills: Int
-    }
 
     
     // Adding completed session into allCompletedSessions array
@@ -164,21 +158,7 @@ class MainAppModel: ObservableObject {
         }
     }
     
-    
-    // Save to UserDefaults
-    func saveCompletedSessions() {
-        if let encoded = try? JSONEncoder().encode(allCompletedSessions) {
-            UserDefaults.standard.set(encoded, forKey: "completedSessions")
-        }
-    }
-    
-    // Decode from UserDefaults
-    func loadCompletedSessions() {
-        if let data = UserDefaults.standard.data(forKey: "completedSessions"),
-           let decoded = try? JSONDecoder().decode([CompletedSession].self, from: data) {
-            allCompletedSessions = decoded
-        }
-    }
+
     
     // Sets the highest streak
     func highestStreakSetter(streak: Int) {
