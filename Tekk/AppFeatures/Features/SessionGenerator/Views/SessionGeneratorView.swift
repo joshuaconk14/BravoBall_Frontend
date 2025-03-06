@@ -26,6 +26,7 @@ struct SessionGeneratorView: View {
                 .ignoresSafeArea()
 
             homePage
+            
 
             // Golden button
             if sessionReady()  {
@@ -119,6 +120,24 @@ struct SessionGeneratorView: View {
                             
                             SkillSearchBar(appModel: appModel, sessionModel: sessionModel, searchText: $searchSkillsText)
                                 .padding(.top, 3)
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+//                            
+//                            // MARK: Test
+//                            SaveSesTestButton(sessionModel: sessionModel)
+                            
+                            
+                            
+                            
+                            
+                            
+                            
                             
                             Spacer()
                         }

@@ -88,7 +88,7 @@ final class SecureStorageService {
         return result as? Data
     }
     
-    // 6. Public interface
+    // main saving function, will run storage type enum with T types (any type)
     func save<T: Encodable>(_ item: T, key: String, storage: StorageType) throws {
         let encryptedData = try encryption.encrypt(item)
         
@@ -102,6 +102,8 @@ final class SecureStorageService {
         }
     }
     
+    
+    // main loading function, will run storage type enum with T types (any type)
     func load<T: Decodable>(_ type: T.Type, key: String, storage: StorageType) throws -> T? {
         let encryptedData: Data?
         

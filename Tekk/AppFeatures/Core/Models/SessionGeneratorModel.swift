@@ -13,11 +13,15 @@ class SessionGeneratorModel: ObservableObject {
     
     // Initialize with user's onboarding data
     init(onboardingData: OnboardingModel.OnboardingData, secureStorage: SecureStorageService) {
+        self.secureStorage = secureStorage
+        
         selectedDifficulty = onboardingData.trainingExperience.lowercased()
         if let location = onboardingData.trainingLocation.first {
             selectedLocation = location
         }
         selectedEquipment = Set(onboardingData.availableEquipment)
+        
+
         
         switch onboardingData.dailyTrainingTime {
         case "Less than 15 minutes": selectedTime = "15min"
@@ -28,8 +32,7 @@ class SessionGeneratorModel: ObservableObject {
         default: selectedTime = "1h"
         }
         
-        self.secureStorage = secureStorage
-        loadSavedSession()
+//        loadSavedSession()
     }
     
     
@@ -144,32 +147,96 @@ class SessionGeneratorModel: ObservableObject {
     
     
     
-    // 4. Add save/load methods
-    private func saveCurrentSession() {
-        do {
-            try secureStorage.save(
-                orderedSessionDrills,
-                key: "current_session",
-                storage: .fileSystem
-            )
-        } catch {
-            print("Failed to save session: \(error)")
-        }
-    }
-    
-    private func loadSavedSession() {
-        do {
-            if let saved = try secureStorage.load(
-                [EditableDrillModel].self,
-                key: "current_session",
-                storage: .fileSystem
-            ) {
-                orderedSessionDrills = saved
-            }
-        } catch {
-            print("Failed to load session: \(error)")
-        }
-    }
+//    func saveSession() async {
+//            guard let url = URL(string: "YOUR_API_URL/sessions") else { return }
+//            
+//            do {
+//                var request = URLRequest(url: url)
+//                request.httpMethod = "POST"
+//                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//                request.setValue(UserDefaults.standard.string(forKey: "authToken"), forHTTPHeaderField: "Authorization")
+//                
+//                let sessionData = try JSONEncoder().encode([
+//                    "userId": userId,
+//                    "drills": orderedSessionDrills.map { drill in
+//                        [
+//                            "title": drill.drill.title,
+//                            "skill": drill.drill.skill,
+//                            "sets": String(drill.totalSets),
+//                            "reps": String(drill.totalReps),
+//                            "duration": String(drill.totalDuration),
+//                            "description": drill.drill.description,
+//                            "tips": drill.drill.tips.joined(separator: ","),
+//                            "equipment": drill.drill.equipment.joined(separator: ","),
+//                            "trainingStyle": drill.drill.trainingStyle,
+//                            "difficulty": drill.drill.difficulty,
+//                            "isCompleted": String(drill.isCompleted),
+//                            "setsDone": String(drill.setsDone)
+//                        ]
+//                    }
+//                ])
+//                request.httpBody = sessionData
+//                
+//                let (_, response) = try await URLSession.shared.data(for: request)
+//                
+//                if let httpResponse = response as? HTTPURLResponse,
+//                   httpResponse.statusCode == 200 {
+//                    print("✅ Session saved to PostgreSQL")
+//                    
+//                    // Also save locally for offline access
+//                    try secureStorage.save(
+//                        orderedSessionDrills,
+//                        key: "current_session_\(userId)",
+//                        storage: .fileSystem
+//                    )
+//                }
+//            } catch {
+//                print("❌ Failed to save session: \(error)")
+//                
+//                // Save locally if network fails
+//                try? secureStorage.save(
+//                    orderedSessionDrills,
+//                    key: "current_session_\(userId)",
+//                    storage: .fileSystem
+//                )
+//            }
+//        }
+        
+//        func loadSavedSession() {
+//            Task {
+//                do {
+//                    // Try to load from API first
+//                    guard let url = URL(string: "YOUR_API_URL/sessions/current") else { return }
+//                    
+//                    var request = URLRequest(url: url)
+//                    request.setValue(UserDefaults.standard.string(forKey: "authToken"), forHTTPHeaderField: "Authorization")
+//                    
+//                    let (data, response) = try await URLSession.shared.data(for: request)
+//                    
+//                    if let httpResponse = response as? HTTPURLResponse,
+//                       httpResponse.statusCode == 200,
+//                       let sessionData = try? JSONDecoder().decode([EditableDrillModel].self, from: data) {
+//                        await MainActor.run {
+//                            self.orderedSessionDrills = sessionData
+//                        }
+//                        return
+//                    }
+//                } catch {
+//                    print("❌ Failed to load from API: \(error)")
+//                }
+//                
+//                // Fallback to local storage if API fails
+//                if let savedSession = try? secureStorage.load(
+//                    [EditableDrillModel].self,
+//                    key: "current_session_\(userId)",
+//                    storage: .fileSystem
+//                ) {
+//                    await MainActor.run {
+//                        self.orderedSessionDrills = savedSession
+//                    }
+//                }
+//            }
+//        }
     
     
     

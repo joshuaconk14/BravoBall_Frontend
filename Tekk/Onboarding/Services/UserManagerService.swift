@@ -1,16 +1,16 @@
 //
-//  UserInfoService.swift
+//  UserManagerService.swift
 //  BravoBall
 //
-//  Created by Joshua Conklin on 1/9/25.
+//  Created by Joshua Conklin on 3/5/25.
 //
-// retrieves user info from the backend and stores it in Keychain wrapper
 
 import Foundation
 import SwiftUI
 import SwiftKeychainWrapper
 
 
+// User caching (keychain)
 class UserManager: ObservableObject {
 
     
