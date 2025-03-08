@@ -1,10 +1,3 @@
-//
-//  CacheManager.swift
-//  BravoBall
-//
-//  Created by Joshua Conklin on 3/7/25.
-//
-
 import Foundation
 
 // Cache keys
@@ -27,7 +20,6 @@ class CacheManager {
         cache.countLimit = 100 // Adjust based on your needs
         return cache
     }()
-    
     
     private init() {}
     
@@ -85,4 +77,4 @@ class CacheManager {
         }
         return Date().timeIntervalSince(lastUpdated) > timeInterval
     }
-}
+} 

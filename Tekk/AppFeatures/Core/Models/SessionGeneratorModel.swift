@@ -10,34 +10,53 @@ import Foundation
 // MARK: Session model
 class SessionGeneratorModel: ObservableObject {
     
+    private let cacheManager = CacheManager.shared
+    
     // FilterTypes
-    @Published var selectedTime: String?
-    @Published var selectedEquipment: Set<String> = []
-    @Published var selectedTrainingStyle: String?
-    @Published var selectedLocation: String?
-    @Published var selectedDifficulty: String?
+    @Published var selectedTime: String? {
+        didSet { saveUserPreferences() }
+    }
+    @Published var selectedEquipment: Set<String> = [] {
+        didSet { saveUserPreferences() }
+    }
+    @Published var selectedTrainingStyle: String? {
+        didSet { saveUserPreferences() }
+    }
+    @Published var selectedLocation: String? {
+        didSet { saveUserPreferences() }
+    }
+    @Published var selectedDifficulty: String? {
+        didSet { saveUserPreferences() }
+    }
     @Published var selectedSkills: Set<String> = [] {
         didSet {
+            saveUserPreferences()
             updateDrills()
         }
     }
 
     // SessionGenerator Drills storage
-    @Published var orderedSessionDrills: [EditableDrillModel] = []
+    @Published var orderedSessionDrills: [EditableDrillModel] = [] {
+        didSet { saveOrderedDrills() }
+    }
     @Published var selectedDrills: [DrillModel] = []
     @Published var selectedDrillForEditing: EditableDrillModel?
     @Published var selectedRecommendedDrill: DrillModel?
     @Published var recommendedDrills: [DrillModel] = []
     
     // Saved Drills storage
-    @Published var savedDrills: [GroupModel] = []
+    @Published var savedDrills: [GroupModel] = [] {
+        didSet { saveSavedDrills() }
+    }
     
     // Liked drills storage
     @Published var likedDrillsGroup: GroupModel = GroupModel(
         name: "Liked Drills",
         description: "Your favorite drills",
         drills: []
-    )
+    ) {
+        didSet { saveLikedDrills() }
+    }
     
     // Saved filters storage
     @Published var allSavedFilters: [SavedFiltersModel] = []
@@ -45,19 +64,27 @@ class SessionGeneratorModel: ObservableObject {
     
     // Initialize with user's onboarding data
     init(onboardingData: OnboardingModel.OnboardingData) {
-        selectedDifficulty = onboardingData.trainingExperience.lowercased()
-        if let location = onboardingData.trainingLocation.first {
-            selectedLocation = location
-        }
-        selectedEquipment = Set(onboardingData.availableEquipment)
+        loadCachedData()
         
-        switch onboardingData.dailyTrainingTime {
-        case "Less than 15 minutes": selectedTime = "15min"
-        case "15-30 minutes": selectedTime = "30min"
-        case "30-60 minutes": selectedTime = "1h"
-        case "1-2 hours": selectedTime = "1h30"
-        case "More than 2 hours": selectedTime = "2h+"
-        default: selectedTime = "1h"
+        // Only set these values if they're not already loaded from cache
+        if selectedDifficulty == nil {
+            selectedDifficulty = onboardingData.trainingExperience.lowercased()
+        }
+        if selectedLocation == nil && !onboardingData.trainingLocation.isEmpty {
+            selectedLocation = onboardingData.trainingLocation.first
+        }
+        if selectedEquipment.isEmpty {
+            selectedEquipment = Set(onboardingData.availableEquipment)
+        }
+        if selectedTime == nil {
+            switch onboardingData.dailyTrainingTime {
+            case "Less than 15 minutes": selectedTime = "15min"
+            case "15-30 minutes": selectedTime = "30min"
+            case "30-60 minutes": selectedTime = "1h"
+            case "1-2 hours": selectedTime = "1h30"
+            case "More than 2 hours": selectedTime = "2h+"
+            default: selectedTime = "1h"
+            }
         }
     }
     
@@ -310,14 +337,85 @@ class SessionGeneratorModel: ObservableObject {
         selectedDifficulty = filter.savedDifficulty
     }
     
+    // MARK: - Cache Operations
+    
+    private func loadCachedData() {
+        // Load user preferences
+        if let preferences: UserPreferences = cacheManager.retrieve(forKey: CacheKey.userPreferences.rawValue) {
+            selectedTime = preferences.time
+            selectedEquipment = preferences.equipment
+            selectedTrainingStyle = preferences.trainingStyle
+            selectedLocation = preferences.location
+            selectedDifficulty = preferences.difficulty
+            selectedSkills = preferences.skills
+        }
+        
+        // Load ordered drills
+        if let drills: [EditableDrillModel] = cacheManager.retrieve(forKey: CacheKey.orderedDrills.rawValue) {
+            orderedSessionDrills = drills
+        }
+        
+        // Load saved drills
+        if let drills: [GroupModel] = cacheManager.retrieve(forKey: CacheKey.savedDrills.rawValue) {
+            savedDrills = drills
+        }
+        
+        // Load liked drills
+        if let liked: GroupModel = cacheManager.retrieve(forKey: CacheKey.likedDrills.rawValue) {
+            likedDrillsGroup = liked
+        }
+    }
+    
+    private func saveUserPreferences() {
+        let preferences = UserPreferences(
+            time: selectedTime,
+            equipment: selectedEquipment,
+            trainingStyle: selectedTrainingStyle,
+            location: selectedLocation,
+            difficulty: selectedDifficulty,
+            skills: selectedSkills
+        )
+        cacheManager.cache(preferences, forKey: CacheKey.userPreferences.rawValue)
+    }
+    
+    private func saveOrderedDrills() {
+        cacheManager.cache(orderedSessionDrills, forKey: CacheKey.orderedDrills.rawValue)
+    }
+    
+    private func saveSavedDrills() {
+        cacheManager.cache(savedDrills, forKey: CacheKey.savedDrills.rawValue)
+    }
+    
+    private func saveLikedDrills() {
+        cacheManager.cache(likedDrillsGroup, forKey: CacheKey.likedDrills.rawValue)
+    }
+    
+    // MARK: - Helper Structs
+    
+    private struct UserPreferences: Codable {
+        let time: String?
+        let equipment: Set<String>
+        let trainingStyle: String?
+        let location: String?
+        let difficulty: String?
+        let skills: Set<String>
+    }
+    
 }
 
 // Group model
-struct GroupModel: Identifiable {
-    let id = UUID()
+struct GroupModel: Identifiable, Codable {
+    let id: UUID
     let name: String
     let description: String
     var drills: [DrillModel]
+    
+    init(id: UUID = UUID(), name: String, description: String, drills: [DrillModel]) {
+        self.id = id
+        self.name = name
+        self.description = description
+        self.drills = drills
+    }
 }
 
 
