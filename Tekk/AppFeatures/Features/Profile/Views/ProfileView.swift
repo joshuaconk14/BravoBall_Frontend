@@ -12,6 +12,7 @@ struct ProfileView: View {
     @ObservedObject var model: OnboardingModel
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var userManager: UserManager
+    @ObservedObject var sessionModel: SessionGeneratorModel
     @Environment(\.presentationMode) var presentationMode // ?
     
     
@@ -217,6 +218,9 @@ struct ProfileView: View {
         
         // Clear UserDefaults
         UserDefaults.standard.removeObject(forKey: "accessToken")
+        
+        // Clear user's cache
+        CacheManager.shared.clearUserCache()
     }
     
     
@@ -289,26 +293,26 @@ struct ProfileView: View {
 }
 
 // Preview code
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        let mockOnboardModel = OnboardingModel()
-        let mockAppModel = MainAppModel()
-        let mockUserManager = UserManager()
-                
-        // Create a User instance first
-        mockUserManager.updateUserKeychain(
-            email: "jordinhoconk@gmail.com",
-            firstName: "Jordan",
-            lastName: "Conklin"
-        )
-        
-        return Group {
-            ProfileView(model: mockOnboardModel, appModel: mockAppModel, userManager: mockUserManager)
-                .previewDisplayName("Light Mode")
-            
-            ProfileView(model: mockOnboardModel, appModel: mockAppModel, userManager: mockUserManager)
-                .preferredColorScheme(.dark)
-                .previewDisplayName("Dark Mode")
-        }
-    }
-}
+//struct ProfileView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let mockOnboardModel = OnboardingModel()
+//        let mockAppModel = MainAppModel()
+//        let mockUserManager = UserManager()
+//                
+//        // Create a User instance first
+//        mockUserManager.updateUserKeychain(
+//            email: "jordinhoconk@gmail.com",
+//            firstName: "Jordan",
+//            lastName: "Conklin"
+//        )
+//        
+//        return Group {
+//            ProfileView(model: mockOnboardModel, appModel: mockAppModel, userManager: mockUserManager, sessionModel: SessionGeneratorModel())
+//                .previewDisplayName("Light Mode")
+//            
+//            ProfileView(model: mockOnboardModel, appModel: mockAppModel, userManager: mockUserManager, sessionModel: SessionGeneratorModel())
+//                .preferredColorScheme(.dark)
+//                .previewDisplayName("Dark Mode")
+//        }
+//    }
+//}

@@ -1,3 +1,10 @@
+//
+//  GroupModel.swift
+//  BravoBall
+//
+//  Created by Joshua Conklin on 3/7/25.
+//
+
 import Foundation
 
 struct GroupModel: Identifiable, Codable {

@@ -70,6 +70,8 @@ struct CompletionView: View {
                     
                     print("Data submitted")
                     print("Access token: \(response.access_token)")
+                    
+                    // TODO: these should be cleared after onboarding
                     print("Email: \(model.onboardingData.email)")
                     print("First Name: \(model.onboardingData.firstName)")
                     print("Last Name: \(model.onboardingData.lastName)")

@@ -26,12 +26,22 @@ struct ContentView: View {
         Group {
             if onboardingModel.isLoggedIn {
                 MainTabView(model: onboardingModel, appModel: appModel, userManager: userInfoManager, sessionModel: sessionGenModel)
+                    .onAppear {
+                        // Reload user data when login state changes to true
+                        sessionGenModel.reloadUserData()
+                    }
             } else {
                 OnboardingView(model: onboardingModel, appModel: appModel, userManager: userInfoManager, sessionModel: sessionGenModel)
             }
 //              DragDropTest()
         }
         .preferredColorScheme(.light)
+        .onAppear {
+            // Test cache functionality
+            #if DEBUG
+            sessionGenModel.testCacheOperations()
+            #endif
+        }
     }
 }
 

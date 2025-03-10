@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftKeychainWrapper
 
 // MARK: Session model
 class SessionGeneratorModel: ObservableObject {
@@ -337,32 +338,82 @@ class SessionGeneratorModel: ObservableObject {
         selectedDifficulty = filter.savedDifficulty
     }
     
+    
+    
+    
+    
+    
+    
+    
     // MARK: - Cache Operations
     
+    // Public function to reload cache data after login
+    func reloadUserData() {
+        print("\n🔄 Reloading data for new user login...")
+        // Clear current data first
+        orderedSessionDrills = []
+        savedDrills = []
+        likedDrillsGroup = GroupModel(name: "Liked Drills", description: "Your favorite drills", drills: [])
+        selectedDrills = []
+        
+        // Load fresh data from cache
+        loadCachedData()
+    }
+    
     private func loadCachedData() {
+        print("\n📱 Loading cached data for current user...")
+        let userEmail = KeychainWrapper.standard.string(forKey: "userEmail") ?? "no user"
+        print("\n👤 USER SESSION INFO:")
+        print("----------------------------------------")
+        print("Current user email: \(userEmail)")
+        print("Cache key being used: \(CacheKey.orderedDrills.forUser(userEmail))")
+        print("----------------------------------------")
+        
+        // Load ordered drills
+        if let drills: [EditableDrillModel] = cacheManager.retrieve(forKey: .orderedDrills) {
+            print("\n📋 ORDERED DRILLS FOR USER \(userEmail):")
+            print("----------------------------------------")
+            print("Number of drills found: \(drills.count)")
+            print("Drill titles:")
+            drills.enumerated().forEach { index, drill in
+                print("  \(index + 1). \(drill.drill.title) (Completed: \(drill.isCompleted))")
+            }
+            print("----------------------------------------")
+            orderedSessionDrills = drills
+        } else {
+            print("\n📋 ORDERED DRILLS FOR USER \(userEmail):")
+            print("----------------------------------------")
+            print("No drills found in cache")
+            print("----------------------------------------")
+        }
+        
         // Load user preferences
-        if let preferences: UserPreferences = cacheManager.retrieve(forKey: CacheKey.userPreferences.rawValue) {
+        if let preferences: UserPreferences = cacheManager.retrieve(forKey: .userPreferences) {
             selectedTime = preferences.time
             selectedEquipment = preferences.equipment
             selectedTrainingStyle = preferences.trainingStyle
             selectedLocation = preferences.location
             selectedDifficulty = preferences.difficulty
             selectedSkills = preferences.skills
-        }
-        
-        // Load ordered drills
-        if let drills: [EditableDrillModel] = cacheManager.retrieve(forKey: CacheKey.orderedDrills.rawValue) {
-            orderedSessionDrills = drills
+            print("✅ Successfully loaded user preferences from cache")
+        } else {
+            print("ℹ️ No user preferences found in cache")
         }
         
         // Load saved drills
-        if let drills: [GroupModel] = cacheManager.retrieve(forKey: CacheKey.savedDrills.rawValue) {
+        if let drills: [GroupModel] = cacheManager.retrieve(forKey: .savedDrills) {
             savedDrills = drills
+            print("✅ Successfully loaded saved drills from cache")
+        } else {
+            print("ℹ️ No saved drills found in cache")
         }
         
         // Load liked drills
-        if let liked: GroupModel = cacheManager.retrieve(forKey: CacheKey.likedDrills.rawValue) {
+        if let liked: GroupModel = cacheManager.retrieve(forKey: .likedDrills) {
             likedDrillsGroup = liked
+            print("✅ Successfully loaded liked drills from cache")
+        } else {
+            print("ℹ️ No liked drills found in cache")
         }
     }
     
@@ -375,47 +426,116 @@ class SessionGeneratorModel: ObservableObject {
             difficulty: selectedDifficulty,
             skills: selectedSkills
         )
-        cacheManager.cache(preferences, forKey: CacheKey.userPreferences.rawValue)
+        cacheManager.cache(preferences, forKey: .userPreferences)
     }
     
+    // cache updated changes
     private func saveOrderedDrills() {
-        cacheManager.cache(orderedSessionDrills, forKey: CacheKey.orderedDrills.rawValue)
+        print("\n💾 Saving ordered drills to cache...")
+        print("Number of drills to save: \(orderedSessionDrills.count)")
+        cacheManager.cache(orderedSessionDrills, forKey: .orderedDrills)
     }
     
+    // cache updated changes
     private func saveSavedDrills() {
-        cacheManager.cache(savedDrills, forKey: CacheKey.savedDrills.rawValue)
+        cacheManager.cache(savedDrills, forKey: .savedDrills)
     }
     
+    // cache updated changes
     private func saveLikedDrills() {
-        cacheManager.cache(likedDrillsGroup, forKey: CacheKey.likedDrills.rawValue)
+        cacheManager.cache(likedDrillsGroup, forKey: .likedDrills)
     }
     
-    // MARK: - Helper Structs
-    
-    private struct UserPreferences: Codable {
-        let time: String?
-        let equipment: Set<String>
-        let trainingStyle: String?
-        let location: String?
-        let difficulty: String?
-        let skills: Set<String>
+    // MARK: - Cache Testing
+    func testCacheOperations() {
+        print("\n🧪 Starting cache tests...")
+        
+        // Test 1: Test ordered drills caching
+        print("\n📝 Test 1: Testing ordered drills caching")
+        
+        // Create some test drills
+        let testDrill = EditableDrillModel(
+            drill: DrillModel(
+                title: "Test Drill",
+                skill: "Testing",
+                sets: 3,
+                reps: 10,
+                duration: 15,
+                description: "Test description",
+                tips: ["Tip 1", "Tip 2"],
+                equipment: ["Test equipment"],
+                trainingStyle: "Test style",
+                difficulty: "Beginner"
+            ),
+            setsDone: 0,
+            totalSets: 3,
+            totalReps: 10,
+            totalDuration: 15,
+            isCompleted: false
+        )
+        
+        // Print current user
+        let userEmail = KeychainWrapper.standard.string(forKey: "userEmail") ?? "no user"
+        print("\n👤 Current user: \(userEmail)")
+        
+        // Save test drills
+        orderedSessionDrills = [testDrill]
+        print("Saving drill: \(testDrill.drill.title)")
+        saveOrderedDrills()
+        
+        // Clear memory
+        orderedSessionDrills = []
+        print("Cleared orderedSessionDrills from memory")
+        
+        // Load from cache
+        loadCachedData()
+        
+        // Verify
+        if !orderedSessionDrills.isEmpty {
+            print("✅ Successfully retrieved ordered drills from cache")
+            print("Number of drills: \(orderedSessionDrills.count)")
+            print("First drill title: \(orderedSessionDrills[0].drill.title)")
+            
+            // Verify the drill data is correct
+            let retrievedDrill = orderedSessionDrills[0]
+            if retrievedDrill == testDrill {
+                print("✅ Retrieved drill matches saved drill")
+            } else {
+                print("❌ Retrieved drill does not match saved drill")
+                print("Original drill: \(testDrill)")
+                print("Retrieved drill: \(retrievedDrill)")
+            }
+        } else {
+            print("❌ Failed to retrieve ordered drills from cache")
+        }
+        
+        // Test 2: Clear cache and verify it's cleared
+        print("\n📝 Test 2: Testing cache clearing")
+        cacheManager.clearCache(forKey: .orderedDrills)
+        
+        // Verify it's cleared
+        orderedSessionDrills = []
+        loadCachedData()
+        if orderedSessionDrills.isEmpty {
+            print("✅ Cache successfully cleared")
+        } else {
+            print("❌ Cache not cleared properly")
+        }
+        
+        print("\n🧪 Cache tests completed!")
     }
     
 }
 
-// Group model
-struct GroupModel: Identifiable, Codable {
-    let id: UUID
-    let name: String
-    let description: String
-    var drills: [DrillModel]
+// MARK: - Helper Structs
     
-    init(id: UUID = UUID(), name: String, description: String, drills: [DrillModel]) {
-        self.id = id
-        self.name = name
-        self.description = description
-        self.drills = drills
-    }
+private struct UserPreferences: Codable {
+    let time: String?
+    let equipment: Set<String>
+    let trainingStyle: String?
+    let location: String?
+    let difficulty: String?
+    let skills: Set<String>
 }
 
 

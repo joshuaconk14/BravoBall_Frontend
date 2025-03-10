@@ -59,7 +59,8 @@
 		4399B7392D6D901B00DA5E84 /* ToastMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B7382D6D901300DA5E84 /* ToastMessageModel.swift */; };
 		4399B7422D6D92C100DA5E84 /* FilterTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B7412D6D92BE00DA5E84 /* FilterTypes.swift */; };
 		43AFAE852D6168F800B61982 /* SessionCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFAE842D6168F100B61982 /* SessionCompleteView.swift */; };
-		43B687792D7C1AF7009CCA8C /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B687782D7C1AF3009CCA8C /* CacheManager.swift */; };
+		43B6877D2D7C2394009CCA8C /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6877C2D7C2391009CCA8C /* CacheManager.swift */; };
+		43B687812D7C23DA009CCA8C /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B687802D7C23D7009CCA8C /* GroupModel.swift */; };
 		43BFA9D62D3F38B300B12A6F /* Golden_Button.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9D52D3F38B300B12A6F /* Golden_Button.riv */; };
 		43BFA9E62D40885000B12A6F /* Plus_Button.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9E52D40885000B12A6F /* Plus_Button.riv */; };
 		43BFA9E82D408B8100B12A6F /* Arrow.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9E72D408B8100B12A6F /* Arrow.riv */; };
@@ -183,7 +184,8 @@
 		4399B7382D6D901300DA5E84 /* ToastMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessageModel.swift; sourceTree = "<group>"; };
 		4399B7412D6D92BE00DA5E84 /* FilterTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTypes.swift; sourceTree = "<group>"; };
 		43AFAE842D6168F100B61982 /* SessionCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteView.swift; sourceTree = "<group>"; };
-		43B687782D7C1AF3009CCA8C /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
+		43B6877C2D7C2391009CCA8C /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
+		43B687802D7C23D7009CCA8C /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
 		43BFA9D52D3F38B300B12A6F /* Golden_Button.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Golden_Button.riv; sourceTree = "<group>"; };
 		43BFA9E52D40885000B12A6F /* Plus_Button.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Plus_Button.riv; sourceTree = "<group>"; };
 		43BFA9E72D408B8100B12A6F /* Arrow.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Arrow.riv; sourceTree = "<group>"; };
@@ -369,7 +371,6 @@
 		178208F52D2E05FE00246494 /* AppFeatures */ = {
 			isa = PBXGroup;
 			children = (
-				43B687772D7C1AEE009CCA8C /* NewTests */,
 				4399B7142D6D794000DA5E84 /* Core */,
 				4399B7192D6D79D100DA5E84 /* Features */,
 				4399B7222D6D7A3C00DA5E84 /* Shared */,
@@ -398,6 +399,7 @@
 		4399B70F2D6D741100DA5E84 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				43B6877C2D7C2391009CCA8C /* CacheManager.swift */,
 				43C5FC402D6DB59A0064E7D5 /* DrillModel.swift */,
 				43524E762D4D994400AD897A /* SessionGeneratorModel.swift */,
 				430FD6CC2D3064850016D520 /* MainAppModel.swift */,
@@ -464,6 +466,7 @@
 		4399B71C2D6D79E800DA5E84 /* SavedDrills */ = {
 			isa = PBXGroup;
 			children = (
+				43B687822D7C2DE6009CCA8C /* Models */,
 				4399B71F2D6D7A0400DA5E84 /* Views */,
 				43C5FC972D6DD5750064E7D5 /* Components */,
 			);
@@ -600,12 +603,12 @@
 			path = RiveAssets;
 			sourceTree = "<group>";
 		};
-		43B687772D7C1AEE009CCA8C /* NewTests */ = {
+		43B687822D7C2DE6009CCA8C /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				43B687782D7C1AF3009CCA8C /* CacheManager.swift */,
+				43B687802D7C23D7009CCA8C /* GroupModel.swift */,
 			);
-			path = NewTests;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		43C5FC422D6DB6D20064E7D5 /* ToastMessage */ = {
@@ -923,6 +926,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43C5FC602D6DC11A0064E7D5 /* SearchSkillsView.swift in Sources */,
+				43B687812D7C23DA009CCA8C /* GroupModel.swift in Sources */,
 				43C5FC642D6DC1670064E7D5 /* FilterButton.swift in Sources */,
 				43C5FC6C2D6DCC520064E7D5 /* DrillCard.swift in Sources */,
 				430FD6CD2D30648A0016D520 /* MainAppModel.swift in Sources */,
@@ -974,7 +978,7 @@
 				43C5FC522D6DBCF00064E7D5 /* AllGroupsDisplay.swift in Sources */,
 				4399B7422D6D92C100DA5E84 /* FilterTypes.swift in Sources */,
 				17595A9F2D3B3B320015F35D /* ProgressionView.swift in Sources */,
-				43B687792D7C1AF7009CCA8C /* CacheManager.swift in Sources */,
+				43B6877D2D7C2394009CCA8C /* CacheManager.swift in Sources */,
 				43C5FC492D6DB84F0064E7D5 /* EditableDrillModel.swift in Sources */,
 				43C5FC742D6DCCF30064E7D5 /* GeneratedDrillsSection.swift in Sources */,
 				4399B6CE2D67CE3B00DA5E84 /* ToastMessageView.swift in Sources */,
