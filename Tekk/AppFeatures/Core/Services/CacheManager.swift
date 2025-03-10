@@ -9,12 +9,12 @@ import Foundation
 import SwiftKeychainWrapper
 
 // Cache keys
-enum CacheKey: String {
+enum CacheKey: String, CaseIterable {
     case version = "cache_version"
     case orderedDrills = "orderedDrills"
     case savedDrills = "savedDrills"
     case likedDrills = "likedDrills"
-    case userPreferences = "userPreferences"
+    case filterGroups = "filterGroups"
     case lastUpdated = "lastUpdated_"
     case cacheSize = "cache_size"
     
@@ -47,6 +47,7 @@ class CacheManager {
         setupCache()
     }
     
+    // makes sure cache data is up-to-date and conforms to newest version
     private func setupCache() {
         // Initialize or validate cache version
         let storedVersion = userDefaults.string(forKey: CacheKey.version.rawValue)
@@ -229,11 +230,15 @@ class CacheManager {
         let cacheKeys = allKeys.filter { !$0.hasPrefix(CacheKey.lastUpdated.rawValue) }
         
         // Sort by timestamp and remove oldest entries until under size limit
-        for key in cacheKeys {
+        for stringKey in cacheKeys {
             if currentCacheSize <= maxCacheSize * 3/4 { // Clear until 75% of max
                 break
             }
-            clearCache(forKey: key as! CacheKey)
+            
+            // Convert string key back to CacheKey if possible
+            if let cacheKey = CacheKey.allCases.first(where: { $0.rawValue == stringKey }) {
+                clearCache(forKey: cacheKey)
+            }
         }
     }
     
@@ -244,31 +249,5 @@ class CacheManager {
         return formatter.string(fromByteCount: Int64(bytes))
     }
     
-    // MARK: - Debug Methods
     
-    func dumpCacheContents() {
-        print("\n📦 Cache Contents Dump:")
-        let userEmail = getCurrentUserEmail()
-        print("Current user: \(userEmail)")
-        
-        let allKeys = Array(userDefaults.dictionaryRepresentation().keys)
-        let userKeys = allKeys.filter { $0.hasPrefix(userEmail) }
-        
-        print("\nUser-specific keys:")
-        for key in userKeys {
-            if let data = userDefaults.data(forKey: key) {
-                print("Key: \(key)")
-                print("Size: \(formatSize(data.count))")
-                if let lastUpdated = userDefaults.object(forKey: CacheKey.lastUpdated.rawValue + key) as? Date {
-                    print("Last updated: \(lastUpdated)")
-                }
-            }
-        }
-        
-        print("\nMemory cache info:")
-        print("Count limit: \(memoryCache.countLimit)")
-        print("Total cost limit: \(memoryCache.totalCostLimit)")
-        
-        print("\nTotal cache size: \(formatSize(currentCacheSize))")
-    }
 }

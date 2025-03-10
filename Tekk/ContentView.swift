@@ -36,12 +36,6 @@ struct ContentView: View {
 //              DragDropTest()
         }
         .preferredColorScheme(.light)
-        .onAppear {
-            // Test cache functionality
-            #if DEBUG
-            sessionGenModel.testCacheOperations()
-            #endif
-        }
     }
 }
 

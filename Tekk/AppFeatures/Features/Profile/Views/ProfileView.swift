@@ -219,8 +219,12 @@ struct ProfileView: View {
         // Clear UserDefaults
         UserDefaults.standard.removeObject(forKey: "accessToken")
         
-        // Clear user's cache
+        // Clear user's cache and data
         CacheManager.shared.clearUserCache()
+        sessionModel.clearUserData()
+        
+        // Reset to home tab
+        appModel.mainTabSelected = 0
     }
     
     

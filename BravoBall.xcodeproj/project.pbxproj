@@ -46,7 +46,6 @@
 		43985E5A2CB5B0BB00BE2AB6 /* Bravo_Panting.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */; };
 		4399B6CE2D67CE3B00DA5E84 /* ToastMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6CD2D67CE3500DA5E84 /* ToastMessageView.swift */; };
 		4399B6D92D6930AB00DA5E84 /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6D72D6930AB00DA5E84 /* OnboardingService.swift */; };
-		4399B6DA2D6930AB00DA5E84 /* UserInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6D82D6930AB00DA5E84 /* UserInfoService.swift */; };
 		4399B6E62D693C3100DA5E84 /* EditingDrillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6E52D693C2B00DA5E84 /* EditingDrillView.swift */; };
 		4399B6E92D69407F00DA5E84 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6E82D69407A00DA5E84 /* GroupDetailView.swift */; };
 		4399B6EB2D6942AC00DA5E84 /* DrillRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6EA2D6942A800DA5E84 /* DrillRow.swift */; };
@@ -82,9 +81,6 @@
 		43C5FC412D6DB59D0064E7D5 /* DrillModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC402D6DB59A0064E7D5 /* DrillModel.swift */; };
 		43C5FC442D6DB7E20064E7D5 /* SkillTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC432D6DB7DF0064E7D5 /* SkillTypes.swift */; };
 		43C5FC492D6DB84F0064E7D5 /* EditableDrillModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC482D6DB84B0064E7D5 /* EditableDrillModel.swift */; };
-		43C5FC4B2D6DBC8A0064E7D5 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC4A2D6DBC860064E7D5 /* NetworkService.swift */; };
-		43C5FC4D2D6DBC940064E7D5 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC4C2D6DBC900064E7D5 /* StorageService.swift */; };
-		43C5FC4F2D6DBC9F0064E7D5 /* SessionGenProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC4E2D6DBC9A0064E7D5 /* SessionGenProtocol.swift */; };
 		43C5FC522D6DBCF00064E7D5 /* AllGroupsDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC512D6DBCEA0064E7D5 /* AllGroupsDisplay.swift */; };
 		43C5FC542D6DBD0E0064E7D5 /* GroupCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC532D6DBD0B0064E7D5 /* GroupCard.swift */; };
 		43C5FC562D6DBD310064E7D5 /* LikedGroupCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC552D6DBD2C0064E7D5 /* LikedGroupCard.swift */; };
@@ -109,6 +105,7 @@
 		43C5FC832D6DCF1B0064E7D5 /* AllDrillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC822D6DCF160064E7D5 /* AllDrillsView.swift */; };
 		43C5FC852D6DCF530064E7D5 /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC842D6DCF4F0064E7D5 /* TabButton.swift */; };
 		43C5FC9C2D6E54B90064E7D5 /* CircularScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC9B2D6E54B60064E7D5 /* CircularScore.swift */; };
+		43FCC7232D7F684900005ABB /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FCC7222D7F684400005ABB /* UserManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,7 +168,6 @@
 		43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bravo_Panting.riv; sourceTree = "<group>"; };
 		4399B6CD2D67CE3500DA5E84 /* ToastMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessageView.swift; sourceTree = "<group>"; };
 		4399B6D72D6930AB00DA5E84 /* OnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingService.swift; sourceTree = "<group>"; };
-		4399B6D82D6930AB00DA5E84 /* UserInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoService.swift; sourceTree = "<group>"; };
 		4399B6E52D693C2B00DA5E84 /* EditingDrillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingDrillView.swift; sourceTree = "<group>"; };
 		4399B6E82D69407A00DA5E84 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
 		4399B6EA2D6942A800DA5E84 /* DrillRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillRow.swift; sourceTree = "<group>"; };
@@ -207,9 +203,6 @@
 		43C5FC402D6DB59A0064E7D5 /* DrillModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillModel.swift; sourceTree = "<group>"; };
 		43C5FC432D6DB7DF0064E7D5 /* SkillTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillTypes.swift; sourceTree = "<group>"; };
 		43C5FC482D6DB84B0064E7D5 /* EditableDrillModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableDrillModel.swift; sourceTree = "<group>"; };
-		43C5FC4A2D6DBC860064E7D5 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		43C5FC4C2D6DBC900064E7D5 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
-		43C5FC4E2D6DBC9A0064E7D5 /* SessionGenProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionGenProtocol.swift; sourceTree = "<group>"; };
 		43C5FC512D6DBCEA0064E7D5 /* AllGroupsDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsDisplay.swift; sourceTree = "<group>"; };
 		43C5FC532D6DBD0B0064E7D5 /* GroupCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCard.swift; sourceTree = "<group>"; };
 		43C5FC552D6DBD2C0064E7D5 /* LikedGroupCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedGroupCard.swift; sourceTree = "<group>"; };
@@ -234,6 +227,7 @@
 		43C5FC822D6DCF160064E7D5 /* AllDrillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDrillsView.swift; sourceTree = "<group>"; };
 		43C5FC842D6DCF4F0064E7D5 /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
 		43C5FC9B2D6E54B60064E7D5 /* CircularScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularScore.swift; sourceTree = "<group>"; };
+		43FCC7222D7F684400005ABB /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -390,8 +384,8 @@
 		4399B6DC2D69393F00DA5E84 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				43FCC7222D7F684400005ABB /* UserManager.swift */,
 				4399B6D72D6930AB00DA5E84 /* OnboardingService.swift */,
-				4399B6D82D6930AB00DA5E84 /* UserInfoService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -399,7 +393,6 @@
 		4399B70F2D6D741100DA5E84 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				43B6877C2D7C2391009CCA8C /* CacheManager.swift */,
 				43C5FC402D6DB59A0064E7D5 /* DrillModel.swift */,
 				43524E762D4D994400AD897A /* SessionGeneratorModel.swift */,
 				430FD6CC2D3064850016D520 /* MainAppModel.swift */,
@@ -411,25 +404,15 @@
 			isa = PBXGroup;
 			children = (
 				4399B7182D6D799700DA5E84 /* Services */,
-				4399B7172D6D799200DA5E84 /* Protocols */,
 				4399B70F2D6D741100DA5E84 /* Models */,
 			);
 			path = Core;
 			sourceTree = "<group>";
 		};
-		4399B7172D6D799200DA5E84 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				43C5FC4E2D6DBC9A0064E7D5 /* SessionGenProtocol.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
 		4399B7182D6D799700DA5E84 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				43C5FC4C2D6DBC900064E7D5 /* StorageService.swift */,
-				43C5FC4A2D6DBC860064E7D5 /* NetworkService.swift */,
+				43B6877C2D7C2391009CCA8C /* CacheManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -952,7 +935,6 @@
 				43C5FC662D6DC4800064E7D5 /* SavedFiltersSheet.swift in Sources */,
 				178208E62D2DEC2900246494 /* CompletionView.swift in Sources */,
 				4399B6D92D6930AB00DA5E84 /* OnboardingService.swift in Sources */,
-				4399B6DA2D6930AB00DA5E84 /* UserInfoService.swift in Sources */,
 				43C5FC702D6DCC9A0064E7D5 /* SkillButton.swift in Sources */,
 				178208EB2D2DECE300246494 /* OnboardingMultiSelectView.swift in Sources */,
 				430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */,
@@ -975,6 +957,7 @@
 				43C5FC7F2D6DCEB70064E7D5 /* SpecificDrillsView.swift in Sources */,
 				178208E42D2DEBC800246494 /* LoginView.swift in Sources */,
 				178208E92D2DEC6D00246494 /* OnboardingStepView.swift in Sources */,
+				43FCC7232D7F684900005ABB /* UserManager.swift in Sources */,
 				43C5FC522D6DBCF00064E7D5 /* AllGroupsDisplay.swift in Sources */,
 				4399B7422D6D92C100DA5E84 /* FilterTypes.swift in Sources */,
 				17595A9F2D3B3B320015F35D /* ProgressionView.swift in Sources */,
@@ -982,14 +965,11 @@
 				43C5FC492D6DB84F0064E7D5 /* EditableDrillModel.swift in Sources */,
 				43C5FC742D6DCCF30064E7D5 /* GeneratedDrillsSection.swift in Sources */,
 				4399B6CE2D67CE3B00DA5E84 /* ToastMessageView.swift in Sources */,
-				43C5FC4B2D6DBC8A0064E7D5 /* NetworkService.swift in Sources */,
 				174C676E2D34E9EE003D02EF /* SessionGeneratorView.swift in Sources */,
 				43AFAE852D6168F800B61982 /* SessionCompleteView.swift in Sources */,
 				4399B6E62D693C3100DA5E84 /* EditingDrillView.swift in Sources */,
 				43C5FC7B2D6DCE4F0064E7D5 /* GroupsView.swift in Sources */,
-				43C5FC4D2D6DBC940064E7D5 /* StorageService.swift in Sources */,
 				43C5FC5A2D6DBDF50064E7D5 /* CalendarView.swift in Sources */,
-				43C5FC4F2D6DBC9F0064E7D5 /* SessionGenProtocol.swift in Sources */,
 				178208D22D2D14D200246494 /* MainTabView.swift in Sources */,
 				178208ED2D2DED0800246494 /* OnboardingBooleanView.swift in Sources */,
 				4399B6F32D6C854B00DA5E84 /* FilterSheet.swift in Sources */,

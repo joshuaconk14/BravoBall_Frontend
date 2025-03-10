@@ -14,40 +14,28 @@ class SessionGeneratorModel: ObservableObject {
     private let cacheManager = CacheManager.shared
     
     // FilterTypes
-    @Published var selectedTime: String? {
-        didSet { saveUserPreferences() }
-    }
-    @Published var selectedEquipment: Set<String> = [] {
-        didSet { saveUserPreferences() }
-    }
-    @Published var selectedTrainingStyle: String? {
-        didSet { saveUserPreferences() }
-    }
-    @Published var selectedLocation: String? {
-        didSet { saveUserPreferences() }
-    }
-    @Published var selectedDifficulty: String? {
-        didSet { saveUserPreferences() }
-    }
+    @Published var selectedTime: String?
+    @Published var selectedEquipment: Set<String> = []
+    @Published var selectedTrainingStyle: String?
+    @Published var selectedLocation: String?
+    @Published var selectedDifficulty: String?
     @Published var selectedSkills: Set<String> = [] {
         didSet {
-            saveUserPreferences()
             updateDrills()
         }
     }
-
+    
     // SessionGenerator Drills storage
     @Published var orderedSessionDrills: [EditableDrillModel] = [] {
-        didSet { saveOrderedDrills() }
+        didSet { cacheOrderedDrills() }
     }
     @Published var selectedDrills: [DrillModel] = []
     @Published var selectedDrillForEditing: EditableDrillModel?
-    @Published var selectedRecommendedDrill: DrillModel?
     @Published var recommendedDrills: [DrillModel] = []
     
     // Saved Drills storage
     @Published var savedDrills: [GroupModel] = [] {
-        didSet { saveSavedDrills() }
+        didSet { cacheSavedDrills() }
     }
     
     // Liked drills storage
@@ -56,11 +44,12 @@ class SessionGeneratorModel: ObservableObject {
         description: "Your favorite drills",
         drills: []
     ) {
-        didSet { saveLikedDrills() }
+        didSet { cacheLikedDrills() }
     }
     
     // Saved filters storage
     @Published var allSavedFilters: [SavedFiltersModel] = []
+    // didset in saved filters func
     
     
     // Initialize with user's onboarding data
@@ -158,11 +147,6 @@ class SessionGeneratorModel: ObservableObject {
     
     // Update drills based on selected sub-skills, converting testDrill's DrillModels into orderedDrill's EditDrillModels
     func updateDrills() {
-        if selectedSkills.isEmpty {
-            orderedSessionDrills = []
-            return
-        }
-        
         
         // Show drills that match any of the selected sub-skills
         let filteredDrills = Self.testDrills.filter { drill in
@@ -327,6 +311,8 @@ class SessionGeneratorModel: ObservableObject {
         )
         
         allSavedFilters.append(savedFilters)
+        
+        cacheFilterGroups(name: name)
     }
     
     // Load filter after clicking the name of saved filter
@@ -347,14 +333,35 @@ class SessionGeneratorModel: ObservableObject {
     
     // MARK: - Cache Operations
     
-    // Public function to reload cache data after login
-    func reloadUserData() {
-        print("\n🔄 Reloading data for new user login...")
-        // Clear current data first
+    // Clear all user data when logging out
+    func clearUserData() {
+        print("\n🧹 Clearing user data...")
+        // Clear all published properties
         orderedSessionDrills = []
         savedDrills = []
         likedDrillsGroup = GroupModel(name: "Liked Drills", description: "Your favorite drills", drills: [])
         selectedDrills = []
+        allSavedFilters = []
+        
+        // Clear filter preferences
+        selectedTime = nil
+        selectedEquipment = []
+        selectedTrainingStyle = nil
+        selectedLocation = nil
+        selectedDifficulty = nil
+        selectedSkills = []
+        
+        print("✅ User data cleared successfully")
+    }
+    
+    // Public function to reload cache data after login
+    func reloadUserData() {
+        print("\n🔄 Reloading data for new user login...")
+        // Clear current data first
+//        orderedSessionDrills = []
+//        savedDrills = []
+//        likedDrillsGroup = GroupModel(name: "Liked Drills", description: "Your favorite drills", drills: [])
+//        selectedDrills = []
         
         // Load fresh data from cache
         loadCachedData()
@@ -387,17 +394,13 @@ class SessionGeneratorModel: ObservableObject {
             print("----------------------------------------")
         }
         
-        // Load user preferences
-        if let preferences: UserPreferences = cacheManager.retrieve(forKey: .userPreferences) {
-            selectedTime = preferences.time
-            selectedEquipment = preferences.equipment
-            selectedTrainingStyle = preferences.trainingStyle
-            selectedLocation = preferences.location
-            selectedDifficulty = preferences.difficulty
-            selectedSkills = preferences.skills
-            print("✅ Successfully loaded user preferences from cache")
+        // Load filter groups
+        if let filterGroups: [SavedFiltersModel] = cacheManager.retrieve(forKey: .filterGroups) {
+            allSavedFilters = filterGroups
+            print("✅ Successfully loaded filter groups from cache")
+            print("Number of filter groups: \(filterGroups.count)")
         } else {
-            print("ℹ️ No user preferences found in cache")
+            print("ℹ️ No filter groups found in cache")
         }
         
         // Load saved drills
@@ -417,112 +420,33 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
-    private func saveUserPreferences() {
-        let preferences = UserPreferences(
-            time: selectedTime,
-            equipment: selectedEquipment,
-            trainingStyle: selectedTrainingStyle,
-            location: selectedLocation,
-            difficulty: selectedDifficulty,
-            skills: selectedSkills
+    private func cacheFilterGroups(name: String) {
+        let preferences = SavedFiltersModel(
+            name: name,
+            savedTime: selectedTime,
+            savedEquipment: selectedEquipment,
+            savedTrainingStyle: selectedTrainingStyle,
+            savedLocation: selectedLocation,
+            savedDifficulty: selectedDifficulty
         )
-        cacheManager.cache(preferences, forKey: .userPreferences)
+        cacheManager.cache(preferences, forKey: .filterGroups)
     }
     
     // cache updated changes
-    private func saveOrderedDrills() {
+    private func cacheOrderedDrills() {
         print("\n💾 Saving ordered drills to cache...")
         print("Number of drills to save: \(orderedSessionDrills.count)")
         cacheManager.cache(orderedSessionDrills, forKey: .orderedDrills)
     }
     
     // cache updated changes
-    private func saveSavedDrills() {
+    private func cacheSavedDrills() {
         cacheManager.cache(savedDrills, forKey: .savedDrills)
     }
     
     // cache updated changes
-    private func saveLikedDrills() {
+    private func cacheLikedDrills() {
         cacheManager.cache(likedDrillsGroup, forKey: .likedDrills)
-    }
-    
-    // MARK: - Cache Testing
-    func testCacheOperations() {
-        print("\n🧪 Starting cache tests...")
-        
-        // Test 1: Test ordered drills caching
-        print("\n📝 Test 1: Testing ordered drills caching")
-        
-        // Create some test drills
-        let testDrill = EditableDrillModel(
-            drill: DrillModel(
-                title: "Test Drill",
-                skill: "Testing",
-                sets: 3,
-                reps: 10,
-                duration: 15,
-                description: "Test description",
-                tips: ["Tip 1", "Tip 2"],
-                equipment: ["Test equipment"],
-                trainingStyle: "Test style",
-                difficulty: "Beginner"
-            ),
-            setsDone: 0,
-            totalSets: 3,
-            totalReps: 10,
-            totalDuration: 15,
-            isCompleted: false
-        )
-        
-        // Print current user
-        let userEmail = KeychainWrapper.standard.string(forKey: "userEmail") ?? "no user"
-        print("\n👤 Current user: \(userEmail)")
-        
-        // Save test drills
-        orderedSessionDrills = [testDrill]
-        print("Saving drill: \(testDrill.drill.title)")
-        saveOrderedDrills()
-        
-        // Clear memory
-        orderedSessionDrills = []
-        print("Cleared orderedSessionDrills from memory")
-        
-        // Load from cache
-        loadCachedData()
-        
-        // Verify
-        if !orderedSessionDrills.isEmpty {
-            print("✅ Successfully retrieved ordered drills from cache")
-            print("Number of drills: \(orderedSessionDrills.count)")
-            print("First drill title: \(orderedSessionDrills[0].drill.title)")
-            
-            // Verify the drill data is correct
-            let retrievedDrill = orderedSessionDrills[0]
-            if retrievedDrill == testDrill {
-                print("✅ Retrieved drill matches saved drill")
-            } else {
-                print("❌ Retrieved drill does not match saved drill")
-                print("Original drill: \(testDrill)")
-                print("Retrieved drill: \(retrievedDrill)")
-            }
-        } else {
-            print("❌ Failed to retrieve ordered drills from cache")
-        }
-        
-        // Test 2: Clear cache and verify it's cleared
-        print("\n📝 Test 2: Testing cache clearing")
-        cacheManager.clearCache(forKey: .orderedDrills)
-        
-        // Verify it's cleared
-        orderedSessionDrills = []
-        loadCachedData()
-        if orderedSessionDrills.isEmpty {
-            print("✅ Cache successfully cleared")
-        } else {
-            print("❌ Cache not cleared properly")
-        }
-        
-        print("\n🧪 Cache tests completed!")
     }
     
 }
