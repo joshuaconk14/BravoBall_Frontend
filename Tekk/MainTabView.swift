@@ -81,23 +81,7 @@ struct MainTabView: View {
     }
 }
 
-struct CustomTabItem: View {
-    let icon: AnyView
-    let isSelected: Bool
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 4) {
-                icon
-                    .frame(width: 30, height: 30)
-                    .scaleEffect(isSelected ? 1.5 : 1.0)
-            }
-            .frame(maxWidth: .infinity)
-            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
-        }
-    }
-}
+
 
 #Preview {
     let mockOnboardingModel = OnboardingModel()

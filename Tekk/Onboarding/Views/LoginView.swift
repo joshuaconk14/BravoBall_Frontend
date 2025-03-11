@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RiveRuntime
+import SwiftKeychainWrapper
 
 
 // expected response structure from backend after POST request to login endpoint
@@ -171,8 +172,9 @@ struct LoginView: View {
                     if let data = data,
                        let decodedResponse = try? JSONDecoder().decode(LoginResponse.self, from: data) {
                         DispatchQueue.main.async {
-                            UserDefaults.standard.set(self.model.authToken, forKey: "authToken")
                             model.authToken = decodedResponse.access_token
+                            
+                            KeychainWrapper.standard.set(self.model.authToken, forKey: "authToken")
                             model.isLoggedIn = true
                             model.showLoginPage = false
                             
@@ -182,7 +184,7 @@ struct LoginView: View {
                                 lastName: decodedResponse.last_name
                             )
                             
-                            print("Login token: \(self.model.authToken)")
+                            print("Auth token: \(self.model.authToken)")
                             print("Login success: \(self.model.isLoggedIn)")
                             print("Email: \(decodedResponse.email)")
                             print("First name: \(decodedResponse.first_name)")

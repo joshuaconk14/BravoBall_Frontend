@@ -24,15 +24,17 @@ class SessionGeneratorModel: ObservableObject {
             updateDrills()
         }
     }
-    
-    // SessionGenerator Drills storage
-    @Published var orderedSessionDrills: [EditableDrillModel] = [] {
-        didSet { cacheOrderedDrills() }
-    }
     @Published var selectedDrills: [DrillModel] = []
     @Published var selectedDrillForEditing: EditableDrillModel?
     @Published var recommendedDrills: [DrillModel] = []
     
+    
+    
+    // MARK: Cached Data
+    // SessionGenerator Drills storage
+    @Published var orderedSessionDrills: [EditableDrillModel] = [] {
+        didSet { cacheOrderedDrills() }
+    }
     // Saved Drills storage
     @Published var savedDrills: [GroupModel] = [] {
         didSet { cacheSavedDrills() }
@@ -50,6 +52,9 @@ class SessionGeneratorModel: ObservableObject {
     // Saved filters storage
     @Published var allSavedFilters: [SavedFiltersModel] = []
     // didset in saved filters func
+    
+    
+    
     
     
     // Initialize with user's onboarding data
@@ -354,30 +359,19 @@ class SessionGeneratorModel: ObservableObject {
         print("✅ User data cleared successfully")
     }
     
-    // Public function to reload cache data after login
-    func reloadUserData() {
-        print("\n🔄 Reloading data for new user login...")
-        // Clear current data first
-//        orderedSessionDrills = []
-//        savedDrills = []
-//        likedDrillsGroup = GroupModel(name: "Liked Drills", description: "Your favorite drills", drills: [])
-//        selectedDrills = []
-        
-        // Load fresh data from cache
-        loadCachedData()
-    }
     
-    private func loadCachedData() {
+    // Displaying cached data for specific user based off email in keychain
+    func loadCachedData() {
         print("\n📱 Loading cached data for current user...")
         let userEmail = KeychainWrapper.standard.string(forKey: "userEmail") ?? "no user"
         print("\n👤 USER SESSION INFO:")
         print("----------------------------------------")
         print("Current user email: \(userEmail)")
-        print("Cache key being used: \(CacheKey.orderedDrills.forUser(userEmail))")
+        print("Cache key being used: \(CacheKey.orderedDrillsCase.forUser(userEmail))")
         print("----------------------------------------")
         
         // Load ordered drills
-        if let drills: [EditableDrillModel] = cacheManager.retrieve(forKey: .orderedDrills) {
+        if let drills: [EditableDrillModel] = cacheManager.retrieve(forKey: .orderedDrillsCase) {
             print("\n📋 ORDERED DRILLS FOR USER \(userEmail):")
             print("----------------------------------------")
             print("Number of drills found: \(drills.count)")
@@ -390,12 +384,12 @@ class SessionGeneratorModel: ObservableObject {
         } else {
             print("\n📋 ORDERED DRILLS FOR USER \(userEmail):")
             print("----------------------------------------")
-            print("No drills found in cache")
+            print("ℹ️No drills found in cache")
             print("----------------------------------------")
         }
         
         // Load filter groups
-        if let filterGroups: [SavedFiltersModel] = cacheManager.retrieve(forKey: .filterGroups) {
+        if let filterGroups: [SavedFiltersModel] = cacheManager.retrieve(forKey: .filterGroupsCase) {
             allSavedFilters = filterGroups
             print("✅ Successfully loaded filter groups from cache")
             print("Number of filter groups: \(filterGroups.count)")
@@ -404,7 +398,7 @@ class SessionGeneratorModel: ObservableObject {
         }
         
         // Load saved drills
-        if let drills: [GroupModel] = cacheManager.retrieve(forKey: .savedDrills) {
+        if let drills: [GroupModel] = cacheManager.retrieve(forKey: .savedDrillsCase) {
             savedDrills = drills
             print("✅ Successfully loaded saved drills from cache")
         } else {
@@ -412,7 +406,7 @@ class SessionGeneratorModel: ObservableObject {
         }
         
         // Load liked drills
-        if let liked: GroupModel = cacheManager.retrieve(forKey: .likedDrills) {
+        if let liked: GroupModel = cacheManager.retrieve(forKey: .likedDrillsCase) {
             likedDrillsGroup = liked
             print("✅ Successfully loaded liked drills from cache")
         } else {
@@ -421,45 +415,28 @@ class SessionGeneratorModel: ObservableObject {
     }
     
     private func cacheFilterGroups(name: String) {
-        let preferences = SavedFiltersModel(
-            name: name,
-            savedTime: selectedTime,
-            savedEquipment: selectedEquipment,
-            savedTrainingStyle: selectedTrainingStyle,
-            savedLocation: selectedLocation,
-            savedDifficulty: selectedDifficulty
-        )
-        cacheManager.cache(preferences, forKey: .filterGroups)
+        // No need to create new preferences or append again since it's already done in saveFiltersInGroup
+        cacheManager.cache(allSavedFilters, forKey: .filterGroupsCase)
+        print("💾 Saved \(allSavedFilters.count) filter groups to cache")
     }
     
     // cache updated changes
     private func cacheOrderedDrills() {
         print("\n💾 Saving ordered drills to cache...")
         print("Number of drills to save: \(orderedSessionDrills.count)")
-        cacheManager.cache(orderedSessionDrills, forKey: .orderedDrills)
+        cacheManager.cache(orderedSessionDrills, forKey: .orderedDrillsCase)
     }
     
     // cache updated changes
     private func cacheSavedDrills() {
-        cacheManager.cache(savedDrills, forKey: .savedDrills)
+        cacheManager.cache(savedDrills, forKey: .savedDrillsCase)
     }
     
     // cache updated changes
     private func cacheLikedDrills() {
-        cacheManager.cache(likedDrillsGroup, forKey: .likedDrills)
+        cacheManager.cache(likedDrillsGroup, forKey: .likedDrillsCase)
     }
     
-}
-
-// MARK: - Helper Structs
-    
-private struct UserPreferences: Codable {
-    let time: String?
-    let equipment: Set<String>
-    let trainingStyle: String?
-    let location: String?
-    let difficulty: String?
-    let skills: Set<String>
 }
 
 

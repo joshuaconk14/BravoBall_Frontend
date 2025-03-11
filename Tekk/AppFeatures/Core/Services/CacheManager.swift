@@ -11,10 +11,14 @@ import SwiftKeychainWrapper
 // Cache keys
 enum CacheKey: String, CaseIterable {
     case version = "cache_version"
-    case orderedDrills = "orderedDrills"
-    case savedDrills = "savedDrills"
-    case likedDrills = "likedDrills"
-    case filterGroups = "filterGroups"
+    case orderedDrillsCase = "orderedDrills"
+    case savedDrillsCase = "savedDrills"
+    case likedDrillsCase = "likedDrills"
+    case filterGroupsCase = "filterGroups"
+    case allCompletedSessionsCase = "completedSessions"
+    case currentStreakCase = "currentStreak"
+    case highestSreakCase = "highestSreak"
+    case countOfCompletedSessionsCase = "countOfCompletedSessions"
     case lastUpdated = "lastUpdated_"
     case cacheSize = "cache_size"
     
@@ -106,6 +110,7 @@ class CacheManager {
         }
     }
     
+    // Uses the specified cache key (from CacheKey enums) passed in param to provide the actual data connected to the key
     func retrieve<T: Codable>(forKey key: CacheKey) -> T? {
         let userEmail = getCurrentUserEmail()
         guard !userEmail.isEmpty else {
@@ -156,6 +161,7 @@ class CacheManager {
         print("📊 Cache: Current total size: \(formatSize(currentCacheSize))")
     }
     
+    // delete specific user's cache
     func clearUserCache() {
         let userEmail = getCurrentUserEmail()
         guard !userEmail.isEmpty else {
@@ -249,5 +255,9 @@ class CacheManager {
         return formatter.string(fromByteCount: Int64(bytes))
     }
     
+    
+    private func clearCacheOfDeletedUser() {
+        
+    }
     
 }

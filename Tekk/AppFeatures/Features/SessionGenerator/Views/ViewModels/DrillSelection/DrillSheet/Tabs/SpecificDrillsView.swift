@@ -57,7 +57,7 @@ struct SpecificDrillsView: View {
     
     // Returning drills based on type selected
     var specificDrills: [DrillModel] {
-        if appModel.selectedSkill != nil {
+        if appModel.selectedSkillButton != nil {
             return SessionGeneratorModel.testDrills.filter { drill in
                 drill.skill.lowercased().contains(type.lowercased())
             }

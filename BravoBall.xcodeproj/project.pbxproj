@@ -106,6 +106,7 @@
 		43C5FC852D6DCF530064E7D5 /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC842D6DCF4F0064E7D5 /* TabButton.swift */; };
 		43C5FC9C2D6E54B90064E7D5 /* CircularScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC9B2D6E54B60064E7D5 /* CircularScore.swift */; };
 		43FCC7232D7F684900005ABB /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FCC7222D7F684400005ABB /* UserManager.swift */; };
+		43FCC7252D7F8D6E00005ABB /* CustomTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FCC7242D7F8D6800005ABB /* CustomTabItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -228,6 +229,7 @@
 		43C5FC842D6DCF4F0064E7D5 /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
 		43C5FC9B2D6E54B60064E7D5 /* CircularScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularScore.swift; sourceTree = "<group>"; };
 		43FCC7222D7F684400005ABB /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		43FCC7242D7F8D6800005ABB /* CustomTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -510,6 +512,7 @@
 		4399B7252D6D7AB400DA5E84 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				43FCC7262D7F8DAA00005ABB /* MainTab */,
 				43C5FC422D6DB6D20064E7D5 /* ToastMessage */,
 				174C676F2D34EB11003D02EF /* DrillDetailView.swift */,
 			);
@@ -749,6 +752,14 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		43FCC7262D7F8DAA00005ABB /* MainTab */ = {
+			isa = PBXGroup;
+			children = (
+				43FCC7242D7F8D6800005ABB /* CustomTabItem.swift */,
+			);
+			path = MainTab;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -975,6 +986,7 @@
 				4399B6F32D6C854B00DA5E84 /* FilterSheet.swift in Sources */,
 				43524E772D4D994B00AD897A /* SessionGeneratorModel.swift in Sources */,
 				43C5FC762D6DCD1D0064E7D5 /* RecommendedDrillsSection.swift in Sources */,
+				43FCC7252D7F8D6E00005ABB /* CustomTabItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

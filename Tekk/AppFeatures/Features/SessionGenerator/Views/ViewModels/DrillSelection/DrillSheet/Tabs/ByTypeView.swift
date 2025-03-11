@@ -21,9 +21,9 @@ struct ByTypeView: View {
                         ForEach(SkillType.allCases, id: \.self) { skill in
                             SelectionButton(
                                 title: skill.rawValue,
-                                isSelected: appModel.selectedSkill == skill
+                                isSelected: appModel.selectedSkillButton == skill
                             ){
-                                appModel.selectedSkill = skill
+                                appModel.selectedSkillButton = skill
                             }
                         }
                         
@@ -66,12 +66,12 @@ struct ByTypeView: View {
             
             // TODO: enum this
             
-            if let selectedSkill = appModel.selectedSkill {
+            if let selectedSkillButton = appModel.selectedSkillButton {
                 SpecificDrillsView(
                     appModel: appModel,
                     sessionModel: sessionModel,
-                    type: selectedSkill.rawValue,
-                    dismiss: {appModel.selectedSkill = nil})
+                    type: selectedSkillButton.rawValue,
+                    dismiss: {appModel.selectedSkillButton = nil})
             }
             
             if let selectedTrainingStyle = appModel.selectedTrainingStyle {

@@ -93,11 +93,22 @@ enum FilterData {
     static let difficultyOptions = ["beginner", "intermediate", "advanced"]
 }
 
-struct SavedFiltersModel: Codable {
+struct SavedFiltersModel: Codable, Identifiable {
+    let id: UUID
     let name: String
     let savedTime: String?
     let savedEquipment: Set<String>
     let savedTrainingStyle: String?
     let savedLocation: String?
     let savedDifficulty: String?
+    
+    init(name: String, savedTime: String?, savedEquipment: Set<String>, savedTrainingStyle: String?, savedLocation: String?, savedDifficulty: String?) {
+        self.id = UUID()
+        self.name = name
+        self.savedTime = savedTime
+        self.savedEquipment = savedEquipment
+        self.savedTrainingStyle = savedTrainingStyle
+        self.savedLocation = savedLocation
+        self.savedDifficulty = savedDifficulty
+    }
 }

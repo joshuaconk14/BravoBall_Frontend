@@ -44,7 +44,7 @@ struct SavedFiltersSheet: View {
             } else {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 8) {
-                        ForEach(sessionModel.allSavedFilters, id: \.name) { filter in
+                        ForEach(sessionModel.allSavedFilters) { filter in
                             Button(action: {
                                 sessionModel.loadFilter(filter)
                             }) {

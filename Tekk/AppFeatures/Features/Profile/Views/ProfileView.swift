@@ -65,9 +65,6 @@ struct ProfileView: View {
                             message: Text("Are you sure you want to delete your account? This action cannot be undone."),
                             primaryButton: .destructive(Text("Delete")) {
                                 deleteAccount()
-                                userManager.clearUserKeychain()
-                                logOutUser()
-                                appModel.mainTabSelected = 0
                             },
                             secondaryButton: .cancel()
                         )
@@ -212,16 +209,17 @@ struct ProfileView: View {
     
     private func logOutUser() {
         // Reset login property
-        model.authToken = ""
+        model.authToken = "" // TODO: make it so authToken isnt stored here
         model.errorMessage = ""
         model.isLoggedIn = false
         
-        // Clear UserDefaults
-        UserDefaults.standard.removeObject(forKey: "accessToken")
+        // Clear Keychain tokens
+        KeychainWrapper.standard.removeObject(forKey: "authToken")
         
         // Clear user's cache and data
         CacheManager.shared.clearUserCache()
         sessionModel.clearUserData()
+        appModel.cleanupOnLogout()
         
         // Reset to home tab
         appModel.mainTabSelected = 0
@@ -236,8 +234,8 @@ struct ProfileView: View {
             return
         }
         
-        // Get the access token from UserDefaults storage
-        guard let accessToken = UserDefaults.standard.string(forKey: "accessToken") else {
+        // Get the access token from Keychain storage
+        guard let authToken = KeychainWrapper.standard.string(forKey: "authToken") else {
             print("❌ No access token found")
             return
         }
@@ -247,7 +245,7 @@ struct ProfileView: View {
         request.httpMethod = "DELETE"
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
         // debug to make sure token is created
         print("\n🔍 Request Details:")
         print("URL: \(url)")
@@ -280,6 +278,12 @@ struct ProfileView: View {
                 }
                 
                 if httpResponse.statusCode == 200 {
+                    
+                    userManager.clearUserKeychain()
+                    logOutUser()
+                    appModel.mainTabSelected = 0
+                    
+                    
                     print("✅ Account deleted successfully")
                     // Account deletion successful - handled in the alert action
                     // The alert action already handles logging out and removing the token

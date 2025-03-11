@@ -28,7 +28,8 @@ struct ContentView: View {
                 MainTabView(model: onboardingModel, appModel: appModel, userManager: userInfoManager, sessionModel: sessionGenModel)
                     .onAppear {
                         // Reload user data when login state changes to true
-                        sessionGenModel.reloadUserData()
+                        appModel.loadCachedData()
+                        sessionGenModel.loadCachedData()
                     }
             } else {
                 OnboardingView(model: onboardingModel, appModel: appModel, userManager: userInfoManager, sessionModel: sessionGenModel)
