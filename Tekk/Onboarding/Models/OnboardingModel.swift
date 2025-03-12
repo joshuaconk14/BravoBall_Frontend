@@ -152,6 +152,6 @@ class OnboardingModel: ObservableObject {
         print("onb email: \(onboardingData.email)")
         print("password: \(onboardingData.password)")
         print("Current step: \(currentStep)")
-        print("auth token: \(authToken)")
+        print("auth token nil value: \(authToken)")
     }
 }

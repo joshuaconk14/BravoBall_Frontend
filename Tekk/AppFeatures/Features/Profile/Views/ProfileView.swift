@@ -54,7 +54,6 @@ struct ProfileView: View {
                             primaryButton: .destructive(Text("Logout")) {
                                 userManager.clearUserKeychain()
                                 logOutUser()
-                                appModel.mainTabSelected = 0
 
                             },
                             secondaryButton: .cancel()
@@ -217,7 +216,6 @@ struct ProfileView: View {
         KeychainWrapper.standard.removeObject(forKey: "authToken")
         
         // Clear user's cache and data
-        CacheManager.shared.clearUserCache()
         sessionModel.clearUserData()
         appModel.cleanupOnLogout()
         
@@ -279,9 +277,9 @@ struct ProfileView: View {
                 
                 if httpResponse.statusCode == 200 {
                     
+                    CacheManager.shared.clearUserCache()
                     userManager.clearUserKeychain()
                     logOutUser()
-                    appModel.mainTabSelected = 0
                     
                     
                     print("✅ Account deleted successfully")
