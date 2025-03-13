@@ -256,8 +256,4 @@ class CacheManager {
     }
     
     
-    private func clearCacheOfDeletedUser() {
-        
-    }
-    
 }

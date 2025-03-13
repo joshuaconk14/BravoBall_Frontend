@@ -287,18 +287,23 @@ class SessionGeneratorModel: ObservableObject {
     
     // Filter value that is selected, or if its empty
     func filterValue(for type: FilterType) -> String {
-        switch type {
+        let value = switch type {
         case .time:
-            return selectedTime ?? ""
+            selectedTime ?? ""
         case .equipment:
-            return selectedEquipment.isEmpty ? "" : "\(selectedEquipment.count) selected"
+            selectedEquipment.isEmpty ? "" : "\(selectedEquipment.count) selected"
         case .trainingStyle:
-            return selectedTrainingStyle ?? ""
+            selectedTrainingStyle ?? ""
         case .location:
-            return selectedLocation ?? ""
+            selectedLocation ?? ""
         case .difficulty:
-            return selectedDifficulty ?? ""
+            selectedDifficulty ?? ""
         }
+        
+        // Sync preferences whenever they change
+        syncPreferences()
+        
+        return value
     }
     
     // Save filters into saved filters group
@@ -420,21 +425,88 @@ class SessionGeneratorModel: ObservableObject {
         print("💾 Saved \(allSavedFilters.count) filter groups to cache")
     }
     
-    // cache updated changes
     private func cacheOrderedDrills() {
         print("\n💾 Saving ordered drills to cache...")
         print("Number of drills to save: \(orderedSessionDrills.count)")
         cacheManager.cache(orderedSessionDrills, forKey: .orderedDrillsCase)
     }
     
-    // cache updated changes
     private func cacheSavedDrills() {
         cacheManager.cache(savedDrills, forKey: .savedDrillsCase)
+        
+        // Sync each drill group with backend
+        Task {
+            do {
+                for group in savedDrills {
+                    try await DataSyncService.shared.syncDrillGroup(
+                        name: group.name,
+                        description: group.description,
+                        drills: group.drills,
+                        isLikedGroup: false
+                    )
+                }
+            } catch {
+                print("❌ Error syncing drill groups: \(error)")
+            }
+        }
     }
     
-    // cache updated changes
     private func cacheLikedDrills() {
         cacheManager.cache(likedDrillsGroup, forKey: .likedDrillsCase)
+        
+        // Sync liked drills with backend
+        Task {
+            do {
+                try await DataSyncService.shared.syncDrillGroup(
+                    name: likedDrillsGroup.name,
+                    description: likedDrillsGroup.description,
+                    drills: likedDrillsGroup.drills,
+                    isLikedGroup: true
+                )
+            } catch {
+                print("❌ Error syncing liked drills: \(error)")
+            }
+        }
+    }
+    
+    
+    // MARK: User sync functions
+    
+    // Add new function to sync preferences
+    private func syncPreferences() {
+        Task {
+            do {
+                try await DataSyncService.shared.syncUserPreferences(
+                    selectedTime: selectedTime,
+                    selectedEquipment: selectedEquipment,
+                    selectedTrainingStyle: selectedTrainingStyle,
+                    selectedLocation: selectedLocation,
+                    selectedDifficulty: selectedDifficulty,
+                    currentStreak: 0, // You'll need to track these values
+                    highestStreak: 0,
+                    completedSessionsCount: 0
+                )
+            } catch {
+                print("❌ Error syncing preferences: \(error)")
+            }
+        }
+    }
+    
+    // Add function to sync completed session
+    func syncCompletedSession() {
+        Task {
+            do {
+                let completedDrills = orderedSessionDrills.filter { $0.isCompleted }.count
+                try await DataSyncService.shared.syncCompletedSession(
+                    date: Date(),
+                    drills: orderedSessionDrills,
+                    totalCompleted: completedDrills,
+                    total: orderedSessionDrills.count
+                )
+            } catch {
+                print("❌ Error syncing completed session: \(error)")
+            }
+        }
     }
     
 }
