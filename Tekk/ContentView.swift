@@ -20,7 +20,7 @@ struct ContentView: View {
     @StateObject private var onboardingModel = OnboardingModel()
     @StateObject private var appModel = MainAppModel()
     @StateObject private var userInfoManager = UserManager()
-    @StateObject private var sessionGenModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+    @StateObject private var sessionGenModel = SessionGeneratorModel(appModel: MainAppModel(), onboardingData: OnboardingModel.OnboardingData())
 
     var body: some View {
         Group {

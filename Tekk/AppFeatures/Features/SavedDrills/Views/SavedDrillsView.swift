@@ -134,7 +134,7 @@ struct SavedDrillsView: View {
 
 #Preview {
     let mockAppModel = MainAppModel()
-    let mockSesGenModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+    let mockSesGenModel = SessionGeneratorModel(appModel: MainAppModel(), onboardingData: OnboardingModel.OnboardingData())
     
     // Create a mock drill
     let mockDrill = DrillModel(

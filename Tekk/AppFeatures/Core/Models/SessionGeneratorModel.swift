@@ -5,20 +5,57 @@
 //  Created by Joshua Conklin on 1/31/25.
 //
 
+
+import SwiftUI
 import Foundation
 import SwiftKeychainWrapper
 
 // MARK: Session model
 class SessionGeneratorModel: ObservableObject {
     
+    @ObservedObject var appModel: MainAppModel  // Add this
+        
+    
+    
+    // Define Preferences struct for caching
+    private struct Preferences: Codable {
+        var selectedTime: String?
+        var selectedEquipment: [String]
+        var selectedTrainingStyle: String?
+        var selectedLocation: String?
+        var selectedDifficulty: String?
+        
+        init(from model: SessionGeneratorModel) {
+            self.selectedTime = model.selectedTime
+            self.selectedEquipment = Array(model.selectedEquipment)
+            self.selectedTrainingStyle = model.selectedTrainingStyle
+            self.selectedLocation = model.selectedLocation
+            self.selectedDifficulty = model.selectedDifficulty
+        }
+    }
+    
     private let cacheManager = CacheManager.shared
+    private var lastSyncTime: Date = Date()
+    private let syncDebounceInterval: TimeInterval = 2.0 // 2 seconds
+    private var hasUnsavedChanges = false
+    private var autoSaveTimer: Timer?
     
     // FilterTypes
-    @Published var selectedTime: String?
-    @Published var selectedEquipment: Set<String> = []
-    @Published var selectedTrainingStyle: String?
-    @Published var selectedLocation: String?
-    @Published var selectedDifficulty: String?
+    @Published var selectedTime: String? {
+        didSet { markAsNeedingSave() }
+    }
+    @Published var selectedEquipment: Set<String> = [] {
+        didSet { markAsNeedingSave() }
+    }
+    @Published var selectedTrainingStyle: String? {
+        didSet { markAsNeedingSave() }
+    }
+    @Published var selectedLocation: String? {
+        didSet { markAsNeedingSave() }
+    }
+    @Published var selectedDifficulty: String? {
+        didSet { markAsNeedingSave() }
+    }
     @Published var selectedSkills: Set<String> = [] {
         didSet {
             updateDrills()
@@ -58,7 +95,8 @@ class SessionGeneratorModel: ObservableObject {
     
     
     // Initialize with user's onboarding data
-    init(onboardingData: OnboardingModel.OnboardingData) {
+    init(appModel: MainAppModel, onboardingData: OnboardingModel.OnboardingData) {
+        self.appModel = appModel
         loadCachedData()
         
         // Only set these values if they're not already loaded from cache
@@ -81,9 +119,54 @@ class SessionGeneratorModel: ObservableObject {
             default: selectedTime = "1h"
             }
         }
+        
+        // Setup auto-save timer
+        autoSaveTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { [weak self] _ in
+            self?.saveIfNeeded()
+        }
     }
     
+    deinit {
+        autoSaveTimer?.invalidate()
+        saveIfNeeded() // Final save on deinit
+    }
     
+    private func markAsNeedingSave() {
+        hasUnsavedChanges = true
+        
+        // Create and cache preferences
+        let preferences = Preferences(from: self)
+        cacheManager.cache(preferences, forKey: .filterGroupsCase)
+    }
+    
+    func saveIfNeeded() {
+        guard hasUnsavedChanges else { return }
+        
+        Task {
+            do {
+                try await DataSyncService.shared.syncUserPreferences(
+                    selectedTime: selectedTime,
+                    selectedEquipment: selectedEquipment,
+                    selectedTrainingStyle: selectedTrainingStyle,
+                    selectedLocation: selectedLocation,
+                    selectedDifficulty: selectedDifficulty,
+                    currentStreak: appModel.currentStreak,
+                    highestStreak: appModel.highestStreak,
+                    completedSessionsCount: appModel.countOfFullyCompletedSessions
+                )
+                await MainActor.run {
+                    hasUnsavedChanges = false
+                }
+            } catch {
+                print("❌ Error syncing preferences: \(error)")
+            }
+        }
+    }
+    
+    // Call this when view disappears or app goes to background
+    func saveChanges() {
+        saveIfNeeded()
+    }
     
     // Test data for drills with specific sub-skills
     static let testDrills: [DrillModel] = [
@@ -300,9 +383,6 @@ class SessionGeneratorModel: ObservableObject {
             selectedDifficulty ?? ""
         }
         
-        // Sync preferences whenever they change
-        syncPreferences()
-        
         return value
     }
     
@@ -374,6 +454,16 @@ class SessionGeneratorModel: ObservableObject {
         print("Current user email: \(userEmail)")
         print("Cache key being used: \(CacheKey.orderedDrillsCase.forUser(userEmail))")
         print("----------------------------------------")
+        
+        // Load preferences
+        if let preferences: Preferences = cacheManager.retrieve(forKey: .filterGroupsCase) {
+            selectedTime = preferences.selectedTime
+            selectedEquipment = Set(preferences.selectedEquipment)
+            selectedTrainingStyle = preferences.selectedTrainingStyle
+            selectedLocation = preferences.selectedLocation
+            selectedDifficulty = preferences.selectedDifficulty
+            print("✅ Successfully loaded preferences from cache")
+        }
         
         // Load ordered drills
         if let drills: [EditableDrillModel] = cacheManager.retrieve(forKey: .orderedDrillsCase) {
@@ -482,9 +572,9 @@ class SessionGeneratorModel: ObservableObject {
                     selectedTrainingStyle: selectedTrainingStyle,
                     selectedLocation: selectedLocation,
                     selectedDifficulty: selectedDifficulty,
-                    currentStreak: 0, // You'll need to track these values
-                    highestStreak: 0,
-                    completedSessionsCount: 0
+                    currentStreak: appModel.currentStreak, // You'll need to track these values
+                    highestStreak: appModel.highestStreak,
+                    completedSessionsCount: appModel.countOfFullyCompletedSessions
                 )
             } catch {
                 print("❌ Error syncing preferences: \(error)")
@@ -506,6 +596,15 @@ class SessionGeneratorModel: ObservableObject {
             } catch {
                 print("❌ Error syncing completed session: \(error)")
             }
+        }
+    }
+    
+    // Update preferences when they actually change
+    private func debouncedSyncPreferences() {
+        let now = Date()
+        if now.timeIntervalSince(lastSyncTime) >= syncDebounceInterval {
+            lastSyncTime = now
+            syncPreferences()
         }
     }
     

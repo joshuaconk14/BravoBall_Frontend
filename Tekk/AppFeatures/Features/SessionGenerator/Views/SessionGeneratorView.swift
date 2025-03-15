@@ -161,6 +161,14 @@ struct SessionGeneratorView: View {
         .onAppear {
             BravoTextBubbleDelay()
         }
+        .onDisappear {
+            sessionModel.saveChanges()
+        }
+        .onChange(of: UIApplication.shared.applicationState) { newState in
+            if newState == .background {
+                sessionModel.saveChanges()
+            }
+        }
     }
     
      func BravoTextBubbleDelay() {
@@ -360,7 +368,7 @@ struct SessionGeneratorView: View {
 #Preview {
     let mockOnboardingModel = OnboardingModel()
     let mockAppModel = MainAppModel()
-    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+    let mockSessionModel = SessionGeneratorModel(appModel: MainAppModel(), onboardingData: OnboardingModel.OnboardingData())
     mockOnboardingModel.onboardingData = OnboardingModel.OnboardingData(
         primaryGoal: "Improve my overall skill level",
         biggestChallenge: "Not knowing what to work on",

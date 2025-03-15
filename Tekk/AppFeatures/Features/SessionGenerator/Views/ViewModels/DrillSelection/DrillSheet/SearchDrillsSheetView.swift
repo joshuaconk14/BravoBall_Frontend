@@ -89,7 +89,7 @@ struct SearchDrillsSheetView: View {
 #Preview {
     // Create mock data and models
     let mockAppModel = MainAppModel()
-    let mockSessionModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+    let mockSessionModel = SessionGeneratorModel(appModel: MainAppModel(), onboardingData: OnboardingModel.OnboardingData())
     
     // Create some test drills
     let testDrills = [

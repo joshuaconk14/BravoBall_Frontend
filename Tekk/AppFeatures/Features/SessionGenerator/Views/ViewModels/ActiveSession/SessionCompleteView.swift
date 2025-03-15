@@ -95,6 +95,6 @@ struct SessionCompleteView: View {
 #Preview("Session Complete") {
     SessionCompleteView(
         appModel: MainAppModel(),
-        sessionModel: SessionGeneratorModel(onboardingData: .init())
+        sessionModel: SessionGeneratorModel(appModel: MainAppModel(), onboardingData: .init())
     )
 }

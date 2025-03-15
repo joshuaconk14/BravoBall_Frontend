@@ -123,7 +123,7 @@ struct DrillResultsView: View {
 
 #Preview {
     let mockMainAppModel = MainAppModel()
-    let mockSesGenModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+    let mockSesGenModel = SessionGeneratorModel(appModel: MainAppModel(), onboardingData: OnboardingModel.OnboardingData())
     
     // Create mock drills using EditableDrillModel
     let mockDrills = [

@@ -376,6 +376,14 @@
 			path = AppFeatures;
 			sourceTree = "<group>";
 		};
+		431BDFE82D853E0700F4E6EE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1782090D2D2E0A1100246494 /* ProfileView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		43985E502CB51DEC00BE2AB6 /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,17 +472,9 @@
 		4399B71D2D6D79EE00DA5E84 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				4399B71E2D6D79FF00DA5E84 /* Views */,
+				431BDFE82D853E0700F4E6EE /* Views */,
 			);
 			path = Profile;
-			sourceTree = "<group>";
-		};
-		4399B71E2D6D79FF00DA5E84 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				1782090D2D2E0A1100246494 /* ProfileView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		4399B71F2D6D7A0400DA5E84 /* Views */ = {

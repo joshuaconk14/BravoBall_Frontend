@@ -234,7 +234,7 @@ struct EditingDrillView: View {
     
     return EditingDrillView(
         appModel: MainAppModel(),
-        sessionModel: SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData()),
+        sessionModel: SessionGeneratorModel(appModel: MainAppModel(), onboardingData: OnboardingModel.OnboardingData()),
         editableDrill: .constant(mockDrill)
     )
 }

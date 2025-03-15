@@ -327,7 +327,7 @@ struct DrillFollowAlongView: View {
         var body: some View {
             DrillFollowAlongView(
                 appModel: MainAppModel(),
-                sessionModel: SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData()),
+                sessionModel: SessionGeneratorModel(appModel: MainAppModel(), onboardingData: OnboardingModel.OnboardingData()),
                 editableDrill: $mockDrill  // This binding will be mutable
             )
         }

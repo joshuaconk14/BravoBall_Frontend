@@ -30,39 +30,70 @@ class DataSyncService {
         // Add auth token
         if let token = KeychainWrapper.standard.string(forKey: "authToken") {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            print("🔑 Using auth token: \(token)")
+        } else {
+            print("⚠️ No auth token found!")
         }
         
         // Create a mutable dictionary to build our preferences
         var preferences: [String: Any] = [
             "selected_equipment": Array(selectedEquipment),
+            "selected_time": selectedTime as Any,
+            "selected_training_style": selectedTrainingStyle as Any,
+            "selected_location": selectedLocation as Any,
+            "selected_difficulty": selectedDifficulty as Any,
             "current_streak": currentStreak,
             "highest_streak": highestStreak,
             "completed_sessions_count": completedSessionsCount
         ]
         
-        // Add optional values only if they exist
-        if let selectedTime = selectedTime {
-            preferences["selected_time"] = selectedTime
-        }
-        if let selectedTrainingStyle = selectedTrainingStyle {
-            preferences["selected_training_style"] = selectedTrainingStyle
-        }
-        if let selectedLocation = selectedLocation {
-            preferences["selected_location"] = selectedLocation
-        }
-        if let selectedDifficulty = selectedDifficulty {
-            preferences["selected_difficulty"] = selectedDifficulty
-        }
+        print("📤 Sending request to: \(url.absoluteString)")
+        print("Request headers: \(request.allHTTPHeaderFields ?? [:])")
+        print("Request body: \(preferences)")
         
-        request.httpBody = try JSONSerialization.data(withJSONObject: preferences)
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-            throw URLError(.badServerResponse)
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: preferences)
+            
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print("❌ Invalid response type")
+                throw URLError(.badServerResponse)
+            }
+            
+            print("📥 Response status code: \(httpResponse.statusCode)")
+            print("📥 Response headers: \(httpResponse.allHeaderFields)")
+            
+            if let responseString = String(data: data, encoding: .utf8) {
+                print("📥 Response body: \(responseString)")
+            }
+            
+            switch httpResponse.statusCode {
+            case 200:
+                print("✅ Successfully synced user preferences")
+            case 401:
+                print("❌ Unauthorized - Invalid or expired token")
+                print("🔑 Current token: \(KeychainWrapper.standard.string(forKey: "authToken") ?? "no token")")
+                throw URLError(.userAuthenticationRequired)
+            case 404:
+                print("❌ Endpoint not found - Check API route: \(url.absoluteString)")
+                throw URLError(.badURL)
+            case 422:
+                if let responseString = String(data: data, encoding: .utf8) {
+                    print("❌ Validation error: \(responseString)")
+                }
+                throw URLError(.badServerResponse)
+            default:
+                print("❌ Unexpected status code: \(httpResponse.statusCode)")
+                if let responseString = String(data: data, encoding: .utf8) {
+                    print("Response body: \(responseString)")
+                }
+                throw URLError(.badServerResponse)
+            }
+        } catch {
+            print("❌ Error during request: \(error)")
+            throw error
         }
-        
-        print("✅ Successfully synced user preferences")
     }
     
     // MARK: - Completed Sessions Sync
@@ -113,7 +144,16 @@ class DataSyncService {
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+        
+        print("📥 Backend response status: \(httpResponse.statusCode)")
+        if let responseString = String(data: data, encoding: .utf8) {
+            print("Response: \(responseString)")
+        }
+        
+        guard httpResponse.statusCode == 200 else {
             throw URLError(.badServerResponse)
         }
         
@@ -161,7 +201,16 @@ class DataSyncService {
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+        
+        print("📥 Backend response status: \(httpResponse.statusCode)")
+        if let responseString = String(data: data, encoding: .utf8) {
+            print("Response: \(responseString)")
+        }
+        
+        guard httpResponse.statusCode == 200 else {
             throw URLError(.badServerResponse)
         }
         
@@ -212,10 +261,19 @@ class DataSyncService {
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+        
+        print("📥 Backend response status: \(httpResponse.statusCode)")
+        if let responseString = String(data: data, encoding: .utf8) {
+            print("Response: \(responseString)")
+        }
+        
+        guard httpResponse.statusCode == 200 else {
             throw URLError(.badServerResponse)
         }
         
         print("✅ Successfully updated drill group")
     }
-}
+} 

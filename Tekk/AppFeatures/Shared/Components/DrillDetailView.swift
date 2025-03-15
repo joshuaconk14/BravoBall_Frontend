@@ -270,7 +270,7 @@ struct DrillDetailView: View {
     )
     
     let mockAppModel = MainAppModel()
-    let mockSessionModel = SessionGeneratorModel(onboardingData: .init())
+    let mockSessionModel = SessionGeneratorModel(appModel: MainAppModel(), onboardingData: .init())
     
     
     return DrillDetailView(
