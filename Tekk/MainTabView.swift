@@ -29,7 +29,7 @@ struct MainTabView: View {
                     case 2:
                         SavedDrillsView(appModel: appModel, sessionModel: sessionModel)
                     case 3:
-                        ProfileView(model: model, appModel: appModel, userManager: userManager)
+                        ProfileView(model: model, appModel: appModel, userManager: userManager, sessionModel: sessionModel)
                     default:
                         SessionGeneratorView(model: model, appModel: appModel, sessionModel: sessionModel)
                     }
@@ -81,29 +81,13 @@ struct MainTabView: View {
     }
 }
 
-struct CustomTabItem: View {
-    let icon: AnyView
-    let isSelected: Bool
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 4) {
-                icon
-                    .frame(width: 30, height: 30)
-                    .scaleEffect(isSelected ? 1.5 : 1.0)
-            }
-            .frame(maxWidth: .infinity)
-            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
-        }
-    }
-}
+
 
 #Preview {
     let mockOnboardingModel = OnboardingModel()
     let mockMainAppModel = MainAppModel()
     let mockUserManager = UserManager()
-    let mockSesGenModel = SessionGeneratorModel(onboardingData: OnboardingModel.OnboardingData())
+    let mockSesGenModel = SessionGeneratorModel(appModel: MainAppModel(), onboardingData: OnboardingModel.OnboardingData())
     
     return MainTabView(
         model: mockOnboardingModel,

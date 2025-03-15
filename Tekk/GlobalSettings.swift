@@ -20,5 +20,5 @@ class GlobalSettings: ObservableObject {
 
 // settings for services, dont need ObservableObject annotation
 struct AppSettings {
-    static let baseURL = "http://localhost:8000"
+    static let baseURL = "http://127.0.0.1:8000"
 }

@@ -147,11 +147,11 @@ class OnboardingModel: ObservableObject {
         
         // Debug print
         print("OnboardingModel reset completed")
-        print("first name: \(onboardingData.firstName)")
-        print("last name: \(onboardingData.lastName)")
-        print("email: \(onboardingData.email)")
+        print("onb first name: \(onboardingData.firstName)")
+        print("onb last name: \(onboardingData.lastName)")
+        print("onb email: \(onboardingData.email)")
         print("password: \(onboardingData.password)")
         print("Current step: \(currentStep)")
-        print("auth token: \(authToken)")
+        print("auth token nil value: \(authToken)")
     }
 }
