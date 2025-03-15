@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -44,13 +44,29 @@
 		43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */; };
 		43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */; };
 		43985E5A2CB5B0BB00BE2AB6 /* Bravo_Panting.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */; };
+		4399B6CE2D67CE3B00DA5E84 /* ToastMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6CD2D67CE3500DA5E84 /* ToastMessageView.swift */; };
+		4399B6D92D6930AB00DA5E84 /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6D72D6930AB00DA5E84 /* OnboardingService.swift */; };
+		4399B6E62D693C3100DA5E84 /* EditingDrillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6E52D693C2B00DA5E84 /* EditingDrillView.swift */; };
+		4399B6E92D69407F00DA5E84 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6E82D69407A00DA5E84 /* GroupDetailView.swift */; };
+		4399B6EB2D6942AC00DA5E84 /* DrillRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6EA2D6942A800DA5E84 /* DrillRow.swift */; };
+		4399B6EF2D69932D00DA5E84 /* Bravo_Peaking.riv in Resources */ = {isa = PBXBuildFile; fileRef = 4399B6EE2D69932D00DA5E84 /* Bravo_Peaking.riv */; };
+		4399B6F12D6C84B800DA5E84 /* AreaBehindHomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6F02D6C84AD00DA5E84 /* AreaBehindHomePageView.swift */; };
+		4399B6F32D6C854B00DA5E84 /* FilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6F22D6C854700DA5E84 /* FilterSheet.swift */; };
+		4399B6F52D6C858200DA5E84 /* FilterOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6F42D6C857E00DA5E84 /* FilterOptions.swift */; };
+		4399B6F72D6C85C900DA5E84 /* SkillSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6F62D6C85C400DA5E84 /* SkillSearchBar.swift */; };
+		4399B6FD2D6C878600DA5E84 /* SkillSelectorSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B6FC2D6C878000DA5E84 /* SkillSelectorSheetView.swift */; };
+		4399B7392D6D901B00DA5E84 /* ToastMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B7382D6D901300DA5E84 /* ToastMessageModel.swift */; };
+		4399B7422D6D92C100DA5E84 /* FilterTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399B7412D6D92BE00DA5E84 /* FilterTypes.swift */; };
+		43A764992D825FEF004509E5 /* DataSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A764982D825FE8004509E5 /* DataSyncService.swift */; };
+		43AFAE852D6168F800B61982 /* SessionCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFAE842D6168F100B61982 /* SessionCompleteView.swift */; };
+		43B6877D2D7C2394009CCA8C /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6877C2D7C2391009CCA8C /* CacheManager.swift */; };
+		43B687812D7C23DA009CCA8C /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B687802D7C23D7009CCA8C /* GroupModel.swift */; };
 		43BFA9D62D3F38B300B12A6F /* Golden_Button.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9D52D3F38B300B12A6F /* Golden_Button.riv */; };
 		43BFA9E62D40885000B12A6F /* Plus_Button.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9E52D40885000B12A6F /* Plus_Button.riv */; };
 		43BFA9E82D408B8100B12A6F /* Arrow.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9E72D408B8100B12A6F /* Arrow.riv */; };
 		43BFA9EA2D40964700B12A6F /* Drill_Card_Incomplete.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9E92D40964700B12A6F /* Drill_Card_Incomplete.riv */; };
 		43BFA9F42D40AB8A00B12A6F /* Paw_Gray.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9F32D40AB8A00B12A6F /* Paw_Gray.riv */; };
 		43BFA9F62D40ABB600B12A6F /* Paw_Yellow.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFA9F52D40ABB600B12A6F /* Paw_Yellow.riv */; };
-		43BFA9FE2D41D37100B12A6F /* testSesGenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BFA9FD2D41D36C00B12A6F /* testSesGenView.swift */; };
 		43BFAA102D43291E00B12A6F /* Tab_House.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA0F2D43291E00B12A6F /* Tab_House.riv */; };
 		43BFAA202D438C7B00B12A6F /* Tab_Calendar.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA1F2D438C7B00B12A6F /* Tab_Calendar.riv */; };
 		43BFAA222D438D6600B12A6F /* Tab_Saved.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA212D438D6600B12A6F /* Tab_Saved.riv */; };
@@ -61,8 +77,37 @@
 		43BFAA362D44182400B12A6F /* Prereq_Location.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA352D44182400B12A6F /* Prereq_Location.riv */; };
 		43BFAA3C2D442BEB00B12A6F /* Prereq_Difficulty.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA3B2D442BEB00B12A6F /* Prereq_Difficulty.riv */; };
 		43BFAA422D444A2C00B12A6F /* Message_Bubble.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43BFAA412D444A2C00B12A6F /* Message_Bubble.riv */; };
-		43F69CEB2D456291002143FD /* testNewElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F69CEA2D456286002143FD /* testNewElement.swift */; };
-		43F69CFD2D46287D002143FD /* Grass_Field.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43F69CFC2D46287D002143FD /* Grass_Field.riv */; };
+		43C577242D6351DF00D9B587 /* Grass_Field.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43C577232D6351DF00D9B587 /* Grass_Field.riv */; };
+		43C5773C2D645BBB00D9B587 /* Break_Area.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43C5773B2D645BBB00D9B587 /* Break_Area.riv */; };
+		43C5FC412D6DB59D0064E7D5 /* DrillModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC402D6DB59A0064E7D5 /* DrillModel.swift */; };
+		43C5FC442D6DB7E20064E7D5 /* SkillTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC432D6DB7DF0064E7D5 /* SkillTypes.swift */; };
+		43C5FC492D6DB84F0064E7D5 /* EditableDrillModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC482D6DB84B0064E7D5 /* EditableDrillModel.swift */; };
+		43C5FC522D6DBCF00064E7D5 /* AllGroupsDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC512D6DBCEA0064E7D5 /* AllGroupsDisplay.swift */; };
+		43C5FC542D6DBD0E0064E7D5 /* GroupCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC532D6DBD0B0064E7D5 /* GroupCard.swift */; };
+		43C5FC562D6DBD310064E7D5 /* LikedGroupCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC552D6DBD2C0064E7D5 /* LikedGroupCard.swift */; };
+		43C5FC5A2D6DBDF50064E7D5 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC592D6DBDEF0064E7D5 /* CalendarView.swift */; };
+		43C5FC5C2D6DBEC90064E7D5 /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC5B2D6DBEC50064E7D5 /* RoundedCorner.swift */; };
+		43C5FC5E2D6DC0E40064E7D5 /* FilterOptionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC5D2D6DC0DF0064E7D5 /* FilterOptionsButton.swift */; };
+		43C5FC602D6DC11A0064E7D5 /* SearchSkillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC5F2D6DC1140064E7D5 /* SearchSkillsView.swift */; };
+		43C5FC622D6DC1470064E7D5 /* SkillRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC612D6DC1450064E7D5 /* SkillRow.swift */; };
+		43C5FC642D6DC1670064E7D5 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC632D6DC1640064E7D5 /* FilterButton.swift */; };
+		43C5FC662D6DC4800064E7D5 /* SavedFiltersSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC652D6DC47B0064E7D5 /* SavedFiltersSheet.swift */; };
+		43C5FC6A2D6DCC130064E7D5 /* RecommendedDrillCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC692D6DCC0D0064E7D5 /* RecommendedDrillCard.swift */; };
+		43C5FC6C2D6DCC520064E7D5 /* DrillCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC6B2D6DCC4F0064E7D5 /* DrillCard.swift */; };
+		43C5FC6E2D6DCC7E0064E7D5 /* FieldDrillCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC6D2D6DCC7B0064E7D5 /* FieldDrillCard.swift */; };
+		43C5FC702D6DCC9A0064E7D5 /* SkillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC6F2D6DCC970064E7D5 /* SkillButton.swift */; };
+		43C5FC722D6DCCD20064E7D5 /* SkillCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC712D6DCCCC0064E7D5 /* SkillCategoryButton.swift */; };
+		43C5FC742D6DCCF30064E7D5 /* GeneratedDrillsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC732D6DCCEC0064E7D5 /* GeneratedDrillsSection.swift */; };
+		43C5FC762D6DCD1D0064E7D5 /* RecommendedDrillsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC752D6DCD160064E7D5 /* RecommendedDrillsSection.swift */; };
+		43C5FC7B2D6DCE4F0064E7D5 /* GroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC7A2D6DCE4B0064E7D5 /* GroupsView.swift */; };
+		43C5FC7D2D6DCE740064E7D5 /* SelectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC7C2D6DCE710064E7D5 /* SelectionButton.swift */; };
+		43C5FC7F2D6DCEB70064E7D5 /* SpecificDrillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC7E2D6DCEB00064E7D5 /* SpecificDrillsView.swift */; };
+		43C5FC812D6DCEEE0064E7D5 /* ByTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC802D6DCEEA0064E7D5 /* ByTypeView.swift */; };
+		43C5FC832D6DCF1B0064E7D5 /* AllDrillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC822D6DCF160064E7D5 /* AllDrillsView.swift */; };
+		43C5FC852D6DCF530064E7D5 /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC842D6DCF4F0064E7D5 /* TabButton.swift */; };
+		43C5FC9C2D6E54B90064E7D5 /* CircularScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5FC9B2D6E54B60064E7D5 /* CircularScore.swift */; };
+		43FCC7232D7F684900005ABB /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FCC7222D7F684400005ABB /* UserManager.swift */; };
+		43FCC7252D7F8D6E00005ABB /* CustomTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FCC7242D7F8D6800005ABB /* CustomTabItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,13 +168,29 @@
 		43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PottaOne-Regular.ttf"; sourceTree = "<group>"; };
 		43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bravo_Panting.riv; sourceTree = "<group>"; };
+		4399B6CD2D67CE3500DA5E84 /* ToastMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessageView.swift; sourceTree = "<group>"; };
+		4399B6D72D6930AB00DA5E84 /* OnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingService.swift; sourceTree = "<group>"; };
+		4399B6E52D693C2B00DA5E84 /* EditingDrillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingDrillView.swift; sourceTree = "<group>"; };
+		4399B6E82D69407A00DA5E84 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
+		4399B6EA2D6942A800DA5E84 /* DrillRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillRow.swift; sourceTree = "<group>"; };
+		4399B6EE2D69932D00DA5E84 /* Bravo_Peaking.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bravo_Peaking.riv; sourceTree = "<group>"; };
+		4399B6F02D6C84AD00DA5E84 /* AreaBehindHomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaBehindHomePageView.swift; sourceTree = "<group>"; };
+		4399B6F22D6C854700DA5E84 /* FilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSheet.swift; sourceTree = "<group>"; };
+		4399B6F42D6C857E00DA5E84 /* FilterOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOptions.swift; sourceTree = "<group>"; };
+		4399B6F62D6C85C400DA5E84 /* SkillSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillSearchBar.swift; sourceTree = "<group>"; };
+		4399B6FC2D6C878000DA5E84 /* SkillSelectorSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillSelectorSheetView.swift; sourceTree = "<group>"; };
+		4399B7382D6D901300DA5E84 /* ToastMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessageModel.swift; sourceTree = "<group>"; };
+		4399B7412D6D92BE00DA5E84 /* FilterTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTypes.swift; sourceTree = "<group>"; };
+		43A764982D825FE8004509E5 /* DataSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSyncService.swift; sourceTree = "<group>"; };
+		43AFAE842D6168F100B61982 /* SessionCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteView.swift; sourceTree = "<group>"; };
+		43B6877C2D7C2391009CCA8C /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
+		43B687802D7C23D7009CCA8C /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
 		43BFA9D52D3F38B300B12A6F /* Golden_Button.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Golden_Button.riv; sourceTree = "<group>"; };
 		43BFA9E52D40885000B12A6F /* Plus_Button.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Plus_Button.riv; sourceTree = "<group>"; };
 		43BFA9E72D408B8100B12A6F /* Arrow.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Arrow.riv; sourceTree = "<group>"; };
 		43BFA9E92D40964700B12A6F /* Drill_Card_Incomplete.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drill_Card_Incomplete.riv; sourceTree = "<group>"; };
 		43BFA9F32D40AB8A00B12A6F /* Paw_Gray.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Paw_Gray.riv; sourceTree = "<group>"; };
 		43BFA9F52D40ABB600B12A6F /* Paw_Yellow.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Paw_Yellow.riv; sourceTree = "<group>"; };
-		43BFA9FD2D41D36C00B12A6F /* testSesGenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testSesGenView.swift; sourceTree = "<group>"; };
 		43BFAA0F2D43291E00B12A6F /* Tab_House.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tab_House.riv; sourceTree = "<group>"; };
 		43BFAA1F2D438C7B00B12A6F /* Tab_Calendar.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tab_Calendar.riv; sourceTree = "<group>"; };
 		43BFAA212D438D6600B12A6F /* Tab_Saved.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tab_Saved.riv; sourceTree = "<group>"; };
@@ -140,13 +201,38 @@
 		43BFAA352D44182400B12A6F /* Prereq_Location.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Prereq_Location.riv; sourceTree = "<group>"; };
 		43BFAA3B2D442BEB00B12A6F /* Prereq_Difficulty.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Prereq_Difficulty.riv; sourceTree = "<group>"; };
 		43BFAA412D444A2C00B12A6F /* Message_Bubble.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Message_Bubble.riv; sourceTree = "<group>"; };
-		43F69CEA2D456286002143FD /* testNewElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testNewElement.swift; sourceTree = "<group>"; };
-		43F69CFC2D46287D002143FD /* Grass_Field.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Grass_Field.riv; sourceTree = "<group>"; };
+		43C577232D6351DF00D9B587 /* Grass_Field.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Grass_Field.riv; sourceTree = "<group>"; };
+		43C5773B2D645BBB00D9B587 /* Break_Area.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Break_Area.riv; sourceTree = "<group>"; };
+		43C5FC402D6DB59A0064E7D5 /* DrillModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillModel.swift; sourceTree = "<group>"; };
+		43C5FC432D6DB7DF0064E7D5 /* SkillTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillTypes.swift; sourceTree = "<group>"; };
+		43C5FC482D6DB84B0064E7D5 /* EditableDrillModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableDrillModel.swift; sourceTree = "<group>"; };
+		43C5FC512D6DBCEA0064E7D5 /* AllGroupsDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsDisplay.swift; sourceTree = "<group>"; };
+		43C5FC532D6DBD0B0064E7D5 /* GroupCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCard.swift; sourceTree = "<group>"; };
+		43C5FC552D6DBD2C0064E7D5 /* LikedGroupCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedGroupCard.swift; sourceTree = "<group>"; };
+		43C5FC592D6DBDEF0064E7D5 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		43C5FC5B2D6DBEC50064E7D5 /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
+		43C5FC5D2D6DC0DF0064E7D5 /* FilterOptionsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOptionsButton.swift; sourceTree = "<group>"; };
+		43C5FC5F2D6DC1140064E7D5 /* SearchSkillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSkillsView.swift; sourceTree = "<group>"; };
+		43C5FC612D6DC1450064E7D5 /* SkillRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillRow.swift; sourceTree = "<group>"; };
+		43C5FC632D6DC1640064E7D5 /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
+		43C5FC652D6DC47B0064E7D5 /* SavedFiltersSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedFiltersSheet.swift; sourceTree = "<group>"; };
+		43C5FC692D6DCC0D0064E7D5 /* RecommendedDrillCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedDrillCard.swift; sourceTree = "<group>"; };
+		43C5FC6B2D6DCC4F0064E7D5 /* DrillCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillCard.swift; sourceTree = "<group>"; };
+		43C5FC6D2D6DCC7B0064E7D5 /* FieldDrillCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldDrillCard.swift; sourceTree = "<group>"; };
+		43C5FC6F2D6DCC970064E7D5 /* SkillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillButton.swift; sourceTree = "<group>"; };
+		43C5FC712D6DCCCC0064E7D5 /* SkillCategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillCategoryButton.swift; sourceTree = "<group>"; };
+		43C5FC732D6DCCEC0064E7D5 /* GeneratedDrillsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedDrillsSection.swift; sourceTree = "<group>"; };
+		43C5FC752D6DCD160064E7D5 /* RecommendedDrillsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedDrillsSection.swift; sourceTree = "<group>"; };
+		43C5FC7A2D6DCE4B0064E7D5 /* GroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsView.swift; sourceTree = "<group>"; };
+		43C5FC7C2D6DCE710064E7D5 /* SelectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionButton.swift; sourceTree = "<group>"; };
+		43C5FC7E2D6DCEB00064E7D5 /* SpecificDrillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificDrillsView.swift; sourceTree = "<group>"; };
+		43C5FC802D6DCEEA0064E7D5 /* ByTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByTypeView.swift; sourceTree = "<group>"; };
+		43C5FC822D6DCF160064E7D5 /* AllDrillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDrillsView.swift; sourceTree = "<group>"; };
+		43C5FC842D6DCF4F0064E7D5 /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
+		43C5FC9B2D6E54B60064E7D5 /* CircularScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularScore.swift; sourceTree = "<group>"; };
+		43FCC7222D7F684400005ABB /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		43FCC7242D7F8D6800005ABB /* CustomTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		430FD6BD2D2F0DE50016D520 /* Services */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Services; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		174936132C3E102B001163B9 /* Frameworks */ = {
@@ -239,20 +325,10 @@
 			path = TekkUITests;
 			sourceTree = "<group>";
 		};
-		17595A9D2D3B3B1B0015F35D /* Progression */ = {
-			isa = PBXGroup;
-			children = (
-				17595A9E2D3B3B2C0015F35D /* ProgressionView.swift */,
-				17595AA02D3B3B4E0015F35D /* DrillResultsView.swift */,
-				17595AA22D3B3B5B0015F35D /* WeekDisplayButton.swift */,
-			);
-			path = Progression;
-			sourceTree = "<group>";
-		};
 		178208DC2D2DEB7200246494 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				430FD6BD2D2F0DE50016D520 /* Services */,
+				4399B6DC2D69393F00DA5E84 /* Services */,
 				178208DE2D2DEB8400246494 /* Views */,
 				178208DD2D2DEB7C00246494 /* Models */,
 			);
@@ -262,8 +338,6 @@
 		178208DD2D2DEB7C00246494 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				43524E762D4D994400AD897A /* SessionGeneratorModel.swift */,
-				430FD6CC2D3064850016D520 /* MainAppModel.swift */,
 				178208DF2D2DEB9C00246494 /* OnboardingModel.swift */,
 			);
 			path = Models;
@@ -272,10 +346,10 @@
 		178208DE2D2DEB8400246494 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				178208E72D2DEC5400246494 /* HelperViews */,
 				178208E12D2DEBB400246494 /* OnboardingView.swift */,
 				178208F02D2DFD6500246494 /* OnboardingPreview.swift */,
 				178208E52D2DEC2900246494 /* CompletionView.swift */,
-				178208E72D2DEC5400246494 /* HelperViews */,
 				178208E32D2DEBC800246494 /* LoginView.swift */,
 			);
 			path = Views;
@@ -295,16 +369,19 @@
 		178208F52D2E05FE00246494 /* AppFeatures */ = {
 			isa = PBXGroup;
 			children = (
-				43524E942D5198C300AD897A /* SearchDrillsSheetView.swift */,
-				43BFAA042D4200A500B12A6F /* tests */,
-				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
-				174C676F2D34EB11003D02EF /* DrillDetailView.swift */,
-				174C676D2D34E9EA003D02EF /* SessionGeneratorView.swift */,
-				1782090D2D2E0A1100246494 /* ProfileView.swift */,
-				17595A9D2D3B3B1B0015F35D /* Progression */,
-				17C3B58C2D38E41C00D2471F /* DrillFollowAlongView.swift */,
+				4399B7142D6D794000DA5E84 /* Core */,
+				4399B7192D6D79D100DA5E84 /* Features */,
+				4399B7222D6D7A3C00DA5E84 /* Shared */,
 			);
 			path = AppFeatures;
+			sourceTree = "<group>";
+		};
+		431BDFE82D853E0700F4E6EE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1782090D2D2E0A1100246494 /* ProfileView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		43985E502CB51DEC00BE2AB6 /* Font */ = {
@@ -316,13 +393,185 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		4399B6DC2D69393F00DA5E84 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				43FCC7222D7F684400005ABB /* UserManager.swift */,
+				4399B6D72D6930AB00DA5E84 /* OnboardingService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		4399B70F2D6D741100DA5E84 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC402D6DB59A0064E7D5 /* DrillModel.swift */,
+				43524E762D4D994400AD897A /* SessionGeneratorModel.swift */,
+				430FD6CC2D3064850016D520 /* MainAppModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		4399B7142D6D794000DA5E84 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				4399B7182D6D799700DA5E84 /* Services */,
+				4399B70F2D6D741100DA5E84 /* Models */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		4399B7182D6D799700DA5E84 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				43A764982D825FE8004509E5 /* DataSyncService.swift */,
+				43B6877C2D7C2391009CCA8C /* CacheManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		4399B7192D6D79D100DA5E84 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				4399B71A2D6D79D800DA5E84 /* SessionGenerator */,
+				4399B71B2D6D79DF00DA5E84 /* Progression */,
+				4399B71C2D6D79E800DA5E84 /* SavedDrills */,
+				4399B71D2D6D79EE00DA5E84 /* Profile */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		4399B71A2D6D79D800DA5E84 /* SessionGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC452D6DB8280064E7D5 /* Models */,
+				4399B7212D6D7A0D00DA5E84 /* Views */,
+			);
+			path = SessionGenerator;
+			sourceTree = "<group>";
+		};
+		4399B71B2D6D79DF00DA5E84 /* Progression */ = {
+			isa = PBXGroup;
+			children = (
+				4399B7202D6D7A0800DA5E84 /* Views */,
+				4399B7272D6D7B0C00DA5E84 /* Components */,
+			);
+			path = Progression;
+			sourceTree = "<group>";
+		};
+		4399B71C2D6D79E800DA5E84 /* SavedDrills */ = {
+			isa = PBXGroup;
+			children = (
+				43B687822D7C2DE6009CCA8C /* Models */,
+				4399B71F2D6D7A0400DA5E84 /* Views */,
+				43C5FC972D6DD5750064E7D5 /* Components */,
+			);
+			path = SavedDrills;
+			sourceTree = "<group>";
+		};
+		4399B71D2D6D79EE00DA5E84 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				431BDFE82D853E0700F4E6EE /* Views */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		4399B71F2D6D7A0400DA5E84 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1782090B2D2E09EB00246494 /* SavedDrillsView.swift */,
+				4399B72E2D6D7F7100DA5E84 /* ViewModels */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4399B7202D6D7A0800DA5E84 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				17595A9E2D3B3B2C0015F35D /* ProgressionView.swift */,
+				4399B72D2D6D7F3600DA5E84 /* ViewModels */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4399B7212D6D7A0D00DA5E84 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				174C676D2D34E9EA003D02EF /* SessionGeneratorView.swift */,
+				4399B7282D6D7B3B00DA5E84 /* ViewModels */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4399B7222D6D7A3C00DA5E84 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				4399B7252D6D7AB400DA5E84 /* Components */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		4399B7252D6D7AB400DA5E84 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				43FCC7262D7F8DAA00005ABB /* MainTab */,
+				43C5FC422D6DB6D20064E7D5 /* ToastMessage */,
+				174C676F2D34EB11003D02EF /* DrillDetailView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		4399B7272D6D7B0C00DA5E84 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC5B2D6DBEC50064E7D5 /* RoundedCorner.swift */,
+				43C5FC9B2D6E54B60064E7D5 /* CircularScore.swift */,
+				17595AA22D3B3B5B0015F35D /* WeekDisplayButton.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		4399B7282D6D7B3B00DA5E84 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC772D6DCD6D0064E7D5 /* Cards */,
+				43C5FC952D6DD3F30064E7D5 /* FilterSelection */,
+				43C5FC8A2D6DD0C70064E7D5 /* SkillSelection */,
+				43C5FC8E2D6DD16A0064E7D5 /* DrillSelection */,
+				43C5FC942D6DD32A0064E7D5 /* PreSession */,
+				43C5FC932D6DD3000064E7D5 /* ActiveSession */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		4399B72D2D6D7F3600DA5E84 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC592D6DBDEF0064E7D5 /* CalendarView.swift */,
+				17595AA02D3B3B4E0015F35D /* DrillResultsView.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		4399B72E2D6D7F7100DA5E84 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				4399B6E82D69407A00DA5E84 /* GroupDetailView.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		439A72632C9FA55700B4C5AD /* RiveAssets */ = {
 			isa = PBXGroup;
 			children = (
+				4399B6EE2D69932D00DA5E84 /* Bravo_Peaking.riv */,
+				43C577232D6351DF00D9B587 /* Grass_Field.riv */,
 				43BFA9F32D40AB8A00B12A6F /* Paw_Gray.riv */,
 				43BFA9E72D408B8100B12A6F /* Arrow.riv */,
 				43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */,
 				43985E592CB5B0BB00BE2AB6 /* Bravo_Panting.riv */,
+				43C5773B2D645BBB00D9B587 /* Break_Area.riv */,
 				17595AAC2D3B44FE0015F35D /* Drill_Card_Complete.riv */,
 				430FD71E2D334CAF0016D520 /* Day_Null.riv */,
 				43BFA9D52D3F38B300B12A6F /* Golden_Button.riv */,
@@ -334,7 +583,6 @@
 				43BFAA1F2D438C7B00B12A6F /* Tab_Calendar.riv */,
 				43BFAA212D438D6600B12A6F /* Tab_Saved.riv */,
 				43BFAA252D43946000B12A6F /* Tab_Dude.riv */,
-				43F69CFC2D46287D002143FD /* Grass_Field.riv */,
 				43BFAA2B2D439D2C00B12A6F /* Prereq_Time.riv */,
 				43BFAA312D44105200B12A6F /* Prereq_Equipment.riv */,
 				43BFAA332D44164E00B12A6F /* Prereq_Training_Style.riv */,
@@ -344,13 +592,175 @@
 			path = RiveAssets;
 			sourceTree = "<group>";
 		};
-		43BFAA042D4200A500B12A6F /* tests */ = {
+		43B687822D7C2DE6009CCA8C /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				43F69CEA2D456286002143FD /* testNewElement.swift */,
-				43BFA9FD2D41D36C00B12A6F /* testSesGenView.swift */,
+				43B687802D7C23D7009CCA8C /* GroupModel.swift */,
 			);
-			path = tests;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		43C5FC422D6DB6D20064E7D5 /* ToastMessage */ = {
+			isa = PBXGroup;
+			children = (
+				4399B6CD2D67CE3500DA5E84 /* ToastMessageView.swift */,
+				4399B7382D6D901300DA5E84 /* ToastMessageModel.swift */,
+			);
+			path = ToastMessage;
+			sourceTree = "<group>";
+		};
+		43C5FC452D6DB8280064E7D5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC482D6DB84B0064E7D5 /* EditableDrillModel.swift */,
+				43C5FC432D6DB7DF0064E7D5 /* SkillTypes.swift */,
+				4399B7412D6D92BE00DA5E84 /* FilterTypes.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		43C5FC772D6DCD6D0064E7D5 /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC6B2D6DCC4F0064E7D5 /* DrillCard.swift */,
+				43C5FC692D6DCC0D0064E7D5 /* RecommendedDrillCard.swift */,
+				43C5FC6D2D6DCC7B0064E7D5 /* FieldDrillCard.swift */,
+			);
+			path = Cards;
+			sourceTree = "<group>";
+		};
+		43C5FC8A2D6DD0C70064E7D5 /* SkillSelection */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC8C2D6DD10C0064E7D5 /* SkillSheet */,
+				43C5FC922D6DD29A0064E7D5 /* SearchBarView */,
+				43C5FC8D2D6DD1450064E7D5 /* Components */,
+			);
+			path = SkillSelection;
+			sourceTree = "<group>";
+		};
+		43C5FC8C2D6DD10C0064E7D5 /* SkillSheet */ = {
+			isa = PBXGroup;
+			children = (
+				4399B6FC2D6C878000DA5E84 /* SkillSelectorSheetView.swift */,
+			);
+			path = SkillSheet;
+			sourceTree = "<group>";
+		};
+		43C5FC8D2D6DD1450064E7D5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC712D6DCCCC0064E7D5 /* SkillCategoryButton.swift */,
+				43C5FC6F2D6DCC970064E7D5 /* SkillButton.swift */,
+				43C5FC612D6DC1450064E7D5 /* SkillRow.swift */,
+				4399B6F62D6C85C400DA5E84 /* SkillSearchBar.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		43C5FC8E2D6DD16A0064E7D5 /* DrillSelection */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC8F2D6DD1A10064E7D5 /* DrillSheet */,
+				43C5FC902D6DD1A70064E7D5 /* Components */,
+			);
+			path = DrillSelection;
+			sourceTree = "<group>";
+		};
+		43C5FC8F2D6DD1A10064E7D5 /* DrillSheet */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC912D6DD1B90064E7D5 /* Tabs */,
+				43524E942D5198C300AD897A /* SearchDrillsSheetView.swift */,
+			);
+			path = DrillSheet;
+			sourceTree = "<group>";
+		};
+		43C5FC902D6DD1A70064E7D5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC842D6DCF4F0064E7D5 /* TabButton.swift */,
+				43C5FC7C2D6DCE710064E7D5 /* SelectionButton.swift */,
+				4399B6EA2D6942A800DA5E84 /* DrillRow.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		43C5FC912D6DD1B90064E7D5 /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC822D6DCF160064E7D5 /* AllDrillsView.swift */,
+				43C5FC802D6DCEEA0064E7D5 /* ByTypeView.swift */,
+				43C5FC7E2D6DCEB00064E7D5 /* SpecificDrillsView.swift */,
+				43C5FC7A2D6DCE4B0064E7D5 /* GroupsView.swift */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
+		43C5FC922D6DD29A0064E7D5 /* SearchBarView */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC5F2D6DC1140064E7D5 /* SearchSkillsView.swift */,
+			);
+			path = SearchBarView;
+			sourceTree = "<group>";
+		};
+		43C5FC932D6DD3000064E7D5 /* ActiveSession */ = {
+			isa = PBXGroup;
+			children = (
+				4399B6F02D6C84AD00DA5E84 /* AreaBehindHomePageView.swift */,
+				43AFAE842D6168F100B61982 /* SessionCompleteView.swift */,
+				17C3B58C2D38E41C00D2471F /* DrillFollowAlongView.swift */,
+			);
+			path = ActiveSession;
+			sourceTree = "<group>";
+		};
+		43C5FC942D6DD32A0064E7D5 /* PreSession */ = {
+			isa = PBXGroup;
+			children = (
+				4399B6E52D693C2B00DA5E84 /* EditingDrillView.swift */,
+				43C5FC752D6DCD160064E7D5 /* RecommendedDrillsSection.swift */,
+				43C5FC732D6DCCEC0064E7D5 /* GeneratedDrillsSection.swift */,
+			);
+			path = PreSession;
+			sourceTree = "<group>";
+		};
+		43C5FC952D6DD3F30064E7D5 /* FilterSelection */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC962D6DD40E0064E7D5 /* Components */,
+			);
+			path = FilterSelection;
+			sourceTree = "<group>";
+		};
+		43C5FC962D6DD40E0064E7D5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC652D6DC47B0064E7D5 /* SavedFiltersSheet.swift */,
+				43C5FC5D2D6DC0DF0064E7D5 /* FilterOptionsButton.swift */,
+				4399B6F42D6C857E00DA5E84 /* FilterOptions.swift */,
+				4399B6F22D6C854700DA5E84 /* FilterSheet.swift */,
+				43C5FC632D6DC1640064E7D5 /* FilterButton.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		43C5FC972D6DD5750064E7D5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				43C5FC552D6DBD2C0064E7D5 /* LikedGroupCard.swift */,
+				43C5FC532D6DBD0B0064E7D5 /* GroupCard.swift */,
+				43C5FC512D6DBCEA0064E7D5 /* AllGroupsDisplay.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		43FCC7262D7F8DAA00005ABB /* MainTab */ = {
+			isa = PBXGroup;
+			children = (
+				43FCC7242D7F8D6800005ABB /* CustomTabItem.swift */,
+			);
+			path = MainTab;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -367,9 +777,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				430FD6BD2D2F0DE50016D520 /* Services */,
 			);
 			name = BravoBall;
 			productName = Tekk;
@@ -472,9 +879,11 @@
 				43BFAA3C2D442BEB00B12A6F /* Prereq_Difficulty.riv in Resources */,
 				43BFA9F62D40ABB600B12A6F /* Paw_Yellow.riv in Resources */,
 				174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */,
-				43F69CFD2D46287D002143FD /* Grass_Field.riv in Resources */,
+				43C5773C2D645BBB00D9B587 /* Break_Area.riv in Resources */,
+				43C577242D6351DF00D9B587 /* Grass_Field.riv in Resources */,
 				1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */,
 				43BFAA342D44164E00B12A6F /* Prereq_Training_Style.riv in Resources */,
+				4399B6EF2D69932D00DA5E84 /* Bravo_Peaking.riv in Resources */,
 				43BFAA102D43291E00B12A6F /* Tab_House.riv in Resources */,
 				43BFA9EA2D40964700B12A6F /* Drill_Card_Incomplete.riv in Resources */,
 				43BFA9D62D3F38B300B12A6F /* Golden_Button.riv in Resources */,
@@ -513,32 +922,75 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43C5FC602D6DC11A0064E7D5 /* SearchSkillsView.swift in Sources */,
+				43B687812D7C23DA009CCA8C /* GroupModel.swift in Sources */,
+				43C5FC642D6DC1670064E7D5 /* FilterButton.swift in Sources */,
+				43C5FC6C2D6DCC520064E7D5 /* DrillCard.swift in Sources */,
 				430FD6CD2D30648A0016D520 /* MainAppModel.swift in Sources */,
 				174C67702D34EB26003D02EF /* DrillDetailView.swift in Sources */,
+				43C5FC852D6DCF530064E7D5 /* TabButton.swift in Sources */,
+				43C5FC5C2D6DBEC90064E7D5 /* RoundedCorner.swift in Sources */,
+				43C5FC6E2D6DCC7E0064E7D5 /* FieldDrillCard.swift in Sources */,
+				43C5FC9C2D6E54B90064E7D5 /* CircularScore.swift in Sources */,
 				17C3B58D2D38E43900D2471F /* DrillFollowAlongView.swift in Sources */,
+				43C5FC722D6DCCD20064E7D5 /* SkillCategoryButton.swift in Sources */,
+				4399B6FD2D6C878600DA5E84 /* SkillSelectorSheetView.swift in Sources */,
+				4399B6F12D6C84B800DA5E84 /* AreaBehindHomePageView.swift in Sources */,
+				4399B6EB2D6942AC00DA5E84 /* DrillRow.swift in Sources */,
+				43C5FC812D6DCEEE0064E7D5 /* ByTypeView.swift in Sources */,
 				17595AA32D3B3B610015F35D /* WeekDisplayButton.swift in Sources */,
+				43C5FC412D6DB59D0064E7D5 /* DrillModel.swift in Sources */,
+				43C5FC622D6DC1470064E7D5 /* SkillRow.swift in Sources */,
+				43C5FC442D6DB7E20064E7D5 /* SkillTypes.swift in Sources */,
+				43C5FC832D6DCF1B0064E7D5 /* AllDrillsView.swift in Sources */,
 				17595AA12D3B3B520015F35D /* DrillResultsView.swift in Sources */,
+				43C5FC7D2D6DCE740064E7D5 /* SelectionButton.swift in Sources */,
 				178208F12D2DFD6500246494 /* OnboardingPreview.swift in Sources */,
+				43C5FC662D6DC4800064E7D5 /* SavedFiltersSheet.swift in Sources */,
 				178208E62D2DEC2900246494 /* CompletionView.swift in Sources */,
+				4399B6D92D6930AB00DA5E84 /* OnboardingService.swift in Sources */,
+				43C5FC702D6DCC9A0064E7D5 /* SkillButton.swift in Sources */,
 				178208EB2D2DECE300246494 /* OnboardingMultiSelectView.swift in Sources */,
 				430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */,
+				4399B6E92D69407F00DA5E84 /* GroupDetailView.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
 				178208E02D2DEB9C00246494 /* OnboardingModel.swift in Sources */,
-				43BFA9FE2D41D37100B12A6F /* testSesGenView.swift in Sources */,
+				43C5FC6A2D6DCC130064E7D5 /* RecommendedDrillCard.swift in Sources */,
+				43C5FC542D6DBD0E0064E7D5 /* GroupCard.swift in Sources */,
+				4399B7392D6D901B00DA5E84 /* ToastMessageModel.swift in Sources */,
 				17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */,
-				43F69CEB2D456291002143FD /* testNewElement.swift in Sources */,
 				17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */,
 				1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */,
 				43524E952D5198C900AD897A /* SearchDrillsSheetView.swift in Sources */,
+				43C5FC5E2D6DC0E40064E7D5 /* FilterOptionsButton.swift in Sources */,
+				43C5FC562D6DBD310064E7D5 /* LikedGroupCard.swift in Sources */,
 				1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */,
 				178208E22D2DEBB400246494 /* OnboardingView.swift in Sources */,
+				4399B6F72D6C85C900DA5E84 /* SkillSearchBar.swift in Sources */,
+				4399B6F52D6C858200DA5E84 /* FilterOptions.swift in Sources */,
+				43C5FC7F2D6DCEB70064E7D5 /* SpecificDrillsView.swift in Sources */,
 				178208E42D2DEBC800246494 /* LoginView.swift in Sources */,
 				178208E92D2DEC6D00246494 /* OnboardingStepView.swift in Sources */,
+				43FCC7232D7F684900005ABB /* UserManager.swift in Sources */,
+				43C5FC522D6DBCF00064E7D5 /* AllGroupsDisplay.swift in Sources */,
+				4399B7422D6D92C100DA5E84 /* FilterTypes.swift in Sources */,
 				17595A9F2D3B3B320015F35D /* ProgressionView.swift in Sources */,
+				43B6877D2D7C2394009CCA8C /* CacheManager.swift in Sources */,
+				43C5FC492D6DB84F0064E7D5 /* EditableDrillModel.swift in Sources */,
+				43A764992D825FEF004509E5 /* DataSyncService.swift in Sources */,
+				43C5FC742D6DCCF30064E7D5 /* GeneratedDrillsSection.swift in Sources */,
+				4399B6CE2D67CE3B00DA5E84 /* ToastMessageView.swift in Sources */,
 				174C676E2D34E9EE003D02EF /* SessionGeneratorView.swift in Sources */,
+				43AFAE852D6168F800B61982 /* SessionCompleteView.swift in Sources */,
+				4399B6E62D693C3100DA5E84 /* EditingDrillView.swift in Sources */,
+				43C5FC7B2D6DCE4F0064E7D5 /* GroupsView.swift in Sources */,
+				43C5FC5A2D6DBDF50064E7D5 /* CalendarView.swift in Sources */,
 				178208D22D2D14D200246494 /* MainTabView.swift in Sources */,
 				178208ED2D2DED0800246494 /* OnboardingBooleanView.swift in Sources */,
+				4399B6F32D6C854B00DA5E84 /* FilterSheet.swift in Sources */,
 				43524E772D4D994B00AD897A /* SessionGeneratorModel.swift in Sources */,
+				43C5FC762D6DCD1D0064E7D5 /* RecommendedDrillsSection.swift in Sources */,
+				43FCC7252D7F8D6E00005ABB /* CustomTabItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

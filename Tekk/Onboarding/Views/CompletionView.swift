@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RiveRuntime
+import SwiftKeychainWrapper
 
 struct CompletionView: View {
     @ObservedObject var model: OnboardingModel
@@ -59,7 +60,7 @@ struct CompletionView: View {
                 
                 await MainActor.run {
                     // Store access token taking access token response from the backend response
-                    UserDefaults.standard.set(response.access_token, forKey: "accessToken")
+                    KeychainWrapper.standard.set(response.access_token, forKey: "authToken")
                     
                     // Update the decoded user info into UserManager, which will store it into Keychain
                     userManager.updateUserKeychain(
@@ -70,6 +71,8 @@ struct CompletionView: View {
                     
                     print("Data submitted")
                     print("Access token: \(response.access_token)")
+                    
+                    // TODO: these should be cleared after onboarding
                     print("Email: \(model.onboardingData.email)")
                     print("First Name: \(model.onboardingData.firstName)")
                     print("Last Name: \(model.onboardingData.lastName)")
