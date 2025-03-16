@@ -92,7 +92,7 @@ class SessionGeneratorModel: ObservableObject {
     
     
     
-    
+    // TODO: make sure this initialization of the user's onboardin data is good
     
     // Initialize with user's onboarding data
     init(appModel: MainAppModel, onboardingData: OnboardingModel.OnboardingData) {
@@ -120,16 +120,18 @@ class SessionGeneratorModel: ObservableObject {
             }
         }
         
-        // Setup auto-save timer
+        // Setup timer of auto-save of data after 30 seconds
         autoSaveTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { [weak self] _ in
             self?.saveIfNeeded()
         }
     }
     
+    // Sync data changes when screen changes
     deinit {
-        autoSaveTimer?.invalidate()
-        saveIfNeeded() // Final save on deinit
+        autoSaveTimer?.invalidate() // Stop timer
+        saveIfNeeded()
     }
+    
     
     private func markAsNeedingSave() {
         hasUnsavedChanges = true
@@ -139,11 +141,17 @@ class SessionGeneratorModel: ObservableObject {
         cacheManager.cache(preferences, forKey: .filterGroupsCase)
     }
     
+    // TODO: theres sync functions on the bottom, see if can morph this func with those functions
+    
+    // Sync if theres unsaved changes
     func saveIfNeeded() {
         guard hasUnsavedChanges else { return }
         
-        Task {
+        Task { // Runs in background
             do {
+                
+                // TODO: sync other user data (only will send data that changed)
+                
                 try await DataSyncService.shared.syncUserPreferences(
                     selectedTime: selectedTime,
                     selectedEquipment: selectedEquipment,
@@ -154,7 +162,7 @@ class SessionGeneratorModel: ObservableObject {
                     highestStreak: appModel.highestStreak,
                     completedSessionsCount: appModel.countOfFullyCompletedSessions
                 )
-                await MainActor.run {
+                await MainActor.run { // Switches execution back to main UI
                     hasUnsavedChanges = false
                 }
             } catch {
@@ -278,8 +286,6 @@ class SessionGeneratorModel: ObservableObject {
     }
     
     func sessionsLeftToComplete() -> Int {
-//        let sessionsLeft = orderedSessionDrills.count(where: {$0.isCompleted == false})
-//            return String(sessionsLeft)
         orderedSessionDrills.count(where: {$0.isCompleted == false})
         
     }
