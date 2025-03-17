@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		170167FB2D88B8790078446C /* DrillGroupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170167FA2D88B8730078446C /* DrillGroupService.swift */; };
 		1749361C2C3E102B001163B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1749361B2C3E102B001163B9 /* ContentView.swift */; };
 		1749361E2C3E1031001163B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1749361D2C3E1031001163B9 /* Assets.xcassets */; };
 		174936222C3E1031001163B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 174936212C3E1031001163B9 /* Preview Assets.xcassets */; };
@@ -128,6 +129,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		170167FA2D88B8730078446C /* DrillGroupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillGroupService.swift; sourceTree = "<group>"; };
 		174936162C3E102B001163B9 /* BravoBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BravoBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1749361B2C3E102B001163B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1749361D2C3E1031001163B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -425,6 +427,7 @@
 			isa = PBXGroup;
 			children = (
 				43A764982D825FE8004509E5 /* DataSyncService.swift */,
+				170167FA2D88B8730078446C /* DrillGroupService.swift */,
 				43B6877C2D7C2391009CCA8C /* CacheManager.swift */,
 			);
 			path = Services;
@@ -935,6 +938,7 @@
 				17C3B58D2D38E43900D2471F /* DrillFollowAlongView.swift in Sources */,
 				43C5FC722D6DCCD20064E7D5 /* SkillCategoryButton.swift in Sources */,
 				4399B6FD2D6C878600DA5E84 /* SkillSelectorSheetView.swift in Sources */,
+				170167FB2D88B8790078446C /* DrillGroupService.swift in Sources */,
 				4399B6F12D6C84B800DA5E84 /* AreaBehindHomePageView.swift in Sources */,
 				4399B6EB2D6942AC00DA5E84 /* DrillRow.swift in Sources */,
 				43C5FC812D6DCEEE0064E7D5 /* ByTypeView.swift in Sources */,

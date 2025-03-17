@@ -61,6 +61,7 @@ struct DrillResponse: Codable, Identifiable {
     func toDrillModel() -> DrillModel {
         return DrillModel(
             id: UUID(),  // Generate a new UUID since we can't convert an Int to UUID
+            backendId: id, // Store the backend ID from the API
             title: title,
             skill: type,
             sets: sets ?? 0,
