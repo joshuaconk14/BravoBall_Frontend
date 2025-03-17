@@ -22,6 +22,16 @@ struct OnboardingView: View {
             // testing instead of onboarding complete
             if model.isLoggedIn {
                 MainTabView(model: model, appModel: appModel, userManager: userManager, sessionModel: sessionModel)
+            } else if model.skipOnboarding {
+                // Skip directly to completion view when toggle is on
+                CompletionView(model: model, userManager: userManager, sessionModel: sessionModel)
+                    .onAppear {
+                        // Make sure test data is applied when the view appears
+                        if model.onboardingData.firstName.isEmpty {
+                            print("🔄 Applying test data for onboarding...")
+                            model.prefillTestData()
+                        }
+                    }
             } else {
                 content
             }
@@ -278,7 +288,7 @@ struct OnboardingView: View {
                         password: $model.onboardingData.password
                     )
                 } else {
-                    CompletionView(model: model, userManager: userManager)
+                    CompletionView(model: model, userManager: userManager, sessionModel: sessionModel)
                 }
             }
             .padding()

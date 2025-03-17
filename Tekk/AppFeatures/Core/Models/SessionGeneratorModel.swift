@@ -235,41 +235,49 @@ class SessionGeneratorModel: ObservableObject {
     
     // Update drills based on selected sub-skills, converting testDrill's DrillModels into orderedDrill's EditDrillModels
     func updateDrills() {
-        
-        // Show drills that match any of the selected sub-skills
-        let filteredDrills = Self.testDrills.filter { drill in
-            // Check if any of the selected skills match the drill
-            for skill in selectedSkills {
-                // Match drills based on skill keywords
-                switch skill.lowercased() {
-                case "short passing":
-                    if drill.title.contains("Short Passing") { return true }
-                case "long passing":
-                    if drill.title.contains("Long Passing") { return true }
-                case "through balls":
-                    if drill.title.contains("Through Ball") { return true }
-                case "power shots", "finesse shots", "volleys", "one-on-one finishing", "long shots":
-                    if drill.title.contains("Shot") || drill.title.contains("Shooting") { return true }
-                case "close control", "speed dribbling", "1v1 moves", "winger skills", "ball mastery":
-                    if drill.title.contains("Dribbling") || drill.title.contains("1v1") { return true }
-                default:
-                    // For any other skills, try to match based on the first word
-                    let mainSkill = skill.split(separator: " ").first?.lowercased() ?? ""
-                    if drill.title.lowercased().contains(mainSkill) { return true }
+        // Only update drills if the array is empty
+        if orderedSessionDrills.isEmpty {
+            // Show drills that match any of the selected sub-skills
+            let filteredDrills = Self.testDrills.filter { drill in
+                // Check if any of the selected skills match the drill
+                for skill in selectedSkills {
+                    // Match drills based on skill keywords
+                    switch skill.lowercased() {
+                    case "short passing":
+                        if drill.title.contains("Short Passing") { return true }
+                    case "long passing":
+                        if drill.title.contains("Long Passing") { return true }
+                    case "through balls":
+                        if drill.title.contains("Through Ball") { return true }
+                    case "power shots", "finesse shots", "volleys", "one-on-one finishing", "long shots":
+                        if drill.title.contains("Shot") || drill.title.contains("Shooting") { return true }
+                    case "close control", "speed dribbling", "1v1 moves", "winger skills", "ball mastery":
+                        if drill.title.contains("Dribbling") || drill.title.contains("1v1") { return true }
+                    default:
+                        // For any other skills, try to match based on the first word
+                        let mainSkill = skill.split(separator: " ").first?.lowercased() ?? ""
+                        if drill.title.lowercased().contains(mainSkill) { return true }
+                    }
                 }
+                return false
             }
-            return false
-        }
-        // Convert filtered DrillModels to EditableDrillModels
-        orderedSessionDrills = filteredDrills.map { drill in
-            EditableDrillModel(
-                drill: drill,
-                setsDone: 0,
-                totalSets: drill.sets,
-                totalReps: drill.reps,
-                totalDuration: drill.duration,
-                isCompleted: false
-            )
+            // Convert filtered DrillModels to EditableDrillModels
+            orderedSessionDrills = filteredDrills.map { drill in
+                EditableDrillModel(
+                    drill: drill,
+                    setsDone: 0,
+                    totalSets: drill.sets,
+                    totalReps: drill.reps,
+                    totalDuration: drill.duration,
+                    isCompleted: false
+                )
+            }
+            
+            // Cache the drills
+            cacheOrderedDrills()
+            print("✅ Updated drills based on selected skills: \(selectedSkills)")
+        } else {
+            print("ℹ️ Skipping drill update as drills are already loaded")
         }
     }
     
@@ -476,6 +484,21 @@ class SessionGeneratorModel: ObservableObject {
             }
             print("----------------------------------------")
             orderedSessionDrills = drills
+            
+            // Ensure we don't override these drills with default ones
+            if !drills.isEmpty {
+                print("✅ Using cached drills instead of default drills")
+                
+                // Extract skills from the loaded drills
+                let drillSkills = Set(drills.map { $0.drill.skill })
+                print("📊 Skills from cached drills: \(drillSkills)")
+                
+                // Update selected skills based on the loaded drills
+                if selectedSkills.isEmpty {
+                    selectedSkills = drillSkills
+                    print("✅ Updated selected skills from cached drills: \(selectedSkills)")
+                }
+            }
         } else {
             print("\n📋 ORDERED DRILLS FOR USER \(userEmail):")
             print("----------------------------------------")
@@ -515,7 +538,7 @@ class SessionGeneratorModel: ObservableObject {
         print("💾 Saved \(allSavedFilters.count) filter groups to cache")
     }
     
-    private func cacheOrderedDrills() {
+    func cacheOrderedDrills() {
         print("\n💾 Saving ordered drills to cache...")
         print("Number of drills to save: \(orderedSessionDrills.count)")
         cacheManager.cache(orderedSessionDrills, forKey: .orderedDrillsCase)
