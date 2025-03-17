@@ -145,82 +145,6 @@ class DrillGroupService {
         )
     }
     
-    /// Create a new drill group with drill IDs directly
-    func createDrillGroupWithIds(name: String, description: String, drillIds: [Int], isLikedGroup: Bool) async throws -> DrillGroupResponse {
-        guard let token = getAuthToken() else {
-            throw NSError(domain: "DrillGroupService", code: 401, userInfo: [NSLocalizedDescriptionKey: "Authentication token not found"])
-        }
-        
-        let url = URL(string: "\(baseURL)/api/drill-groups/")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        // Create request body
-        let groupRequest = DrillGroupRequest(
-            name: name,
-            description: description,
-            drill_ids: drillIds,
-            isLikedGroup: isLikedGroup
-        )
-        
-        request.httpBody = try JSONEncoder().encode(groupRequest)
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw NSError(domain: "DrillGroupService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
-        }
-        
-        if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
-            print("✅ Successfully created drill group: \(name)")
-            return try JSONDecoder().decode(DrillGroupResponse.self, from: data)
-        } else {
-            let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data)
-            let errorMessage = errorResponse?.detail ?? "Failed to create drill group"
-            throw NSError(domain: "DrillGroupService", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorMessage])
-        }
-    }
-    
-    /// Update a drill group with drill IDs directly
-    func updateDrillGroupWithIds(groupId: Int, name: String, description: String, drillIds: [Int], isLikedGroup: Bool) async throws -> DrillGroupResponse {
-        guard let token = getAuthToken() else {
-            throw NSError(domain: "DrillGroupService", code: 401, userInfo: [NSLocalizedDescriptionKey: "Authentication token not found"])
-        }
-        
-        let url = URL(string: "\(baseURL)/api/drill-groups/\(groupId)")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "PUT"
-        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        // Create request body
-        let groupRequest = DrillGroupRequest(
-            name: name,
-            description: description,
-            drill_ids: drillIds,
-            isLikedGroup: isLikedGroup
-        )
-        
-        request.httpBody = try JSONEncoder().encode(groupRequest)
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw NSError(domain: "DrillGroupService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
-        }
-        
-        if httpResponse.statusCode == 200 {
-            print("✅ Successfully updated drill group \(groupId)")
-            return try JSONDecoder().decode(DrillGroupResponse.self, from: data)
-        } else {
-            let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data)
-            let errorMessage = errorResponse?.detail ?? "Failed to update drill group"
-            throw NSError(domain: "DrillGroupService", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorMessage])
-        }
-    }
-    
     /// Delete a drill group
     func deleteDrillGroup(groupId: Int) async throws -> String {
         guard let token = getAuthToken() else {
@@ -387,6 +311,82 @@ class DrillGroupService {
         } else {
             let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data)
             let errorMessage = errorResponse?.detail ?? "Failed to check drill like status"
+            throw NSError(domain: "DrillGroupService", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorMessage])
+        }
+    }
+    
+    /// Create a new drill group with drill IDs directly
+    func createDrillGroupWithIds(name: String, description: String, drillIds: [Int] = [], isLikedGroup: Bool = false) async throws -> DrillGroupResponse {
+        guard let token = getAuthToken() else {
+            throw NSError(domain: "DrillGroupService", code: 401, userInfo: [NSLocalizedDescriptionKey: "Authentication token not found"])
+        }
+        
+        let url = URL(string: "\(baseURL)/api/drill-groups/")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Create request body
+        let groupRequest = DrillGroupRequest(
+            name: name,
+            description: description,
+            drill_ids: drillIds,
+            isLikedGroup: isLikedGroup
+        )
+        
+        request.httpBody = try JSONEncoder().encode(groupRequest)
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NSError(domain: "DrillGroupService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
+        }
+        
+        if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
+            print("✅ Successfully created drill group: \(name)")
+            return try JSONDecoder().decode(DrillGroupResponse.self, from: data)
+        } else {
+            let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data)
+            let errorMessage = errorResponse?.detail ?? "Failed to create drill group"
+            throw NSError(domain: "DrillGroupService", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorMessage])
+        }
+    }
+    
+    /// Update a drill group with drill IDs directly
+    func updateDrillGroupWithIds(groupId: Int, name: String, description: String, drillIds: [Int], isLikedGroup: Bool) async throws -> DrillGroupResponse {
+        guard let token = getAuthToken() else {
+            throw NSError(domain: "DrillGroupService", code: 401, userInfo: [NSLocalizedDescriptionKey: "Authentication token not found"])
+        }
+        
+        let url = URL(string: "\(baseURL)/api/drill-groups/\(groupId)")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Create request body
+        let groupRequest = DrillGroupRequest(
+            name: name,
+            description: description,
+            drill_ids: drillIds,
+            isLikedGroup: isLikedGroup
+        )
+        
+        request.httpBody = try JSONEncoder().encode(groupRequest)
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NSError(domain: "DrillGroupService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
+        }
+        
+        if httpResponse.statusCode == 200 {
+            print("✅ Successfully updated drill group \(groupId)")
+            return try JSONDecoder().decode(DrillGroupResponse.self, from: data)
+        } else {
+            let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data)
+            let errorMessage = errorResponse?.detail ?? "Failed to update drill group"
             throw NSError(domain: "DrillGroupService", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorMessage])
         }
     }
