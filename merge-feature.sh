@@ -44,9 +44,14 @@ fi
 
 echo -e "${GREEN}Successfully pushed to remote.${NC}"
 
-# Checkout to develop branch
-echo -e "${YELLOW}Checking out to develop branch...${NC}"
-git checkout develop
+# Ask if you want to merge to develop
+echo -e "${YELLOW}Do you want to merge to develop? (y/n)${NC}"
+read -r MERGE_TO_DEVELOP
+
+if [[ $MERGE_TO_DEVELOP == "y" || $MERGE_TO_DEVELOP == "Y" ]]; then
+    # Checkout to develop branch
+    echo -e "${YELLOW}Checking out to develop branch...${NC}"
+    git checkout develop
 
 if [ $? -ne 0 ]; then
     echo -e "${RED}Failed to checkout develop branch. Exiting.${NC}"
@@ -148,8 +153,12 @@ if [[ $MERGE_TO_MAIN == "y" || $MERGE_TO_MAIN == "Y" ]]; then
     echo -e "${GREEN}Successfully pushed main to remote.${NC}"
 fi
 
-# # Return to original branch
-# echo -e "${YELLOW}Returning to $CURRENT_BRANCH branch...${NC}"
-# git checkout "$CURRENT_BRANCH"
+# Return to original branch
+echo -e "${YELLOW}Returning to $CURRENT_BRANCH branch...${NC}"
+git checkout "$CURRENT_BRANCH"
+
+if [ $? -ne 0]; then
+    echo -e "${RED} Failed to checkout $CURRENT_BRANCH branch. Exiting.${NC}"
+fi
 
 echo -e "${GREEN}All done! Your changes have been successfully merged.${NC}" 
