@@ -172,7 +172,7 @@ class OnboardingModel: ObservableObject {
             playstyle: "Big Bob",  // Match one of the actual options in questionOptions
             ageRange: "Teen (13-16)",
             strengths: ["Defending"],
-            areasToImprove: ["Passing", "Dribbling", "Shooting"],
+            areasToImprove: ["Passing", "Dribbling", "First touch"],
             trainingLocation: ["At a soccer field with goals"],  // Match one of the actual options
             availableEquipment: ["Soccer ball", "Cones", "Wall"],
             dailyTrainingTime: "30-60 minutes",

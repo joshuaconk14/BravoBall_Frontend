@@ -1,215 +1,122 @@
 # BravoBall Frontend
 
 ## Overview
-BravoBall is a personalized soccer training app that creates custom training sessions based on user preferences and skill levels. This document outlines the key data structures and API interactions used in the app.
+BravoBall is a personalized soccer training app that creates custom training sessions based on user preferences and skill levels. The app helps players improve their skills through tailored drills and progress tracking.
 
-## Data Schemas
+## Features
 
-### User Data
+- **Personalized Training**: Custom training sessions based on user's skill level, goals, and available equipment
+- **Skill-Focused Drills**: Targeted drills for specific skills like passing, shooting, dribbling, and more
+- **Progress Tracking**: Track completed sessions and monitor improvement over time
+- **Drill Library**: Save favorite drills and create custom drill collections
+- **Filter System**: Find drills based on equipment, difficulty, duration, and more
+- **Offline Support**: Cache system for using the app without constant internet connection
+- **Test Mode**: Development feature to quickly test app functionality
 
-#### OnboardingData
-```swift
-struct OnboardingData {
-    var primaryGoal: String
-    var biggestChallenge: String
-    var trainingExperience: String
-    var position: String
-    var playstyle: String
-    var ageRange: String
-    var strengths: [String]
-    var areasToImprove: [String]
-    var trainingLocation: [String]
-    var availableEquipment: [String]
-    var dailyTrainingTime: String
-    var weeklyTrainingDays: String
-    var firstName: String
-    var lastName: String
-    var email: String
-    var password: String
-}
+## Installation
+
+### Prerequisites
+- Xcode 14.0+
+- iOS 16.0+
+- Swift 5.7+
+- CocoaPods or Swift Package Manager
+
+### Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/jordanconklin/BravoBall_Frontend.git
+   cd BravoBall_Frontend
+   ```
+
+2. Install dependencies:
+   ```bash
+   pod install
+   ```
+   or if using Swift Package Manager:
+   ```bash
+   swift package resolve
+   ```
+
+3. Open the project:
+   ```bash
+   open BravoBall.xcworkspace
+   ```
+
+4. Build and run the project in Xcode
+
+## Architecture
+
+BravoBall follows the MVVM (Model-View-ViewModel) architecture pattern:
+
+- **Models**: Data structures representing the core domain objects
+- **Views**: SwiftUI views for the user interface
+- **ViewModels**: Business logic and state management
+- **Services**: API communication and data processing
+
+### Key Components
+
+- **OnboardingModel**: Manages the user onboarding process
+- **SessionGeneratorModel**: Handles session creation and management
+- **UserManager**: User authentication and profile management
+- **CacheManager**: Local data persistence
+- **DataSyncService**: Synchronization with the backend
+
+### Model Relationships
+
+The app has several interconnected data models with the following key relationships:
+
+- Users have onboarding data, multiple sessions, saved drill groups, and filter preferences
+- Sessions contain multiple drills with progress tracking
+- Drill groups organize collections of drills that users can save and favorite
+
+For a detailed diagram and explanation of all model relationships, see the [Schema Guide](SCHEMA.md#model-relationships).
+
+## Development Workflow
+
+### Branch Strategy
+- `main`: Production-ready code
+- `develop`: Integration branch for features
+- `feature/*`: Individual feature branches
+
+### Merging Process
+Use the provided `merge-feature.sh` script to streamline the process of merging feature branches:
+
+```bash
+./merge-feature.sh
 ```
 
-### Session Data
+This script will:
+1. Commit and push your current branch
+2. Merge to develop (if desired)
+3. Merge to main (if desired)
+4. Handle conflicts appropriately
 
-#### SessionResponse
-Response from the backend after onboarding or requesting a new session:
-```swift
-struct SessionResponse: Decodable {
-    let sessionId: Int
-    let totalDuration: Int
-    let focusAreas: [String]
-    let drills: [DrillResponse]
-}
+## Data Schema
+
+For detailed information about the app's data structures, models, and API interactions, please refer to the [Schema Guide](SCHEMA.md).
+
+## Testing
+
+### Unit Tests
+Run unit tests in Xcode using the test navigator or via command line:
+```bash
+xcodebuild test -workspace BravoBall.xcworkspace -scheme BravoBall -destination 'platform=iOS Simulator,name=iPhone 14'
 ```
 
-#### DrillResponse
-Drill data received from the backend:
-```swift
-struct DrillResponse: Decodable {
-    let id: Int
-    let title: String
-    let description: String
-    let duration: Int
-    let intensity: String
-    let difficulty: String
-    let equipment: [String]
-    let suitableLocations: [String]
-    let instructions: [String]
-    let tips: [String]
-    let type: String
-    let sets: Int?
-    let reps: Int?
-    let rest: Int?
-}
-```
+### UI Tests
+UI tests can be run through Xcode's test navigator.
 
-#### DrillModel
-Internal model used for representing drills in the app:
-```swift
-struct DrillModel: Identifiable, Equatable, Codable {
-    let id: UUID
-    let title: String
-    let skill: String
-    let sets: Int
-    let reps: Int
-    let duration: Int
-    let description: String
-    let tips: [String]
-    let equipment: [String]
-    let trainingStyle: String
-    let difficulty: String
-}
-```
+### Test Mode
+Enable test mode by setting `skipOnboarding = true` in the OnboardingModel to bypass the onboarding process with pre-filled test data.
 
-#### EditableDrillModel
-Used for tracking drill progress during a session:
-```swift
-struct EditableDrillModel: Identifiable, Equatable, Codable {
-    let id: UUID
-    let drill: DrillModel
-    var setsDone: Int
-    let totalSets: Int
-    let totalReps: Int
-    let totalDuration: Int
-    var isCompleted: Bool
-}
-```
+## Contributing
 
-### Saved Data
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-#### GroupModel
-Used for organizing saved drills:
-```swift
-struct GroupModel: Identifiable, Codable {
-    let id: UUID
-    var name: String
-    var description: String
-    var drills: [DrillModel]
-}
-```
+## License
 
-#### SavedFiltersModel
-Used for saving filter preferences:
-```swift
-struct SavedFiltersModel: Identifiable, Codable {
-    let id: UUID
-    var name: String
-    var savedTime: String?
-    var savedEquipment: Set<String>
-    var savedTrainingStyle: String?
-    var savedLocation: String?
-    var savedDifficulty: String?
-}
-```
-
-## API Interactions
-
-### Authentication
-
-#### Login
-```
-POST /api/auth/login
-Body: { "email": String, "password": String }
-Response: { "access_token": String, "token_type": String, "user_id": Int }
-```
-
-#### Register (via Onboarding)
-```
-POST /api/onboarding/complete
-Body: OnboardingData mapped to backend format
-Response: { 
-  "status": String,
-  "message": String,
-  "access_token": String,
-  "token_type": String,
-  "user_id": Int,
-  "initial_session": SessionResponse
-}
-```
-
-### Sessions
-
-#### Get Initial Session
-Automatically returned after onboarding completion.
-
-#### Get New Session
-```
-GET /api/sessions/generate
-Headers: Authorization: Bearer {token}
-Query Parameters: Optional filters
-Response: SessionResponse
-```
-
-#### Complete Session
-```
-POST /api/sessions/complete
-Headers: Authorization: Bearer {token}
-Body: { 
-  "session_id": Int,
-  "completed_drills": Int,
-  "total_drills": Int,
-  "date": String (ISO format)
-}
-Response: { "status": String, "message": String }
-```
-
-## Data Mapping
-
-### Backend to Frontend Skill Mapping
-```swift
-let skillMap = [
-    "passing": "Passing",
-    "dribbling": "Dribbling",
-    "shooting": "Shooting",
-    "defending": "Defending",
-    "first_touch": "First touch",
-    "fitness": "Fitness"
-]
-```
-
-### Frontend to Backend Equipment Mapping
-```swift
-let equipmentMap = [
-    "Soccer ball": "ball",
-    "Cones": "cones",
-    "Goal": "goal",
-    "Wall": "wall",
-    "Agility ladder": "ladder",
-    "Resistance bands": "bands"
-]
-```
-
-## Caching
-
-The app uses a CacheManager to store:
-- Ordered drills for the current session
-- Saved drill groups
-- Liked drills
-- Filter preferences
-- Completed sessions history
-
-Cache keys are user-specific, based on the user's email.
-
-## Test Mode
-
-The app includes a test mode that can be enabled by toggling `skipOnboarding` in the OnboardingModel. This allows bypassing the onboarding process with pre-filled test data for faster development and testing.
+This project is licensed under the MIT License - see the LICENSE file for details.

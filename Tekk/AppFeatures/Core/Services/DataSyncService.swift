@@ -163,81 +163,78 @@ class DataSyncService {
     // MARK: - Drill Groups Sync
     
     func syncDrillGroup(name: String, description: String, drills: [DrillModel], isLikedGroup: Bool = false) async throws {
-        let url = URL(string: "\(baseURL)/api/drills/groups/")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        // Add auth token
-        if let token = KeychainWrapper.standard.string(forKey: "authToken") {
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        print("ℹ️ Syncing drill group using DrillGroupService...")
+
+        // Extract drill IDs from the models
+        var drillIds: [Int] = []
+        for drill in drills {
+            if let backendId = drill.backendId {
+                drillIds.append(backendId)
+            } else {
+                // Fallback to hash if no backendId is available
+                let fallbackId = Int(drill.id.uuidString.hash) % 1000000
+                drillIds.append(fallbackId)
+                print("⚠️ Using fallback ID for drill: \(drill.title)")
+            }
         }
-        
-        // Convert drills to dictionary format
-        let drillsData = drills.map { drill in
-            return [
-                "id": drill.id.uuidString,
-                "title": drill.title,
-                "skill": drill.skill,
-                "sets": drill.sets,
-                "reps": drill.reps,
-                "duration": drill.duration,
-                "description": drill.description,
-                "tips": drill.tips,
-                "equipment": drill.equipment,
-                "trainingStyle": drill.trainingStyle,
-                "difficulty": drill.difficulty
-            ]
-        }
-        
-        let groupData = [
-            "name": name,
-            "description": description,
-            "drills": drillsData,
-            "is_liked_group": isLikedGroup
-        ] as [String : Any]
-        
-        request.httpBody = try JSONSerialization.data(withJSONObject: groupData)
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw URLError(.badServerResponse)
-        }
-        
-        print("📥 Backend response status: \(httpResponse.statusCode)")
-        if let responseString = String(data: data, encoding: .utf8) {
-            print("Response: \(responseString)")
-        }
-        
-        guard httpResponse.statusCode == 200 else {
-            throw URLError(.badServerResponse)
-        }
-        
-        print("✅ Successfully synced drill group")
-    }
-    
-    func updateDrillGroup(groupId: Int, name: String?, description: String?, drills: [DrillModel]?, isLikedGroup: Bool?) async throws {
-        let url = URL(string: "\(baseURL)/api/drills/groups/\(groupId)")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "PUT"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        // Add auth token
-        if let token = KeychainWrapper.standard.string(forKey: "authToken") {
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        }
-        
-        var groupData: [String: Any] = [:]
-        
-        if let name = name {
-            groupData["name"] = name
-        }
-        if let description = description {
-            groupData["description"] = description
-        }
-        if let drills = drills {
-            groupData["drills"] = drills.map { drill in
+
+        do {
+            // Try to use the DrillGroupService
+            if isLikedGroup {
+                // For liked drills group, we should use the getLikedDrillsGroup endpoint first
+                let likedGroup = try await DrillGroupService.shared.getLikedDrillsGroup()
+                
+                // Then update it with the current drills
+                _ = try await DrillGroupService.shared.updateDrillGroupWithIds(
+                    groupId: likedGroup.id,
+                    name: name,
+                    description: description,
+                    drillIds: drillIds,
+                    isLikedGroup: true
+                )
+            } else {
+                // For regular groups, check if we need to create or update
+                let existingGroups = try await DrillGroupService.shared.getAllDrillGroups()
+                
+                // Try to find a matching group by name
+                if let existingGroup = existingGroups.first(where: { $0.name == name && !$0.isLikedGroup }) {
+                    // Update the existing group
+                    _ = try await DrillGroupService.shared.updateDrillGroupWithIds(
+                        groupId: existingGroup.id,
+                        name: name,
+                        description: description,
+                        drillIds: drillIds,
+                        isLikedGroup: false
+                    )
+                } else {
+                    // Create a new group
+                    _ = try await DrillGroupService.shared.createDrillGroupWithIds(
+                        name: name, 
+                        description: description, 
+                        drillIds: drillIds,
+                        isLikedGroup: false
+                    )
+                }
+            }
+            
+            print("✅ Successfully synced drill group using DrillGroupService")
+        } catch {
+            print("❌ Error syncing with DrillGroupService: \(error)")
+            print("ℹ️ Falling back to legacy sync method...")
+            
+            // Fall back to original implementation
+            let url = URL(string: "\(baseURL)/api/drills/groups/")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            // Add auth token
+            if let token = KeychainWrapper.standard.string(forKey: "authToken") {
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            }
+            
+            // Convert drills to dictionary format
+            let drillsData = drills.map { drill in
                 return [
                     "id": drill.id.uuidString,
                     "title": drill.title,
@@ -252,28 +249,69 @@ class DataSyncService {
                     "difficulty": drill.difficulty
                 ]
             }
+            
+            let groupData = [
+                "name": name,
+                "description": description,
+                "drills": drillsData,
+                "is_liked_group": isLikedGroup
+            ] as [String : Any]
+            
+            request.httpBody = try JSONSerialization.data(withJSONObject: groupData)
+            
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw NSError(domain: "DataSyncService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
+            }
+            
+            if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
+                print("✅ Successfully synced drill group with legacy method")
+                return
+            } else {
+//                let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data)
+//                let errorMessage = errorResponse?.detail ?? "Unknown error"
+//                throw NSError(domain: "DataSyncService", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorMessage])
+            }
         }
-        if let isLikedGroup = isLikedGroup {
-            groupData["is_liked_group"] = isLikedGroup
+    }
+
+    // TODO: might want to remove this and just do drillResponse object
+    // Add a helper class for creating DrillResponse objects
+    private struct MockDrillResponse: Codable {
+        let id: Int
+        let title: String
+        let description: String
+        let duration: Int
+        let intensity: String
+        let difficulty: String
+        let equipment: [String]
+        let suitableLocations: [String]
+        let instructions: [String]
+        let tips: [String]
+        let type: String
+        let sets: Int?
+        let reps: Int?
+        let rest: Int?
+        
+        // Convert to a DrillResponse
+        func toDrillResponse() -> DrillResponse {
+            return DrillResponse(
+                id: self.id,
+                title: self.title,
+                description: self.description,
+                duration: self.duration,
+                intensity: self.intensity,
+                difficulty: self.difficulty,
+                equipment: self.equipment,
+                suitableLocations: self.suitableLocations,
+                instructions: self.instructions,
+                tips: self.tips,
+                type: self.type,
+                sets: self.sets,
+                reps: self.reps,
+                rest: self.rest
+            )
         }
-        
-        request.httpBody = try JSONSerialization.data(withJSONObject: groupData)
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw URLError(.badServerResponse)
-        }
-        
-        print("📥 Backend response status: \(httpResponse.statusCode)")
-        if let responseString = String(data: data, encoding: .utf8) {
-            print("Response: \(responseString)")
-        }
-        
-        guard httpResponse.statusCode == 200 else {
-            throw URLError(.badServerResponse)
-        }
-        
-        print("✅ Successfully updated drill group")
     }
 } 

@@ -10,6 +10,7 @@ import Foundation
 // Drill model
 struct DrillModel: Identifiable, Equatable, Codable {
     let id: UUID
+    let backendId: Int? // Backend ID from database (between 1-79)
     let title: String
     let skill: String
     let sets: Int
@@ -22,6 +23,7 @@ struct DrillModel: Identifiable, Equatable, Codable {
     let difficulty: String
     
     init(id: UUID = UUID(),  // Adding initializer with default UUID
+         backendId: Int? = nil, // Add backend ID parameter
          title: String,
          skill: String,
          sets: Int = 0,  // Make sets optional with default value of 0
@@ -33,6 +35,7 @@ struct DrillModel: Identifiable, Equatable, Codable {
          trainingStyle: String,
          difficulty: String) {
         self.id = id
+        self.backendId = backendId
         self.title = title
         self.skill = skill
         self.sets = sets

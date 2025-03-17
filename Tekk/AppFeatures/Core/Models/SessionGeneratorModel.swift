@@ -300,20 +300,65 @@ class SessionGeneratorModel: ObservableObject {
         orderedSessionDrills.move(fromOffsets: source, toOffset: destination)
     }
     
+    // MARK: - Group Management Methods
+    
+    // Add a property to track backend IDs for each group
+    private var groupBackendIds: [UUID: Int] = [:]
+    
+    // Add a property to track the backend ID for the liked group
+    private var likedGroupBackendId: Int?
+    
+    // Updated method to add drill to group
     func addDrillToGroup(drill: DrillModel, groupId: UUID) {
         if let index = savedDrills.firstIndex(where: { $0.id == groupId }) {
-            // Modify the drills array of the group at the found index
-            savedDrills[index].drills.append(drill)
+            // Add drill to local model
+            if !savedDrills[index].drills.contains(drill) {
+                savedDrills[index].drills.append(drill)
+            }
+            
+            // Add to backend if we have a backend ID
+            if let backendId = groupBackendIds[groupId] {
+                Task {
+                    do {
+                        if let drillBackendId = drill.backendId {
+                            _ = try await DrillGroupService.shared.addDrillToGroup(groupId: backendId, drillId: drillBackendId)
+                            print("✅ Successfully added drill to group on backend")
+                        } else {
+                            print("⚠️ No backend ID available for drill: \(drill.title)")
+                        }
+                    } catch {
+                        print("❌ Error adding drill to group on backend: \(error)")
+                    }
+                }
+            }
         }
     }
     
+    // Updated method to remove drill from group
     func removeDrillFromGroup(drill: DrillModel, groupId: UUID) {
         if let index = savedDrills.firstIndex(where: { $0.id == groupId }) {
-            // Modify the drills array of the group at the found index
+            // Remove drill from local model
             savedDrills[index].drills.removeAll(where: { $0.id == drill.id })
+            
+            // Remove from backend if we have a backend ID
+            if let backendId = groupBackendIds[groupId] {
+                Task {
+                    do {
+                        if let drillBackendId = drill.backendId {
+                            _ = try await DrillGroupService.shared.removeDrillFromGroup(groupId: backendId, drillId: drillBackendId)
+                            print("✅ Successfully removed drill from group on backend")
+                        } else {
+                            print("⚠️ No backend ID available for drill: \(drill.title)")
+                        }
+                    } catch {
+                        print("❌ Error removing drill from group on backend: \(error)")
+                    }
+                }
+            }
         }
     }
     
+    // Updated method to create a group
     func createGroup(name: String, description: String) {
         let groupModel = GroupModel(
             name: name,
@@ -321,21 +366,86 @@ class SessionGeneratorModel: ObservableObject {
             drills: []
         )
         
+        // Add to local model
         savedDrills.append(groupModel)
+        
+        // Create on backend
+        Task {
+            do {
+                let response = try await DrillGroupService.shared.createDrillGroupWithIds(
+                    name: name, 
+                    description: description,
+                    drillIds: [], // Empty array for new group
+                    isLikedGroup: false
+                )
+                // Store the backend ID
+                groupBackendIds[groupModel.id] = response.id
+                print("✅ Successfully created group on backend with ID: \(response.id)")
+            } catch {
+                print("❌ Error creating group on backend: \(error)")
+            }
+        }
     }
     
+    // Add a method to delete a group
+    func deleteGroup(groupId: UUID) {
+        // Remove from local model
+        savedDrills.removeAll(where: { $0.id == groupId })
+        
+        // Delete from backend if we have a backend ID
+        if let backendId = groupBackendIds[groupId] {
+            Task {
+                do {
+                    _ = try await DrillGroupService.shared.deleteDrillGroup(groupId: backendId)
+                    // Remove the stored backend ID
+                    groupBackendIds.removeValue(forKey: groupId)
+                    print("✅ Successfully deleted group from backend")
+                } catch {
+                    print("❌ Error deleting group from backend: \(error)")
+                }
+            }
+        }
+    }
+    
+    // Updated method for toggling drill likes
     func toggleDrillLike(drillId: UUID, drill: DrillModel) {
         if likedDrillsGroup.drills.contains(drill) {
             likedDrillsGroup.drills.removeAll(where: { $0.id == drillId })
         } else {
             likedDrillsGroup.drills.append(drill)
         }
+        
+        // Toggle on backend
+        Task {
+            do {
+                if let backendDrillId = drill.backendId {
+                    let response = try await DrillGroupService.shared.toggleDrillLike(drillId: backendDrillId)
+                    print("✅ Successfully toggled drill like on backend: \(response.message)")
+                } else {
+                    print("⚠️ No backend ID available for drill: \(drill.title)")
+                }
+            } catch {
+                print("❌ Error toggling drill like on backend: \(error)")
+            }
+        }
     }
     
+    // Updated method to check if a drill is liked
     func isDrillLiked(_ drill: DrillModel) -> Bool {
-        likedDrillsGroup.drills.contains(drill)
+        return likedDrillsGroup.drills.contains(drill)
     }
-
+    
+    // Add a method to check with the backend if a drill is liked
+    func checkDrillLikedStatus(drillId: Int) async -> Bool {
+        do {
+            return try await DrillGroupService.shared.checkDrillLiked(drillId: drillId)
+        } catch {
+            print("❌ Error checking drill liked status: \(error)")
+            // Fall back to local state, using backendId if available
+            return likedDrillsGroup.drills.contains(where: { $0.backendId == drillId })
+        }
+    }
+    
     // Selected drills to add to session
     func drillsToAdd (drill: DrillModel) {
         if selectedDrills.contains(drill) {
@@ -523,12 +633,29 @@ class SessionGeneratorModel: ObservableObject {
             print("ℹ️ No saved drills found in cache")
         }
         
+        // Load backend IDs for groups
+        if let ids: [UUID: Int] = cacheManager.retrieve(forKey: .groupBackendIdsCase) {
+            groupBackendIds = ids
+            print("✅ Successfully loaded group backend IDs from cache")
+        }
+        
         // Load liked drills
         if let liked: GroupModel = cacheManager.retrieve(forKey: .likedDrillsCase) {
             likedDrillsGroup = liked
             print("✅ Successfully loaded liked drills from cache")
         } else {
             print("ℹ️ No liked drills found in cache")
+        }
+        
+        // Load backend ID for liked group
+        if let id: Int = cacheManager.retrieve(forKey: .likedGroupBackendIdCase) {
+            likedGroupBackendId = id
+            print("✅ Successfully loaded liked group backend ID from cache")
+        }
+        
+        // After loading from cache, try to refresh from backend
+        Task {
+            await loadDrillGroupsFromBackend()
         }
     }
     
@@ -544,41 +671,19 @@ class SessionGeneratorModel: ObservableObject {
         cacheManager.cache(orderedSessionDrills, forKey: .orderedDrillsCase)
     }
     
+    // Updated method for caching saved drills
     private func cacheSavedDrills() {
         cacheManager.cache(savedDrills, forKey: .savedDrillsCase)
-        
-        // Sync each drill group with backend
-        Task {
-            do {
-                for group in savedDrills {
-                    try await DataSyncService.shared.syncDrillGroup(
-                        name: group.name,
-                        description: group.description,
-                        drills: group.drills,
-                        isLikedGroup: false
-                    )
-                }
-            } catch {
-                print("❌ Error syncing drill groups: \(error)")
-            }
-        }
+        // Also cache the backend IDs
+        cacheManager.cache(groupBackendIds, forKey: .groupBackendIdsCase)
     }
     
+    // Updated method for caching liked drills
     private func cacheLikedDrills() {
         cacheManager.cache(likedDrillsGroup, forKey: .likedDrillsCase)
-        
-        // Sync liked drills with backend
-        Task {
-            do {
-                try await DataSyncService.shared.syncDrillGroup(
-                    name: likedDrillsGroup.name,
-                    description: likedDrillsGroup.description,
-                    drills: likedDrillsGroup.drills,
-                    isLikedGroup: true
-                )
-            } catch {
-                print("❌ Error syncing liked drills: \(error)")
-            }
+        // Also cache the backend ID
+        if let likedGroupBackendId = likedGroupBackendId {
+            cacheManager.cache(likedGroupBackendId, forKey: .likedGroupBackendIdCase)
         }
     }
     
@@ -631,6 +736,70 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
+    // MARK: - Loading and Syncing with Backend
+    
+    // Add a method to load all drill groups from the backend
+    func loadDrillGroupsFromBackend() async {
+        do {
+            // Get all groups from backend
+            let backendGroups = try await DrillGroupService.shared.getAllDrillGroups()
+            
+            // Convert backend groups to local model
+            var newSavedDrills: [GroupModel] = []
+            var newGroupBackendIds: [UUID: Int] = [:]
+            
+            for backendGroup in backendGroups {
+                // Skip liked group, we'll handle it separately
+                if backendGroup.isLikedGroup {
+                    continue
+                }
+                
+                // Convert API drills to local model
+                let drills = backendGroup.drills.map { apiDrill -> DrillModel in
+                    return apiDrill.toDrillModel()
+                }
+                
+                // Create local group
+                let groupId = UUID()
+                let group = GroupModel(
+                    id: groupId,
+                    name: backendGroup.name,
+                    description: backendGroup.description,
+                    drills: drills
+                )
+                
+                newSavedDrills.append(group)
+                newGroupBackendIds[groupId] = backendGroup.id
+            }
+            
+            // Update local state
+            DispatchQueue.main.async {
+                self.savedDrills = newSavedDrills
+                self.groupBackendIds = newGroupBackendIds
+            }
+            
+            // Get liked drills group
+            let likedGroup = try await DrillGroupService.shared.getLikedDrillsGroup()
+            let likedDrills = likedGroup.drills.map { apiDrill -> DrillModel in
+                return apiDrill.toDrillModel()
+            }
+            
+            // Update liked drills
+            DispatchQueue.main.async {
+                self.likedDrillsGroup = GroupModel(
+                    name: likedGroup.name,
+                    description: likedGroup.description,
+                    drills: likedDrills
+                )
+                self.likedGroupBackendId = likedGroup.id
+            }
+            
+            print("✅ Successfully loaded all drill groups from backend")
+        } catch {
+            print("❌ Error loading drill groups from backend: \(error)")
+            print("Using cached groups instead")
+        }
+    }
 }
 
 
