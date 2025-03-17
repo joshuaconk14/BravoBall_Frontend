@@ -1,42 +1,215 @@
-# TekkAI Soccer App Frontend
+# BravoBall Frontend
 
-TekkAI is an intelligent soccer coaching application that leverages the power of the Llama3 model to provide personalized tutorials and advice to soccer enthusiasts. The frontend of this application is built using SwiftUI, providing a seamless and interactive user experience for engaging with the TekkAI chatbot.
+## Overview
+BravoBall is a personalized soccer training app that creates custom training sessions based on user preferences and skill levels. This document outlines the key data structures and API interactions used in the app.
 
-## Features
+## Data Schemas
 
-- **Interactive Chat Interface:** A user-friendly chat interface that allows users to interact with the TekkAI bot in real-time.
-- **Real-Time Soccer Coaching:** The frontend sends user queries to the FastAPI backend and displays personalized responses from the Llama3 model.
-- **Responsive Design:** The app is designed to run smoothly on iOS devices, offering a consistent experience across different screen sizes.
+### User Data
 
-## Getting Started
+#### OnboardingData
+```swift
+struct OnboardingData {
+    var primaryGoal: String
+    var biggestChallenge: String
+    var trainingExperience: String
+    var position: String
+    var playstyle: String
+    var ageRange: String
+    var strengths: [String]
+    var areasToImprove: [String]
+    var trainingLocation: [String]
+    var availableEquipment: [String]
+    var dailyTrainingTime: String
+    var weeklyTrainingDays: String
+    var firstName: String
+    var lastName: String
+    var email: String
+    var password: String
+}
+```
 
-### Prerequisites
+### Session Data
 
-- **Xcode**: Ensure that you have Xcode installed on your macOS machine.
-- **iOS Device or Simulator**: You can run the app on an iOS device or use the Xcode simulator.
+#### SessionResponse
+Response from the backend after onboarding or requesting a new session:
+```swift
+struct SessionResponse: Decodable {
+    let sessionId: Int
+    let totalDuration: Int
+    let focusAreas: [String]
+    let drills: [DrillResponse]
+}
+```
 
-### Installation
+#### DrillResponse
+Drill data received from the backend:
+```swift
+struct DrillResponse: Decodable {
+    let id: Int
+    let title: String
+    let description: String
+    let duration: Int
+    let intensity: String
+    let difficulty: String
+    let equipment: [String]
+    let suitableLocations: [String]
+    let instructions: [String]
+    let tips: [String]
+    let type: String
+    let sets: Int?
+    let reps: Int?
+    let rest: Int?
+}
+```
 
-1. **Clone the Frontend Repository:**
-    ```bash
-    git clone https://github.com/jordanconklin/Tekk_frontend.git
-    cd Tekk_frontend
-    ```
+#### DrillModel
+Internal model used for representing drills in the app:
+```swift
+struct DrillModel: Identifiable, Equatable, Codable {
+    let id: UUID
+    let title: String
+    let skill: String
+    let sets: Int
+    let reps: Int
+    let duration: Int
+    let description: String
+    let tips: [String]
+    let equipment: [String]
+    let trainingStyle: String
+    let difficulty: String
+}
+```
 
-2. **Open the Project in Xcode:**
-    - Double-click on the `Tekk-frontend.xcodeproj` file to open the project in Xcode.
+#### EditableDrillModel
+Used for tracking drill progress during a session:
+```swift
+struct EditableDrillModel: Identifiable, Equatable, Codable {
+    let id: UUID
+    let drill: DrillModel
+    var setsDone: Int
+    let totalSets: Int
+    let totalReps: Int
+    let totalDuration: Int
+    var isCompleted: Bool
+}
+```
 
-3. **Connect to the Backend:**
-    - Ensure that the FastAPI backend is running locally. Follow the backend setup guide [here](https://github.com/jordanconklin/Tekk-app.git).
+### Saved Data
 
-4. **Set Up the API URL:**
-    - In the `ContentView.swift` file, update the `URL(string: "http://127.0.0.1:8000/generate_tutorial/")` to match the URL where your FastAPI backend is running (leave alone if running FastAPI locally).
+#### GroupModel
+Used for organizing saved drills:
+```swift
+struct GroupModel: Identifiable, Codable {
+    let id: UUID
+    var name: String
+    var description: String
+    var drills: [DrillModel]
+}
+```
 
-### Running the App
+#### SavedFiltersModel
+Used for saving filter preferences:
+```swift
+struct SavedFiltersModel: Identifiable, Codable {
+    let id: UUID
+    var name: String
+    var savedTime: String?
+    var savedEquipment: Set<String>
+    var savedTrainingStyle: String?
+    var savedLocation: String?
+    var savedDifficulty: String?
+}
+```
 
-1. **Build and Run the Project:**
-    - Select your target device or simulator in Xcode.
-    - Click the "Run" button (or press `Cmd + R`) to build and run the app.
+## API Interactions
 
-2. **Interact with TekkAI:**
-    - Use the chat interface to ask soccer-related questions, and receive real-time advice from the Llama3 model.
+### Authentication
+
+#### Login
+```
+POST /api/auth/login
+Body: { "email": String, "password": String }
+Response: { "access_token": String, "token_type": String, "user_id": Int }
+```
+
+#### Register (via Onboarding)
+```
+POST /api/onboarding/complete
+Body: OnboardingData mapped to backend format
+Response: { 
+  "status": String,
+  "message": String,
+  "access_token": String,
+  "token_type": String,
+  "user_id": Int,
+  "initial_session": SessionResponse
+}
+```
+
+### Sessions
+
+#### Get Initial Session
+Automatically returned after onboarding completion.
+
+#### Get New Session
+```
+GET /api/sessions/generate
+Headers: Authorization: Bearer {token}
+Query Parameters: Optional filters
+Response: SessionResponse
+```
+
+#### Complete Session
+```
+POST /api/sessions/complete
+Headers: Authorization: Bearer {token}
+Body: { 
+  "session_id": Int,
+  "completed_drills": Int,
+  "total_drills": Int,
+  "date": String (ISO format)
+}
+Response: { "status": String, "message": String }
+```
+
+## Data Mapping
+
+### Backend to Frontend Skill Mapping
+```swift
+let skillMap = [
+    "passing": "Passing",
+    "dribbling": "Dribbling",
+    "shooting": "Shooting",
+    "defending": "Defending",
+    "first_touch": "First touch",
+    "fitness": "Fitness"
+]
+```
+
+### Frontend to Backend Equipment Mapping
+```swift
+let equipmentMap = [
+    "Soccer ball": "ball",
+    "Cones": "cones",
+    "Goal": "goal",
+    "Wall": "wall",
+    "Agility ladder": "ladder",
+    "Resistance bands": "bands"
+]
+```
+
+## Caching
+
+The app uses a CacheManager to store:
+- Ordered drills for the current session
+- Saved drill groups
+- Liked drills
+- Filter preferences
+- Completed sessions history
+
+Cache keys are user-specific, based on the user's email.
+
+## Test Mode
+
+The app includes a test mode that can be enabled by toggling `skipOnboarding` in the OnboardingModel. This allows bypassing the onboarding process with pre-filled test data for faster development and testing.
