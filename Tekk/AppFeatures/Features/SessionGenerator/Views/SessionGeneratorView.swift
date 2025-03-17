@@ -8,6 +8,89 @@
 import SwiftUI
 import RiveRuntime
 
+// Add the SessionResponse model definition directly in this file
+struct SessionResponse: Codable {
+    let sessionId: Int?
+    let totalDuration: Int
+    let focusAreas: [String]
+    let drills: [DrillResponse]
+    
+    enum CodingKeys: String, CodingKey {
+        case sessionId = "session_id"
+        case totalDuration = "total_duration"
+        case focusAreas = "focus_areas"
+        case drills
+    }
+}
+
+// Add the DrillResponse model definition
+struct DrillResponse: Codable, Identifiable {
+    let id: Int
+    let title: String
+    let description: String
+    let duration: Int
+    let intensity: String
+    let difficulty: String
+    let equipment: [String]
+    let suitableLocations: [String]
+    let instructions: [String]
+    let tips: [String]
+    let type: String
+    let sets: Int?  // Make sets optional to handle null values
+    let reps: Int?  // Make reps optional to handle null values
+    let rest: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case description
+        case duration
+        case intensity
+        case difficulty
+        case equipment
+        case suitableLocations = "suitable_locations"
+        case instructions
+        case tips
+        case type
+        case sets
+        case reps
+        case rest
+    }
+    
+    // Convert API drill to app's DrillModel
+    func toDrillModel() -> DrillModel {
+        return DrillModel(
+            id: UUID(),  // Generate a new UUID since we can't convert an Int to UUID
+            title: title,
+            skill: type,
+            sets: sets ?? 0,
+            reps: reps ?? 0,
+            duration: duration,
+            description: description,
+            tips: tips,
+            equipment: equipment,
+            trainingStyle: intensity,
+            difficulty: difficulty
+        )
+    }
+    
+    // Map API skill types to app skill types
+    private func mapSkillType(_ apiType: String) -> String {
+        let skillMap = [
+            "passing": "Passing",
+            "shooting": "Shooting",
+            "dribbling": "Dribbling",
+            "first_touch": "First touch",
+            "fitness": "Fitness",
+            "defending": "Defending",
+            "set_based": "Set-based",
+            "reps_based": "Reps-based"
+        ]
+        
+        return skillMap[apiType.lowercased()] ?? apiType
+    }
+}
+
 struct SessionGeneratorView: View {
     @ObservedObject var model: OnboardingModel
     @ObservedObject var appModel: MainAppModel
@@ -363,6 +446,106 @@ struct SessionGeneratorView: View {
     }
 }
 
+// Add this extension to SessionGeneratorModel to handle the initial session data
+extension SessionGeneratorModel {
+    func loadInitialSession(from sessionResponse: SessionResponse) {
+        print("🔄 Loading initial session with \(sessionResponse.drills.count) drills")
+        
+        // Clear any existing drills
+        orderedSessionDrills.removeAll()
+        
+        // Validate the session response
+        guard !sessionResponse.drills.isEmpty else {
+            print("⚠️ No drills found in the initial session response")
+            addDefaultDrills()
+            return
+        }
+        
+        // Convert API drills to app's drill models and add them to orderedDrills
+        for apiDrill in sessionResponse.drills {
+            do {
+                print("📋 Processing drill: \(apiDrill.title)")
+                let drillModel = apiDrill.toDrillModel()
+                
+                // Create an editable drill model
+                let editableDrill = EditableDrillModel(
+                    drill: drillModel,
+                    setsDone: 0,
+                    totalSets: drillModel.sets,
+                    totalReps: drillModel.reps,
+                    totalDuration: drillModel.duration,
+                    isCompleted: false
+                )
+                
+                // Add to ordered drills
+                orderedSessionDrills.append(editableDrill)
+                print("✅ Added drill: \(drillModel.title) (Sets: \(drillModel.sets), Reps: \(drillModel.reps))")
+            } catch {
+                print("❌ Error processing drill: \(error.localizedDescription)")
+            }
+        }
+        
+        print("✅ Added \(orderedSessionDrills.count) drills to session")
+        
+        // Update selected skills based on focus areas
+        selectedSkills.removeAll()
+        for skill in sessionResponse.focusAreas {
+            print("🎯 Adding focus area: \(skill)")
+            // Map backend skill names to frontend skill names
+            let mappedSkill = mapBackendSkillToFrontend(skill)
+            selectedSkills.insert(mappedSkill)
+        }
+        
+        print("✅ Updated selected skills: \(selectedSkills)")
+        
+        // Save the session to cache
+        cacheOrderedDrills()
+        saveChanges()
+        print("💾 Saved session to cache")
+        
+        // If no drills were loaded, add some default drills
+        if orderedSessionDrills.isEmpty {
+            print("⚠️ No drills were loaded from the initial session, adding default drills")
+            addDefaultDrills()
+        }
+    }
+    
+    private func mapBackendSkillToFrontend(_ backendSkill: String) -> String {
+        let skillMap = [
+            "passing": "Passing",
+            "dribbling": "Dribbling",
+            "shooting": "Shooting",
+            "defending": "Defending",
+            "first_touch": "First touch",
+            "fitness": "Fitness"
+        ]
+        
+        return skillMap[backendSkill.lowercased()] ?? backendSkill.capitalized
+    }
+    
+    private func addDefaultDrills() {
+        // Add a few default drills based on the selected skills
+        let defaultDrills = SessionGeneratorModel.testDrills.filter { drill in
+            return selectedSkills.contains(drill.skill) || selectedSkills.isEmpty
+        }
+        
+        for drill in defaultDrills.prefix(3) {
+            let editableDrill = EditableDrillModel(
+                drill: drill,
+                setsDone: 0,
+                totalSets: drill.sets ?? 0,
+                totalReps: drill.reps ?? 0,
+                totalDuration: drill.duration,
+                isCompleted: false
+            )
+            
+            orderedSessionDrills.append(editableDrill)
+        }
+        
+        print("✅ Added \(orderedSessionDrills.count) default drills to session")
+        saveChanges()
+    }
+}
 
 // MARK: Preview
 #Preview {

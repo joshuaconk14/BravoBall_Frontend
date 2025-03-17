@@ -24,8 +24,8 @@ struct DrillModel: Identifiable, Equatable, Codable {
     init(id: UUID = UUID(),  // Adding initializer with default UUID
          title: String,
          skill: String,
-         sets: Int,
-         reps: Int,
+         sets: Int = 0,  // Make sets optional with default value of 0
+         reps: Int = 0,  // Make reps optional with default value of 0
          duration: Int,
          description: String,
          tips: [String],
