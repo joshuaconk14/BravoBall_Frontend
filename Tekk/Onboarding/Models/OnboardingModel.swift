@@ -23,6 +23,9 @@ class OnboardingModel: ObservableObject {
     @Published var isPasswordVisible: Bool = false
     @Published var numberOfOnboardingPages = 13 // Updated to include registration page
     
+    // TESTING: Set this to true to skip onboarding and go straight to completion
+    @Published var skipOnboarding = true
+    
     // Variables for when onboarding data is being submitted
     @Published var isLoading = true
     @Published var errorMessage: String = ""
@@ -153,5 +156,47 @@ class OnboardingModel: ObservableObject {
         print("password: \(onboardingData.password)")
         print("Current step: \(currentStep)")
         print("auth token nil value: \(authToken)")
+    }
+
+    // TESTING: Method to prefill onboarding data for testing
+    func prefillTestData() {
+        // Generate a random email to avoid duplicates
+        let randomEmail = "test\(Int.random(in: 100...999))@example.com"
+        
+        // Use values that exactly match the questionOptions arrays
+        onboardingData = OnboardingData(
+            primaryGoal: "Improve my overall skill level",
+            biggestChallenge: "Recovering from injury",
+            trainingExperience: "Intermediate",
+            position: "Fullback",
+            playstyle: "Big Bob",  // Match one of the actual options in questionOptions
+            ageRange: "Teen (13-16)",
+            strengths: ["Defending"],
+            areasToImprove: ["Passing", "Dribbling", "Shooting"],
+            trainingLocation: ["At a soccer field with goals"],  // Match one of the actual options
+            availableEquipment: ["Soccer ball", "Cones", "Wall"],
+            dailyTrainingTime: "30-60 minutes",
+            weeklyTrainingDays: "4-5 days (moderate schedule)",
+            firstName: "Test",
+            lastName: "User\(Int.random(in: 100...9999))",  // Random last name to avoid duplicates
+            email: randomEmail,
+            password: "password123"
+        )
+        
+        print("✅ Test data prefilled with email: \(randomEmail)")
+        print("✅ Primary goal: \(onboardingData.primaryGoal)")
+        print("✅ Biggest challenge: \(onboardingData.biggestChallenge)")
+        print("✅ Training experience: \(onboardingData.trainingExperience)")
+        print("✅ Position: \(onboardingData.position)")
+        print("✅ Playstyle: \(onboardingData.playstyle)")
+        print("✅ Age range: \(onboardingData.ageRange)")
+        print("✅ Strengths: \(onboardingData.strengths)")
+        print("✅ Areas to improve: \(onboardingData.areasToImprove)")
+        print("✅ Training location: \(onboardingData.trainingLocation)")
+        print("✅ Available equipment: \(onboardingData.availableEquipment)")
+        print("✅ Daily training time: \(onboardingData.dailyTrainingTime)")
+        print("✅ Weekly training days: \(onboardingData.weeklyTrainingDays)")
+        print("✅ First name: \(onboardingData.firstName)")
+        print("✅ Last name: \(onboardingData.lastName)")
     }
 }
