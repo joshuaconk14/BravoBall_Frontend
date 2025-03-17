@@ -21,6 +21,8 @@ enum CacheKey: String, CaseIterable {
     case countOfCompletedSessionsCase = "countOfCompletedSessions"
     case lastUpdated = "lastUpdated_"
     case cacheSize = "cache_size"
+    case groupBackendIdsCase = "groupBackendIds"
+    case likedGroupBackendIdCase = "likedGroupBackendId"
     
     // Create user-specific key
     func forUser(_ email: String) -> String {
