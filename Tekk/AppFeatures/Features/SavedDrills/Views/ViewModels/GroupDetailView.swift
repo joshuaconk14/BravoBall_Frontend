@@ -17,64 +17,64 @@ struct GroupDetailView: View {
     
     var body: some View {
             ZStack {
-                VStack {
-                    HStack {
-                        Button(action: {
-                            dismiss()
-                        }) {
-                            Image(systemName: "xmark")
-                        }
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            appModel.viewState.showGroupFilterOptions = true
-                        }) {
-                            Image(systemName: "ellipsis")
-                        }
-                        .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                        
+            VStack {
+                HStack {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "xmark")
                     }
-                    .padding()
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        appModel.viewState.showGroupFilterOptions = true
+                    }) {
+                        Image(systemName: "ellipsis")
+                    }
+                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
+                    
+                }
+                .padding()
 
-                    
-                    // Group Info Header
-                    VStack(spacing: 8) {
-                        Image(systemName: "figure.soccer")
-                            .font(.system(size: 40))
-                        Text(group.name)
-                            .font(.custom("Poppins-Bold", size: 24))
-                        Text(group.description)
-                            .font(.custom("Poppins-Regular", size: 14))
-                            .foregroundColor(.gray)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal)
-                    }
-                    .padding()
-                    
-                    // Drills List
-                    if group.drills.isEmpty {
-                        Text("No drills saved yet")
-                            .font(.custom("Poppins-Medium", size: 16))
-                            .foregroundColor(.gray)
-                            .padding()
+                
+                // Group Info Header
+                VStack(spacing: 8) {
+                    Image(systemName: "figure.soccer")
+                        .font(.system(size: 40))
+                    Text(group.name)
+                        .font(.custom("Poppins-Bold", size: 24))
+                    Text(group.description)
+                        .font(.custom("Poppins-Regular", size: 14))
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
+                .padding()
+                
+                // Drills List
+                if group.drills.isEmpty {
+                    Text("No drills saved yet")
+                        .font(.custom("Poppins-Medium", size: 16))
+                        .foregroundColor(.gray)
+                        .padding()
                         
                         Spacer()
-                    } else {
-                        List {
-                            ForEach(group.drills) { drill in
-                                DrillRow(appModel: appModel, sessionModel: sessionModel, drill: drill)
-                            }
+                } else {
+                    List {
+                        ForEach(group.drills) { drill in
+                            DrillRow(appModel: appModel, sessionModel: sessionModel, drill: drill)
                         }
                     }
+                }
                 }
                 
                 // Floating add button
                 VStack {
                     Spacer()
                     HStack {
-                        Spacer()
+                Spacer()
                         Button(action: {
                             showAddDrillSheet = true
                         }) {
@@ -101,10 +101,26 @@ struct GroupDetailView: View {
             }
             // Sheet for adding drills
             .sheet(isPresented: $showAddDrillSheet) {
-                AddDrillsToGroupSheet(
+                DrillSearchView(
                     appModel: appModel,
                     sessionModel: sessionModel,
-                    group: group,
+                    onDrillsSelected: { selectedDrills in
+                        // Add selected drills to the group
+                        for drill in selectedDrills {
+                            sessionModel.addDrillToGroup(drill: drill, groupId: group.id)
+                        }
+                    },
+                    title: "Add Drills to \(group.name)",
+                    actionButtonText: { count in
+                        "Add \(count) \(count == 1 ? "Drill" : "Drills") to Group"
+                    },
+                    filterDrills: { drill in
+                        false // No drills are disabled
+                    },
+                    isDrillSelected: { drill in
+                        // Check if the drill is already in the group
+                        group.drills.contains(drill)
+                    },
                     dismiss: { showAddDrillSheet = false }
                 )
             }
@@ -128,183 +144,6 @@ struct GroupDetailView: View {
             }
     }
 }
-
-// View for adding drills to a group
-struct AddDrillsToGroupSheet: View {
-    @ObservedObject var appModel: MainAppModel
-    @ObservedObject var sessionModel: SessionGeneratorModel
-    let group: GroupModel
-    let dismiss: () -> Void
-    @State private var searchText: String = ""
-    @State private var selectedDrills: [DrillModel] = []
-    @FocusState private var isFocused: Bool
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Spacer()
-                Text("Add Drills to \(group.name)")
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                    .font(.custom("Poppins-Bold", size: 16))
-                    .padding(.leading, 70)
-                Spacer()
-                Button("Done") {
-                    dismiss()
-                }
-                .padding()
-                .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                .font(.custom("Poppins-Bold", size: 16))
-            }
-            
-            // Search bar
-            HStack {
-                Image(systemName: "magnifyingglass")
-                    .foregroundColor(.gray)
-                
-                TextField("Search drills...", text: $searchText)
-                    .textFieldStyle(PlainTextFieldStyle())
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .focused($isFocused)
-                    .tint(appModel.globalSettings.primaryYellowColor)
-
-                
-                if !searchText.isEmpty {
-                    Button(action: {
-                        searchText = ""
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.gray)
-                    }
-                }
-            }
-            .padding(8)
-            .background(Color.white)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(isFocused ? appModel.globalSettings.primaryYellowColor : appModel.globalSettings.primaryLightGrayColor, lineWidth: 3)
-            )
-            .cornerRadius(20)
-            .padding()
-            
-            // Drills list
-            ScrollView {
-                LazyVStack(spacing: 16) {
-                    ForEach(filteredDrills) { drill in
-                        DrillRowForGroup(
-                            drill: drill, 
-                            isSelected: selectedDrills.contains(drill),
-                            isInGroup: group.drills.contains(drill),
-                            onSelect: { toggleDrillSelection(drill) }
-                        )
-                        .padding(.horizontal)
-                        Divider()
-                    }
-                }
-            }
-            
-            // Add button
-            if !selectedDrills.isEmpty {
-                Button(action: {
-                    addSelectedDrillsToGroup()
-                }) {
-                    Text("Add \(selectedDrills.count) \(selectedDrills.count == 1 ? "Drill" : "Drills") to Group")
-                        .font(.custom("Poppins-Bold", size: 18))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(appModel.globalSettings.primaryYellowColor)
-                        .cornerRadius(12)
-                }
-                .padding()
-            }
-        }
-    }
-    
-    // Filtered drills based on search text
-    var filteredDrills: [DrillModel] {
-        if searchText.isEmpty {
-            return SessionGeneratorModel.testDrills.filter { drill in
-                !group.drills.contains(drill)
-            }
-        } else {
-            return SessionGeneratorModel.testDrills.filter { drill in
-                drill.title.lowercased().contains(searchText.lowercased()) && !group.drills.contains(drill)
-            }
-        }
-    }
-    
-    // Toggle drill selection
-    func toggleDrillSelection(_ drill: DrillModel) {
-        if selectedDrills.contains(drill) {
-            selectedDrills.removeAll(where: { $0.id == drill.id })
-        } else {
-            selectedDrills.append(drill)
-        }
-    }
-    
-    // Add selected drills to the group
-    func addSelectedDrillsToGroup() {
-        for drill in selectedDrills {
-            sessionModel.addDrillToGroup(drill: drill, groupId: group.id)
-        }
-        dismiss()
-    }
-}
-
-// Simplified drill row for group selection
-struct DrillRowForGroup: View {
-    let drill: DrillModel
-    let isSelected: Bool
-    let isInGroup: Bool
-    let onSelect: () -> Void
-    
-    var body: some View {
-        HStack {
-            Image(systemName: "figure.soccer")
-                .font(.system(size: 24))
-                .foregroundColor(.black)
-                .frame(width: 40, height: 40)
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(8)
-            
-            VStack(alignment: .leading) {
-                Text(drill.title)
-                    .font(.custom("Poppins-Bold", size: 14))
-                    .foregroundColor(.black)
-                Text(drill.description)
-                    .font(.custom("Poppins-Regular", size: 12))
-                    .foregroundColor(.gray)
-                    .lineLimit(2)
-            }
-            
-            Spacer()
-            
-            if isInGroup {
-                Text("Already in group")
-                    .font(.custom("Poppins-Regular", size: 12))
-                    .foregroundColor(.gray)
-            } else {
-                Button(action: onSelect) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 4)
-                            .fill(isSelected ? Color.yellow : Color.clear)
-                            .stroke(isSelected ? Color.yellow : Color.black, lineWidth: 2)
-                            .frame(width: 20, height: 20)
-                        
-                        if isSelected {
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.white)
-                                .font(.system(size: 12, weight: .bold))
-                        }
-                    }
-                }
-            }
-        }
-        .padding(.vertical, 8)
-    }
-}
-
-// TODO: enum this or combine it with the filteroptions structure
 
 // MARK: Group Filter Options
 struct GroupFilterOptions: View {
