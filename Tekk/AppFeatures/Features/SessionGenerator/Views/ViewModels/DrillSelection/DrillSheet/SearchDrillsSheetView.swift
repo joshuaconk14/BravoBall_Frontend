@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct SearchDrillsSheetView: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var sessionModel: SessionGeneratorModel
@@ -19,72 +18,36 @@ struct SearchDrillsSheetView: View {
     }
     
     var body: some View {
-        VStack {
-            HStack {
-                Spacer()
-                Text("Search Drills")
-                    .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                    .font(.custom("Poppins-Bold", size: 16))
-                    .padding(.leading, 70)
-                Spacer()
-                Button("Done") {
-                    dismiss()
-                }
-                .padding()
-                .foregroundColor(appModel.globalSettings.primaryDarkColor)
-                .font(.custom("Poppins-Bold", size: 16))
-            }
-            
-            // Tab buttons
-            HStack(spacing: 20) {
-                TabButton(title: "All", isSelected: selectedTab == .all) {
-                    selectedTab = .all
-                }
+        DrillSearchView(
+            appModel: appModel,
+            sessionModel: sessionModel,
+            onDrillsSelected: { selectedDrills in
+                // Add the selected drills to the session
+                sessionModel.addDrillToSession(drills: selectedDrills)
                 
-                TabButton(title: "By Type", isSelected: selectedTab == .byType) {
-                    selectedTab = .byType
-                }
+                // Close the sheet
+                appModel.viewState.showSearchDrills = false
                 
-                TabButton(title: "Groups", isSelected: selectedTab == .groups) {
-                    selectedTab = .groups
-                }
-            }
-            .padding(.horizontal)
-            
-            
-            switch selectedTab {
-            case .all:
-                AllDrillsView(appModel: appModel, sessionModel: sessionModel)
-            case .byType:
-                ByTypeView(appModel: appModel, sessionModel: sessionModel)
-            case .groups:
-                GroupsView(appModel: appModel, sessionModel: sessionModel)
-            }
-
-        }
-        .safeAreaInset(edge: .bottom) {
-            if sessionModel.selectedDrills.count > 0 {
-                Button(action: {
-                    sessionModel.addDrillToSession(drills: sessionModel.selectedDrills)
-                    appModel.viewState.showSearchDrills = false
-                }) {
-                    Text(sessionModel.selectedDrills.count == 1 ? "Add \(sessionModel.selectedDrills.count) Drill" : "Add \(sessionModel.selectedDrills.count) Drills")
-                        .font(.custom("Poppins-Bold", size: 18))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.yellow)
-                        .cornerRadius(12)
-                }
-                .padding()
-            }
-            
+                // Call the dismiss callback
+                dismiss()
+            },
+            title: "Search Drills",
+            actionButtonText: { count in
+                "Add \(count) \(count == 1 ? "Drill" : "Drills") to Session"
+            },
+            filterDrills: { drill in
+                sessionModel.orderedSessionDrills.contains(where: { $0.drill.id == drill.id })
+            },
+            isDrillSelected: { drill in
+                sessionModel.isDrillSelected(drill)
+            },
+            dismiss: dismiss
+        )
+        .onAppear {
+            print("🔍 SearchDrillsSheetView appeared")
         }
     }
 }
-
-
-
 
 #Preview {
     // Create mock data and models
