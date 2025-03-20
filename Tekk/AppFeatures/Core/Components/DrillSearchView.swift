@@ -292,7 +292,13 @@ struct DrillSearchView: View {
             // Add button
             if !selectedDrills.isEmpty {
                 Button(action: {
+                    // Call the callback with the selected drills
                     onDrillsSelected(selectedDrills)
+                    
+                    // Clear selection
+                    selectedDrills = []
+                    
+                    // Dismiss view
                     dismiss()
                 }) {
                     Text(actionButtonText(selectedDrills.count))
@@ -331,10 +337,23 @@ struct DrillSearchView: View {
     
     // Toggle drill selection
     func toggleDrillSelection(_ drill: DrillModel) {
+        // Check if the drill is already in the target group
+        if let isDrillAlreadySelected = isDrillSelected?(drill), isDrillAlreadySelected {
+            // Don't allow selecting drills that are already in the group
+            print("⚠️ Drill is already in the group: '\(drill.title)'")
+            return
+        }
+        
         if selectedDrills.contains(drill) {
             selectedDrills.removeAll(where: { $0.id == drill.id })
         } else {
-            selectedDrills.append(drill)
+            // Check if a drill with the same title is already selected
+            if let existingIndex = selectedDrills.firstIndex(where: { $0.title == drill.title }) {
+                print("⚠️ Drill with same title already selected: '\(drill.title)'")
+                // Don't add another one
+            } else {
+                selectedDrills.append(drill)
+            }
         }
     }
     

@@ -14,6 +14,9 @@ struct GroupDetailView: View {
     let group: GroupModel
     @Environment(\.dismiss) private var dismiss
     @State private var showAddDrillSheet = false
+    @State private var showToast = false
+    @State private var toastMessage = ""
+    @State private var currentDrills: [DrillModel] = []
     
     var body: some View {
             ZStack {
@@ -54,7 +57,7 @@ struct GroupDetailView: View {
                 .padding()
                 
                 // Drills List
-                if group.drills.isEmpty {
+                if currentDrills.isEmpty {
                     Text("No drills saved yet")
                         .font(.custom("Poppins-Medium", size: 16))
                         .foregroundColor(.gray)
@@ -63,11 +66,12 @@ struct GroupDetailView: View {
                         Spacer()
                 } else {
                     List {
-                        ForEach(group.drills) { drill in
+                        ForEach(currentDrills) { drill in
                             DrillRow(appModel: appModel, sessionModel: sessionModel, drill: drill)
                         }
                     }
-                }
+                    .id(UUID()) // Force refresh list when data changes
+                    }
                 }
                 
                 // Floating add button
@@ -89,6 +93,24 @@ struct GroupDetailView: View {
                         .padding(.bottom, 20)
                     }
                 }
+                
+                // Toast message
+                if showToast {
+                    VStack {
+                        Spacer()
+                        
+                        Text(toastMessage)
+                            .font(.custom("Poppins-Medium", size: 14))
+                            .padding()
+                            .background(Color.black.opacity(0.7))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .padding(.bottom, 100)
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                            .animation(.easeInOut, value: showToast)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                    }
+                }
             }
             // Sheet pop-up for filter option button
             .sheet(isPresented: $appModel.viewState.showGroupFilterOptions) {
@@ -105,10 +127,28 @@ struct GroupDetailView: View {
                     appModel: appModel,
                     sessionModel: sessionModel,
                     onDrillsSelected: { selectedDrills in
-                        // Add selected drills to the group
-                        for drill in selectedDrills {
-                            sessionModel.addDrillToGroup(drill: drill, groupId: group.id)
+                        // Add selected drills to the group using the new bulk add method
+                        // which returns the actual number of new drills added
+                        let newDrillsCount = sessionModel.addDrillsToGroup(drills: selectedDrills, groupId: group.id)
+                        
+                        // Update the current drills state to reflect changes
+                        refreshDrillsList()
+                        
+                        // Show toast notification with accurate count from the model
+                        toastMessage = "\(newDrillsCount) drill\(newDrillsCount == 1 ? "" : "s") added to group"
+                        withAnimation {
+                            showToast = true
                         }
+                        
+                        // Auto-hide toast after 3 seconds
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            withAnimation {
+                                showToast = false
+                            }
+                        }
+                        
+                        // Dismiss the sheet
+                        showAddDrillSheet = false
                     },
                     title: "Add Drills to \(group.name)",
                     actionButtonText: { count in
@@ -119,12 +159,18 @@ struct GroupDetailView: View {
                     },
                     isDrillSelected: { drill in
                         // Check if the drill is already in the group
-                        group.drills.contains(drill)
+                        currentDrills.contains(drill)
                     },
                     dismiss: { showAddDrillSheet = false }
                 )
             }
             .onAppear {
+                // First deduplicate all groups to ensure we start with clean data
+                sessionModel.deduplicateAllGroups()
+                
+                // Then initialize current drills from the group
+                refreshDrillsList()
+                
                 // Set up notification observer
                 NotificationCenter.default.addObserver(
                     forName: Notification.Name("ShowAddDrillSheet"),
@@ -133,15 +179,81 @@ struct GroupDetailView: View {
                 ) { _ in
                     showAddDrillSheet = true
                 }
+                
+                // Add observer for drill changes
+                NotificationCenter.default.addObserver(
+                    forName: Notification.Name("DrillGroupUpdated"),
+                    object: nil,
+                    queue: .main
+                ) { notification in
+                    if let updatedGroupId = notification.userInfo?["groupId"] as? UUID,
+                       updatedGroupId == group.id {
+                        refreshDrillsList()
+                    }
+                }
+                
+                // Add observer for liked drills changes
+                NotificationCenter.default.addObserver(
+                    forName: Notification.Name("LikedDrillsUpdated"),
+                    object: nil,
+                    queue: .main
+                ) { notification in
+                    // Check if this view is displaying the liked drills group
+                    let groupId = group.id
+                    let likedGroupId = sessionModel.likedDrillsGroup.id
+                    print("📣 Received LikedDrillsUpdated notification")
+                    print("  - Current group ID: \(groupId)")
+                    print("  - Liked group ID: \(likedGroupId)")
+                    
+                    if let notificationGroupId = notification.userInfo?["likedGroupId"] as? UUID {
+                        print("  - Notification group ID: \(notificationGroupId)")
+                    }
+                    
+                    if groupId == likedGroupId {
+                        print("✅ Matched! Refreshing liked drills list")
+                        refreshDrillsList()
+                    } else {
+                        print("❌ Not a match, skipping refresh")
+                    }
+                }
             }
             .onDisappear {
-                // Remove notification observer
+                // Remove notification observers
                 NotificationCenter.default.removeObserver(
                     self,
                     name: Notification.Name("ShowAddDrillSheet"),
                     object: nil
                 )
+                NotificationCenter.default.removeObserver(
+                    self,
+                    name: Notification.Name("DrillGroupUpdated"),
+                    object: nil
+                )
+                NotificationCenter.default.removeObserver(
+                    self,
+                    name: Notification.Name("LikedDrillsUpdated"),
+                    object: nil
+                )
             }
+    }
+    
+    // Function to refresh the drills list from the latest data
+    private func refreshDrillsList() {
+        // Always run a comprehensive deduplication first
+        sessionModel.deduplicateAllGroups()
+        
+        // First check if this is the liked drills group
+        if group.id == sessionModel.likedDrillsGroup.id {
+            currentDrills = sessionModel.likedDrillsGroup.drills
+            print("📋 Refreshed liked drills list: \(currentDrills.count) drills")
+        } else if let groupIndex = sessionModel.savedDrills.firstIndex(where: { $0.id == group.id }) {
+            currentDrills = sessionModel.savedDrills[groupIndex].drills
+            print("📋 Refreshed drill list: \(currentDrills.count) drills")
+        } else {
+            // Just use the original group data if we can't find an updated version
+            currentDrills = group.drills
+            print("⚠️ Could not find updated group, using original: \(currentDrills.count) drills")
+        }
     }
 }
 
