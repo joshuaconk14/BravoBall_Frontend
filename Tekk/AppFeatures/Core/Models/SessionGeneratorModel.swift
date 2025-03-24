@@ -16,24 +16,6 @@ class SessionGeneratorModel: ObservableObject {
     @ObservedObject var appModel: MainAppModel  // Add this
         
     
-    
-    // Define Preferences struct for caching
-    private struct Preferences: Codable {
-        var selectedTime: String?
-        var selectedEquipment: [String]
-        var selectedTrainingStyle: String?
-        var selectedLocation: String?
-        var selectedDifficulty: String?
-        
-        init(from model: SessionGeneratorModel) {
-            self.selectedTime = model.selectedTime
-            self.selectedEquipment = Array(model.selectedEquipment)
-            self.selectedTrainingStyle = model.selectedTrainingStyle
-            self.selectedLocation = model.selectedLocation
-            self.selectedDifficulty = model.selectedDifficulty
-        }
-    }
-    
     private let cacheManager = CacheManager.shared
     private var lastSyncTime: Date = Date()
     private let syncDebounceInterval: TimeInterval = 2.0 // 2 seconds
@@ -41,21 +23,13 @@ class SessionGeneratorModel: ObservableObject {
     private var autoSaveTimer: Timer?
     
     // FilterTypes
-    @Published var selectedTime: String? {
-        didSet { markAsNeedingSave() }
-    }
-    @Published var selectedEquipment: Set<String> = [] {
-        didSet { markAsNeedingSave() }
-    }
-    @Published var selectedTrainingStyle: String? {
-        didSet { markAsNeedingSave() }
-    }
-    @Published var selectedLocation: String? {
-        didSet { markAsNeedingSave() }
-    }
-    @Published var selectedDifficulty: String? {
-        didSet { markAsNeedingSave() }
-    }
+    @Published var selectedTime: String?
+    @Published var selectedEquipment: Set<String> = []
+    @Published var selectedTrainingStyle: String?
+    @Published var selectedLocation: String?
+    @Published var selectedDifficulty: String?
+//        didSet { markAsNeedingSave() }
+//    }
     @Published var selectedSkills: Set<String> = [] {
         didSet {
             updateDrills()
@@ -89,7 +63,7 @@ class SessionGeneratorModel: ObservableObject {
     
     // Saved filters storage
     @Published var allSavedFilters: [SavedFiltersModel] = []
-    // didset in saved filters func
+    // didset in savedFilters func
     
     
     
@@ -147,7 +121,7 @@ class SessionGeneratorModel: ObservableObject {
         
         // Setup auto-save timer
         autoSaveTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { [weak self] _ in
-            self?.saveIfNeeded()
+            self?.saveChanges()
         }
         
         // Add observer for user logout
@@ -166,7 +140,7 @@ class SessionGeneratorModel: ObservableObject {
     
     deinit {
         autoSaveTimer?.invalidate()
-        saveIfNeeded() // Final save on deinit
+        saveChanges() // Final save on deinit
         // Remove notification observer
         NotificationCenter.default.removeObserver(self)
     }
@@ -182,28 +156,22 @@ class SessionGeneratorModel: ObservableObject {
         clearUserData()
     }
     
+    // Tasks run if theres unsaved changes
     private func markAsNeedingSave() {
         hasUnsavedChanges = true
         
-        // Create and cache preferences
-        let preferences = Preferences(from: self)
-        cacheManager.cache(preferences, forKey: .filterGroupsCase)
+        // Create and cache ordered session
+        cacheManager.cache(orderedSessionDrills, forKey: .orderedDrillsCase)
     }
     
-    func saveIfNeeded() {
+    // Syncing data
+    func saveChanges() {
         guard hasUnsavedChanges else { return }
         
         Task {
             do {
-                try await DataSyncService.shared.syncUserPreferences(
-                    selectedTime: selectedTime,
-                    selectedEquipment: selectedEquipment,
-                    selectedTrainingStyle: selectedTrainingStyle,
-                    selectedLocation: selectedLocation,
-                    selectedDifficulty: selectedDifficulty,
-                    currentStreak: appModel.currentStreak,
-                    highestStreak: appModel.highestStreak,
-                    completedSessionsCount: appModel.countOfFullyCompletedSessions
+                try await DataSyncService.shared.syncOrderedSessionDrills(
+                    sessionDrills: orderedSessionDrills
                 )
                 await MainActor.run {
                     hasUnsavedChanges = false
@@ -214,10 +182,6 @@ class SessionGeneratorModel: ObservableObject {
         }
     }
     
-    // Call this when view disappears or app goes to background
-    func saveChanges() {
-        saveIfNeeded()
-    }
     
     // Test data for drills with specific sub-skills
     static let testDrills: [DrillModel] = [
@@ -621,9 +585,6 @@ class SessionGeneratorModel: ObservableObject {
         // Clear user cache to ensure data doesn't persist for new users
         CacheManager.shared.clearUserCache()
         
-        // Re-cache the empty liked drills group
-        cacheLikedDrills()
-        
         print("✅ User data and cache cleared successfully")
     }
     
@@ -766,12 +727,7 @@ class SessionGeneratorModel: ObservableObject {
     private func syncPreferences() {
         Task {
             do {
-                try await DataSyncService.shared.syncUserPreferences(
-                    selectedTime: selectedTime,
-                    selectedEquipment: selectedEquipment,
-                    selectedTrainingStyle: selectedTrainingStyle,
-                    selectedLocation: selectedLocation,
-                    selectedDifficulty: selectedDifficulty,
+                try await DataSyncService.shared.syncProgressHistory(
                     currentStreak: appModel.currentStreak, // You'll need to track these values
                     highestStreak: appModel.highestStreak,
                     completedSessionsCount: appModel.countOfFullyCompletedSessions
@@ -1189,6 +1145,24 @@ class SessionGeneratorModel: ObservableObject {
         let key = "\(userEmail)_likedDrillsUUID"
         UserDefaults.standard.removeObject(forKey: key)
         print("🗑️ Cleared liked drills UUID for user: \(userEmail)")
+    }
+    
+    
+    // Define Preferences struct for caching
+    private struct Preferences: Codable {
+        var selectedTime: String?
+        var selectedEquipment: [String]
+        var selectedTrainingStyle: String?
+        var selectedLocation: String?
+        var selectedDifficulty: String?
+        
+        init(from model: SessionGeneratorModel) {
+            self.selectedTime = model.selectedTime
+            self.selectedEquipment = Array(model.selectedEquipment)
+            self.selectedTrainingStyle = model.selectedTrainingStyle
+            self.selectedLocation = model.selectedLocation
+            self.selectedDifficulty = model.selectedDifficulty
+        }
     }
 }
 

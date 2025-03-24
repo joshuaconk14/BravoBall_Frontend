@@ -12,17 +12,11 @@ class DataSyncService {
     static let shared = DataSyncService()
     private let baseURL = AppSettings.baseURL
     
-    // MARK: - User Preferences Sync
     
-    func syncUserPreferences(selectedTime: String?,
-                           selectedEquipment: Set<String>,
-                           selectedTrainingStyle: String?,
-                           selectedLocation: String?,
-                           selectedDifficulty: String?,
-                           currentStreak: Int,
-                           highestStreak: Int,
-                           completedSessionsCount: Int) async throws {
-        let url = URL(string: "\(baseURL)/api/preferences/")!
+    // MARK: - Ordered Session Drills Sync
+    
+    func syncOrderedSessionDrills(sessionDrills: [EditableDrillModel]) async throws {
+        let url = URL(string: "\(baseURL)/api/sessions/ordered_drills/")!
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -35,24 +29,39 @@ class DataSyncService {
             print("⚠️ No auth token found!")
         }
         
-        // Create a mutable dictionary to build our preferences
-        var preferences: [String: Any] = [
-            "selected_equipment": Array(selectedEquipment),
-            "selected_time": selectedTime as Any,
-            "selected_training_style": selectedTrainingStyle as Any,
-            "selected_location": selectedLocation as Any,
-            "selected_difficulty": selectedDifficulty as Any,
-            "current_streak": currentStreak,
-            "highest_streak": highestStreak,
-            "completed_sessions_count": completedSessionsCount
-        ]
+        // Convert drills to dictionary format
+        let drillsData = sessionDrills.map { drill in
+            return [
+                "drill": [
+                    "id": drill.drill.id.uuidString,
+                    "backend_id": drill.drill.backendId as Any,
+                    "title": drill.drill.title,
+                    "skill": drill.drill.skill,
+                    "sets": drill.totalSets,
+                    "reps": drill.totalReps,
+                    "duration": drill.totalDuration,
+                    "description": drill.drill.description,
+                    "tips": drill.drill.tips,
+                    "equipment": drill.drill.equipment,
+                    "training_style": drill.drill.trainingStyle,
+                    "difficulty": drill.drill.difficulty
+                ],
+                "sets_done": drill.setsDone,
+                "total_sets": drill.totalSets,
+                "total_reps": drill.totalReps,
+                "total_duration": drill.totalDuration,
+                "is_completed": drill.isCompleted
+            ]
+        }
+        
+        let requestData = ["ordered_drills": drillsData]
         
         print("📤 Sending request to: \(url.absoluteString)")
         print("Request headers: \(request.allHTTPHeaderFields ?? [:])")
-        print("Request body: \(preferences)")
+        print("Request body: \(requestData)")
         
         do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: preferences)
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestData)
             
             let (data, response) = try await URLSession.shared.data(for: request)
             
@@ -70,7 +79,79 @@ class DataSyncService {
             
             switch httpResponse.statusCode {
             case 200:
-                print("✅ Successfully synced user preferences")
+                print("✅ Successfully synced ordered session drills")
+            case 401:
+                print("❌ Unauthorized - Invalid or expired token")
+                print("🔑 Current token: \(KeychainWrapper.standard.string(forKey: "authToken") ?? "no token")")
+                throw URLError(.userAuthenticationRequired)
+            case 404:
+                print("❌ Endpoint not found - Check API route: \(url.absoluteString)")
+                throw URLError(.badURL)
+            case 422:
+                if let responseString = String(data: data, encoding: .utf8) {
+                    print("❌ Validation error: \(responseString)")
+                }
+                throw URLError(.badServerResponse)
+            default:
+                print("❌ Unexpected status code: \(httpResponse.statusCode)")
+                if let responseString = String(data: data, encoding: .utf8) {
+                    print("Response body: \(responseString)")
+                }
+                throw URLError(.badServerResponse)
+            }
+        } catch {
+            print("❌ Error during request: \(error)")
+            throw error
+        }
+    }
+    
+    // MARK: - Progress History Sync
+    
+    func syncProgressHistory(currentStreak: Int, highestStreak: Int, completedSessionsCount: Int) async throws {
+        let url = URL(string: "\(baseURL)/api/progress_history/")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Add auth token
+        if let token = KeychainWrapper.standard.string(forKey: "authToken") {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            print("🔑 Using auth token: \(token)")
+        } else {
+            print("⚠️ No auth token found!")
+        }
+        
+        // Create a mutable dictionary to build our progress history
+        var progressHistory: [String: Any] = [
+            "current_streak": currentStreak,
+            "highest_streak": highestStreak,
+            "completed_sessions_count": completedSessionsCount
+        ]
+        
+        print("📤 Sending request to: \(url.absoluteString)")
+        print("Request headers: \(request.allHTTPHeaderFields ?? [:])")
+        print("Request body: \(progressHistory)")
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: progressHistory)
+            
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print("❌ Invalid response type")
+                throw URLError(.badServerResponse)
+            }
+            
+            print("📥 Response status code: \(httpResponse.statusCode)")
+            print("📥 Response headers: \(httpResponse.allHeaderFields)")
+            
+            if let responseString = String(data: data, encoding: .utf8) {
+                print("📥 Response body: \(responseString)")
+            }
+            
+            switch httpResponse.statusCode {
+            case 200:
+                print("✅ Successfully synced progress history")
             case 401:
                 print("❌ Unauthorized - Invalid or expired token")
                 print("🔑 Current token: \(KeychainWrapper.standard.string(forKey: "authToken") ?? "no token")")
