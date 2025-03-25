@@ -598,31 +598,3 @@ extension SessionGeneratorModel {
         saveChanges()
     }
 }
-
-// MARK: Preview
-#Preview {
-    let mockOnboardingModel = OnboardingModel()
-    let mockAppModel = MainAppModel()
-    let mockSessionModel = SessionGeneratorModel(appModel: MainAppModel(), onboardingData: OnboardingModel.OnboardingData())
-    mockOnboardingModel.onboardingData = OnboardingModel.OnboardingData(
-        primaryGoal: "Improve my overall skill level",
-        biggestChallenge: "Not knowing what to work on",
-        trainingExperience: "Intermediate",
-        position: "Striker",
-        playstyle: "Alan Virgilus",
-        ageRange: "Adult (20-29)",
-        strengths: ["Dribbling", "Shooting"],
-        areasToImprove: ["Passing", "First touch"],
-        trainingLocation: ["field with goals"],
-        availableEquipment: ["balls", "cones"],
-        dailyTrainingTime: "30-60 minutes",
-        weeklyTrainingDays: "4-5 days (moderate schedule)",
-        firstName: "John",
-        lastName: "Doe",
-        email: "john@example.com",
-        password: "password123"
-    )
-    
-    
-     return SessionGeneratorView(model: mockOnboardingModel, appModel: mockAppModel, sessionModel: mockSessionModel)
-}

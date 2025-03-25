@@ -440,9 +440,9 @@
 			isa = PBXGroup;
 			children = (
 				43A764982D825FE8004509E5 /* DataSyncService.swift */,
+				43B6877C2D7C2391009CCA8C /* CacheManager.swift */,
 				170167FA2D88B8730078446C /* DrillGroupService.swift */,
 				170167FC2D88F5C00078446C /* DrillSearchService.swift */,
-				43B6877C2D7C2391009CCA8C /* CacheManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
