@@ -15,6 +15,8 @@ import SwiftKeychainWrapper
 class MainAppModel: ObservableObject {
     let globalSettings = GlobalSettings()
     
+    
+    
     private let cacheManager = CacheManager.shared
 
     
@@ -124,40 +126,28 @@ class MainAppModel: ObservableObject {
     @Published var showCalendar = false
     @Published var showDrillResults = false
     
-    @Published var currentStreak: Int = 0 {
-        didSet { cacheCurrentStreak() }
-    }
-    @Published var highestStreak: Int = 0 {
-        didSet { cacheHighestStreak() }
-    }
-    @Published var countOfFullyCompletedSessions: Int = 0 {
-        didSet { cacheCompletedSessionsCount() }
-    }
+    @Published var currentStreak: Int = 0
+    @Published var highestStreak: Int = 0
+    @Published var countOfFullyCompletedSessions: Int = 0
     
-    struct CompletedSession: Codable {
-        let date: Date
-        let drills: [EditableDrillModel]
-        let totalCompletedDrills: Int
-        let totalDrills: Int
-    }
     
     // MARK: - Cache Save Operations
-    private func cacheCompletedSessions() {
+    func cacheCompletedSessions() {
         cacheManager.cache(allCompletedSessions, forKey: .allCompletedSessionsCase)
         print("💾 Saved \(allCompletedSessions.count) completed sessions to cache")
     }
     
-    private func cacheCurrentStreak() {
+    func cacheCurrentStreak() {
         cacheManager.cache(currentStreak, forKey: .currentStreakCase)
         print("💾 Saved current streak: \(currentStreak)")
     }
     
-    private func cacheHighestStreak() {
+    func cacheHighestStreak() {
         cacheManager.cache(highestStreak, forKey: .highestSreakCase)
         print("💾 Saved highest streak: \(highestStreak)")
     }
     
-    private func cacheCompletedSessionsCount() {
+    func cacheCompletedSessionsCount() {
         cacheManager.cache(countOfFullyCompletedSessions, forKey: .countOfCompletedSessionsCase)
         print("💾 Saved completed sessions count: \(countOfFullyCompletedSessions)")
     }
@@ -294,4 +284,11 @@ class MainAppModel: ObservableObject {
         countOfFullyCompletedSessions = 0
     }
     
+}
+
+struct CompletedSession: Codable {
+    let date: Date
+    let drills: [EditableDrillModel]
+    let totalCompletedDrills: Int
+    let totalDrills: Int
 }

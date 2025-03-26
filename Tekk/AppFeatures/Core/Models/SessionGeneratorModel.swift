@@ -14,25 +14,8 @@ import SwiftKeychainWrapper
 class SessionGeneratorModel: ObservableObject {
     
     @ObservedObject var appModel: MainAppModel  // Add this
-        
     
     
-    // Define Preferences struct for caching
-    private struct Preferences: Codable {
-        var selectedTime: String?
-        var selectedEquipment: [String]
-        var selectedTrainingStyle: String?
-        var selectedLocation: String?
-        var selectedDifficulty: String?
-        
-        init(from model: SessionGeneratorModel) {
-            self.selectedTime = model.selectedTime
-            self.selectedEquipment = Array(model.selectedEquipment)
-            self.selectedTrainingStyle = model.selectedTrainingStyle
-            self.selectedLocation = model.selectedLocation
-            self.selectedDifficulty = model.selectedDifficulty
-        }
-    }
     
     private let cacheManager = CacheManager.shared
     private var lastSyncTime: Date = Date()
@@ -41,21 +24,11 @@ class SessionGeneratorModel: ObservableObject {
     private var autoSaveTimer: Timer?
     
     // FilterTypes
-    @Published var selectedTime: String? {
-        didSet { markAsNeedingSave() }
-    }
-    @Published var selectedEquipment: Set<String> = [] {
-        didSet { markAsNeedingSave() }
-    }
-    @Published var selectedTrainingStyle: String? {
-        didSet { markAsNeedingSave() }
-    }
-    @Published var selectedLocation: String? {
-        didSet { markAsNeedingSave() }
-    }
-    @Published var selectedDifficulty: String? {
-        didSet { markAsNeedingSave() }
-    }
+    @Published var selectedTime: String?
+    @Published var selectedEquipment: Set<String> = []
+    @Published var selectedTrainingStyle: String?
+    @Published var selectedLocation: String?
+    @Published var selectedDifficulty: String?
     @Published var selectedSkills: Set<String> = [] {
         didSet {
             updateDrills()
@@ -70,11 +43,15 @@ class SessionGeneratorModel: ObservableObject {
     // MARK: Cached Data
     // SessionGenerator Drills storage
     @Published var orderedSessionDrills: [EditableDrillModel] = [] {
-        didSet { cacheOrderedDrills() }
+        didSet { 
+            markAsNeedingSave(change: .orderedDrills)
+        }
     }
     // Saved Drills storage
     @Published var savedDrills: [GroupModel] = [] {
-        didSet { cacheSavedDrills() }
+        didSet { 
+            markAsNeedingSave(change: .savedDrills)
+        }
     }
     
     // Liked drills storage
@@ -84,12 +61,18 @@ class SessionGeneratorModel: ObservableObject {
         description: "Your favorite drills",
         drills: []
     ) {
-        didSet { cacheLikedDrills() }
+        didSet { 
+            markAsNeedingSave(change: .likedDrills)
+        }
     }
     
     // Saved filters storage
-    @Published var allSavedFilters: [SavedFiltersModel] = []
-    // didset in saved filters func
+    @Published var allSavedFilters: [SavedFiltersModel] = [] {
+        didSet {
+            markAsNeedingSave(change: .savedFilters)
+        }
+    }
+    // didset in savedFilters func
     
     
     
@@ -147,7 +130,7 @@ class SessionGeneratorModel: ObservableObject {
         
         // Setup auto-save timer
         autoSaveTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { [weak self] _ in
-            self?.saveIfNeeded()
+            self?.saveChanges()
         }
         
         // Add observer for user logout
@@ -166,11 +149,15 @@ class SessionGeneratorModel: ObservableObject {
     
     deinit {
         autoSaveTimer?.invalidate()
-        saveIfNeeded() // Final save on deinit
+        saveChanges() // Final save on deinit
         // Remove notification observer
         NotificationCenter.default.removeObserver(self)
     }
     
+    
+    
+    
+    // User logout and clearing of data
     @objc private func handleUserLogout(notification: Notification) {
         if let previousEmail = notification.userInfo?["previousEmail"] as? String {
             print("📣 SessionGeneratorModel received logout notification for user: \(previousEmail)")
@@ -182,42 +169,137 @@ class SessionGeneratorModel: ObservableObject {
         clearUserData()
     }
     
-    private func markAsNeedingSave() {
-        hasUnsavedChanges = true
+    
+    
+    // MARK: Syncing
+    struct DataChangeTracker {
+        var orderedDrillsChanged: Bool = false
+        var savedFiltersChanged: Bool = false
+        var progressHistoryChanged: Bool = false
+        var likedDrillsChanged: Bool = false
+        var savedDrillsChanged: Bool = false
+        var completedSessionsChanged: Bool = false
         
-        // Create and cache preferences
-        let preferences = Preferences(from: self)
-        cacheManager.cache(preferences, forKey: .filterGroupsCase)
+        mutating func reset() {
+            orderedDrillsChanged = false
+            savedFiltersChanged = false
+            progressHistoryChanged = false
+            likedDrillsChanged = false
+            savedDrillsChanged = false
+            completedSessionsChanged = false
+        }
+        
+        var hasAnyChanges: Bool {
+            return orderedDrillsChanged || 
+                   savedFiltersChanged || 
+                   progressHistoryChanged || 
+                   likedDrillsChanged || 
+                   savedDrillsChanged ||
+                   completedSessionsChanged
+        }
     }
     
-    func saveIfNeeded() {
-        guard hasUnsavedChanges else { return }
+    var changeTracker = DataChangeTracker()
+    
+    
+    
+    // Tasks run if there are unsaved changes
+    func markAsNeedingSave(change: DataChange) {
+        hasUnsavedChanges = true
+        
+        switch change {
+        case .orderedDrills:
+            changeTracker.orderedDrillsChanged = true
+            cacheOrderedDrills()
+        case .savedFilters:
+            changeTracker.savedFiltersChanged = true
+            cacheFilterGroups(name: "")
+        case .progressHistory:
+            changeTracker.progressHistoryChanged = true
+            // Progress history is handled by MainAppModel
+        case .likedDrills:
+            changeTracker.likedDrillsChanged = true
+            cacheLikedDrills()
+        case .savedDrills:
+            changeTracker.savedDrillsChanged = true
+            cacheSavedDrills()
+        case .completedSessions:
+            changeTracker.completedSessionsChanged = true
+        }
+    }
+    
+    enum DataChange {
+        case orderedDrills
+        case savedFilters
+        case progressHistory
+        case likedDrills
+        case savedDrills
+        case completedSessions
+    }
+    
+    // MARK: - Saving and Syncing
+    func saveChanges() {
+        guard changeTracker.hasAnyChanges else { return }
         
         Task {
             do {
-                try await DataSyncService.shared.syncUserPreferences(
-                    selectedTime: selectedTime,
-                    selectedEquipment: selectedEquipment,
-                    selectedTrainingStyle: selectedTrainingStyle,
-                    selectedLocation: selectedLocation,
-                    selectedDifficulty: selectedDifficulty,
-                    currentStreak: appModel.currentStreak,
-                    highestStreak: appModel.highestStreak,
-                    completedSessionsCount: appModel.countOfFullyCompletedSessions
-                )
+                // Only sync what has changed
+                if changeTracker.orderedDrillsChanged {
+                    try await DataSyncService.shared.syncOrderedSessionDrills(
+                        sessionDrills: orderedSessionDrills
+                    )
+                    cacheOrderedDrills()
+                }
+                
+                // once completedSession is added to db, progress history will update
+                // TODO: see if this is best way to handle progress history
+                if changeTracker.progressHistoryChanged {
+                    try await DataSyncService.shared.syncProgressHistory(
+                        currentStreak: appModel.currentStreak,
+                        highestStreak: appModel.highestStreak,
+                        completedSessionsCount: appModel.countOfFullyCompletedSessions
+                    )
+                    appModel.cacheCurrentStreak()
+                    appModel.cacheHighestStreak()
+                    appModel.cacheCompletedSessionsCount()
+                }
+                
+                // Sync both liked drills and saved drills together if either has changed
+                if changeTracker.likedDrillsChanged || changeTracker.savedDrillsChanged {
+                    try await DataSyncService.shared.syncAllDrillGroups(
+                        savedGroups: savedDrills,
+                        likedGroup: likedDrillsGroup
+                    )
+                    // Cache after successful sync
+                    cacheSavedDrills()
+                    cacheLikedDrills()
+                }
+                
+                if changeTracker.completedSessionsChanged {
+                    let completedDrills = orderedSessionDrills.filter { $0.isCompleted }.count
+                    try await DataSyncService.shared.syncCompletedSession(
+                        date: Date(),
+                        drills: orderedSessionDrills,
+                        totalCompleted: completedDrills,
+                        total: orderedSessionDrills.count
+                    )
+                    //TODO: cache completed sessions
+                    //cacheCompletedSessions
+                    markAsNeedingSave(change: .progressHistory)
+                    
+                }
+                
                 await MainActor.run {
+                    changeTracker.reset()
                     hasUnsavedChanges = false
                 }
             } catch {
-                print("❌ Error syncing preferences: \(error)")
+                print("❌ Error syncing data: \(error)")
+                // Keep change flags set so we can retry on next save
             }
         }
     }
     
-    // Call this when view disappears or app goes to background
-    func saveChanges() {
-        saveIfNeeded()
-    }
     
     // Test data for drills with specific sub-skills
     static let testDrills: [DrillModel] = [
@@ -323,10 +405,7 @@ class SessionGeneratorModel: ObservableObject {
                 isCompleted: false
             )
             }
-            
-            // Cache the drills
-            cacheOrderedDrills()
-            print("✅ Updated drills based on selected skills: \(selectedSkills)")
+
         } else {
             print("ℹ️ Skipping drill update as drills are already loaded")
         }
@@ -621,9 +700,6 @@ class SessionGeneratorModel: ObservableObject {
         // Clear user cache to ensure data doesn't persist for new users
         CacheManager.shared.clearUserCache()
         
-        // Re-cache the empty liked drills group
-        cacheLikedDrills()
-        
         print("✅ User data and cache cleared successfully")
     }
     
@@ -760,53 +836,8 @@ class SessionGeneratorModel: ObservableObject {
     }
     
     
-    // MARK: User sync functions
     
-    // Add new function to sync preferences
-    private func syncPreferences() {
-        Task {
-            do {
-                try await DataSyncService.shared.syncUserPreferences(
-                    selectedTime: selectedTime,
-                    selectedEquipment: selectedEquipment,
-                    selectedTrainingStyle: selectedTrainingStyle,
-                    selectedLocation: selectedLocation,
-                    selectedDifficulty: selectedDifficulty,
-                    currentStreak: appModel.currentStreak, // You'll need to track these values
-                    highestStreak: appModel.highestStreak,
-                    completedSessionsCount: appModel.countOfFullyCompletedSessions
-                )
-            } catch {
-                print("❌ Error syncing preferences: \(error)")
-            }
-        }
-    }
     
-    // Add function to sync completed session
-    func syncCompletedSession() {
-        Task {
-            do {
-                let completedDrills = orderedSessionDrills.filter { $0.isCompleted }.count
-                try await DataSyncService.shared.syncCompletedSession(
-                    date: Date(),
-                    drills: orderedSessionDrills,
-                    totalCompleted: completedDrills,
-                    total: orderedSessionDrills.count
-                )
-            } catch {
-                print("❌ Error syncing completed session: \(error)")
-            }
-        }
-    }
-    
-    // Update preferences when they actually change
-    private func debouncedSyncPreferences() {
-        let now = Date()
-        if now.timeIntervalSince(lastSyncTime) >= syncDebounceInterval {
-            lastSyncTime = now
-            syncPreferences()
-        }
-    }
     
     // MARK: - Loading and Syncing with Backend
     
@@ -1189,6 +1220,24 @@ class SessionGeneratorModel: ObservableObject {
         let key = "\(userEmail)_likedDrillsUUID"
         UserDefaults.standard.removeObject(forKey: key)
         print("🗑️ Cleared liked drills UUID for user: \(userEmail)")
+    }
+    
+    
+    // Define Preferences struct for caching
+    private struct Preferences: Codable {
+        var selectedTime: String?
+        var selectedEquipment: [String]
+        var selectedTrainingStyle: String?
+        var selectedLocation: String?
+        var selectedDifficulty: String?
+        
+        init(from model: SessionGeneratorModel) {
+            self.selectedTime = model.selectedTime
+            self.selectedEquipment = Array(model.selectedEquipment)
+            self.selectedTrainingStyle = model.selectedTrainingStyle
+            self.selectedLocation = model.selectedLocation
+            self.selectedDifficulty = model.selectedDifficulty
+        }
     }
 }
 
