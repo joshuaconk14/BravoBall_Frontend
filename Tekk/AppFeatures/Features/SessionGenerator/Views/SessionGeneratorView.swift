@@ -57,6 +57,57 @@ struct DrillResponse: Codable, Identifiable {
         case rest
     }
     
+    // Custom initializer to handle decoding with null values
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        // Required fields with default values if missing or null
+        id = try container.decodeIfPresent(Int.self, forKey: .id) ?? 0
+        title = try container.decodeIfPresent(String.self, forKey: .title) ?? "Unnamed Drill"
+        description = try container.decodeIfPresent(String.self, forKey: .description) ?? ""
+        
+        // Handle null durations
+        if let durationValue = try? container.decode(Int.self, forKey: .duration) {
+            duration = durationValue
+        } else {
+            duration = 10 // Default value
+        }
+        
+        intensity = try container.decodeIfPresent(String.self, forKey: .intensity) ?? "medium"
+        difficulty = try container.decodeIfPresent(String.self, forKey: .difficulty) ?? "beginner"
+        
+        // Handle array fields
+        equipment = try container.decodeIfPresent([String].self, forKey: .equipment) ?? []
+        suitableLocations = try container.decodeIfPresent([String].self, forKey: .suitableLocations) ?? []
+        instructions = try container.decodeIfPresent([String].self, forKey: .instructions) ?? []
+        tips = try container.decodeIfPresent([String].self, forKey: .tips) ?? []
+        
+        type = try container.decodeIfPresent(String.self, forKey: .type) ?? "other"
+        
+        // Optional fields
+        sets = try container.decodeIfPresent(Int.self, forKey: .sets)
+        reps = try container.decodeIfPresent(Int.self, forKey: .reps)
+        rest = try container.decodeIfPresent(Int.self, forKey: .rest)
+    }
+    
+    // Standard initializer for creating instances directly
+    init(id: Int, title: String, description: String, duration: Int, intensity: String, difficulty: String, equipment: [String], suitableLocations: [String], instructions: [String], tips: [String], type: String, sets: Int?, reps: Int?, rest: Int?) {
+        self.id = id
+        self.title = title
+        self.description = description
+        self.duration = duration
+        self.intensity = intensity
+        self.difficulty = difficulty
+        self.equipment = equipment
+        self.suitableLocations = suitableLocations
+        self.instructions = instructions
+        self.tips = tips
+        self.type = type
+        self.sets = sets
+        self.reps = reps
+        self.rest = rest
+    }
+    
     // Convert API drill to app's DrillModel
     func toDrillModel() -> DrillModel {
         return DrillModel(
@@ -546,32 +597,4 @@ extension SessionGeneratorModel {
         print("✅ Added \(orderedSessionDrills.count) default drills to session")
         saveChanges()
     }
-}
-
-// MARK: Preview
-#Preview {
-    let mockOnboardingModel = OnboardingModel()
-    let mockAppModel = MainAppModel()
-    let mockSessionModel = SessionGeneratorModel(appModel: MainAppModel(), onboardingData: OnboardingModel.OnboardingData())
-    mockOnboardingModel.onboardingData = OnboardingModel.OnboardingData(
-        primaryGoal: "Improve my overall skill level",
-        biggestChallenge: "Not knowing what to work on",
-        trainingExperience: "Intermediate",
-        position: "Striker",
-        playstyle: "Alan Virgilus",
-        ageRange: "Adult (20-29)",
-        strengths: ["Dribbling", "Shooting"],
-        areasToImprove: ["Passing", "First touch"],
-        trainingLocation: ["field with goals"],
-        availableEquipment: ["balls", "cones"],
-        dailyTrainingTime: "30-60 minutes",
-        weeklyTrainingDays: "4-5 days (moderate schedule)",
-        firstName: "John",
-        lastName: "Doe",
-        email: "john@example.com",
-        password: "password123"
-    )
-    
-    
-     return SessionGeneratorView(model: mockOnboardingModel, appModel: mockAppModel, sessionModel: mockSessionModel)
 }

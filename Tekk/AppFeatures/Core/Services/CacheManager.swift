@@ -163,11 +163,43 @@ class CacheManager {
         print("📊 Cache: Current total size: \(formatSize(currentCacheSize))")
     }
     
-    // delete specific user's cache
+    // Clear all user-specific cache data (enhanced version)
     func clearUserCache() {
-        let userEmail = getCurrentUserEmail()
-        guard !userEmail.isEmpty else {
-            print("❌ Cache: No user logged in")
+        print("🧹 Clearing all user-specific cache data...")
+        
+        // First use the thorough key-by-key approach
+        let userEmail = KeychainWrapper.standard.string(forKey: "userEmail") ?? "no user"
+        
+        // User-specific cache keys that need to be cleared
+        let userCacheKeys: [CacheKey] = [
+            .orderedDrillsCase,
+            .savedDrillsCase,
+            .likedDrillsCase,
+            .filterGroupsCase,
+            .groupBackendIdsCase,
+            .likedGroupBackendIdCase
+        ]
+        
+        // Clear each key for the current user
+        for key in userCacheKeys {
+            let userSpecificKey = key.forUser(userEmail)
+            UserDefaults.standard.removeObject(forKey: userSpecificKey)
+            print("  - Cleared cache for \(userSpecificKey)")
+        }
+        
+        // Then also use the original method that clears by prefix
+        clearUserCacheByPrefix(userEmail: userEmail)
+        
+        // Make sure changes are saved immediately
+        UserDefaults.standard.synchronize()
+        
+        print("✅ User cache cleared successfully")
+    }
+    
+    // Original prefix-based cache clearing method
+    private func clearUserCacheByPrefix(userEmail: String) {
+        guard !userEmail.isEmpty && userEmail != "no user" else {
+            print("❌ Cache: Cannot clear by prefix - no valid user")
             return
         }
         
@@ -181,9 +213,10 @@ class CacheManager {
             }
             userDefaults.removeObject(forKey: key)
             memoryCache.removeObject(forKey: key as NSString)
+            print("  - Cleared cache for \(key) (by prefix)")
         }
         
-        print("🗑️ Cache: Cleared all cache for user: \(userEmail)")
+        print("🧹 Cache: Cleared all cache by prefix for user: \(userEmail)")
         print("📊 Cache: Current total size: \(formatSize(currentCacheSize))")
     }
     

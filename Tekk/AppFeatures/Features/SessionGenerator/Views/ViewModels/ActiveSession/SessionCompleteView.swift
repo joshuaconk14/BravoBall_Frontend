@@ -79,8 +79,6 @@ struct SessionCompleteView: View {
     }
     
     private func resetSessionState() {
-        // Sync completed session before resetting
-        sessionModel.syncCompletedSession()
         
         sessionModel.orderedSessionDrills = []
         sessionModel.selectedSkills = []

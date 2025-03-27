@@ -17,23 +17,6 @@ class SessionGeneratorModel: ObservableObject {
     
     
     
-    // Define Preferences struct for caching
-    private struct Preferences: Codable {
-        var selectedTime: String?
-        var selectedEquipment: [String]
-        var selectedTrainingStyle: String?
-        var selectedLocation: String?
-        var selectedDifficulty: String?
-        
-        init(from model: SessionGeneratorModel) {
-            self.selectedTime = model.selectedTime
-            self.selectedEquipment = Array(model.selectedEquipment)
-            self.selectedTrainingStyle = model.selectedTrainingStyle
-            self.selectedLocation = model.selectedLocation
-            self.selectedDifficulty = model.selectedDifficulty
-        }
-    }
-    
     private let cacheManager = CacheManager.shared
     private var lastSyncTime: Date = Date()
     private let syncDebounceInterval: TimeInterval = 2.0 // 2 seconds
@@ -41,21 +24,11 @@ class SessionGeneratorModel: ObservableObject {
     private var autoSaveTimer: Timer?
     
     // FilterTypes
-    @Published var selectedTime: String? {
-        didSet { markAsNeedingSave() }
-    }
-    @Published var selectedEquipment: Set<String> = [] {
-        didSet { markAsNeedingSave() }
-    }
-    @Published var selectedTrainingStyle: String? {
-        didSet { markAsNeedingSave() }
-    }
-    @Published var selectedLocation: String? {
-        didSet { markAsNeedingSave() }
-    }
-    @Published var selectedDifficulty: String? {
-        didSet { markAsNeedingSave() }
-    }
+    @Published var selectedTime: String?
+    @Published var selectedEquipment: Set<String> = []
+    @Published var selectedTrainingStyle: String?
+    @Published var selectedLocation: String?
+    @Published var selectedDifficulty: String?
     @Published var selectedSkills: Set<String> = [] {
         didSet {
             updateDrills()
@@ -70,34 +43,69 @@ class SessionGeneratorModel: ObservableObject {
     // MARK: Cached Data
     // SessionGenerator Drills storage
     @Published var orderedSessionDrills: [EditableDrillModel] = [] {
-        didSet { cacheOrderedDrills() }
+        didSet { 
+            markAsNeedingSave(change: .orderedDrills)
+        }
     }
     // Saved Drills storage
     @Published var savedDrills: [GroupModel] = [] {
-        didSet { cacheSavedDrills() }
+        didSet { 
+            markAsNeedingSave(change: .savedDrills)
+        }
     }
     
     // Liked drills storage
     @Published var likedDrillsGroup: GroupModel = GroupModel(
+        id: UUID(), // Will be properly initialized in init()
         name: "Liked Drills",
         description: "Your favorite drills",
         drills: []
     ) {
-        didSet { cacheLikedDrills() }
+        didSet { 
+            markAsNeedingSave(change: .likedDrills)
+        }
     }
     
     // Saved filters storage
-    @Published var allSavedFilters: [SavedFiltersModel] = []
-    // didset in saved filters func
+    @Published var allSavedFilters: [SavedFiltersModel] = [] {
+        didSet {
+            markAsNeedingSave(change: .savedFilters)
+        }
+    }
+    // didset in savedFilters func
     
     
     
     
     
-    // Initialize with user's onboarding data
+    // MARK: Init
     init(appModel: MainAppModel, onboardingData: OnboardingModel.OnboardingData) {
         self.appModel = appModel
+        
+        // Check if we just signed out and/or signed in with a new user
+        let currentUser = KeychainWrapper.standard.string(forKey: "userEmail") ?? "no user"
+        let lastUser = UserDefaults.standard.string(forKey: "lastActiveUser") ?? ""
+        
+        if currentUser != lastUser {
+            print("👤 User change detected: '\(lastUser)' → '\(currentUser)'")
+            // Clear any leftover data from previous user
+            clearUserData()
+            
+            // Save current user as last active
+            UserDefaults.standard.set(currentUser, forKey: "lastActiveUser")
+        }
+        
+        // Initialize liked drills group with user-specific UUID
+        likedDrillsGroup = GroupModel(
+            id: getLikedDrillsUUID(),
+            name: "Liked Drills",
+            description: "Your favorite drills",
+            drills: []
+        )
+        
         loadCachedData()
+        // Force deduplication on app launch
+        deduplicateAllGroups()
         
         // Only set these values if they're not already loaded from cache
         if selectedDifficulty == nil {
@@ -122,51 +130,189 @@ class SessionGeneratorModel: ObservableObject {
         
         // Setup auto-save timer
         autoSaveTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { [weak self] _ in
-            self?.saveIfNeeded()
+            self?.saveChanges()
+        }
+        
+        // Add observer for user logout
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleUserLogout),
+            name: Notification.Name("UserLoggedOut"),
+            object: nil
+        )
+                
+        
+        // After loading from cache, try to refresh from backend
+        Task {
+            await loadDrillGroupsFromBackend()
+        }
+        
+        // Load saved filters data from backend
+        Task {
+            await loadSavedFiltersFromBackend()
         }
     }
     
     deinit {
         autoSaveTimer?.invalidate()
-        saveIfNeeded() // Final save on deinit
+        saveChanges() // Final save on deinit
+        // Remove notification observer
+        NotificationCenter.default.removeObserver(self)
     }
     
-    private func markAsNeedingSave() {
+    
+    
+    
+    // User logout and clearing of data
+    @objc private func handleUserLogout(notification: Notification) {
+        if let previousEmail = notification.userInfo?["previousEmail"] as? String {
+            print("📣 SessionGeneratorModel received logout notification for user: \(previousEmail)")
+        } else {
+            print("📣 SessionGeneratorModel received logout notification")
+        }
+        
+        // Clear all user data
+        clearUserData()
+    }
+    
+    
+    
+    // MARK: Syncing
+    struct DataChangeTracker {
+        var orderedDrillsChanged: Bool = false
+        var savedFiltersChanged: Bool = false
+        var progressHistoryChanged: Bool = false
+        var likedDrillsChanged: Bool = false
+        var savedDrillsChanged: Bool = false
+        var completedSessionsChanged: Bool = false
+        
+        mutating func reset() {
+            orderedDrillsChanged = false
+            savedFiltersChanged = false
+            progressHistoryChanged = false
+            likedDrillsChanged = false
+            savedDrillsChanged = false
+            completedSessionsChanged = false
+        }
+        
+        var hasAnyChanges: Bool {
+            return orderedDrillsChanged || 
+                   savedFiltersChanged || 
+                   progressHistoryChanged || 
+                   likedDrillsChanged || 
+                   savedDrillsChanged ||
+                   completedSessionsChanged
+        }
+    }
+    
+    var changeTracker = DataChangeTracker()
+    
+    
+    
+    // Tasks run if there are unsaved changes
+    func markAsNeedingSave(change: DataChange) {
         hasUnsavedChanges = true
         
-        // Create and cache preferences
-        let preferences = Preferences(from: self)
-        cacheManager.cache(preferences, forKey: .filterGroupsCase)
+        switch change {
+        case .orderedDrills:
+            changeTracker.orderedDrillsChanged = true
+            cacheOrderedDrills()
+        case .savedFilters:
+            changeTracker.savedFiltersChanged = true
+            cacheFilterGroups(name: "")
+        case .progressHistory:
+            changeTracker.progressHistoryChanged = true
+            // Progress history is handled by MainAppModel
+        case .likedDrills:
+            changeTracker.likedDrillsChanged = true
+            cacheLikedDrills()
+        case .savedDrills:
+            changeTracker.savedDrillsChanged = true
+            cacheSavedDrills()
+        case .completedSessions:
+            changeTracker.completedSessionsChanged = true
+        }
     }
     
-    func saveIfNeeded() {
-        guard hasUnsavedChanges else { return }
+    enum DataChange {
+        case orderedDrills
+        case savedFilters
+        case progressHistory
+        case likedDrills
+        case savedDrills
+        case completedSessions
+    }
+    
+    // MARK: - Saving and Syncing
+    func saveChanges() {
+        guard changeTracker.hasAnyChanges else { return }
         
         Task {
             do {
-                try await DataSyncService.shared.syncUserPreferences(
-                    selectedTime: selectedTime,
-                    selectedEquipment: selectedEquipment,
-                    selectedTrainingStyle: selectedTrainingStyle,
-                    selectedLocation: selectedLocation,
-                    selectedDifficulty: selectedDifficulty,
+                // Only sync what has changed
+                if changeTracker.orderedDrillsChanged {
+                    try await DataSyncService.shared.syncOrderedSessionDrills(
+                        sessionDrills: orderedSessionDrills
+                    )
+                    cacheOrderedDrills()
+                }
+                if changeTracker.savedFiltersChanged {
+                    try await SavedFiltersService.shared.syncSavedFilters(
+                        savedFilters: allSavedFilters
+                    )
+                    // caching performed in saveFiltersInGroup function when user saves filter
+                    
+                }
+                
+                // once completedSession is added to db, progress history will update
+                // TODO: see if this is best way to handle progress history
+                if changeTracker.progressHistoryChanged {
+                    try await DataSyncService.shared.syncProgressHistory(
                         currentStreak: appModel.currentStreak,
                         highestStreak: appModel.highestStreak,
                         completedSessionsCount: appModel.countOfFullyCompletedSessions
                     )
+                    appModel.cacheCurrentStreak()
+                    appModel.cacheHighestStreak()
+                    appModel.cacheCompletedSessionsCount()
+                }
+                
+                // Sync both liked drills and saved drills together if either has changed
+                if changeTracker.likedDrillsChanged || changeTracker.savedDrillsChanged {
+                    try await DataSyncService.shared.syncAllDrillGroups(
+                        savedGroups: savedDrills,
+                        likedGroup: likedDrillsGroup
+                    )
+                    // Cache after successful sync
+                    cacheSavedDrills()
+                    cacheLikedDrills()
+                }
+                
+                if changeTracker.completedSessionsChanged {
+                    let completedDrills = orderedSessionDrills.filter { $0.isCompleted }.count
+                    try await DataSyncService.shared.syncCompletedSession(
+                        date: Date(),
+                        drills: orderedSessionDrills,
+                        totalCompleted: completedDrills,
+                        total: orderedSessionDrills.count
+                    )
+                    //TODO: cache completed sessions
+                    //cacheCompletedSessions
+                    markAsNeedingSave(change: .progressHistory)
+                    
+                }
+                
                 await MainActor.run {
+                    changeTracker.reset()
                     hasUnsavedChanges = false
                 }
             } catch {
-                print("❌ Error syncing preferences: \(error)")
+                print("❌ Error syncing data: \(error)")
+                // Keep change flags set so we can retry on next save
             }
         }
     }
     
-    // Call this when view disappears or app goes to background
-    func saveChanges() {
-        saveIfNeeded()
-    }
     
     // Test data for drills with specific sub-skills
     static let testDrills: [DrillModel] = [
@@ -273,9 +419,6 @@ class SessionGeneratorModel: ObservableObject {
             )
             }
 
-            // Cache the drills
-            cacheOrderedDrills()
-            print("✅ Updated drills based on selected skills: \(selectedSkills)")
         } else {
             print("ℹ️ Skipping drill update as drills are already loaded")
         }
@@ -544,10 +687,18 @@ class SessionGeneratorModel: ObservableObject {
     // Clear all user data when logging out
     func clearUserData() {
         print("\n🧹 Clearing user data...")
-        // Clear all published properties
+        
+        // First clear all published properties
         orderedSessionDrills = []
         savedDrills = []
-        likedDrillsGroup = GroupModel(name: "Liked Drills", description: "Your favorite drills", drills: [])
+        likedDrillsGroup = GroupModel(
+            id: getLikedDrillsUUID(), // Use user-specific UUID
+            name: "Liked Drills",
+            description: "Your favorite drills",
+            drills: []
+        )
+        groupBackendIds = [:]
+        likedGroupBackendId = nil
         selectedDrills = []
         allSavedFilters = []
         
@@ -559,7 +710,10 @@ class SessionGeneratorModel: ObservableObject {
         selectedDifficulty = nil
         selectedSkills = []
         
-        print("✅ User data cleared successfully")
+        // Clear user cache to ensure data doesn't persist for new users
+        CacheManager.shared.clearUserCache()
+        
+        print("✅ User data and cache cleared successfully")
     }
     
     
@@ -572,6 +726,13 @@ class SessionGeneratorModel: ObservableObject {
         print("Current user email: \(userEmail)")
         print("Cache key being used: \(CacheKey.orderedDrillsCase.forUser(userEmail))")
         print("----------------------------------------")
+        
+        // If no user is logged in or changing users, ensure we don't load old data
+        if userEmail == "no user" {
+            print("⚠️ No valid user found, clearing any existing data")
+            clearUserData()
+            return
+        }
         
         // Load preferences
         if let preferences: Preferences = cacheManager.retrieve(forKey: .filterGroupsCase) {
@@ -688,116 +849,427 @@ class SessionGeneratorModel: ObservableObject {
     }
     
     
-    // MARK: User sync functions
     
-    // Add new function to sync preferences
-    private func syncPreferences() {
-        Task {
-            do {
-                try await DataSyncService.shared.syncUserPreferences(
-                    selectedTime: selectedTime,
-                    selectedEquipment: selectedEquipment,
-                    selectedTrainingStyle: selectedTrainingStyle,
-                    selectedLocation: selectedLocation,
-                    selectedDifficulty: selectedDifficulty,
-                    currentStreak: appModel.currentStreak, // You'll need to track these values
-                    highestStreak: appModel.highestStreak,
-                    completedSessionsCount: appModel.countOfFullyCompletedSessions
-                )
-        } catch {
-                print("❌ Error syncing preferences: \(error)")
-            }
-        }
-    }
     
-    // Add function to sync completed session
-    func syncCompletedSession() {
-        Task {
-            do {
-                let completedDrills = orderedSessionDrills.filter { $0.isCompleted }.count
-                try await DataSyncService.shared.syncCompletedSession(
-                    date: Date(),
-                    drills: orderedSessionDrills,
-                    totalCompleted: completedDrills,
-                    total: orderedSessionDrills.count
-                )
-            } catch {
-                print("❌ Error syncing completed session: \(error)")
-            }
-        }
-    }
     
-    // Update preferences when they actually change
-    private func debouncedSyncPreferences() {
-        let now = Date()
-        if now.timeIntervalSince(lastSyncTime) >= syncDebounceInterval {
-            lastSyncTime = now
-            syncPreferences()
-        }
-    }
+    
+    
     
     // MARK: - Loading and Syncing with Backend
     
     // Add a method to load all drill groups from the backend
     func loadDrillGroupsFromBackend() async {
+        print("🔄 Loading drill groups from backend...")
+        
         do {
-            // Get all groups from backend
-            let backendGroups = try await DrillGroupService.shared.getAllDrillGroups()
+            // First load all drill groups
+            let groups = try await DrillGroupService.shared.getAllDrillGroups()
+            print("📋 Received \(groups.count) drill groups from backend")
             
-            // Convert backend groups to local model
-            var newSavedDrills: [GroupModel] = []
-            var newGroupBackendIds: [UUID: Int] = [:]
+            // Clear existing groups
+            savedDrills = []
+            groupBackendIds = [:]
             
-            for backendGroup in backendGroups {
-                // Skip liked group, we'll handle it separately
-                if backendGroup.isLikedGroup {
-                continue
-            }
-            
-                // Convert API drills to local model
-                let drills = backendGroup.drills.map { apiDrill -> DrillModel in
-                    return apiDrill.toDrillModel()
-                }
-                
-                // Create local group
+            // Process each group
+            for remoteGroup in groups {
                 let groupId = UUID()
-                let group = GroupModel(
+                
+                // Create a local group from backend data
+                let localGroup = GroupModel(
                     id: groupId,
-                    name: backendGroup.name,
-                    description: backendGroup.description,
-                    drills: drills
+                    name: remoteGroup.name,
+                    description: remoteGroup.description,
+                    drills: remoteGroup.drills.map { drillResponse in
+                        DrillModel(
+                            id: UUID(),
+                            backendId: drillResponse.id,
+                            title: drillResponse.title,
+                            skill: drillResponse.type,
+                            sets: drillResponse.sets ?? 0,
+                            reps: drillResponse.reps ?? 0,
+                            duration: drillResponse.duration,
+                            description: drillResponse.description,
+                            tips: drillResponse.tips,
+                            equipment: drillResponse.equipment,
+                            trainingStyle: drillResponse.intensity,
+                            difficulty: drillResponse.difficulty
+                        )
+                    }
                 )
                 
-                newSavedDrills.append(group)
-                newGroupBackendIds[groupId] = backendGroup.id
-            }
-            
-            // Update local state
-            DispatchQueue.main.async {
-                self.savedDrills = newSavedDrills
-                self.groupBackendIds = newGroupBackendIds
-            }
-            
-            // Get liked drills group
-            let likedGroup = try await DrillGroupService.shared.getLikedDrillsGroup()
-            let likedDrills = likedGroup.drills.map { apiDrill -> DrillModel in
-                return apiDrill.toDrillModel()
-            }
-            
-            // Update liked drills
-            DispatchQueue.main.async {
-                self.likedDrillsGroup = GroupModel(
-                    name: likedGroup.name,
-                    description: likedGroup.description,
-                    drills: likedDrills
-                )
-                self.likedGroupBackendId = likedGroup.id
+                // Store backend ID mapping
+                groupBackendIds[groupId] = remoteGroup.id
+                
+                // Add to saved drills if not a liked group
+                if !remoteGroup.isLikedGroup {
+                    savedDrills.append(localGroup)
+                }
+                // Handle liked group separately
+                else {
+                    // Create liked drills group with fixed UUID
+                    likedDrillsGroup = GroupModel(
+                        id: getLikedDrillsUUID(), // Use user-specific UUID
+                        name: remoteGroup.name,
+                        description: remoteGroup.description,
+                        drills: localGroup.drills
+                    )
+                    self.likedGroupBackendId = remoteGroup.id
+                }
             }
             
             print("✅ Successfully loaded all drill groups from backend")
+            
+            // Deduplicate all drill groups to ensure no duplicates
+            deduplicateAllGroups()
         } catch {
             print("❌ Error loading drill groups from backend: \(error)")
             print("Using cached groups instead")
+        }
+    }
+    
+    // Update the addDrillsToGroup method to use the unified approach from DrillGroupService
+    func addDrillsToGroup(drills: [DrillModel], groupId: UUID? = nil, isLikedGroup: Bool = false) -> Int {
+        print("\n🔍 DEBUG - addDrillsToGroup in SessionGeneratorModel:")
+        print("  - isLikedGroup: \(isLikedGroup)")
+        
+        var actuallyAddedCount = 0
+        
+        // Check if the provided groupId matches the likedDrillsGroup's id
+        if let groupId = groupId, groupId == likedDrillsGroup.id {
+            print("  - Detected request to add drills to the liked group via UUID: \(groupId)")
+            print("  - likedDrillsGroup.id: \(likedDrillsGroup.id)")
+            // Redirect to the liked group path
+            return addDrillsToGroup(drills: drills, isLikedGroup: true)
+        }
+        
+        if isLikedGroup {
+            // Handle liked drills group
+            print("  - Adding \(drills.count) drills to liked group (id: \(likedDrillsGroup.id))")
+            
+            // Add each drill to the group if it's not already there
+            for drill in drills {
+                if !likedDrillsGroup.drills.contains(where: { $0.id == drill.id }) && 
+                   !likedDrillsGroup.drills.contains(where: { $0.title == drill.title }) {
+                    likedDrillsGroup.drills.append(drill)
+                    actuallyAddedCount += 1
+                    print("  - Added drill: '\(drill.title)'")
+                } else {
+                    print("  - Skipped drill (already exists): '\(drill.title)'")
+                }
+            }
+            
+            print("✅ Added \(actuallyAddedCount) new drills to liked group locally")
+            
+            // Deduplicate liked drills group to ensure no duplicates
+            deduplicateLikedDrills()
+            
+            // Notify UI of the update
+            print("📣 Posting LikedDrillsUpdated notification")
+            NotificationCenter.default.post(
+                name: Notification.Name("LikedDrillsUpdated"),
+                object: nil,
+                userInfo: ["likedGroupId": likedDrillsGroup.id]
+            )
+        } else {
+            // Handle regular drill group
+            guard let groupId = groupId else {
+                print("❌ ERROR: No group ID provided for regular drill group")
+                return 0
+            }
+            
+            print("  - Local Group ID (UUID): \(groupId)")
+            print("  - Adding \(drills.count) drills")
+            
+            // Find the group in the saved drills
+            if let groupIndex = savedDrills.firstIndex(where: { $0.id == groupId }) {
+                print("✅ Found group at index \(groupIndex): '\(savedDrills[groupIndex].name)'")
+                
+                // Add each drill to the group if it's not already there
+                for drill in drills {
+                    if !savedDrills[groupIndex].drills.contains(where: { $0.id == drill.id }) && 
+                       !savedDrills[groupIndex].drills.contains(where: { $0.title == drill.title }) {
+                        savedDrills[groupIndex].drills.append(drill)
+                        actuallyAddedCount += 1
+                        print("  - Added drill: '\(drill.title)'")
+                    } else {
+                        print("  - Skipped drill (already exists): '\(drill.title)'")
+                    }
+                }
+                
+                print("✅ Added \(actuallyAddedCount) new drills to group locally")
+                
+                // Deduplicate the group to ensure no duplicates
+                deduplicateDrills(in: groupIndex)
+                
+                // Notify UI of the update with the group ID
+                NotificationCenter.default.post(
+                    name: Notification.Name("DrillGroupUpdated"),
+                    object: nil,
+                    userInfo: ["groupId": groupId]
+                )
+            } else {
+                print("❌ ERROR: Could not find group with ID \(groupId)")
+                print("  - Available group IDs: \(savedDrills.map { $0.id })")
+                print("  - Liked drills group ID: \(likedDrillsGroup.id)")
+                return 0
+            }
+        }
+        
+        // Sync with backend using the unified approach
+        Task {
+            do {
+                // Get backend IDs for all drills being added
+                let drillBackendIds = drills.compactMap { $0.backendId }
+                print("🔍 Drill backend IDs: \(drillBackendIds)")
+                print("  - Found backend IDs for \(drillBackendIds.count) out of \(drills.count) drills")
+                
+                // Only proceed if we have valid backend IDs
+                if drillBackendIds.isEmpty {
+                    print("⚠️ No valid backend IDs found for drills")
+                    return
+                }
+                
+                // Get the backend group ID if needed
+                var backendGroupId: Int? = nil
+                if !isLikedGroup {
+                    guard let groupId = groupId, let id = groupBackendIds[groupId] else {
+                        print("⚠️ No backend ID found for group")
+                        return
+                    }
+                    backendGroupId = id
+                    print("✅ Found backend ID for group: \(backendGroupId!)")
+                }
+                
+                // Use the unified method from DrillGroupService
+                print("🔄 Calling DrillGroupService.addMultipleDrillsToAnyGroup...")
+                let result = try await DrillGroupService.shared.addMultipleDrillsToAnyGroup(
+                    groupId: backendGroupId,
+                    drillIds: drillBackendIds,
+                    isLikedGroup: isLikedGroup
+                )
+                
+                print("✅ Successfully synced drills: \(result)")
+                
+                // Notify UI again after successful backend sync
+                DispatchQueue.main.async {
+                    if isLikedGroup {
+                        NotificationCenter.default.post(
+                            name: Notification.Name("LikedDrillsUpdated"),
+                            object: nil,
+                            userInfo: ["syncSuccess": true]
+                        )
+                    } else if let groupId = groupId {
+                        NotificationCenter.default.post(
+                            name: Notification.Name("DrillGroupUpdated"),
+                            object: nil,
+                            userInfo: ["groupId": groupId, "syncSuccess": true]
+                        )
+                    }
+                }
+            } catch {
+                print("❌ Failed to sync drills: \(error)")
+                
+                // Notify UI of failure
+                DispatchQueue.main.async {
+                    let notificationName = isLikedGroup ? 
+                        Notification.Name("LikedDrillsUpdated") : 
+                        Notification.Name("DrillGroupUpdated")
+                    
+                    var userInfo: [String: Any] = ["syncError": error.localizedDescription]
+                    if let groupId = groupId {
+                        userInfo["groupId"] = groupId
+                    }
+                    
+                    NotificationCenter.default.post(
+                        name: notificationName,
+                        object: nil,
+                        userInfo: userInfo
+                    )
+                }
+            }
+        }
+        
+        return actuallyAddedCount
+    }
+    
+    // For backward compatibility - this method is maintained for existing code that calls it directly
+    // but it now uses the unified approach internally
+    func addDrillsToLikedGroup(drills: [DrillModel]) -> Int {
+        // Call the combined method with the isLikedGroup flag set to true
+        return addDrillsToGroup(drills: drills, isLikedGroup: true)
+    }
+    
+    // Remove duplicate drills from a group
+    func deduplicateDrills(in groupIndex: Int) {
+        // Create a Set to track seen drill IDs and titles
+        var seenDrillIds = Set<UUID>()
+        var seenDrillTitles = Set<String>()
+        var uniqueDrills = [DrillModel]()
+        
+        for drill in savedDrills[groupIndex].drills {
+            // Check for ID-based duplicates first
+            if seenDrillIds.contains(drill.id) {
+                print("🔄 Removing duplicate drill (ID match): '\(drill.title)' from group '\(savedDrills[groupIndex].name)'")
+                continue
+            }
+            
+            // Then check for title-based duplicates (same content with different IDs)
+            if seenDrillTitles.contains(drill.title) {
+                print("🔄 Removing duplicate drill (title match): '\(drill.title)' from group '\(savedDrills[groupIndex].name)'")
+                continue
+            }
+            
+            // This drill is unique, add it to our tracking and result list
+            seenDrillIds.insert(drill.id)
+            seenDrillTitles.insert(drill.title)
+            uniqueDrills.append(drill)
+        }
+        
+        // Update the group with unique drills
+        if uniqueDrills.count != savedDrills[groupIndex].drills.count {
+            print("🔄 Deduplicated \(savedDrills[groupIndex].drills.count - uniqueDrills.count) drills from group '\(savedDrills[groupIndex].name)'")
+            savedDrills[groupIndex].drills = uniqueDrills
+            // Make sure to cache the updated group
+            cacheSavedDrills()
+        }
+    }
+    
+    // Remove duplicates from liked drills group
+    func deduplicateLikedDrills() {
+        // Create a Set to track seen drill IDs and titles
+        var seenDrillIds = Set<UUID>()
+        var seenDrillTitles = Set<String>()
+        var uniqueDrills = [DrillModel]()
+        
+        for drill in likedDrillsGroup.drills {
+            // Check for ID-based duplicates first
+            if seenDrillIds.contains(drill.id) {
+                print("🔄 Removing duplicate drill (ID match): '\(drill.title)' from liked drills group")
+                continue
+            }
+            
+            // Then check for title-based duplicates (same content with different IDs)
+            if seenDrillTitles.contains(drill.title) {
+                print("🔄 Removing duplicate drill (title match): '\(drill.title)' from liked drills group")
+                continue
+            }
+            
+            // This drill is unique, add it to our tracking and result list
+            seenDrillIds.insert(drill.id)
+            seenDrillTitles.insert(drill.title)
+            uniqueDrills.append(drill)
+        }
+        
+        // Update the liked drills group with unique drills
+        if uniqueDrills.count != likedDrillsGroup.drills.count {
+            print("🔄 Deduplicated \(likedDrillsGroup.drills.count - uniqueDrills.count) drills from liked drills group")
+            likedDrillsGroup.drills = uniqueDrills
+            // Make sure to cache the updated group
+            cacheLikedDrills()
+        }
+    }
+    
+    // Deduplicate all groups
+    func deduplicateAllGroups() {
+        print("\n🔄 Running comprehensive deduplication on all drill groups...")
+        
+        // Deduplicate liked drills group
+        deduplicateLikedDrills()
+        
+        // Deduplicate all saved groups
+        for i in 0..<savedDrills.count {
+            deduplicateDrills(in: i)
+        }
+        
+        // Cache is updated directly in the individual deduplication methods
+        print("✅ All groups deduplicated successfully")
+    }
+    
+    // Load saved data from cache
+    func loadSavedData() {
+        if let savedDrills = CacheManager.shared.retrieve(forKey: .savedDrillsCase) as [GroupModel]? {
+            self.savedDrills = savedDrills
+            print("📋 Loaded \(savedDrills.count) saved drill groups")
+        }
+        
+        if let likedDrills = CacheManager.shared.retrieve(forKey: .likedDrillsCase) as GroupModel? {
+            self.likedDrillsGroup = likedDrills
+            print("📋 Loaded \(likedDrills.drills.count) liked drills")
+        }
+        
+        if let groupBackendIds = CacheManager.shared.retrieve(forKey: .groupBackendIdsCase) as [UUID: Int]? {
+            self.groupBackendIds = groupBackendIds
+            print("📋 Loaded \(groupBackendIds.count) group backend IDs")
+        }
+        
+        if let likedGroupBackendId = CacheManager.shared.retrieve(forKey: .likedGroupBackendIdCase) as Int? {
+            self.likedGroupBackendId = likedGroupBackendId
+            print("📋 Loaded liked group backend ID: \(likedGroupBackendId)")
+        }
+        
+        // Deduplicate all drill groups to ensure no duplicates
+        deduplicateAllGroups()
+    }
+    
+    // Get or create a user-specific UUID for the liked drills group
+    private func getLikedDrillsUUID() -> UUID {
+        let userEmail = KeychainWrapper.standard.string(forKey: "userEmail") ?? "default"
+        let key = "\(userEmail)_likedDrillsUUID"
+        
+        // Check if we already have a UUID stored for this user
+        if let uuidString = UserDefaults.standard.string(forKey: key), 
+           let uuid = UUID(uuidString: uuidString) {
+            print("📱 Using existing liked drills UUID for user: \(userEmail)")
+            return uuid
+        }
+        
+        // Generate a new UUID for this user
+        let newUUID = UUID()
+        UserDefaults.standard.set(newUUID.uuidString, forKey: key)
+        print("📱 Generated new liked drills UUID for user: \(userEmail)")
+        return newUUID
+    }
+    
+    // Clear method to remove a user's likedDrillsUUID
+    func clearLikedDrillsUUID() {
+        let userEmail = KeychainWrapper.standard.string(forKey: "userEmail") ?? "default"
+        let key = "\(userEmail)_likedDrillsUUID"
+        UserDefaults.standard.removeObject(forKey: key)
+        print("🗑️ Cleared liked drills UUID for user: \(userEmail)")
+    }
+    
+    
+    // Define Preferences struct for caching
+    private struct Preferences: Codable {
+        var selectedTime: String?
+        var selectedEquipment: [String]
+        var selectedTrainingStyle: String?
+        var selectedLocation: String?
+        var selectedDifficulty: String?
+        
+        init(from model: SessionGeneratorModel) {
+            self.selectedTime = model.selectedTime
+            self.selectedEquipment = Array(model.selectedEquipment)
+            self.selectedTrainingStyle = model.selectedTrainingStyle
+            self.selectedLocation = model.selectedLocation
+            self.selectedDifficulty = model.selectedDifficulty
+        }
+    }
+    
+    // MARK: - Backend Data Loading
+    
+    private func loadSavedFiltersFromBackend() async {
+        do {
+            let filters = try await SavedFiltersService.shared.fetchSavedFilters()
+            await MainActor.run {
+                self.allSavedFilters = filters
+                print("✅ Successfully loaded \(filters.count) saved filters from backend")
+                // Cache the updated filters
+                cacheFilterGroups(name: "")
+            }
+        } catch {
+            print("❌ Error loading saved filters from backend: \(error)")
+            // Keep using cached data if backend fetch fails
         }
     }
 }

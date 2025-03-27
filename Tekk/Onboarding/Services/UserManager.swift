@@ -88,6 +88,11 @@ class UserManager: ObservableObject {
     }
     
     func logout() {
+        print("\n👋 User logging out...")
+        
+        // Store previous email for logging purposes
+        let previousEmail = email
+        
         // Clear user data
         userId = 0
         firstName = ""
@@ -103,5 +108,23 @@ class UserManager: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "email")
         UserDefaults.standard.removeObject(forKey: "isLoggedIn")
         KeychainWrapper.standard.removeObject(forKey: "authToken")
+        
+        // Clear user-specific liked drills UUID
+        UserDefaults.standard.removeObject(forKey: "\(previousEmail)_likedDrillsUUID")
+        
+        // Clear user cache to ensure all data is properly removed
+        CacheManager.shared.clearUserCache()
+        
+        // Reset last active user to force clearing in next initialization
+        UserDefaults.standard.removeObject(forKey: "lastActiveUser")
+        
+        // Post a notification that user has logged out so all views can update
+        NotificationCenter.default.post(
+            name: Notification.Name("UserLoggedOut"),
+            object: nil,
+            userInfo: ["previousEmail": previousEmail]
+        )
+        
+        print("✅ User data cleared from all storage")
     }
 }

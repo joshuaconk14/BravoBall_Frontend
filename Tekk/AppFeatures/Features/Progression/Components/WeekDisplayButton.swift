@@ -15,7 +15,7 @@ struct WeekDisplayButton: View {
     let text: String
     let date: Date
     let highlightedDay: Bool
-    let session: MainAppModel.CompletedSession?
+    let session: CompletedSession?
     
     var body: some View {
         
@@ -129,7 +129,7 @@ struct WeekDisplayButton: View {
     ]
     
     // Create mock session with EditableDrillModel array
-    let mockSession = MainAppModel.CompletedSession(
+    let mockSession = CompletedSession(
         date: Date(),
         drills: mockDrills,
         totalCompletedDrills: 2,
