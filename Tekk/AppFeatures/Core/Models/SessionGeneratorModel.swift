@@ -78,7 +78,7 @@ class SessionGeneratorModel: ObservableObject {
     
     
     
-    // Initialize with user's onboarding data
+    // MARK: Init
     init(appModel: MainAppModel, onboardingData: OnboardingModel.OnboardingData) {
         self.appModel = appModel
         
@@ -140,10 +140,16 @@ class SessionGeneratorModel: ObservableObject {
             name: Notification.Name("UserLoggedOut"),
             object: nil
         )
+                
         
         // After loading from cache, try to refresh from backend
         Task {
             await loadDrillGroupsFromBackend()
+        }
+        
+        // Load saved filters data from backend
+        Task {
+            await loadSavedFiltersFromBackend()
         }
     }
     
@@ -249,6 +255,13 @@ class SessionGeneratorModel: ObservableObject {
                         sessionDrills: orderedSessionDrills
                     )
                     cacheOrderedDrills()
+                }
+                if changeTracker.savedFiltersChanged {
+                    try await SavedFiltersService.shared.syncSavedFilters(
+                        savedFilters: allSavedFilters
+                    )
+                    // caching performed in saveFiltersInGroup function when user saves filter
+                    
                 }
                 
                 // once completedSession is added to db, progress history will update
@@ -839,6 +852,9 @@ class SessionGeneratorModel: ObservableObject {
     
     
     
+    
+    
+    
     // MARK: - Loading and Syncing with Backend
     
     // Add a method to load all drill groups from the backend
@@ -1237,6 +1253,23 @@ class SessionGeneratorModel: ObservableObject {
             self.selectedTrainingStyle = model.selectedTrainingStyle
             self.selectedLocation = model.selectedLocation
             self.selectedDifficulty = model.selectedDifficulty
+        }
+    }
+    
+    // MARK: - Backend Data Loading
+    
+    private func loadSavedFiltersFromBackend() async {
+        do {
+            let filters = try await SavedFiltersService.shared.fetchSavedFilters()
+            await MainActor.run {
+                self.allSavedFilters = filters
+                print("✅ Successfully loaded \(filters.count) saved filters from backend")
+                // Cache the updated filters
+                cacheFilterGroups(name: "")
+            }
+        } catch {
+            print("❌ Error loading saved filters from backend: \(error)")
+            // Keep using cached data if backend fetch fails
         }
     }
 }
