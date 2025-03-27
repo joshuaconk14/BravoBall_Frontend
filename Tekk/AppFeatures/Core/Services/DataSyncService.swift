@@ -105,6 +105,7 @@ class DataSyncService {
         }
     }
     
+    
     // MARK: - Progress History Sync
     
     func syncProgressHistory(currentStreak: Int, highestStreak: Int, completedSessionsCount: Int) async throws {

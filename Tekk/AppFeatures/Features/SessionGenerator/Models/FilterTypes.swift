@@ -95,6 +95,7 @@ enum FilterData {
 
 struct SavedFiltersModel: Codable, Identifiable {
     let id: UUID
+    var backendId: Int?  // Add this to store the server's ID
     let name: String
     let savedTime: String?
     let savedEquipment: Set<String>
@@ -102,8 +103,9 @@ struct SavedFiltersModel: Codable, Identifiable {
     let savedLocation: String?
     let savedDifficulty: String?
     
-    init(name: String, savedTime: String?, savedEquipment: Set<String>, savedTrainingStyle: String?, savedLocation: String?, savedDifficulty: String?) {
-        self.id = UUID()
+    init(id: UUID? = nil, backendId: Int? = nil, name: String, savedTime: String?, savedEquipment: Set<String>, savedTrainingStyle: String?, savedLocation: String?, savedDifficulty: String?) {
+        self.id = id ?? UUID()  // Use provided ID or generate new one
+        self.backendId = backendId
         self.name = name
         self.savedTime = savedTime
         self.savedEquipment = savedEquipment

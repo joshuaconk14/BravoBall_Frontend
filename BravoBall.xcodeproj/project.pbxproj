@@ -43,6 +43,7 @@
 		43524E772D4D994B00AD897A /* SessionGeneratorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43524E762D4D994400AD897A /* SessionGeneratorModel.swift */; };
 		43524E952D5198C900AD897A /* SearchDrillsSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43524E942D5198C300AD897A /* SearchDrillsSheetView.swift */; };
 		435A70152CA7AB2600BFCC40 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 435A70142CA7AB2600BFCC40 /* RiveRuntime */; };
+		437D1A1F2D94FE5600B875CF /* SavedFiltersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437D1A1E2D94FE4700B875CF /* SavedFiltersService.swift */; };
 		43985E472CB4EFA200BE2AB6 /* BravoBall_Intro.riv in Resources */ = {isa = PBXBuildFile; fileRef = 43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */; };
 		43985E522CB51E1100BE2AB6 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */; };
 		43985E542CB5A9A600BE2AB6 /* PottaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */; };
@@ -170,6 +171,7 @@
 		430FD71E2D334CAF0016D520 /* Day_Null.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = Day_Null.riv; sourceTree = "<group>"; };
 		43524E762D4D994400AD897A /* SessionGeneratorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionGeneratorModel.swift; sourceTree = "<group>"; };
 		43524E942D5198C300AD897A /* SearchDrillsSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDrillsSheetView.swift; sourceTree = "<group>"; };
+		437D1A1E2D94FE4700B875CF /* SavedFiltersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedFiltersService.swift; sourceTree = "<group>"; };
 		43985E462CB4EFA200BE2AB6 /* BravoBall_Intro.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = BravoBall_Intro.riv; sourceTree = "<group>"; };
 		43985E512CB51E1100BE2AB6 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		43985E532CB5A9A600BE2AB6 /* PottaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PottaOne-Regular.ttf"; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 		4399B7182D6D799700DA5E84 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				437D1A1E2D94FE4700B875CF /* SavedFiltersService.swift */,
 				43A764982D825FE8004509E5 /* DataSyncService.swift */,
 				43B6877C2D7C2391009CCA8C /* CacheManager.swift */,
 				170167FA2D88B8730078446C /* DrillGroupService.swift */,
@@ -974,6 +977,7 @@
 				430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */,
 				4399B6E92D69407F00DA5E84 /* GroupDetailView.swift in Sources */,
 				1749361C2C3E102B001163B9 /* ContentView.swift in Sources */,
+				437D1A1F2D94FE5600B875CF /* SavedFiltersService.swift in Sources */,
 				178208E02D2DEB9C00246494 /* OnboardingModel.swift in Sources */,
 				43C5FC6A2D6DCC130064E7D5 /* RecommendedDrillCard.swift in Sources */,
 				43C5FC542D6DBD0E0064E7D5 /* GroupCard.swift in Sources */,
