@@ -1158,7 +1158,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Tekk/Preview Content\"";
-				DEVELOPMENT_TEAM = 9NT64FVZCY;
+				DEVELOPMENT_TEAM = J36CXA7LCG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tekk/Info.plist;
@@ -1178,7 +1178,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ConklinOfficial.Tekk;
+				PRODUCT_BUNDLE_IDENTIFIER = ConklinOfficial.BravoBall;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -1198,7 +1198,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Tekk/Preview Content\"";
-				DEVELOPMENT_TEAM = 9NT64FVZCY;
+				DEVELOPMENT_TEAM = J36CXA7LCG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tekk/Info.plist;
@@ -1218,7 +1218,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ConklinOfficial.Tekk;
+				PRODUCT_BUNDLE_IDENTIFIER = ConklinOfficial.BravoBall;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";

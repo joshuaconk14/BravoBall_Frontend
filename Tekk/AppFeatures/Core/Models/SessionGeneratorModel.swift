@@ -14,7 +14,7 @@ import SwiftKeychainWrapper
 class SessionGeneratorModel: ObservableObject {
     
     @ObservedObject var appModel: MainAppModel  // Add this
-        
+    
     
     
     // Define Preferences struct for caching
@@ -150,10 +150,10 @@ class SessionGeneratorModel: ObservableObject {
                     selectedTrainingStyle: selectedTrainingStyle,
                     selectedLocation: selectedLocation,
                     selectedDifficulty: selectedDifficulty,
-                    currentStreak: appModel.currentStreak,
-                    highestStreak: appModel.highestStreak,
-                    completedSessionsCount: appModel.countOfFullyCompletedSessions
-                )
+                        currentStreak: appModel.currentStreak,
+                        highestStreak: appModel.highestStreak,
+                        completedSessionsCount: appModel.countOfFullyCompletedSessions
+                    )
                 await MainActor.run {
                     hasUnsavedChanges = false
                 }
@@ -237,42 +237,42 @@ class SessionGeneratorModel: ObservableObject {
     func updateDrills() {
         // Only update drills if the array is empty
         if orderedSessionDrills.isEmpty {
-            // Show drills that match any of the selected sub-skills
-            let filteredDrills = Self.testDrills.filter { drill in
-                // Check if any of the selected skills match the drill
-                for skill in selectedSkills {
-                    // Match drills based on skill keywords
-                    switch skill.lowercased() {
-                    case "short passing":
-                        if drill.title.contains("Short Passing") { return true }
-                    case "long passing":
-                        if drill.title.contains("Long Passing") { return true }
-                    case "through balls":
-                        if drill.title.contains("Through Ball") { return true }
-                    case "power shots", "finesse shots", "volleys", "one-on-one finishing", "long shots":
-                        if drill.title.contains("Shot") || drill.title.contains("Shooting") { return true }
-                    case "close control", "speed dribbling", "1v1 moves", "winger skills", "ball mastery":
-                        if drill.title.contains("Dribbling") || drill.title.contains("1v1") { return true }
-                    default:
-                        // For any other skills, try to match based on the first word
-                        let mainSkill = skill.split(separator: " ").first?.lowercased() ?? ""
-                        if drill.title.lowercased().contains(mainSkill) { return true }
-                    }
+        // Show drills that match any of the selected sub-skills
+        let filteredDrills = Self.testDrills.filter { drill in
+            // Check if any of the selected skills match the drill
+            for skill in selectedSkills {
+                // Match drills based on skill keywords
+                switch skill.lowercased() {
+                case "short passing":
+                    if drill.title.contains("Short Passing") { return true }
+                case "long passing":
+                    if drill.title.contains("Long Passing") { return true }
+                case "through balls":
+                    if drill.title.contains("Through Ball") { return true }
+                case "power shots", "finesse shots", "volleys", "one-on-one finishing", "long shots":
+                    if drill.title.contains("Shot") || drill.title.contains("Shooting") { return true }
+                case "close control", "speed dribbling", "1v1 moves", "winger skills", "ball mastery":
+                    if drill.title.contains("Dribbling") || drill.title.contains("1v1") { return true }
+                default:
+                    // For any other skills, try to match based on the first word
+                    let mainSkill = skill.split(separator: " ").first?.lowercased() ?? ""
+                    if drill.title.lowercased().contains(mainSkill) { return true }
                 }
-                return false
             }
-            // Convert filtered DrillModels to EditableDrillModels
-            orderedSessionDrills = filteredDrills.map { drill in
-                EditableDrillModel(
-                    drill: drill,
-                    setsDone: 0,
-                    totalSets: drill.sets,
-                    totalReps: drill.reps,
-                    totalDuration: drill.duration,
-                    isCompleted: false
-                )
+            return false
+        }
+        // Convert filtered DrillModels to EditableDrillModels
+        orderedSessionDrills = filteredDrills.map { drill in
+            EditableDrillModel(
+                drill: drill,
+                setsDone: 0,
+                totalSets: drill.sets,
+                totalReps: drill.reps,
+                totalDuration: drill.duration,
+                isCompleted: false
+            )
             }
-            
+
             // Cache the drills
             cacheOrderedDrills()
             print("✅ Updated drills based on selected skills: \(selectedSkills)")
@@ -313,7 +313,7 @@ class SessionGeneratorModel: ObservableObject {
         if let index = savedDrills.firstIndex(where: { $0.id == groupId }) {
             // Add drill to local model
             if !savedDrills[index].drills.contains(drill) {
-                savedDrills[index].drills.append(drill)
+            savedDrills[index].drills.append(drill)
             }
             
             // Add to backend if we have a backend ID
@@ -445,7 +445,7 @@ class SessionGeneratorModel: ObservableObject {
             return likedDrillsGroup.drills.contains(where: { $0.backendId == drillId })
         }
     }
-    
+
     // Selected drills to add to session
     func drillsToAdd (drill: DrillModel) {
         if selectedDrills.contains(drill) {
@@ -704,7 +704,7 @@ class SessionGeneratorModel: ObservableObject {
                     highestStreak: appModel.highestStreak,
                     completedSessionsCount: appModel.countOfFullyCompletedSessions
                 )
-            } catch {
+        } catch {
                 print("❌ Error syncing preferences: \(error)")
             }
         }
@@ -751,9 +751,9 @@ class SessionGeneratorModel: ObservableObject {
             for backendGroup in backendGroups {
                 // Skip liked group, we'll handle it separately
                 if backendGroup.isLikedGroup {
-                    continue
-                }
-                
+                continue
+            }
+            
                 // Convert API drills to local model
                 let drills = backendGroup.drills.map { apiDrill -> DrillModel in
                     return apiDrill.toDrillModel()
