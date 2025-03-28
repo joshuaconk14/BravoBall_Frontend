@@ -24,7 +24,7 @@ class SavedFiltersService {
                 // Check if the filter already exists in the backend
                 if existingFilters.contains(where: { $0.id == filter.id }) {
                     // Update existing filter
-                    let url = URL(string: "\(baseURL)/api/filters/\(filter.id)")!
+                    let url = URL(string: "\(baseURL)/api/filters/\(filter.id.uuidString)")!
                     var request = URLRequest(url: url)
                     // PUT request to update the filter
                     request.httpMethod = "PUT"
@@ -35,8 +35,10 @@ class SavedFiltersService {
                         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
                     }
                     
-                    // Convert the filter to a dictionary
+                    // Convert the filter to a dictionary with snake_case keys
                     let filterData: [String: Any] = [
+                        "id": filter.id.uuidString,
+                        "backend_id": filter.backendId as Any,
                         "name": filter.name,
                         "saved_time": filter.savedTime as Any,
                         "saved_equipment": Array(filter.savedEquipment),
@@ -69,9 +71,10 @@ class SavedFiltersService {
                         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
                     }
                     
-                    // Convert the filter to a dictionary
-                    let filterData: [String: Any] = [
+                    // Create the filter object with snake_case keys
+                    let filterObject: [String: Any] = [
                         "id": filter.id.uuidString,
+                        "backend_id": filter.backendId as Any,
                         "name": filter.name,
                         "saved_time": filter.savedTime as Any,
                         "saved_equipment": Array(filter.savedEquipment),
@@ -80,11 +83,22 @@ class SavedFiltersService {
                         "saved_difficulty": filter.savedDifficulty as Any
                     ]
                     
+                    // Wrap in saved_filters array as expected by backend
+                    let requestData: [String: Any] = [
+                        "saved_filters": [filterObject]
+                    ]
+                    
                     // Convert the dictionary to data
-                    request.httpBody = try JSONSerialization.data(withJSONObject: filterData)
+                    request.httpBody = try JSONSerialization.data(withJSONObject: requestData)
                     
                     // Send the request and get the response
-                    let (_, response) = try await URLSession.shared.data(for: request)
+                    let (data, response) = try await URLSession.shared.data(for: request)
+                    
+                    // Print response for debugging
+                    if let responseString = String(data: data, encoding: .utf8) {
+                        print("📥 Response body: \(responseString)")
+                    }
+                    
                     guard let httpResponse = response as? HTTPURLResponse,
                           httpResponse.statusCode == 200 else {
                         throw URLError(.badServerResponse)
