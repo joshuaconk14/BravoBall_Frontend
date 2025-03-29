@@ -24,7 +24,6 @@ struct ProfileView: View {
                     profileHeader
                     
                     actionSection(title: "Account", buttons: [
-                        customActionButton(title: "Favorite Conversations", icon: "heart.fill"),
                         customActionButton(title: "Share With a Friend", icon: "square.and.arrow.up.fill"),
                         customActionButton(title: "Edit your details", icon: "pencil")
                     ])
@@ -153,11 +152,14 @@ struct ProfileView: View {
         .padding(.horizontal)
     }
     
+    // Custom action button
     private func customActionButton(title: String, icon: String) -> AnyView {
         AnyView(
+            // Button action
             Button(action: {
                 handleButtonAction(title)
             }) {
+                // Custom button styling
                 HStack {
                     Image(systemName: icon)
                         .foregroundColor(appModel.globalSettings.primaryYellowColor)
@@ -177,6 +179,7 @@ struct ProfileView: View {
         )
     }
 
+    // Handle the button actions
     private func handleButtonAction(_ title: String) {
         switch title {
         case "Edit your details":
@@ -185,11 +188,16 @@ struct ProfileView: View {
             showSocialLinks()
         case "Share With a Friend":
             shareApp()
+        case "Report an Error":
+            sendEmail(subject: "BravoBall Error Report", to: "conklinofficialsoccer@gmail.com")
+        case "Talk to a Founder":
+            sendEmail(subject: "BravoBall Inquiry", to: "conklinofficialsoccer@gmail.com")
         default:
             break
         }
     }
 
+    // Show the social links
     private func showSocialLinks() {
         let alert = UIAlertController(title: "Follow Us", message: nil, preferredStyle: .actionSheet)
         
@@ -209,6 +217,7 @@ struct ProfileView: View {
         }
     }
 
+    // Share the app with a friend
     private func shareApp() {
         let text = "Check out BravoBall - Your personal soccer training companion!"
         let activityVC = UIActivityViewController(activityItems: [text], applicationActivities: nil)
@@ -216,6 +225,40 @@ struct ProfileView: View {
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let viewController = windowScene.windows.first?.rootViewController {
             viewController.present(activityVC, animated: true)
+        }
+    }
+
+    // Send email to the founder
+    private func sendEmail(subject: String, to email: String) {
+        let subjectEncoded = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        
+        guard let url = URL(string: "mailto:\(emailEncoded)?subject=\(subjectEncoded)") else {
+            print("❌ Failed to create email URL")
+            return
+        }
+        
+        DispatchQueue.main.async {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:]) { success in
+                    if !success {
+                        print("❌ Failed to open mail app")
+                    }
+                }
+            } else {
+                // Show alert that no mail app is configured
+                let alert = UIAlertController(
+                    title: "No Email App Found",
+                    message: "Please make sure you have an email app set up on your device.",
+                    preferredStyle: .alert
+                )
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let viewController = windowScene.windows.first?.rootViewController {
+                    viewController.present(alert, animated: true)
+                }
+            }
         }
     }
 
