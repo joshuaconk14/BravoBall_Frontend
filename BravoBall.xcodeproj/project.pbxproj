@@ -33,6 +33,8 @@
 		178208F12D2DFD6500246494 /* OnboardingPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178208F02D2DFD6500246494 /* OnboardingPreview.swift */; };
 		1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1782090B2D2E09EB00246494 /* SavedDrillsView.swift */; };
 		1782090E2D2E0A1100246494 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1782090D2D2E0A1100246494 /* ProfileView.swift */; };
+		1784EB6D2D965F79001D4F2F /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1784EB6C2D965F70001D4F2F /* SettingsModel.swift */; };
+		1784EB6F2D965FE0001D4F2F /* EditDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1784EB6E2D965FDC001D4F2F /* EditDetailsView.swift */; };
 		17C3B58D2D38E43900D2471F /* DrillFollowAlongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3B58C2D38E41C00D2471F /* DrillFollowAlongView.swift */; };
 		17F5D6542CD3477E008E8C24 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6532CD3477E008E8C24 /* ColorExtension.swift */; };
 		17F5D6562CD347AE008E8C24 /* GlobalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5D6552CD347AD008E8C24 /* GlobalSettings.swift */; };
@@ -162,6 +164,8 @@
 		178208F02D2DFD6500246494 /* OnboardingPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPreview.swift; sourceTree = "<group>"; };
 		1782090B2D2E09EB00246494 /* SavedDrillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedDrillsView.swift; sourceTree = "<group>"; };
 		1782090D2D2E0A1100246494 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		1784EB6C2D965F70001D4F2F /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		1784EB6E2D965FDC001D4F2F /* EditDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDetailsView.swift; sourceTree = "<group>"; };
 		17C3B58C2D38E41C00D2471F /* DrillFollowAlongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillFollowAlongView.swift; sourceTree = "<group>"; };
 		17E693182C7435B3006B58A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17F5D6532CD3477E008E8C24 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -392,10 +396,19 @@
 			path = AppFeatures;
 			sourceTree = "<group>";
 		};
+		1784EB6B2D965F6C001D4F2F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1784EB6C2D965F70001D4F2F /* SettingsModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		431BDFE82D853E0700F4E6EE /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				1782090D2D2E0A1100246494 /* ProfileView.swift */,
+				1784EB6E2D965FDC001D4F2F /* EditDetailsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -492,6 +505,7 @@
 		4399B71D2D6D79EE00DA5E84 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				1784EB6B2D965F6C001D4F2F /* Models */,
 				431BDFE82D853E0700F4E6EE /* Views */,
 			);
 			path = Profile;
@@ -972,6 +986,7 @@
 				43C5FC662D6DC4800064E7D5 /* SavedFiltersSheet.swift in Sources */,
 				178208E62D2DEC2900246494 /* CompletionView.swift in Sources */,
 				4399B6D92D6930AB00DA5E84 /* OnboardingService.swift in Sources */,
+				1784EB6F2D965FE0001D4F2F /* EditDetailsView.swift in Sources */,
 				43C5FC702D6DCC9A0064E7D5 /* SkillButton.swift in Sources */,
 				178208EB2D2DECE300246494 /* OnboardingMultiSelectView.swift in Sources */,
 				430FD6BA2D2E8C9C0016D520 /* OnboardingRegisterForm.swift in Sources */,
@@ -988,6 +1003,7 @@
 				43524E952D5198C900AD897A /* SearchDrillsSheetView.swift in Sources */,
 				43C5FC5E2D6DC0E40064E7D5 /* FilterOptionsButton.swift in Sources */,
 				43C5FC562D6DBD310064E7D5 /* LikedGroupCard.swift in Sources */,
+				1784EB6D2D965F79001D4F2F /* SettingsModel.swift in Sources */,
 				1782090C2D2E09EB00246494 /* SavedDrillsView.swift in Sources */,
 				178208E22D2DEBB400246494 /* OnboardingView.swift in Sources */,
 				4399B6F72D6C85C900DA5E84 /* SkillSearchBar.swift in Sources */,

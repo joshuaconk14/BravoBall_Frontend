@@ -13,7 +13,9 @@ struct ProfileView: View {
     @ObservedObject var appModel: MainAppModel
     @ObservedObject var userManager: UserManager
     @ObservedObject var sessionModel: SessionGeneratorModel
+    @StateObject private var settingsModel = SettingsModel()
     @Environment(\.presentationMode) var presentationMode // ?
+    @State private var showEditDetails = false
     
     
     var body: some View {
@@ -70,6 +72,9 @@ struct ProfileView: View {
                     case .none:
                         return Alert(title: Text(""))
                 }
+            }
+            .sheet(isPresented: $showEditDetails) {
+                EditDetailsView(settingsModel: settingsModel)
             }
     }
     
@@ -151,7 +156,7 @@ struct ProfileView: View {
     private func customActionButton(title: String, icon: String) -> AnyView {
         AnyView(
             Button(action: {
-                // Action here
+                handleButtonAction(title)
             }) {
                 HStack {
                     Image(systemName: icon)
@@ -166,13 +171,54 @@ struct ProfileView: View {
                 .padding()
                 .frame(maxWidth: .infinity)
                 .background(Color.white)
-                .contentShape(Rectangle()) // Increases hit target size
+                .contentShape(Rectangle())
             }
             .buttonStyle(PlainButtonStyle())
         )
     }
 
-    
+    private func handleButtonAction(_ title: String) {
+        switch title {
+        case "Edit your details":
+            showEditDetails = true
+        case "Follow our Socials":
+            showSocialLinks()
+        case "Share With a Friend":
+            shareApp()
+        default:
+            break
+        }
+    }
+
+    private func showSocialLinks() {
+        let alert = UIAlertController(title: "Follow Us", message: nil, preferredStyle: .actionSheet)
+        
+        for link in settingsModel.socialLinks {
+            alert.addAction(UIAlertAction(title: link.platform, style: .default) { _ in
+                if let url = URL(string: link.url) {
+                    UIApplication.shared.open(url)
+                }
+            })
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let viewController = windowScene.windows.first?.rootViewController {
+            viewController.present(alert, animated: true)
+        }
+    }
+
+    private func shareApp() {
+        let text = "Check out BravoBall - Your personal soccer training companion!"
+        let activityVC = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let viewController = windowScene.windows.first?.rootViewController {
+            viewController.present(activityVC, animated: true)
+        }
+    }
+
     private var logoutButton: some View {
         Button(action: {
             appModel.alertType = .logout
@@ -213,7 +259,8 @@ struct ProfileView: View {
         model.isLoggedIn = false
         
         // Clear Keychain tokens
-        KeychainWrapper.standard.removeObject(forKey: "authToken")
+        let keychain = KeychainWrapper.standard
+        keychain.removeObject(forKey: "authToken")
         
         // Clear user's cache and data
         sessionModel.clearUserData()
