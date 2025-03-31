@@ -154,19 +154,19 @@ class SavedFiltersService {
             case 200:
                 
                 let decoder = JSONDecoder()
-                let filters = try decoder.decode([SavedFilterResponse].self, from: data)
+                let filters = try decoder.decode([SavedFiltersModel].self, from: data)
                 
                 // Convert backend response to our model
                 return filters.map { response in
                     SavedFiltersModel(
-                        id: UUID(uuidString: response.client_id) ?? UUID(),
-                        backendId: response.id,
+                        id: response.id,
+                        backendId: response.backendId,
                         name: response.name,
-                        savedTime: response.saved_time,
-                        savedEquipment: Set(response.saved_equipment),
-                        savedTrainingStyle: response.saved_training_style,
-                        savedLocation: response.saved_location,
-                        savedDifficulty: response.saved_difficulty
+                        savedTime: response.savedTime,
+                        savedEquipment: Set(response.savedEquipment),
+                        savedTrainingStyle: response.savedTrainingStyle,
+                        savedLocation: response.savedLocation,
+                        savedDifficulty: response.savedDifficulty
                     )
                 }
                 
@@ -184,18 +184,6 @@ class SavedFiltersService {
             print("❌ Error fetching saved filters: \(error)")
             throw error
         }
-    }
-    
-    // Response model matching backend format
-    private struct SavedFilterResponse: Codable {
-        let id: Int
-        let client_id: String
-        let name: String
-        let saved_time: String?
-        let saved_equipment: [String]
-        let saved_training_style: String?
-        let saved_location: String?
-        let saved_difficulty: String?
     }
 }
 

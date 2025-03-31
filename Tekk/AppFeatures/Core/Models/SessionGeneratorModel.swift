@@ -22,6 +22,7 @@ class SessionGeneratorModel: ObservableObject {
     private let syncDebounceInterval: TimeInterval = 2.0 // 2 seconds
     private var hasUnsavedChanges = false
     private var autoSaveTimer: Timer?
+    private var isLoggingOut = false  // Add flag to prevent caching during logout
     
     // FilterTypes
     @Published var selectedTime: String?
@@ -171,8 +172,14 @@ class SessionGeneratorModel: ObservableObject {
             print("📣 SessionGeneratorModel received logout notification")
         }
         
+        // Set logging out flag before clearing data
+        isLoggingOut = true
+        
         // Clear all user data
         clearUserData()
+        
+        // Reset logging out flag after clearing
+        isLoggingOut = false
     }
     
     
@@ -211,6 +218,9 @@ class SessionGeneratorModel: ObservableObject {
     
     // Tasks run if there are unsaved changes
     func markAsNeedingSave(change: DataChange) {
+        // Don't mark changes during logout
+        guard !isLoggingOut else { return }
+        
         hasUnsavedChanges = true
         
         switch change {
@@ -688,6 +698,14 @@ class SessionGeneratorModel: ObservableObject {
     func clearUserData() {
         print("\n🧹 Clearing user data...")
         
+        // Cancel any pending auto-save timer
+        autoSaveTimer?.invalidate()
+        autoSaveTimer = nil
+        
+        // Reset change tracker
+        changeTracker = DataChangeTracker()
+        hasUnsavedChanges = false
+        
         // First clear all published properties
         orderedSessionDrills = []
         savedDrills = []
@@ -821,12 +839,20 @@ class SessionGeneratorModel: ObservableObject {
     }
     
     private func cacheFilterGroups(name: String) {
+        guard !isLoggingOut else { 
+            print("⚠️ Skipping filter groups cache during logout")
+            return 
+        }
         // No need to create new preferences or append again since it's already done in saveFiltersInGroup
         cacheManager.cache(allSavedFilters, forKey: .filterGroupsCase)
         print("💾 Saved \(allSavedFilters.count) filter groups to cache")
     }
     
     func cacheOrderedDrills() {
+        guard !isLoggingOut else { 
+            print("⚠️ Skipping ordered drills cache during logout")
+            return 
+        }
         print("\n💾 Saving ordered drills to cache...")
         print("Number of drills to save: \(orderedSessionDrills.count)")
         cacheManager.cache(orderedSessionDrills, forKey: .orderedDrillsCase)
@@ -834,6 +860,10 @@ class SessionGeneratorModel: ObservableObject {
     
     // Updated method for caching saved drills
     private func cacheSavedDrills() {
+        guard !isLoggingOut else { 
+            print("⚠️ Skipping saved drills cache during logout")
+            return 
+        }
         cacheManager.cache(savedDrills, forKey: .savedDrillsCase)
         // Also cache the backend IDs
         cacheManager.cache(groupBackendIds, forKey: .groupBackendIdsCase)
@@ -841,6 +871,10 @@ class SessionGeneratorModel: ObservableObject {
     
     // Updated method for caching liked drills
     private func cacheLikedDrills() {
+        guard !isLoggingOut else { 
+            print("⚠️ Skipping liked drills cache during logout")
+            return 
+        }
         cacheManager.cache(likedDrillsGroup, forKey: .likedDrillsCase)
         // Also cache the backend ID
         if let likedGroupBackendId = likedGroupBackendId {

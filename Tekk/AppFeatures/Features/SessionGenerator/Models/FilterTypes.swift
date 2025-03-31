@@ -95,7 +95,7 @@ enum FilterData {
 
 struct SavedFiltersModel: Codable, Identifiable {
     let id: UUID
-    var backendId: Int?  // Add this to store the server's ID
+    let backendId: Int?  // Add this to store the server's ID
     let name: String
     let savedTime: String?
     let savedEquipment: Set<String>
@@ -113,4 +113,16 @@ struct SavedFiltersModel: Codable, Identifiable {
         self.savedLocation = savedLocation
         self.savedDifficulty = savedDifficulty
     }
+    
+    // for snake_case and camelCase conversion
+    enum CodingKeys: String, CodingKey {
+            case id
+            case backendId = "backend_id"
+            case name
+            case savedTime = "saved_time"
+            case savedEquipment = "saved_equipment"
+            case savedTrainingStyle = "saved_training_style"
+            case savedLocation = "saved_location"
+            case savedDifficulty = "saved_difficulty"
+        }
 }
