@@ -108,6 +108,57 @@ class DataSyncService {
     
     // MARK: - Progress History Sync
     
+    struct ProgressHistoryResponse: Codable {
+        let currentStreak: Int
+        let highestStreak: Int
+        let completedSessionsCount: Int
+    }
+    
+    func fetchProgressHistory() async throws -> ProgressHistoryResponse {
+        let url = URL(string: "\(baseURL)/api/progress_history/")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Add auth token
+        if let token = KeychainWrapper.standard.string(forKey: "authToken") {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            print("🔑 Using auth token: \(token)")
+        } else {
+            print("⚠️ No auth token found!")
+            throw URLError(.userAuthenticationRequired)
+        }
+        
+        print("📤 Fetching progress history from: \(url.absoluteString)")
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            print("❌ Invalid response type")
+            throw URLError(.badServerResponse)
+        }
+        
+        print("📥 Response status code: \(httpResponse.statusCode)")
+        
+        switch httpResponse.statusCode {
+        case 200:
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let progressHistory = try decoder.decode(ProgressHistoryResponse.self, from: data)
+            print("✅ Successfully fetched progress history")
+            return progressHistory
+        case 401:
+            print("❌ Unauthorized - Invalid or expired token")
+            throw URLError(.userAuthenticationRequired)
+        case 404:
+            print("❌ Endpoint not found")
+            throw URLError(.badURL)
+        default:
+            print("❌ Unexpected status code: \(httpResponse.statusCode)")
+            throw URLError(.badServerResponse)
+        }
+    }
+
     func syncProgressHistory(currentStreak: Int, highestStreak: Int, completedSessionsCount: Int) async throws {
         let url = URL(string: "\(baseURL)/api/progress_history/")!
         var request = URLRequest(url: url)

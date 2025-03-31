@@ -120,16 +120,93 @@ class MainAppModel: ObservableObject {
     let calendar = Calendar.current
     
     @Published var allCompletedSessions: [CompletedSession] = [] {
-        didSet { cacheCompletedSessions() }
+        didSet {
+            cacheCompletedSessions()
+            
+            // Only sync the most recently added session if the array grew
+            if allCompletedSessions.count > oldValue.count,
+               let latestSession = allCompletedSessions.last {
+                Task {
+                    do {
+                        // Sync the completed session
+                        try await DataSyncService.shared.syncCompletedSession(
+                            date: latestSession.date,
+                            drills: latestSession.drills,
+                            totalCompleted: latestSession.totalCompletedDrills,
+                            total: latestSession.totalDrills
+                        )
+                        print("✅ Successfully synced latest completed session")
+                        
+                        // Then sync the progress history
+                        try await DataSyncService.shared.syncProgressHistory(
+                            currentStreak: currentStreak,
+                            highestStreak: highestStreak,
+                            completedSessionsCount: countOfFullyCompletedSessions
+                        )
+                        print("✅ Successfully synced progress history")
+                    } catch {
+                        print("❌ Error syncing session data: \(error)")
+                    }
+                }
+            }
+        }
     }
     @Published var selectedSession: CompletedSession? // For selecting into Drill Card View
     @Published var showCalendar = false
     @Published var showDrillResults = false
     
-    @Published var currentStreak: Int = 0
-    @Published var highestStreak: Int = 0
-    @Published var countOfFullyCompletedSessions: Int = 0
+    @Published var currentStreak: Int = 0 {
+        didSet {
+            if currentStreak != oldValue {
+                cacheCurrentStreak()
+                syncProgressHistory()
+            }
+        }
+    }
+    @Published var highestStreak: Int = 0 {
+        didSet {
+            if highestStreak != oldValue {
+                cacheHighestStreak()
+                syncProgressHistory()
+            }
+        }
+    }
+    @Published var countOfFullyCompletedSessions: Int = 0 {
+        didSet {
+            if countOfFullyCompletedSessions != oldValue {
+                cacheCompletedSessionsCount()
+                syncProgressHistory()
+            }
+        }
+    }
     
+    private func syncProgressHistory() {
+        Task {
+            do {
+                // First verify the current values match what we expect
+                let cachedCurrentStreak: Int = cacheManager.retrieve(forKey: .currentStreakCase) ?? 0
+                let cachedHighestStreak: Int = cacheManager.retrieve(forKey: .highestSreakCase) ?? 0
+                let cachedCompletedCount: Int = cacheManager.retrieve(forKey: .countOfCompletedSessionsCase) ?? 0
+                
+                // Only sync if our current values match the cache (ensures we're not working with stale data)
+                guard currentStreak == cachedCurrentStreak &&
+                      highestStreak == cachedHighestStreak &&
+                      countOfFullyCompletedSessions == cachedCompletedCount else {
+                    print("⚠️ Local values don't match cache, skipping sync")
+                    return
+                }
+                
+                try await DataSyncService.shared.syncProgressHistory(
+                    currentStreak: currentStreak,
+                    highestStreak: highestStreak,
+                    completedSessionsCount: countOfFullyCompletedSessions
+                )
+                print("✅ Successfully synced progress history with verified values")
+            } catch {
+                print("❌ Error syncing progress history: \(error)")
+            }
+        }
+    }
     
     // MARK: - Cache Save Operations
     func cacheCompletedSessions() {
@@ -166,25 +243,40 @@ class MainAppModel: ObservableObject {
             print("✅ Loaded \(allCompletedSessions.count) completed sessions")
         }
         
-        // Load current streak
-        if let retrievedStreak: Int = cacheManager.retrieve(forKey: .currentStreakCase) {
-            currentStreak = retrievedStreak
-            print("✅ Loaded current streak: \(currentStreak)")
-        }
+        // Load progress history from cache first
+        let cachedCurrentStreak: Int = cacheManager.retrieve(forKey: .currentStreakCase) ?? 0
+        let cachedHighestStreak: Int = cacheManager.retrieve(forKey: .highestSreakCase) ?? 0
+        let cachedCompletedCount: Int = cacheManager.retrieve(forKey: .countOfCompletedSessionsCase) ?? 0
         
-        // Load highest streak
-        if let retrievedHighest: Int = cacheManager.retrieve(forKey: .highestSreakCase) {
-            highestStreak = retrievedHighest
-            print("✅ Loaded highest streak: \(highestStreak)")
-        }
+        // Set the values without triggering observers
+        self.currentStreak = cachedCurrentStreak
+        self.highestStreak = cachedHighestStreak
+        self.countOfFullyCompletedSessions = cachedCompletedCount
         
-        // Load completed sessions count
-        if let retrievedCount: Int = cacheManager.retrieve(forKey: .countOfCompletedSessionsCase) {
-            countOfFullyCompletedSessions = retrievedCount
-            print("✅ Loaded completed sessions count: \(countOfFullyCompletedSessions)")
-        }
-        
+        print("✅ Loaded from cache - Current Streak: \(cachedCurrentStreak), Highest: \(cachedHighestStreak), Completed: \(cachedCompletedCount)")
         print("----------------------------------------")
+        
+        // Then fetch from backend to ensure we're up to date
+        Task {
+            do {
+                let response = try await DataSyncService.shared.fetchProgressHistory()
+                
+                // Only update if the backend values are different from cache
+                if response.currentStreak != cachedCurrentStreak ||
+                   response.highestStreak != cachedHighestStreak ||
+                   response.completedSessionsCount != cachedCompletedCount {
+                    
+                    await MainActor.run {
+                        self.currentStreak = response.currentStreak
+                        self.highestStreak = response.highestStreak
+                        self.countOfFullyCompletedSessions = response.completedSessionsCount
+                        print("✅ Updated with backend data - Current: \(response.currentStreak), Highest: \(response.highestStreak), Completed: \(response.completedSessionsCount)")
+                    }
+                }
+            } catch {
+                print("⚠️ Could not fetch from backend, using cached values: \(error)")
+            }
+        }
     }
     
     // Adding completed session into allCompletedSessions array

@@ -274,18 +274,17 @@ class SessionGeneratorModel: ObservableObject {
                     
                 }
                 
-                // once completedSession is added to db, progress history will update
-                // TODO: see if this is best way to handle progress history
-                if changeTracker.progressHistoryChanged {
-                    try await DataSyncService.shared.syncProgressHistory(
-                        currentStreak: appModel.currentStreak,
-                        highestStreak: appModel.highestStreak,
-                        completedSessionsCount: appModel.countOfFullyCompletedSessions
-                    )
-                    appModel.cacheCurrentStreak()
-                    appModel.cacheHighestStreak()
-                    appModel.cacheCompletedSessionsCount()
-                }
+                // TODO: right now the changeTracker is set on progress history variables directly in mainappmodel w/ didSet, see if can implement changeTracker to here, may have to reorganize main and ses models
+//                if changeTracker.progressHistoryChanged {
+//                    try await DataSyncService.shared.syncProgressHistory(
+//                        currentStreak: appModel.currentStreak,
+//                        highestStreak: appModel.highestStreak,
+//                        completedSessionsCount: appModel.countOfFullyCompletedSessions
+//                    )
+//                    appModel.cacheCurrentStreak()
+//                    appModel.cacheHighestStreak()
+//                    appModel.cacheCompletedSessionsCount()
+//                }
                 
                 // Sync both liked drills and saved drills together if either has changed
                 if changeTracker.likedDrillsChanged || changeTracker.savedDrillsChanged {
@@ -298,19 +297,18 @@ class SessionGeneratorModel: ObservableObject {
                     cacheLikedDrills()
                 }
                 
-                if changeTracker.completedSessionsChanged {
-                    let completedDrills = orderedSessionDrills.filter { $0.isCompleted }.count
-                    try await DataSyncService.shared.syncCompletedSession(
-                        date: Date(),
-                        drills: orderedSessionDrills,
-                        totalCompleted: completedDrills,
-                        total: orderedSessionDrills.count
-                    )
-                    //TODO: cache completed sessions
-                    //cacheCompletedSessions
-                    markAsNeedingSave(change: .progressHistory)
-                    
-                }
+                // TODO: right now the changeTracker is set on allCompletedSessions directly in mainappmodel, see if can implement changeTracker to here, may have to reorganize main and ses models
+//                if changeTracker.completedSessionsChanged {
+//                    let completedDrills = orderedSessionDrills.filter { $0.isCompleted }.count
+//                    try await DataSyncService.shared.syncCompletedSession(
+//                        date: Date(),
+//                        drills: orderedSessionDrills,
+//                        totalCompleted: completedDrills,
+//                        total: orderedSessionDrills.count
+//                    )
+//                    appModel.cacheCompletedSessions()
+//                    
+//                }
                 
                 await MainActor.run {
                     changeTracker.reset()
