@@ -103,6 +103,17 @@ struct SavedFiltersModel: Codable, Identifiable {
     let savedLocation: String?
     let savedDifficulty: String?
     
+    enum CodingKeys: String, CodingKey {
+        case id
+        case backendId = "backend_id"
+        case name
+        case savedTime = "saved_time"
+        case savedEquipment = "saved_equipment"
+        case savedTrainingStyle = "saved_training_style"
+        case savedLocation = "saved_location"
+        case savedDifficulty = "saved_difficulty"
+    }
+    
     init(id: UUID? = nil, backendId: Int? = nil, name: String, savedTime: String?, savedEquipment: Set<String>, savedTrainingStyle: String?, savedLocation: String?, savedDifficulty: String?) {
         self.id = id ?? UUID()  // Use provided ID or generate new one
         self.backendId = backendId

@@ -71,13 +71,15 @@ class SavedFiltersService {
                     
                     // Convert the filter to a dictionary
                     let filterData: [String: Any] = [
-                        "id": filter.id.uuidString,
-                        "name": filter.name,
-                        "saved_time": filter.savedTime as Any,
-                        "saved_equipment": Array(filter.savedEquipment),
-                        "saved_training_style": filter.savedTrainingStyle as Any,
-                        "saved_location": filter.savedLocation as Any,
-                        "saved_difficulty": filter.savedDifficulty as Any
+                        "saved_filters": [[
+                            "id": filter.id.uuidString,
+                            "name": filter.name,
+                            "saved_time": filter.savedTime as Any,
+                            "saved_equipment": Array(filter.savedEquipment),
+                            "saved_training_style": filter.savedTrainingStyle as Any,
+                            "saved_location": filter.savedLocation as Any,
+                            "saved_difficulty": filter.savedDifficulty as Any
+                        ]]
                     ]
                     
                     // Convert the dictionary to data
@@ -138,21 +140,26 @@ class SavedFiltersService {
             // Handle the response
             switch httpResponse.statusCode {
             case 200:
-                
                 let decoder = JSONDecoder()
-                let filters = try decoder.decode([SavedFilterResponse].self, from: data)
+                // Handle empty response gracefully
+                if data.isEmpty || (String(data: data, encoding: .utf8) ?? "").trimmingCharacters(in: .whitespacesAndNewlines) == "[]" {
+                    print("ℹ️ No saved filters found on server")
+                    return []
+                }
+                
+                let filters = try decoder.decode([SavedFiltersModel].self, from: data)
                 
                 // Convert backend response to our model
                 return filters.map { response in
                     SavedFiltersModel(
-                        id: UUID(uuidString: response.client_id) ?? UUID(),
-                        backendId: response.id,
+                        id: response.id,
+                        backendId: response.backendId,
                         name: response.name,
-                        savedTime: response.saved_time,
-                        savedEquipment: Set(response.saved_equipment),
-                        savedTrainingStyle: response.saved_training_style,
-                        savedLocation: response.saved_location,
-                        savedDifficulty: response.saved_difficulty
+                        savedTime: response.savedTime,
+                        savedEquipment: Set(response.savedEquipment),
+                        savedTrainingStyle: response.savedTrainingStyle,
+                        savedLocation: response.savedLocation,
+                        savedDifficulty: response.savedDifficulty
                     )
                 }
                 
@@ -170,18 +177,6 @@ class SavedFiltersService {
             print("❌ Error fetching saved filters: \(error)")
             throw error
         }
-    }
-    
-    // Response model matching backend format
-    private struct SavedFilterResponse: Codable {
-        let id: Int
-        let client_id: String
-        let name: String
-        let saved_time: String?
-        let saved_equipment: [String]
-        let saved_training_style: String?
-        let saved_location: String?
-        let saved_difficulty: String?
     }
 }
 
